@@ -1,0 +1,133 @@
+\documentclass[sigconf,authorversion,nonacm]{acmart}
+
+%%% ADDED PACKAGES %%%
+\usepackage{url}
+\usepackage[belowskip=0pt,aboveskip=5pt]{subcaption}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{xspace}
+\usepackage{makecell}
+\usepackage{amsmath}
+\usepackage{pifont}
+\usepackage{balance}
+\usepackage{soul}
+\usepackage[patch=none]{microtype}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage[noend]{algpseudocode}
+\usepackage{amsthm}
+\usepackage{comment}
+\usepackage{xr}
+\usepackage{color}
+\usepackage{setspace}
+\usepackage{lipsum}
+\usepackage{adjustbox}
+\usepackage{array,multirow,graphicx}
+\usepackage{float}
+
+\lstdefinestyle{code}{
+  backgroundcolor=\color{gray!4},
+  commentstyle=\color{codegray},
+  keywordstyle=\color{codepurple},
+  numberstyle=\tiny\color{codegray},
+  stringstyle=\color{codegray},
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  % escapeinside=||
+}
+\lstset{style=code}
+
+\lstset{escapeinside={<@}{@>}}
+%%% ADDED Commands %%%
+\definecolor{comment}{rgb}{0,0.6,0}
+\definecolor{dgray}{gray}{0.25}
+\definecolor{strings}{RGB}{0,0,128}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{keywords}{RGB}{127,0,85}
+\definecolor{darkred}{RGB}{139,0,0}
+\definecolor{darkyellow}{RGB}{204,204,0}
+\definecolor{darkblue}{rgb}{0.0, 0.0, 0.55}
+\definecolor{vividviolet}{rgb}{0.62, 0.0, 1.0}
+\definecolor{fuchsia}{rgb}{1.0, 0.0, 1.0}
+\definecolor{shockingpink}{rgb}{0.99, 0.06, 0.75}
+\definecolor{darkBlue}{RGB}{0, 0, 205}
+\lstset{breaklines=true}
+\captionsetup[lstlisting]{font={tiny}}
+\definecolor{problemblue}{RGB}{100,134,158}
+\definecolor{idiomsgreen}{RGB}{0,162,0}
+\definecolor{exercisebgblue}{rgb}{0,  .69,  .941}
+\definecolor{deepgreen}{rgb}{0.0, 0.5, 0.0}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{redColor}{RGB}{255,0,0}
+\definecolor{Gray}{gray}{0.1}
+\definecolor{CadetBlue}{RGB}{243.0,42.1,134.0}
+
+%%% Packages for Algorithms %%%
+\SetKwInput{KwInput}{Input}                % Set the Input
+\SetKwInput{KwInputs}{Inputs}              % Set the Input
+\SetKwInput{KwOutput}{Output}              % set the Output
+
+%%% Remove ACM reference/copyright block since this is a non-ACM course report %%%
+\settopmatter{printacmref=false}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\pagestyle{plain}
+
+\begin{document}
+
+\title{CS598JBR MP Progress Report: Team-17}
+
+\author{Member1 Name}
+\affiliation{
+    \institution{University of Illinois Urbana-Champaign}
+    \city{Urbana}
+    \state{IL}
+    \country{USA}
+}
+\email{NetID1@illinois.edu}
+
+\author{Member2 Name}
+\affiliation{
+    \institution{University of Illinois Urbana-Champaign}
+    \city{Urbana}
+    \state{IL}
+    \country{USA}
+}
+\email{NetID2@illinois.edu}
+
+\author{Member3 Name}
+\affiliation{
+    \institution{University of Illinois Urbana-Champaign}
+    \city{Urbana}
+    \state{IL}
+    \country{USA}
+}
+\email{NetID3@illinois.edu}
+
+\author{Member4 Name}
+\affiliation{
+    \institution{University of Illinois Urbana-Champaign}
+    \city{Urbana}
+    \state{IL}
+    \country{USA}
+}
+\email{NetID4@illinois.edu}
+
+\maketitle
+
+\input{Sections/TeamInfo}
+\input{Sections/MP1}
+\input{Sections/MP2}
+\input{Sections/MP3}
+
+\end{document}
