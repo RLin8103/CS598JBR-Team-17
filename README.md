@@ -1,10 +1,10 @@
 ﻿# CS598JBR-Team-17
 
 ## Group members
-- [Team member1], [NetID]
-- [Team member2], [NetID]
-- [Team member3], [NetID]
-- [Team member4], [NetID]
+- Ray Lin, rayl3
+- Oscar Cavalieros, oscarc4
+- Will Thompson, willt3
+
 
 ## Link of Google Colab Notebook
 - MP1 - [link](https://colab.research.google.com/drive/1F26Ec1GlBvG84NajThlOviP4sxOSov6Z)
