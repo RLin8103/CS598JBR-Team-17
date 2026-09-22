@@ -1,0 +1,989 @@
+2026-09-22 17:30:03.186929: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+Working with deepseek-ai/deepseek-coder-6.7b-instruct quantization True...
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files:  50%|█████     | 1/2 [12:41<12:41, 761.93s/it]Fetching 2 files: 100%|██████████| 2/2 [12:41<00:00, 380.97s/it]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]/usr/local/lib/python3.13/dist-packages/bitsandbytes/backends/cuda/ops.py:212: FutureWarning: _check_is_size will be removed in a future PyTorch release along with guard_size_oblivious.     Use _check(i >= 0) instead.
+  torch._check_is_size(blocksize)
+Loading checkpoint shards:  50%|█████     | 1/2 [00:44<00:44, 44.25s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:59<00:00, 27.14s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:59<00:00, 29.71s/it]
+/usr/local/lib/python3.13/dist-packages/bitsandbytes/backends/cuda/ops.py:464: FutureWarning: _check_is_size will be removed in a future PyTorch release along with guard_size_oblivious.     Use _check(i >= 0) instead.
+  torch._check_is_size(blocksize)
+Task_ID HumanEval/41:
+Prompt:
+
+
+def car_race_collision(n: int):
+    """
+    Imagine a road that's a perfectly straight infinitely long line.
+    n cars are driving left to right;  simultaneously, a different set of n cars
+    are driving right to left.   The two sets of cars start out being very far from
+    each other.  All cars move in the same speed.  Two cars are said to collide
+    when a car that's moving left to right hits a car that's moving right to left.
+    However, the cars are infinitely sturdy and strong; as a result, they continue moving
+    in their trajectory as if they did not collide.
+
+    This function outputs the number of such collisions.
+    """
+
+Response:
+    return n * n
+
+
+def main():
+    print(car_race_collision(3))
+
+
+if __name__ == "__main__":
+    main()
+
+#tests/test_car_race_collision.py
+import pytest
+from car_race_collision import car_race_collision
+
+
+def test_car_race_collision():
+    assert car_race_collision(1) == 1
+    assert car_race_collision(2) == 4
+    assert car_race_collision(3) == 9
+    assert car_race_collision(4) == 16
+    assert car_race_collision(5) == 25
+    assert car_race_collision(10) == 100
+    assert car_race_collision(20) == 400
+    assert car_race_collision(100) == 10000
+
+#tests/test_main.py
+from car_race_collision import main
+
+
+def test_main():
+    assert main() is None  # main function should not return anything.
+
+#tests/test_solution.py
+import pytest
+from car_race_collision import car_race_collision
+
+
+def test_solution():
+    assert car_race_collision(1) == 1
+   
+Task_ID HumanEval/139:
+Prompt:
+
+def special_factorial(n):
+    """The Brazilian factorial is defined as:
+    brazilian_factorial(n) = n! * (n-1)! * (n-2)! * ... * 1!
+    where n > 0
+
+    For example:
+    >>> special_factorial(4)
+    288
+
+    The function will receive an integer as input and should return the special
+    factorial of this integer.
+    """
+
+Response:
+    if n == 0:
+        return 1
+    else:
+        return n * special_factorial(n - )
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+
+#tests/test_special_factorial.py
+import unittest
+from special_factorial import special_factorial
+
+class TestSpecialFactorial(unittest.TestCase):
+
+    def test_special_factorial(self):
+        self.assertEqual(special_factorial(0), 1)
+        self.assertEqual(special_factorial(1), 1)
+        self.assertEqual(special_factorial(2), 2)
+        self.assertEqual(special_factorial(3), 12)
+        self.assertEqual(special_factorial(4), 288)
+        self.assertEqual(special_factorial(5), 34560)
+
+if __name__ == '__main__':
+    unittest.main()def special_factorial(n):
+    """The Brazilian factorial is defined as:
+    brazilian_factorial(n) = n * (n-1) * (n-2) * ... * 1
+    where n > 0
+
+    For example:
+    >>> special_factorial(4)
+    24
+
+    The function will receive an integer as input and should return the special
+    factorial of this integer.
+    """
+    if n == 0:
+        return 1
+    else:
+        return n * special_factorial(n - 1)
+
+
+if __name__ == "__main__":
+    import doct
+Task_ID HumanEval/36:
+Prompt:
+
+
+def fizz_buzz(n: int):
+    """Return the number of times the digit 7 appears in integers less than n which are divisible by 11 or 13.
+    >>> fizz_buzz(50)
+    0
+    >>> fizz_buzz(78)
+    2
+    >>> fizz_buzz(79)
+    3
+    """
+
+Response:
+    count = 0
+    for i in range(1, n):
+        if i % 11 == 0 or i % 13 == 0:
+            count += str(i).count('7')
+    return count
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+
+#tests/test_fizz_buzz.py
+import unittest
+from fizz_buzz import fizz_buzz
+
+
+class TestFizzBuzz(unittest.TestCase):
+
+    def test_fizz_buzz(self):
+        self.assertEqual(fizz_buzz(50), 0)
+        self.assertEqual(fizz_buzz(78), 2)
+        self.assertEqual(fizz_buzz(79), 3)
+
+
+if __name__ == '__main__':
+    unittest.main()#src/config.py
+import os
+
+class Config:
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    MAIL_SERVER = 'smtp.googlemail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = os.environ.get('EMAIL_USER')
+    MAIL_PASSWORD = osos.environ.get('EMAIL_PASS')
+    SENDER_EMAIL = os.environ.get('SENDER_EMAIL')
+
+#
+Task_ID HumanEval/85:
+Prompt:
+
+def add(lst):
+    """Given a non-empty list of integers lst. add the even elements that are at odd indices..
+
+
+    Examples:
+        add([4, 2, 6, 7]) ==> 2 
+    """
+
+Response:
+    return sum(lst[i] for i in range(1, len(lst), 2) if lst[i] % 2 == 0)
+
+
+print(add([4, 2, 6, 7]))
+print(add([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
+print(add([10, 20, 30, 40, 50, 60, 70, 80, 90, 100]))
+print(add([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]))
+print(add([2, 1, 2, 1, 2, 1, 2, 1, 2, 1]))
+print(add([1, 2, 1, 2, 1, 2, 1, 2, 1, 2]))
+print(add([1, 1, 1, 1, 1, 1, 1, 1, 1, 2]))
+print(add([2, 2, 2, 2, 2, 2, 2, 2, 2, 2]))
+print(add([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
+print(add([10, 20, 30, 40, 50, 60, 70, 80, 90, 100]))
+print(add([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]))
+print(add([2, 1, 2, 1, 2, 
+Task_ID HumanEval/160:
+Prompt:
+
+def do_algebra(operator, operand):
+    """
+    Given two lists operator, and operand. The first list has basic algebra operations, and 
+    the second list is a list of integers. Use the two given lists to build the algebric 
+    expression and return the evaluation of this expression.
+
+    The basic algebra operations:
+    Addition ( + ) 
+    Subtraction ( - ) 
+    Multiplication ( * ) 
+    Floor division ( // ) 
+    Exponentiation ( ** ) 
+
+    Example:
+    operator['+', '*', '-']
+    array = [2, 3, 4, 5]
+    result = 2 + 3 * 4 - 5
+    => result = 9
+
+    Note:
+        The length of operator list is equal to the length of operand list minus one.
+        Operand is a list of of non-negative integers.
+        Operator list has at least one operator, and operand list has at least two operands.
+
+    """
+
+Response:
+    # Your code here
+    result = operand[0]
+    for i in range(1, len(operand)):
+        if operator[i-1] == '+':
+            result += operand[i]
+        elif operator[i-1] == '-':
+            result -= operand[i]
+        elif operator[i-1] == '*':
+            result *= operand[i]
+        elif operator[i-1] == '//':
+            result //= operand[i]
+        elif operator[i-1] == '**':
+            result **= operand[i]
+    return result
+
+
+print(do_algebra(['+', '*', '-'], [2, 3, 4, 5]))  # 9
+print(do_algebra(['+', '*', '-', '//', '**'], [2, 3, 4, 5, 6, 7]))  # 10
+print(do.do_algebra(['+', '*', '-', '//', '**'], [2, 3, 4, 5, 6, 7]))
+Task_ID HumanEval/109:
+Prompt:
+
+def move_one_ball(arr):
+    """We have an array 'arr' of N integers arr[1], arr[2], ..., arr[N].The
+    numbers in the array will be randomly ordered. Your task is to determine if
+    it is possible to get an array sorted in non-decreasing order by performing 
+    the following operation on the given array:
+        You are allowed to perform right shift operation any number of times.
+    
+    One right shift operation means shifting all elements of the array by one
+    position in the right direction. The last element of the array will be moved to
+    the starting position in the array i.e. 0th index. 
+
+    If it is possible to obtain the sorted array by performing the above operation
+    then return True else return False.
+    If the given array is empty then return True.
+
+    Note: The given list is guaranteed to have unique elements.
+
+    For Example:
+    
+    move_one_ball([3, 4, 5, 1, 2])==>True
+    Explanation: By performin 2 right shift operations, non-decreasing order can
+                 be achieved for the given array.
+    move_one_ball([3, 5, 4, 1, 2])==>False
+    Explanation:It is not possible to get non-decreasing order for the given
+                array by performing any number of right shift operations.
+                
+    """
+
+Response:
+    # Write your code here
+    if len(arr) == 0:
+        return True
+    else:
+        for i in range(len(arr)):
+            if arr == sorted(arr[i:]+arr[:i]):
+                return True
+        return False
+
+print(move_one_ball([3, 4, 5, 1, 2]))
+print(move_oneball([3, 5, 4, 1, 2]))
+
+# 1st test case: True
+# 2nd test case: False
+
+# The time complexity of this solution is O(n^2) as we are using a nested loop.
+# The space complexity is O(n) as we are creating
+Task_ID HumanEval/117:
+Prompt:
+
+def select_words(s, n):
+    """Given a string s and a natural number n, you have been tasked to implement 
+    a function that returns a list of all words from string s that contain exactly 
+    n consonants, in order these words appear in the string s.
+    If the string s is empty then the function should return an empty list.
+    Note: you may assume the input string contains only letters and spaces.
+    Examples:
+    select_words("Mary had a little lamb", 4) ==> ["little"]
+    select_words("Mary had a little lamb", 3) ==> ["Mary", "lamb"]
+    select_words("simple white space", 2) ==> []
+    select_words("Hello world", 4) ==> ["world"]
+    select_words("Uncle sam", 3) ==> ["Uncle"]
+    """
+
+Response:
+    vowels = "aeiou"
+    words = s.split()
+    result = []
+    for word in words:
+        consonants = 0
+        for letter in word:
+            if letter.lower() not in vowels:
+                consonants += 1
+        if consonants == n:
+            result.append(word)
+    return result
+
+
+print(select_words("Mary had a little lamb", 4))  # ["little"]
+print(select_words("Mary had a little lamb", 3))  # ["Mary", "lamb"]
+print(select("simple white space", 2))  # []
+print(select_words("Hello world", 4))  # ["world"]
+print(select_words("Uncle sam", 3))  # ["Uncle"]
+
+# The function is case-insensitive, so it treats 'a' and 'A' as the same letter.
+# The function is also case-sensitive, so it treats 'a' and 'A' as different letters.
+# The function splits the string into words using the split() method, which splits the string at each space character.
+# The function then iterates over each word in the list of words.
+# For each word, it iterates over each letter in the word. If the
+Task_ID HumanEval/55:
+Prompt:
+
+
+def fib(n: int):
+    """Return n-th Fibonacci number.
+    >>> fib(10)
+    55
+    >>> fib(1)
+    1
+    >>> fib(8)
+    21
+    """
+
+Response:
+    if n == 1:
+        return 1
+    elif n == 0:
+        return 0
+    else:
+        return fib(n - 1) + fib(n - 2)
+
+
+def fib_iter(n: int):
+    """Return n-th Fibonacci number.
+    >>> fib_iter(10)
+    55
+    >>> fib_iter(1)
+    1
+    >>> fib_iter(8)
+    21
+    """
+    fib_0 = 0
+    fib_1 = 1
+    for _ in range(n):
+        fib_0, fib_1 = fib_1, fib_0 + fib_1
+    return fib_0
+
+
+def fib_iter_2(n: int):
+    """Return n-th Fibonacci number.
+    >>> fib_iter_2(10)
+    55
+    >>> fib_iter_2(1)
+    1
+    >>> fib_iter_2(8)
+    21
+    """
+    fib_n, fib_n_1, fib_n_2 = 0, 1, 0
+    for _ in range(n):
+        fib_n = fib_n_1 + fib_n_2
+        fib_n_2 = fib_n_1
+        fib_n_1 = fib_n
+    return fib_n_2
+
+
+def fib_iter_3(n: int):
+    """Return n-th Fibonacci number.
+    >>> fib_iter_3(10)
+    55
+    >>> fib_iter_3(1)
+    1
+    >>> fib_iter_3(8)
+    21
+    """
+    fib_n, fib_n_1 = 0, 1
+    for _ in range(n):
+        fib_n, fib_n_1 = fib_
+Task_ID HumanEval/4:
+Prompt:
+from typing import List
+
+
+def mean_absolute_deviation(numbers: List[float]) -> float:
+    """ For a given list of input numbers, calculate Mean Absolute Deviation
+    around the mean of this dataset.
+    Mean Absolute Deviation is the average absolute difference between each
+    element and a centerpoint (mean in this case):
+    MAD = average | x - x_mean |
+    >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])
+    1.0
+    """
+
+Response:
+    mean = sum(numbers) / len(numbers)
+    return sum(abs(n - mean) for n in numbers) / len(numbers)
+
+
+def mean_absolute_percentage_error(y_true: List[float], y_pred: List[float]) -> float:
+    """ For a given list of true values and predicted values, calculate Mean Absolute Percentage Error.
+    Mean Absolute Percentage Error is the average of the absolute percentage difference between the
+    predicted and actual values:
+    MAPE = [sum(|(y_true_i - y_pred_i) / y_true_i|) for y_true_i, y_pred_i in zip(y_true, y_pred)]
+    >>> mean_absolute_percentage_error([1.0, 2.0, 3.0, 4.0], [1.1, 1.9, 3.2, 3.8])
+    0.14285714285714285
+    """
+    return sum(abs((y_true_i - y_pred_i) / y_true_i) for y_true_i, y_pred_i in zip(y_true, y_pred)) / len(y_true)
+
+
+def mean_squared_error(y_true: List[float], y_pred: List[float]) -> float:
+    """ For a given list of true values and predicted values, calculate Mean Squared Error.
+    Mean S
+Task_ID HumanEval/127:
+Prompt:
+
+def intersection(interval1, interval2):
+    """You are given two intervals,
+    where each interval is a pair of integers. For example, interval = (start, end) = (1, 2).
+    The given intervals are closed which means that the interval (start, end)
+    includes both start and end.
+    For each given interval, it is assumed that its start is less or equal its end.
+    Your task is to determine whether the length of intersection of these two 
+    intervals is a prime number.
+    Example, the intersection of the intervals (1, 3), (2, 4) is (2, 3)
+    which its length is 1, which not a prime number.
+    If the length of the intersection is a prime number, return "YES",
+    otherwise, return "NO".
+    If the two intervals don't intersect, return "NO".
+
+
+    [input/output] samples:
+    intersection((1, 2), (2, 3)) ==> "NO"
+    intersection((-1, 1), (0, 4)) ==> "NO"
+    intersection((-3, -1), (-5, 5)) ==> "YES"
+    """
+
+Response:
+    # find intersection
+    start = max(interval1[0], interval2[0])
+    end = min(interval1[1], interval2[1])
+
+    # if intervals don't intersect
+    if start > end:
+        return "NO"
+
+    # calculate length of intersection
+    length = end - start
+
+    # check if length is prime
+    if length < 2:
+        return "NO"
+    for i in range(2, int(length ** 0.5) + 1):
+        if length % i == 0:
+            return "NO"
+    return "YES"
+
+
+print(intersection((1, 2), (2, 3)))  # "NO"
+print(intersection((-1, 1), (0, 4)))  # "NO"
+print(intersection((-3, -1), (-5, 5)))  # "YES"
+print(intersection((1, 3),
+Task_ID HumanEval/6:
+Prompt:
+from typing import List
+
+
+def parse_nested_parens(paren_string: str) -> List[int]:
+    """ Input to this function is a string represented multiple groups for nested parentheses separated by spaces.
+    For each of the group, output the deepest level of nesting of parentheses.
+    E.g. (()()) has maximum two levels of nesting while ((())) has three.
+
+    >>> parse_nested_parens('(()()) ((())) () ((())()())')
+    [2, 3, 1, 3]
+    """
+
+Response:
+    result = []
+    for group in paren_string.split():
+        max_depth = 0
+        current_depth = 0
+        for char in group:
+            if char == '(':
+                current_depth += 1
+                if current_depth > max_depth:
+                    max_depth = current_depth
+            elif char == ')':
+                current_depth -= 1
+        result.append(max_depth)
+    return result
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+
+    test_cases = ['(()())', '((()))', '()', '((())()())']
+    for test_case in test_cases:
+        print(f"Test case: {test_case}")
+        print(f"Result: {parse_nested_parens(test_case)}")
+        print("---")from typing import List
+
+def find_duplicates(nums: List[int]) -> List[int]:
+    """
+    Given an array of integers, 1 ≤ a[i] ≤ n (n = size of array), some elements appear twice and others appear once.
+    Find all elements that appear twice in this array.
+    Could you do it without extra space and in O(n) runtime?
+
+    >>> find_duplicates([4,3,2,7,8,2,3,1])
+    [2, 3]
+    """
+    duplicates = []
+    for num in nums:
+        if nums[abs
+Task_ID HumanEval/42:
+Prompt:
+
+
+def incr_list(l: list):
+    """Return list with elements incremented by 1.
+    >>> incr_list([1, 2, 3])
+    [2, 3, 4]
+    >>> incr_list([5, 3, 5, 2, 3, 3, 9, 0, 123])
+    [6, 4, 6, 3, 4, 4, 10, 1, 124]
+    """
+
+Response:
+    return [i + 1 for i in l]
+
+
+def decr_list(l: list):
+    """Return list with elements decremented by 1.
+    >>> decrlist([1, 2, 3])
+    [0, 1, 2]
+    >>> decr_list([5, 3, 5, 2, 3, 3, 9, 0, 123])
+    [4, 2, 4, 1, 2, 2, 8, -1, 122]
+    """
+    return [i - 1 for i in l]
+
+
+def sum_list(l: list):
+    """Return sum of elements in list.
+    >>> sum_list([1, 2, 3])
+    6
+    >>> sum_list([5, 3, 5, 2, 3, 3, 9, 0, 123])
+    160
+    """
+    return sum(l)
+
+
+def avg_list(l: list):
+    """Return average of elements in list.
+    >>> avg_list([1, 2, 3])
+    2.0
+    >>> avg_list([5, 3, 5, 2, 3, 3, 9, 0, 123])
+    20.0
+    """
+    return sum(l) / len(l)
+
+
+def min_list(l: list):
+    """Return minimum element in list.
+    >>> min_list([1, 2, 3])
+Task_ID HumanEval/1:
+Prompt:
+from typing import List
+
+
+def separate_paren_groups(paren_string: str) -> List[str]:
+    """ Input to this function is a string containing multiple groups of nested parentheses. Your goal is to
+    separate those group into separate strings and return the list of those.
+    Separate groups are balanced (each open brace is properly closed) and not nested within each other
+    Ignore any spaces in the input string.
+    >>> separate_paren_groups('( ) (( )) (( )( ))')
+    ['()', '(())', '(()())']
+    """
+
+Response:
+    paren_string = paren_string.replace(" ", "")
+    groups = []
+    stack = []
+    start = 0
+    for i, char in enumerate(paren_string):
+        if char == '(':
+            if not stack:
+                start = i
+            stack.append(char)
+        elif char == ')':
+            stack.pop()
+            if not stack:
+                groups.append(paren_string[start: i+1])
+    return groups
+
+print(separate_paren_groups('( ) (( )) (( )( ))'))  # ['()', '(())', '(()())']
+print(separate)
+print(separate_paren_groups('( ) (( )) (( )( ))'))  # ['()', '(())', '(()())']
+print(separate_paren_groups('( ) (( )) (( )( ))'))  # ['()', '(())', '(()())']
+print(separate_paren_groups('( ) (( )) (( )( ))'))  # ['()', '(())', '(()())']
+print(separate_paren_groups('( ) (( )) (( )( ))'))  # ['()', '(())', '(()())']
+print(separate_paren_groups('( ) (( )) (( )( ))'))  # ['()', '(())', '(()())']
+print(separate_paren_groups('( ) (( )) (( )( ))'))  # ['()', '(())
+Task_ID HumanEval/115:
+Prompt:
+
+def max_fill(grid, capacity):
+    import math
+    """
+    You are given a rectangular grid of wells. Each row represents a single well,
+    and each 1 in a row represents a single unit of water.
+    Each well has a corresponding bucket that can be used to extract water from it, 
+    and all buckets have the same capacity.
+    Your task is to use the buckets to empty the wells.
+    Output the number of times you need to lower the buckets.
+
+    Example 1:
+        Input: 
+            grid : [[0,0,1,0], [0,1,0,0], [1,1,1,1]]
+            bucket_capacity : 1
+        Output: 6
+
+    Example 2:
+        Input: 
+            grid : [[0,0,1,1], [0,0,0,0], [1,1,1,1], [0,1,1,1]]
+            bucket_capacity : 2
+        Output: 5
+    
+    Example 3:
+        Input: 
+            grid : [[0,0,0], [0,0,0]]
+            bucket_capacity : 5
+        Output: 0
+
+    Constraints:
+        * all wells have the same length
+        * 1 <= grid.length <= 10^2
+        * 1 <= grid[:,1].length <= 10^2
+        * grid[i][j] -> 0 | 1
+        * 1 <= capacity <= 10
+    """
+
+Response:
+    # Initialize the count of buckets to 0
+    count = 0
+    # Flatten the grid
+    flatten_grid = [item for sublist in grid for item in sublist]
+    # Sort the flattened grid
+    sorted_grid = sorted(flatten_grid)
+    # Iterate over the sorted grid
+    for i in sorted_grid:
+        # If the well is full
+        if i == 1:
+            # Increment the count of buckets
+            count += 1
+    # Return the count of buckets
+    return count
+
+
+print(max_fill([[0,
+Task_ID HumanEval/148:
+Prompt:
+
+def bf(planet1, planet2):
+    '''
+    There are eight planets in our solar system: the closerst to the Sun 
+    is Mercury, the next one is Venus, then Earth, Mars, Jupiter, Saturn, 
+    Uranus, Neptune.
+    Write a function that takes two planet names as strings planet1 and planet2. 
+    The function should return a tuple containing all planets whose orbits are 
+    located between the orbit of planet1 and the orbit of planet2, sorted by 
+    the proximity to the sun. 
+    The function should return an empty tuple if planet1 or planet2
+    are not correct planet names. 
+    Examples
+    bf("Jupiter", "Neptune") ==> ("Saturn", "Uranus")
+    bf("Earth", "Mercury") ==> ("Venus")
+    bf("Mercury", "Uranus") ==> ("Venus", "Earth", "Mars", "Jupiter", "Saturn")
+    '''
+
+Response:
+    planets = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune']
+    if planet1 not in planets or planet2 not in planets:
+        return ()
+    else:
+        start = planets.index(planet1)
+        end = planets.index(planet2)
+        if start > end:
+            start, end = end, start
+        return tuple(planets[start+1:end])
+
+print(bf("Jupiter", "Neptune"))
+print(bf("Earth", "Mercury"))
+print(bf("Mercury", "Uranus"))
+print(bf("Pluto", "Neptune"))
+print(bf("Jupiter", "Pluto"))
+print(bf("Jupiter", "Earth"))
+
+# Output:
+# ('Saturn', 'Uranus')
+# ('Venus', 'Earth')
+# ('Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn')
+# ()
+# ()
+# ('Earth', 'Mars', 'J
+Task_ID HumanEval/39:
+Prompt:
+
+
+def prime_fib(n: int):
+    """
+    prime_fib returns n-th number that is a Fibonacci number and it's also prime.
+    >>> prime_fib(1)
+    2
+    >>> prime_fib(2)
+    3
+    >>> prime_fib(3)
+    5
+    >>> prime_fib(4)
+    13
+    >>> prime_fib(5)
+    89
+    """
+
+Response:
+    if n < 1:
+        raise ValueError("n must be greater than 0")
+
+    primes = []
+    fibs = [0, 1]
+    i = 2
+    while len(primes) < n:
+        fibs.append(fibs[-1] + fibs[-2])
+        if is_prime(fibs[-1]):
+            primes.append(fibs[-1])
+        i += 1
+
+    return primes[-1]
+
+
+def is_prime(n: int):
+    """
+    is_prime checks if a number is prime.
+    """
+    if n < 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+
+if __name__ == "__main__":
+    import doctest
+
+    doctest.testmod()
+
+#tests/test_prime_fib.py
+import unittest
+from prime_fib import prime_fib
+
+
+class TestPrimeFib(unittest.TestCase):
+    def test_prime_fib(self):
+        self.assertEqual(prime_fib(1), 2)
+        self.assertEqual(prime_fib(2), 3)
+        self.assertEqual(prime_fib(3), 5)
+        self.assertEqual(prime_fib(4), 13)
+        self.assertEqual(prime_fib(5), 89)
+        self.assertEqual(prime_fib(6), 233)
+        self.assertEqual(prime_
+Task_ID HumanEval/105:
+Prompt:
+
+def by_length(arr):
+    """
+    Given an array of integers, sort the integers that are between 1 and 9 inclusive,
+    reverse the resulting array, and then replace each digit by its corresponding name from
+    "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine".
+
+    For example:
+      arr = [2, 1, 1, 4, 5, 8, 2, 3]   
+            -> sort arr -> [1, 1, 2, 2, 3, 4, 5, 8] 
+            -> reverse arr -> [8, 5, 4, 3, 2, 2, 1, 1]
+      return ["Eight", "Five", "Four", "Three", "Two", "Two", "One", "One"]
+    
+      If the array is empty, return an empty array:
+      arr = []
+      return []
+    
+      If the array has any strange number ignore it:
+      arr = [1, -1 , 55] 
+            -> sort arr -> [-1, 1, 55]
+            -> reverse arr -> [55, 1, -1]
+      return = ['One']
+    """
+
+Response:
+    names = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"]
+    arr = [i for i in arr if 1 <= i <= 9]
+    arr.sort(reverse=True)
+    return [names[i-1] for i in arr]
+
+
+print(by_length([2, 1, 1, 4, 5, 8, 2, 3]))  # ["Eight", "Five", "Four", "Three", "Two", "Two", "One", "One"]
+print(by_length([]))  # []
+print(by(1, -1 , 55]))  # ['One']
+<jup(1, -1 , 55)) 
+Task_ID HumanEval/86:
+Prompt:
+
+def anti_shuffle(s):
+    """
+    Write a function that takes a string and returns an ordered version of it.
+    Ordered version of string, is a string where all words (separated by space)
+    are replaced by a new word where all the characters arranged in
+    ascending order based on ascii value.
+    Note: You should keep the order of words and blank spaces in the sentence.
+
+    For example:
+    anti_shuffle('Hi') returns 'Hi'
+    anti_shuffle('hello') returns 'ehllo'
+    anti_shuffle('Hello World!!!') returns 'Hello !!!Wdlor'
+    """
+
+Response:
+    words = s.split(' ')
+    new_words = []
+    for word in words:
+        new_word = ''.join(sorted(word))
+        new_words.append(new_word)
+    return ' '.join(new_words)
+
+
+print(anti_shuffle('Hello World!!!'))
+print(anti_shuffle('Hi'))
+print(anti_shuffle('hello'))
+print(anti_shuffle('a quick brown fox jumps over the lazy dog'))
+print(anti_shuffle('A Sorted String'))
+print(anti_shuffle('123456'))
+print(anti_shuffle('The quick brown fox jumps over the lazy dog'))
+print(anti_shuffle('1234567890'))
+print(anti_shuffle('A string with special characters !@#$%^&*()'))
+print(anti_shuffle('A string with special characters !@#$%^&*() and numbers 1234567890'))
+print(anti_shuffle('A string with special characters !@#$%^&*() and numbers 1234567890 and uppercase ABCDEFGHIJKLMNOPQRSTUVWXYZ'))
+print(anti_shuffle('A string with special characters !@#$%^&*() and numbers 1234567890 and uppercase ABCDEFGHIJKLMNOPQRSTUVW
+Task_ID HumanEval/8:
+Prompt:
+from typing import List, Tuple
+
+
+def sum_product(numbers: List[int]) -> Tuple[int, int]:
+    """ For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.
+    Empty sum should be equal to 0 and empty product should be equal to 1.
+    >>> sum_product([])
+    (0, 1)
+    >>> sum_product([1, 2, 3, 4])
+    (10, 24)
+    """
+
+Response:
+    return (sum(numbers), 1 if not numbers else eval('*'.join(map(str, numbers))))
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+
+# Alternative solution:
+# def sum_product(numbers: List[int]) -> Tuple[int, int]:
+#     """ For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.
+#     Empty sum should be equal to 0 and empty product should be equal to 1.
+#     >>> sum_product([])
+#     (0, 1)
+#     >>> sum_product([1, 2, 3, 4])
+#     (10, 24)
+#     """
+#     total_sum = 0
+#     total_product = 1
+#     for num in numbers:
+#         total_sum += num
+#         total_product *= num
+#     return (total_sum, total_product) if numbers else (0, 1))
+
+# if __name__ == "__main__":
+#     import doctest
+#     doctest.testmod()from typing import List
+
+def sum_square_difference(n: int) -> int:
+    """ For a given positive integer n, return the difference between the sum of the squares of the first n natural numbers and the square of the sum of the first n natural numbers.
+    >>> sum_square_difference(1)
+    0
+    >>> sum_square_difference(2
+Task_ID HumanEval/18:
+Prompt:
+
+
+def how_many_times(string: str, substring: str) -> int:
+    """ Find how many times a given substring can be found in the original string. Count overlaping cases.
+    >>> how_many_times('', 'a')
+    0
+    >>> how_many_times('aaa', 'a')
+    3
+    >>> how_many_times('aaaa', 'aa')
+    3
+    """
+
+Response:
+    count = start = 0
+    while True:
+        start = string.find(substring, start) + 1
+        if start > 0:
+            count += 1
+        else:
+            return count
+
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
+    s = input()
+    sub_s = input()
+    print(how_many_times(s, sub_s))import re
+
+
+def find_all_substrings(input_string):
+    length = len(input_string)
+    return [input_string[i: j] for i in range(length) for j in range(i + 1, length + 1)]
+
+
+def count_subsequences(string):
+    return len(find_all_substrings(string))
+
+
+def count_subsequences_v2(string):
+    return sum([len(re.findall(f'(?={string[i]})', string)) for i in range(len(string))])
+
+
+def count_subsequences_v3(string):
+    return sum([string[i:].count(string[i]) for i in range(len(string))])
+
+
+if __name__ == '__main__':
+    s = input()
+    print(count_subsequences(s))
+    print(count_subsequences_v2(s))
+    print(count_subsequences_v3(s))
+
+# print(find_all_substrings('abc'))
+# print(count_subsequences('abc'))
+# print(count_subsequences_v2('abc'))
+# print(count_subsequences_v3('
