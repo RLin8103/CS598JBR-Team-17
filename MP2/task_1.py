@@ -29,11 +29,11 @@ CRAFTED_TEMPLATE = """You will be given a Python function and a concrete functio
 Follow these rules:
 1. Start from the call and bind every parameter to its argument value.
 2. Execute the statements in order. After every statement that changes a variable, write the new value of that variable.
-3. Evaluate every expression one operation at a time and write each intermediate result, for example `2 + 3 * 4`: 3 * 4 = 12, then 2 + 12 = 14. Follow Python operator precedence: `**` first, then `*`, `/`, `//`, `%`, then `+` and `-`. Also write the result of every call such as abs(), min(), max(), len(), sum() and sorted().
-4. For strings, list the characters explicitly and process them one at a time. `sorted()` on a string orders the characters by their Unicode code point: punctuation such as '!', '.' and '?' comes before uppercase letters, and uppercase letters come before lowercase letters.
-5. Looking up a key that is not in a dictionary raises KeyError. If the lookup is inside a try block, the except branch runs instead.
+3. Evaluate every expression one operation at a time and write each intermediate result, for example `2 + 3 * 4`: 3 * 4 = 12, then 2 + 12 = 14. Follow Python operator precedence: `**` first, then `*`, `/`, `//`, `%`, then `+` and `-`. Also write the result of every call such as abs(), min(), max(), len(), sum() and sorted(). For a list comprehension or generator expression, process the elements one at a time and write the value produced for each element.
+4. For strings, list the characters explicitly and process them one at a time. When checking `x in [...]` or `x not in [...]`, compare x with the listed elements explicitly. `s.split(' ')` splits at every single space and consecutive spaces produce empty strings '', while `s.split()` splits on runs of whitespace. `sorted()` on a string orders the characters by their Unicode code point: punctuation such as '!', '.' and '?' comes before uppercase letters, and uppercase letters come before lowercase letters.
+5. Before looking up a key in a dictionary, check whether it is one of the dictionary's keys. Looking up a missing key raises KeyError. If the lookup is inside a try block, the except branch runs instead.
 6. For a recursive function, compute the results bottom-up, starting from the base cases (for example f(0), f(1), f(2), ...) until you reach the requested call.
-7. For a loop with many iterations, first list the iterations in which the condition is True, then process only those iterations.
+7. For a loop with many iterations, first list the values of the loop variable for which the condition is True, then process only those iterations.
 8. Do not guess the answer from the function name or from what the function is supposed to do; trust only your trace.
 9. After the trace, write the final return value as a Python literal (exactly as `repr()` would print it) between [Output] and [/Output]. Write the [Output] tags exactly once, at the very end.
 
@@ -55,7 +55,7 @@ Call: score(['a', 'zz', 'b'], {'a': 3, 'b': 1})
 Trace:
 - words = ['a', 'zz', 'b'], table = {'a': 3, 'b': 1}, total = 0
 - w = 'a': table['a'] = 3. 3 ** 2 = 9, 9 * 2 = 18, 18 - 1 = 17. total = 0 + 17 = 17
-- w = 'zz': 'zz' is not a key of table, so table['zz'] raises KeyError and the except branch runs `pass`. total stays 17
+- w = 'zz': the keys of table are 'a' and 'b'; 'zz' is not one of them, so table['zz'] raises KeyError and the except branch runs `pass`. total stays 17
 - w = 'b': table['b'] = 1. 1 ** 2 = 1, 1 * 2 = 2, 2 - 1 = 1. total = 17 + 1 = 18
 - the loop ends, return total = 18
 
@@ -65,32 +65,31 @@ Example 2
 
 Function:
 ```python
-def longest_a_run(s):
+def longest_ab_run(s):
     run = 0
     best = 0
     for c in s:
-        if c == 'a':
+        if c.lower() in ['a', 'b']:
             run += 1
             best = max(best, run)
         else:
             run = 0
     return best
 ```
-Call: longest_a_run('aab aaa')
+Call: longest_ab_run('Ab cab')
 
 Trace:
-- s = 'aab aaa', run = 0, best = 0
-- the characters of s are 'a', 'a', 'b', ' ', 'a', 'a', 'a'
-- c = 'a': run = 1, best = max(0, 1) = 1
-- c = 'a': run = 2, best = max(1, 2) = 2
-- c = 'b': c == 'a' is False, run = 0
-- c = ' ': c == 'a' is False, run = 0
-- c = 'a': run = 1, best = max(2, 1) = 2
-- c = 'a': run = 2, best = max(2, 2) = 2
-- c = 'a': run = 3, best = max(2, 3) = 3
-- the loop ends, return best = 3
+- s = 'Ab cab', run = 0, best = 0
+- the characters of s are 'A', 'b', ' ', 'c', 'a', 'b'
+- c = 'A': 'A'.lower() = 'a'; 'a' is equal to 'a', so 'a' in ['a', 'b'] is True. run = 1, best = max(0, 1) = 1
+- c = 'b': 'b'.lower() = 'b'; 'b' is equal to 'b', so 'b' in ['a', 'b'] is True. run = 2, best = max(1, 2) = 2
+- c = ' ': ' ' is not equal to 'a' or 'b', so ' ' in ['a', 'b'] is False. run = 0
+- c = 'c': 'c' is not equal to 'a' or 'b', so 'c' in ['a', 'b'] is False. run = 0
+- c = 'a': 'a' in ['a', 'b'] is True. run = 1, best = max(2, 1) = 2
+- c = 'b': 'b' in ['a', 'b'] is True. run = 2, best = max(2, 2) = 2
+- the loop ends, return best = 2
 
-[Output]3[/Output]
+[Output]2[/Output]
 
 Example 3
 
@@ -111,6 +110,49 @@ Trace:
 - tri(4) = tri(3) + 4 = 6 + 4 = 10
 
 [Output]10[/Output]
+
+Example 4
+
+Function:
+```python
+def gaps(text, m):
+    return [abs(len(w) - m) for w in text.split(' ') if w]
+```
+Call: gaps('ab  cde f', 2)
+
+Trace:
+- text = 'ab  cde f', m = 2
+- text.split(' ') splits at every single space; there are two spaces after 'ab', so the result is ['ab', '', 'cde', 'f']
+- w = 'ab': 'ab' is not empty, so it is kept. len('ab') = 2, 2 - 2 = 0, abs(0) = 0
+- w = '': '' is empty, so `if w` is False and it is skipped
+- w = 'cde': len('cde') = 3, 3 - 2 = 1, abs(1) = 1
+- w = 'f': len('f') = 1, 1 - 2 = -1, abs(-1) = 1
+- the list is [0, 1, 1]
+
+[Output][0, 1, 1][/Output]
+
+Example 5
+
+Function:
+```python
+def count_threes(n):
+    total = 0
+    for i in range(n):
+        if i % 6 == 0 or i % 9 == 0:
+            total += str(i).count('3')
+    return total
+```
+Call: count_threes(40)
+
+Trace:
+- n = 40, total = 0. range(40) has 40 iterations, so first list the values of i for which the condition is True.
+- i % 6 == 0 for i = 0, 6, 12, 18, 24, 30, 36
+- i % 9 == 0 for i = 0, 9, 18, 27, 36
+- the condition is True for i = 0, 6, 9, 12, 18, 24, 27, 30, 36
+- str(i).count('3') is 0 for '0', '6', '9', '12', '18', '24', '27'; it is 1 for '30' and 1 for '36'
+- total = 0 + 1 + 1 = 2
+
+[Output]2[/Output]
 
 Now do the same for the following function and call.
 
@@ -268,7 +310,7 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
         trust_remote_code=True,
     )
     model.eval()
-    max_new_tokens = 512 if vanilla else 2048
+    max_new_tokens = 512 if vanilla else 1536
     num_samples = 0 if vanilla else NUM_SAMPLES
 
     results = []
