@@ -262,6 +262,9 @@ def clean_prediction(prediction):
     text = prediction.strip()
     text = re.sub(r"^```(?:python)?\s*|\s*```$", "", text).strip()
     text = text.strip("`").strip()
+    # Accept the common formatting slip `[Output]: value[/Output]` without
+    # treating the colon as part of the predicted Python value.
+    text = re.sub(r"^:\s*", "", text)
     if text.endswith(".") and not re.search(r"\d\.$", text):
         text = text[:-1].strip()
     return {"true": "True", "false": "False", "none": "None"}.get(text.lower(), text)
@@ -296,6 +299,10 @@ def vote_key(prediction):
     if prediction is None:
         return None
     candidate = prediction_candidates(prediction)[-1]
+    # Code placeholders are not return values and must not win a vote merely
+    # because multiple generations repeat the same formatting error.
+    if candidate.startswith("#") or re.fullmatch(r"(?:repr|print)\s*\(.*\)(?:\s*#.*)?", candidate):
+        return None
     try:
         return repr(ast.literal_eval(candidate))
     except (ValueError, SyntaxError, TypeError, MemoryError, RecursionError):
@@ -310,6 +317,23 @@ def majority_vote(predictions):
     best = max(counts.values())
     return next(i for i, k in enumerate(keys) if k is not None and counts[k] == best), counts
 
+
+def has_unique_plurality(votes, minimum_votes=2):
+    """Whether exactly one proposed value has meaningful first-pass support."""
+    if not votes:
+        return False
+    best = max(votes.values())
+    return best >= minimum_votes and sum(count == best for count in votes.values()) == 1
+
+
+def reached_vote_threshold(responses, threshold):
+    """Return True once a value has enough votes that remaining samples cannot beat it."""
+    if threshold is None:
+        return False
+    counts = Counter(vote_key(extract_prediction(response)) for response in responses)
+    counts.pop(None, None)
+    return bool(counts) and max(counts.values()) >= threshold
+
 def build_audit_prompt(program, call, votes):
     """Create a fresh verification prompt without revealing the computed ground truth."""
     candidates = "\n".join(
@@ -322,7 +346,7 @@ def build_audit_prompt(program, call, votes):
 
 
 def generate_responses(model, tokenizer, prompt, max_new_tokens, num_samples, seed,
-                       temperature=SAMPLING_TEMPERATURE):
+                       temperature=SAMPLING_TEMPERATURE, early_stop_votes=None):
     inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
     prompt_length = inputs["input_ids"].shape[1]
     common = dict(max_new_tokens=max_new_tokens, eos_token_id=tokenizer.eos_token_id,
@@ -350,6 +374,8 @@ def generate_responses(model, tokenizer, prompt, max_new_tokens, num_samples, se
                 top_p=0.95,
                 num_return_sequences=1,
             ))
+            if reached_vote_threshold(responses, early_stop_votes):
+                break
 
     return responses
 
@@ -393,7 +419,16 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
         prompt = build_prompt(instruction)
         
         # TODO: prompt the model and get the response
-        responses = generate_responses(model, tokenizer, prompt, max_new_tokens, num_samples, seed=index)
+        responses = generate_responses(
+            model,
+            tokenizer,
+            prompt,
+            max_new_tokens,
+            num_samples,
+            seed=index,
+            # Three matching answers already guarantee the winner of a five-answer vote.
+            early_stop_votes=3 if not vanilla else None,
+        )
 
         # TODO: process the response and save it to results
         predictions = [extract_prediction(r) for r in responses]
@@ -404,11 +439,10 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
         audit_responses = []
         audit_votes = Counter()
 
-        # Majority voting amplified repeated mistakes in the first experiments.  If
-        # candidates disagree, ask the model to solve the program again under a
-        # stricter, independently worded audit prompt, then self-consistently vote
-        # only among those audited answers.  The expected output is never included.
-        if not vanilla and len(votes) > 1:
+        # Only use the audit to break a first-pass tie or all-unique result.  Earlier
+        # runs showed that an uncertain audit could replace a correct plurality.
+        # The expected output is never included in either prompt or this decision.
+        if not vanilla and len(votes) > 1 and not has_unique_plurality(votes):
             call = f"{entry['entry_point']}({test_input})"
             audit_instruction = build_audit_prompt(program, call, votes)
             final_prompt = build_prompt(audit_instruction)
@@ -420,6 +454,8 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
                 num_samples=AUDIT_NUM_SAMPLES,
                 seed=10_000 + index,
                 temperature=AUDIT_SAMPLING_TEMPERATURE,
+                # Two matching answers already guarantee the winner of a three-answer vote.
+                early_stop_votes=2,
             )
             audit_predictions = [extract_prediction(r) for r in audit_responses]
             audit_chosen, audit_votes = majority_vote(audit_predictions)
