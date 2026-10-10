@@ -2,17 +2,22 @@
 # This is a list of all commands you need to run for MP2 on Colab.
 ###################################################################
 
-# TODO: Clone your GitHub repository
-! git clone https://github.com/RLin8103/CS598JBR-Team-17.git
-% cd CS598JBR-Team-17/MP2
+# Clone the team GitHub repository in a fresh runtime, or update an existing clone.
+import os
+%cd /content
+if not os.path.exists("CS598JBR-Team-17"):
+    !git clone https://github.com/RLin8103/CS598JBR-Team-17.git
+%cd /content/CS598JBR-Team-17
+!git pull --ff-only
+%cd /content/CS598JBR-Team-17/MP2
 
-# TODO: Replace the file path of selected_humaneval_[seed].jsonl generated in MP1
-input_dataset = "selected_humaneval_126511212782177902231984929477270226141.jsonl"# selected_humaneval_[seed].jsonl
+# Dataset generated in MP1 for Team 17.
+input_dataset = "selected_humaneval_126511212782177902231984929477270226141.jsonl"
 
 # Set up requirements for model prompting
 ! bash -x setup_models.sh
 
-# TODO: add your seed generated in MP1
+# Seed generated in MP1.
 seed = "126511212782177902231984929477270226141"
 task_1_vanilla_json = "task_1_" + seed + "_vanilla.jsonl"
 task_1_crafted_json = "task_1_" + seed + "_crafted.jsonl"
@@ -28,6 +33,6 @@ task_2_crafted_json = "task_2_" + seed + "_crafted.jsonl"
 
 # Commands to generate coverage reports
 
-%cd ..
+%cd /content/CS598JBR-Team-17
 
-# git push all nessacery files (e.g., *jsonl, *log) to your GitHub repository
+# Push all necessary files (for example, the generated JSONL and log files) to GitHub.

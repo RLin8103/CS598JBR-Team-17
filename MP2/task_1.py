@@ -16,7 +16,7 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
 #####################################################
-# Please finish all TODOs in this file for MP2;
+# MP2 Task 1: code-execution reasoning experiments.
 #####################################################
 
 SYSTEM_PROMPT = (
@@ -382,10 +382,10 @@ def generate_responses(model, tokenizer, prompt, max_new_tokens, num_samples, se
 def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct", vanilla = True):
     print(f"Working with {model_name} prompt type {vanilla}...")
     
-    # TODO: download the model
+    # Download the model tokenizer.
     tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
 
-    # TODO: load the model with quantization
+    # Load the model with four-bit quantization for Colab GPUs.
     bnb_config = BitsAndBytesConfig(
         load_in_4bit=True,
         bnb_4bit_quant_type="nf4",
@@ -405,9 +405,7 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
 
     results = []
     for index, entry in enumerate(dataset):
-        # TODO: create prompt for the model
-        # Tip : Use can use any data from the dataset to create 
-        #       the prompt including prompt, canonical_solution, test, etc.
+        # Create the vanilla or crafted prompt from the selected program and test.
         program = build_program(entry)
         test_input = select_test_input(entry)
         expected_output = compute_expected_output(entry, test_input)
@@ -418,7 +416,7 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
             instruction = CRAFTED_TEMPLATE.replace("[PROGRAM]", program).replace("[CALL]", call)
         prompt = build_prompt(instruction)
         
-        # TODO: prompt the model and get the response
+        # Prompt the model and collect candidate responses.
         responses = generate_responses(
             model,
             tokenizer,
@@ -430,7 +428,7 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
             early_stop_votes=3 if not vanilla else None,
         )
 
-        # TODO: process the response and save it to results
+        # Select, score, and save the response.
         predictions = [extract_prediction(r) for r in responses]
         chosen, votes = majority_vote(predictions)
         response = responses[chosen]
