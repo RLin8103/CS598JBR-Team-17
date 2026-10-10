@@ -23,16 +23,16 @@ The return value prediction must be enclosed between [Output] and [/Output] tags
 
 [PROGRAM]"""
 
-CRAFTED_TEMPLATE = """You will be given a Python function and a concrete function call. Predict the exact value that the call returns by simulating the execution of the code line by line, the way the Python interpreter would.
+CRAFTED_TEMPLATE = """You will be given a Python function, several example calls of this function together with their correct return values, and a new call. Predict the exact value that the new call returns.
 
-Follow these rules:
-1. Start from the call and bind every parameter to its argument value.
-2. Execute the statements in order. For every loop iteration, write down the loop variable and the new values of all variables that change. For every `if`/`elif`/`while` condition, write the condition with the concrete values and whether it is True or False. For long loops, you may group the iterations where nothing changes, but never skip an iteration where a variable changes.
-3. Be careful with Python semantics: indexing starts at 0, slices and `range(a, b)` exclude the end, `//` floors, `%` follows the sign of the divisor, `sorted()` returns a new list, and the return type matters (list vs tuple, int vs float, quotes around strings).
-4. Do not guess the answer from the function name or from what the function is supposed to do; trust only your trace.
-5. After the trace, write the final return value as a Python literal (exactly as `repr()` would print it) between [Output] and [/Output]. Write the [Output] tags exactly once, at the very end.
+Solve it in this order:
+1. Read the function and the examples. Use the examples to understand exactly what the function computes, how it treats edge cases, and the type and format of its return value.
+2. Work out the result of the new call step by step. Write down only the intermediate values that matter: the value of each variable after it changes, the value of each condition, and the result of each arithmetic operation. Do not write out loop iterations in which nothing changes.
+3. Be careful with Python semantics: indexing starts at 0; slices and `range(a, b)` exclude the end; `**` is evaluated before `*`, `/`, `//`, `%`, which are evaluated before `+` and `-`; `//` floors; `sorted()` on a string orders characters by their Unicode code point, so spaces and punctuation come before uppercase letters, which come before lowercase letters; looking up a missing dictionary key raises KeyError.
+4. Check that your answer is consistent with the examples. If it is not, find your mistake and fix it.
+5. Write the final return value as a Python literal (exactly as `repr()` would print it) between [Output] and [/Output]. Write the [Output] tags exactly once, at the very end.
 
-Example 1
+Here is a solved example.
 
 Function:
 ```python
@@ -43,50 +43,27 @@ def count_evens_above(nums, k):
             count += 1
     return count
 ```
-Call: count_evens_above([4, 7, 10, 2], 3)
+Examples of correct calls:
+count_evens_above([1, 2, 3], 0) == 1
+count_evens_above([10, 20, 30], 15) == 2
+New call: count_evens_above([4, 7, 10, 2], 3)
 
-Trace:
-- nums = [4, 7, 10, 2], k = 3, count = 0
-- n = 4: 4 % 2 == 0 is True and 4 > 3 is True -> count = 1
-- n = 7: 7 % 2 == 0 is False -> count stays 1
-- n = 10: 10 % 2 == 0 is True and 10 > 3 is True -> count = 2
-- n = 2: 2 % 2 == 0 is True but 2 > 3 is False -> count stays 2
-- the loop ends, return count = 2
+Reasoning:
+- The function counts the numbers in nums that are even and strictly greater than k.
+- Check with the examples: in [1, 2, 3] only 2 is even and 2 > 0, so 1 (matches). In [10, 20, 30] the evens greater than 15 are 20 and 30, so 2 (matches).
+- New call: nums = [4, 7, 10, 2], k = 3. The even numbers are 4, 10, 2. 4 > 3 is True, 10 > 3 is True, 2 > 3 is False. count = 2.
 
 [Output]2[/Output]
 
-Example 2
-
-Function:
-```python
-def long_words_upper(text):
-    out = []
-    for w in text.split():
-        if len(w) > 2:
-            out.append(w.upper())
-    return tuple(out)
-```
-Call: long_words_upper("go far away")
-
-Trace:
-- text = "go far away", out = []
-- text.split() = ['go', 'far', 'away']
-- w = 'go': len('go') = 2, 2 > 2 is False -> out stays []
-- w = 'far': len('far') = 3, 3 > 2 is True -> out = ['FAR']
-- w = 'away': len('away') = 4, 4 > 2 is True -> out = ['FAR', 'AWAY']
-- the loop ends, return tuple(out) = ('FAR', 'AWAY')
-
-[Output]('FAR', 'AWAY')[/Output]
-
-Now do the same for the following function and call.
+Now solve this one.
 
 Function:
 ```python
 [PROGRAM]
 ```
-Call: [CALL]
-
-Write the trace first, then the final answer between [Output] and [/Output]."""
+Examples of correct calls:
+[EXAMPLES]
+New call: [CALL]"""
 
 
 def save_file(content, file_path):
@@ -134,6 +111,24 @@ def compute_expected_output(entry, inputs):
     exec(entry["prompt"] + entry["canonical_solution"], namespace)
     return eval(f"{entry['entry_point']}({inputs})", namespace)
 
+def same_inputs(a, b):
+    try:
+        return ast.literal_eval(f"({a},)") == ast.literal_eval(f"({b},)")
+    except (ValueError, SyntaxError):
+        return a == b
+
+def build_examples(entry, selected_input):
+    """In-context input/output pairs taken from the program's other tests. The selected
+    test is excluded so that the prompt never contains the answer."""
+    lines = []
+    for inputs in extract_test_inputs(entry["test"]):
+        if same_inputs(inputs, selected_input):
+            continue
+        line = f"{entry['entry_point']}({inputs}) == {compute_expected_output(entry, inputs)!r}"
+        if line not in lines:
+            lines.append(line)
+    return "\n".join(lines) if lines else "(no examples available)"
+
 def extract_prediction(response):
     matches = re.findall(r"\[Output\](.*?)\[\s*[/\\]\s*Output\s*\]", response, re.DOTALL | re.IGNORECASE)
     matches = [m.strip() for m in matches if m.strip() and m.strip().lower() != "prediction"]
@@ -163,12 +158,17 @@ def is_prediction_correct(prediction, expected):
     if prediction is None:
         return False
     text = clean_prediction(prediction)
-    try:
-        if values_equal(ast.literal_eval(text), expected):
+    # The model sometimes echoes the call, e.g. "fib(8) == 21".
+    candidates = [text] + ([clean_prediction(text.rsplit("==", 1)[1])] if "==" in text else [])
+    for candidate in candidates:
+        try:
+            if values_equal(ast.literal_eval(candidate), expected):
+                return True
+        except (ValueError, SyntaxError, TypeError, MemoryError, RecursionError):
+            pass
+        if isinstance(expected, str) and candidate == expected:
             return True
-    except (ValueError, SyntaxError, TypeError, MemoryError, RecursionError):
-        pass
-    return isinstance(expected, str) and text == expected
+    return False
 
 def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct", vanilla = True):
     print(f"Working with {model_name} prompt type {vanilla}...")
@@ -205,7 +205,10 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
             instruction = VANILLA_TEMPLATE.replace("[INPUTS]", test_input).replace("[PROGRAM]", program)
         else:
             call = f"{entry['entry_point']}({test_input})"
-            instruction = CRAFTED_TEMPLATE.replace("[PROGRAM]", program).replace("[CALL]", call)
+            examples = build_examples(entry, test_input)
+            instruction = (CRAFTED_TEMPLATE.replace("[PROGRAM]", program)
+                           .replace("[EXAMPLES]", examples)
+                           .replace("[CALL]", call))
         prompt = build_prompt(instruction)
         
         # TODO: prompt the model and get the response
