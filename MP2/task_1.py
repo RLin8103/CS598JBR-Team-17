@@ -1,10 +1,17 @@
 import ast
 import math
+import os
 import random
 import re
 from collections import Counter
 import jsonlines
 import sys
+
+# Colab T4 runtimes have about 15 GiB of VRAM.  Let PyTorch grow CUDA memory
+# segments instead of reserving inflexible blocks when successive generations
+# have different sequence lengths.  This must be set before importing torch.
+os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
+
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
@@ -320,13 +327,31 @@ def generate_responses(model, tokenizer, prompt, max_new_tokens, num_samples, se
     prompt_length = inputs["input_ids"].shape[1]
     common = dict(max_new_tokens=max_new_tokens, eos_token_id=tokenizer.eos_token_id,
                   pad_token_id=tokenizer.eos_token_id)
+    responses = []
+
+    def generate_and_decode(**generation_options):
+        output = model.generate(**inputs, **generation_options, **common)
+        response = tokenizer.decode(output[0, prompt_length:], skip_special_tokens=True)
+        del output
+        return response
+
     with torch.no_grad():
-        outputs = list(model.generate(**inputs, do_sample=False, **common))
-        if num_samples > 0:
-            torch.manual_seed(seed)
-            outputs += list(model.generate(**inputs, do_sample=True, temperature=temperature,
-                                           top_p=0.95, num_return_sequences=num_samples, **common))
-    return [tokenizer.decode(output[prompt_length:], skip_special_tokens=True) for output in outputs]
+        responses.append(generate_and_decode(do_sample=False))
+
+        # Generate samples sequentially.  Asking generate() for several return
+        # sequences at once duplicates the attention KV cache and exhausted the
+        # 14.56-GiB T4 in Colab.  Per-sample seeding keeps runs reproducible while
+        # preserving diverse candidates without the parallel VRAM spike.
+        for sample_index in range(num_samples):
+            torch.manual_seed(seed * 1_000 + sample_index)
+            responses.append(generate_and_decode(
+                do_sample=True,
+                temperature=temperature,
+                top_p=0.95,
+                num_return_sequences=1,
+            ))
+
+    return responses
 
 def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct", vanilla = True):
     print(f"Working with {model_name} prompt type {vanilla}...")
