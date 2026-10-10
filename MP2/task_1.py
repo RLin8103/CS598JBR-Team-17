@@ -168,6 +168,33 @@ Write the trace first, then the final answer between [Output] and [/Output]."""
 NUM_SAMPLES = 4
 SAMPLING_TEMPERATURE = 0.7
 
+# When the first-pass answers disagree, use a second, independently worded prompt to
+# audit the candidate values.  A majority vote alone is unsafe for code execution:
+# several independent samples can repeat the same arithmetic or indexing mistake.
+AUDIT_NUM_SAMPLES = 2
+AUDIT_SAMPLING_TEMPERATURE = 0.25
+
+AUDIT_TEMPLATE = """Act as a meticulous Python execution auditor. Several attempts predicted different return values for the same call. Their answers are untrusted suggestions, not evidence; do not select an answer by popularity. Independently execute the code and correct every proposal that conflicts with Python semantics.
+
+Use this audit procedure:
+1. Bind the arguments, then execute the exact code in statement order. Do not infer behavior from the function name or docstring.
+2. For every loop, comprehension, recursion level, slice, and string operation, write the concrete intermediate values. Preserve list and string order exactly.
+3. Check arithmetic with a second calculation. For division or averages, keep an exact numerator and denominator until the final step.
+4. Check dictionary membership using the literal keys. A missing lookup raises KeyError even when the number resembles a valid key (for example, 55 is not key 5).
+5. For sorted strings, explicitly write the sorted characters of every word using Python/Unicode ordering, then join them.
+6. Before finishing, compare the final value against the return expression and independently audit its type, delimiters, quoting, and element order.
+
+Function:
+```python
+[PROGRAM]
+```
+Call: [CALL]
+
+Distinct proposed outputs:
+[CANDIDATES]
+
+Write a concise audit trace. You may return a value that is not among the proposals. End with the exact Python `repr()` of the return value between [Output] and [/Output]. Write those tags exactly once, at the very end."""
+
 
 def save_file(content, file_path):
     with open(file_path, 'w') as file:
@@ -276,7 +303,19 @@ def majority_vote(predictions):
     best = max(counts.values())
     return next(i for i, k in enumerate(keys) if k is not None and counts[k] == best), counts
 
-def generate_responses(model, tokenizer, prompt, max_new_tokens, num_samples, seed):
+def build_audit_prompt(program, call, votes):
+    """Create a fresh verification prompt without revealing the computed ground truth."""
+    candidates = "\n".join(
+        f"- Candidate {index}: {candidate}"
+        for index, candidate in enumerate(votes, start=1)
+    )
+    return AUDIT_TEMPLATE.replace("[PROGRAM]", program).replace("[CALL]", call).replace(
+        "[CANDIDATES]", candidates
+    )
+
+
+def generate_responses(model, tokenizer, prompt, max_new_tokens, num_samples, seed,
+                       temperature=SAMPLING_TEMPERATURE):
     inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
     prompt_length = inputs["input_ids"].shape[1]
     common = dict(max_new_tokens=max_new_tokens, eos_token_id=tokenizer.eos_token_id,
@@ -285,7 +324,7 @@ def generate_responses(model, tokenizer, prompt, max_new_tokens, num_samples, se
         outputs = list(model.generate(**inputs, do_sample=False, **common))
         if num_samples > 0:
             torch.manual_seed(seed)
-            outputs += list(model.generate(**inputs, do_sample=True, temperature=SAMPLING_TEMPERATURE,
+            outputs += list(model.generate(**inputs, do_sample=True, temperature=temperature,
                                            top_p=0.95, num_return_sequences=num_samples, **common))
     return [tokenizer.decode(output[prompt_length:], skip_special_tokens=True) for output in outputs]
 
@@ -336,16 +375,45 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
         chosen, votes = majority_vote(predictions)
         response = responses[chosen]
         prediction = predictions[chosen]
+        final_prompt = prompt
+        audit_responses = []
+        audit_votes = Counter()
+
+        # Majority voting amplified repeated mistakes in the first experiments.  If
+        # candidates disagree, ask the model to solve the program again under a
+        # stricter, independently worded audit prompt, then self-consistently vote
+        # only among those audited answers.  The expected output is never included.
+        if not vanilla and len(votes) > 1:
+            call = f"{entry['entry_point']}({test_input})"
+            audit_instruction = build_audit_prompt(program, call, votes)
+            final_prompt = build_prompt(audit_instruction)
+            audit_responses = generate_responses(
+                model,
+                tokenizer,
+                final_prompt,
+                max_new_tokens=1024,
+                num_samples=AUDIT_NUM_SAMPLES,
+                seed=10_000 + index,
+                temperature=AUDIT_SAMPLING_TEMPERATURE,
+            )
+            audit_predictions = [extract_prediction(r) for r in audit_responses]
+            audit_chosen, audit_votes = majority_vote(audit_predictions)
+            if audit_predictions[audit_chosen] is not None:
+                response = audit_responses[audit_chosen]
+                prediction = audit_predictions[audit_chosen]
+
         verdict = is_prediction_correct(prediction, expected_output)
 
-        print(f"Task_ID {entry['task_id']}:\nprompt:\n{prompt}\nresponse:\n{response}\nis_correct:\n{verdict}")
+        print(f"Task_ID {entry['task_id']}:\nprompt:\n{final_prompt}\nresponse:\n{response}\nis_correct:\n{verdict}")
         print(f"test_input: {test_input}\nexpected_output: {expected_output!r}\npredicted_output: {prediction}")
         if num_samples:
-            print(f"votes: {dict(votes)}")
+            print(f"initial_votes: {dict(votes)}")
+        if audit_responses:
+            print(f"audit_votes: {dict(audit_votes)}")
         print()
         result = {
             "task_id": entry["task_id"],
-            "prompt": prompt,
+            "prompt": final_prompt,
             "response": response,
             "is_correct": verdict,
             "test_input": test_input,
@@ -353,8 +421,16 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
             "predicted_output": prediction,
         }
         if num_samples:
-            result["votes"] = dict(votes)
-            result["all_responses"] = responses
+            result["initial_prompt"] = prompt
+            result["initial_votes"] = dict(votes)
+            result["initial_responses"] = responses
+            # Keep the original diagnostic field names for compatibility with
+            # notebooks written against the earlier crafted-run schema.
+            result["votes"] = dict(audit_votes) if audit_responses else dict(votes)
+            result["all_responses"] = audit_responses if audit_responses else responses
+        if audit_responses:
+            result["audit_votes"] = dict(audit_votes)
+            result["audit_responses"] = audit_responses
         results.append(result)
 
     num_correct = sum(r["is_correct"] for r in results)
