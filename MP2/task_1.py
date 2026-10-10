@@ -27,7 +27,7 @@ CRAFTED_TEMPLATE = """You will be given a Python function and a concrete functio
 
 Follow these rules:
 1. Start from the call and bind every parameter to its argument value.
-2. Execute the statements in order. For every loop iteration, write down the loop variable and the new values of all variables that change. For every `if`/`elif`/`while` condition, write the condition with the concrete values and whether it is True or False.
+2. Execute the statements in order. For every loop iteration, write down the loop variable and the new values of all variables that change. For every `if`/`elif`/`while` condition, write the condition with the concrete values and whether it is True or False. For long loops, you may group the iterations where nothing changes, but never skip an iteration where a variable changes.
 3. Be careful with Python semantics: indexing starts at 0, slices and `range(a, b)` exclude the end, `//` floors, `%` follows the sign of the divisor, `sorted()` returns a new list, and the return type matters (list vs tuple, int vs float, quotes around strings).
 4. Do not guess the answer from the function name or from what the function is supposed to do; trust only your trace.
 5. After the trace, write the final return value as a Python literal (exactly as `repr()` would print it) between [Output] and [/Output]. Write the [Output] tags exactly once, at the very end.
@@ -98,14 +98,15 @@ def build_prompt(instruction):
 
 def build_program(entry):
     """Prompt + canonical solution with docstrings removed, so the examples in the
-    docstring cannot leak the expected output."""
+    docstring cannot leak the expected output. Some prompts place the docstring after
+    an import, so every bare string statement is removed, not only the first one."""
     tree = ast.parse(entry["prompt"] + entry["canonical_solution"])
     for node in ast.walk(tree):
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-            body = node.body
-            if body and isinstance(body[0], ast.Expr) and isinstance(body[0].value, ast.Constant) \
-                    and isinstance(body[0].value.value, str):
-                node.body = body[1:] or [ast.Pass()]
+        if isinstance(node, (ast.Module, ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            body = [stmt for stmt in node.body
+                    if not (isinstance(stmt, ast.Expr) and isinstance(stmt.value, ast.Constant)
+                            and isinstance(stmt.value.value, str))]
+            node.body = body or [ast.Pass()]
     return ast.unparse(tree)
 
 def extract_test_inputs(test_code):
@@ -190,7 +191,7 @@ def prompt_model(dataset, model_name = "deepseek-ai/deepseek-coder-6.7b-instruct
         trust_remote_code=True,
     )
     model.eval()
-    max_new_tokens = 512 if vanilla else 1024
+    max_new_tokens = 512 if vanilla else 2048
 
     results = []
     for entry in dataset:
