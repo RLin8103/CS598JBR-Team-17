@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="15" time="0.115" timestamp="2026-10-11T19:18:12.055965+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_148_test" name="test_example" time="0.001" /><testcase classname="HumanEval_148_test" name="test_same_planets" time="0.001" /><testcase classname="HumanEval_148_test" name="test_planet1_not_exist" time="0.001" /><testcase classname="HumanEval_148_test" name="test_planet2_not_exist" time="0.001" /><testcase classname="HumanEval_148_test" name="test_planet1_closer_to_sun" time="0.001" /><testcase classname="HumanEval_148_test" name="test_planet2_closer_to_sun" time="0.001" /><testcase classname="HumanEval_148_test" name="test_both_planets_closer_to_sun" time="0.001" /><testcase classname="HumanEval_148_test" name="test_planet1_is_planet2" time="0.001" /><testcase classname="HumanEval_148_test" name="test_planet1_is_closer_to_sun" time="0.001"><failure message="AssertionError: Ninth test error: ('Venus', 'Earth', 'Mars')&#10;assert ('Venus', 'Earth', 'Mars') == ('Venus', 'Ea...rn', 'Uranus')&#10;  &#10;  Right contains 2 more items, first extra item: 'Saturn'&#10;  Use -v to get more diff">def test_planet1_is_closer_to_sun():
+&gt;       assert bf('Mercury', 'Jupiter') == ('Venus', 'Earth', 'Mars', 'Saturn', 'Uranus'), 'Ninth test error: ' + str(bf('Mercury', 'Jupiter'))
+E       AssertionError: Ninth test error: ('Venus', 'Earth', 'Mars')
+E       assert ('Venus', 'Earth', 'Mars') == ('Venus', 'Ea...rn', 'Uranus')
+E         
+E         Right contains 2 more items, first extra item: 'Saturn'
+E         Use -v to get more diff
+
+HumanEval_148_test.py:29: AssertionError</failure></testcase><testcase classname="HumanEval_148_test" name="test_planet2_is_closer_to_sun" time="0.001"><failure message="AssertionError: Tenth test error: ('Venus', 'Earth', 'Mars')&#10;assert ('Venus', 'Earth', 'Mars') == ('Saturn', 'U...s', 'Neptune')&#10;  &#10;  At index 0 diff: 'Venus' != 'Saturn'&#10;  Use -v to get more diff">def test_planet2_is_closer_to_sun():
+&gt;       assert bf('Jupiter', 'Mercury') == ('Saturn', 'Uranus', 'Neptune'), 'Tenth test error: ' + str(bf('Jupiter', 'Mercury'))
+E       AssertionError: Tenth test error: ('Venus', 'Earth', 'Mars')
+E       assert ('Venus', 'Earth', 'Mars') == ('Saturn', 'U...s', 'Neptune')
+E         
+E         At index 0 diff: 'Venus' != 'Saturn'
+E         Use -v to get more diff
+
+HumanEval_148_test.py:32: AssertionError</failure></testcase><testcase classname="HumanEval_148_test" name="test_both_planets_are_closer_to_sun" time="0.001" /><testcase classname="HumanEval_148_test" name="test_planet1_is_furthest_from_sun" time="0.001"><failure message="AssertionError: Twelfth test error: ('Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus')&#10;assert ('Venus', 'Ea...rn', 'Uranus') == ('Jupiter', '...rn', 'Uranus')&#10;  &#10;  At index 0 diff: 'Venus' != 'Jupiter'&#10;  Left contains 3 more items, first extra item: 'Jupiter'&#10;  Use -v to get more diff">def test_planet1_is_furthest_from_sun():
+&gt;       assert bf('Neptune', 'Mercury') == ('Jupiter', 'Saturn', 'Uranus'), 'Twelfth test error: ' + str(bf('Neptune', 'Mercury'))
+E       AssertionError: Twelfth test error: ('Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus')
+E       assert ('Venus', 'Ea...rn', 'Uranus') == ('Jupiter', '...rn', 'Uranus')
+E         
+E         At index 0 diff: 'Venus' != 'Jupiter'
+E         Left contains 3 more items, first extra item: 'Jupiter'
+E         Use -v to get more diff
+
+HumanEval_148_test.py:38: AssertionError</failure></testcase><testcase classname="HumanEval_148_test" name="test_planet2_is_furthest_from_sun" time="0.001" /><testcase classname="HumanEval_148_test" name="test_both_planets_are_furthest_from_sun" time="0.001" /><testcase classname="HumanEval_148_test" name="test_planet2_is_closer_to_closer_to_sun" time="0.001"><failure message="AssertionError: Tenth test error: ('Venus', 'Earth', 'Mars')&#10;assert ('Venus', 'Earth', 'Mars') == ('Saturn', 'U...s', 'Neptune')&#10;  &#10;  At index 0 diff: 'Venus' != 'Saturn'&#10;  Use -v to get more diff">def test_planet2_is_closer_to_closer_to_sun():
+&gt;       assert bf('Jupiter', 'Mercury') == ('Saturn', 'Uranus', 'Neptune'), 'Tenth test error: ' + str(bf('Jupiter', 'Mercury'))
+E       AssertionError: Tenth test error: ('Venus', 'Earth', 'Mars')
+E       assert ('Venus', 'Earth', 'Mars') == ('Saturn', 'U...s', 'Neptune')
+E         
+E         At index 0 diff: 'Venus' != 'Saturn'
+E         Use -v to get more diff
+
+HumanEval_148_test.py:47: AssertionError</failure></testcase></testsuite></testsuites>

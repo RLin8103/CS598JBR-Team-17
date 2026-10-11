@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="12" time="0.115" timestamp="2026-10-11T19:23:52.724163+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_8_test" name="test_empty_list" time="0.001" /><testcase classname="HumanEval_8_test" name="test_single_element" time="0.001" /><testcase classname="HumanEval_8_test" name="test_zero" time="0.001" /><testcase classname="HumanEval_8_test" name="test_negative_numbers" time="0.001" /><testcase classname="HumanEval_8_test" name="test_positive_numbers" time="0.001" /><testcase classname="HumanEval_8_test" name="test_large_numbers" time="0.001"><failure message="assert (1000, 2400000000) == (1000, 2400000)&#10;  &#10;  At index 1 diff: 2400000000 != 2400000&#10;  Use -v to get more diff">def test_large_numbers():
+&gt;       assert sum_product([100, 200, 300, 400]) == (1000, 2400000)
+E       assert (1000, 2400000000) == (1000, 2400000)
+E         
+E         At index 1 diff: 2400000000 != 2400000
+E         Use -v to get more diff
+
+HumanEval_8_test.py:20: AssertionError</failure></testcase><testcase classname="HumanEval_8_test" name="test_negative_and_positive_numbers" time="0.001"><failure message="assert (2, 24) == (-2, -24)&#10;  &#10;  At index 0 diff: 2 != -2&#10;  Use -v to get more diff">def test_negative_and_positive_numbers():
+&gt;       assert sum_product([-1, 2, -3, 4]) == (-2, -24)
+E       assert (2, 24) == (-2, -24)
+E         
+E         At index 0 diff: 2 != -2
+E         Use -v to get more diff
+
+HumanEval_8_test.py:23: AssertionError</failure></testcase><testcase classname="HumanEval_8_test" name="test_boundary_values" time="0.001" /><testcase classname="HumanEval_8_test" name="test_large_negative_numbers" time="0.001"><failure message="assert (-10000000, 2...0000000000000) == (-1000000, 24000000000000)&#10;  &#10;  At index 0 diff: -10000000 != -1000000&#10;  Use -v to get more diff">def test_large_negative_numbers():
+&gt;       assert sum_product([-1000000, -2000000, -3000000, -4000000]) == (-1000000, 24000000000000)
+E       assert (-10000000, 2...0000000000000) == (-1000000, 24000000000000)
+E         
+E         At index 0 diff: -10000000 != -1000000
+E         Use -v to get more diff
+
+HumanEval_8_test.py:29: AssertionError</failure></testcase><testcase classname="HumanEval_8_test" name="test_large_positive_numbers" time="0.001"><failure message="assert (10000000, 24...0000000000000) == (10000000, 24000000000000)&#10;  &#10;  At index 1 diff: 24000000000000000000000000 != 24000000000000&#10;  Use -v to get more diff">def test_large_positive_numbers():
+&gt;       assert sum_product([1000000, 2000000, 3000000, 4000000]) == (10000000, 24000000000000)
+E       assert (10000000, 24...0000000000000) == (10000000, 24000000000000)
+E         
+E         At index 1 diff: 24000000000000000000000000 != 24000000000000
+E         Use -v to get more diff
+
+HumanEval_8_test.py:32: AssertionError</failure></testcase><testcase classname="HumanEval_8_test" name="test_negative_and_large_numbers" time="0.001"><failure message="assert (2000000, 240...0000000000000) == (-1000000, -24000000000000)&#10;  &#10;  At index 0 diff: 2000000 != -1000000&#10;  Use -v to get more diff">def test_negative_and_large_numbers():
+&gt;       assert sum_product([-1000000, 2000000, -3000000, 4000000]) == (-1000000, -24000000000000)
+E       assert (2000000, 240...0000000000000) == (-1000000, -24000000000000)
+E         
+E         At index 0 diff: 2000000 != -1000000
+E         Use -v to get more diff
+
+HumanEval_8_test.py:35: AssertionError</failure></testcase><testcase classname="HumanEval_8_test" name="test_positive_and_large_numbers" time="0.001"><failure message="assert (10000000, 24...0000000000000) == (10000000, 24000000000000)&#10;  &#10;  At index 1 diff: 24000000000000000000000000 != 24000000000000&#10;  Use -v to get more diff">def test_positive_and_large_numbers():
+&gt;       assert sum_product([1000000, 2000000, 3000000, 4000000]) == (10000000, 24000000000000)
+E       assert (10000000, 24...0000000000000) == (10000000, 24000000000000)
+E         
+E         At index 1 diff: 24000000000000000000000000 != 24000000000000
+E         Use -v to get more diff
+
+HumanEval_8_test.py:38: AssertionError</failure></testcase></testsuite></testsuites>

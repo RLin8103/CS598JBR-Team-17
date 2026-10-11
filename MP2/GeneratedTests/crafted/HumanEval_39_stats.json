@@ -1,0 +1,11 @@
+{
+  "task_id": "HumanEval/39",
+  "coverage": 0.0,
+  "num_tests": 0,
+  "num_passed": 0,
+  "num_failed": 0,
+  "missing_lines": [],
+  "failures": [],
+  "test_code": "import pytest\nfrom HumanEval_39 import *\n\ndef test_example():\n    assert prime_fib(1) == 2\n\ndef test_second_fibonacci_prime():\n    assert prime_fib(2) == 3\n\ndef test_third_fibonacci_prime():\n    assert prime_fib(3) == 5\n\ndef test_fourth_fibonacci_prime():\n    assert prime_fib(4) == 13\n\ndef test_fifth_fibonacci_prime():\n    assert prime_fib(5) == 89\n\ndef test_sixth_fibonacci_prime():\n    assert prime_fib(6) == 233\n\ndef test_seventh_fibonacci_prime():\n    assert prime_fib(7) == 1597\n\ndef test_eighth_fibonacci_prime():\n    assert prime_fib(8) == 28657\n\ndef test_ninth_fibonacci_prime():\n    assert prime_fib(9) == 514229\n\ndef test_tenth_fibonacci_prime():\n    assert prime_fib(10) == 832040\n\ndef test_negative_input():\n    with pytest.raises(ValueError):\n        prime_fib(-1)\n\ndef test_zero_input():\n    with pytest.raises(ValueError):\n        prime_fib(0)\n\ndef test_large_input():\n    assert prime_fib(100) == 433494437\n\ndef test_edge_case_single_digit_prime():\n    assert prime_fib(1) == 2\n\ndef test_edge_case_double_digit_prime():\n    assert prime_fib(2) == 3\n\ndef test_edge_case_single_digit_fibonacci():\n    assert prime_fib(4) == 13\n\ndef test_edge_case_double_digit_fibonacci():\n    assert prime_fib(5) == 89\n",
+  "feedback": []
+}

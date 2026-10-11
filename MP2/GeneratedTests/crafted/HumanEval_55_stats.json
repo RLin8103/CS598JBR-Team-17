@@ -1,0 +1,11 @@
+{
+  "task_id": "HumanEval/55",
+  "coverage": 0.0,
+  "num_tests": 0,
+  "num_passed": 0,
+  "num_failed": 0,
+  "missing_lines": [],
+  "failures": [],
+  "test_code": "import pytest\nfrom HumanEval_55 import *\n\ndef test_fib_zero():\n    assert fib(0) == 0\n\ndef test_fib_one():\n    assert fib(1) == 1\n\ndef test_fib_two():\n    assert fib(2) == 1\n\ndef test_fib_three():\n    assert fib(3) == 2\n\ndef test_fib_four():\n    assert fib(4) == 3\n\ndef test_fib_five():\n    assert fib(5) == 5\n\ndef test_fib_six():\n    assert fib(6) == 8\n\ndef test_fib_seven():\n    assert fib(7) == 13\n\ndef test_fib_eight():\n    assert fib(8) == 21\n\ndef test_fib_nine():\n    assert fib(9) == 34\n\ndef test_fib_ten():\n    assert fib(10) == 55\n\ndef test_fib_negative():\n    with pytest.raises(RecursionError):\n        fib(-1)\n\ndef test_fib_large():\n    assert fib(50) == 12586269025\n\ndef test_fib_large_negative():\n    with pytest.raises(RecursionError):\n        fib(-50)\n",
+  "feedback": []
+}

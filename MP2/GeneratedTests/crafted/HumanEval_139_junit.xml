@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="12" skipped="0" tests="16" time="0.157" timestamp="2026-10-11T19:00:23.886974+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_139_test" name="test_example" time="0.001" /><testcase classname="HumanEval_139_test" name="test_zero" time="0.001" /><testcase classname="HumanEval_139_test" name="test_negative" time="0.001"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">def test_negative():
+&gt;       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+HumanEval_139_test.py:11: Failed</failure></testcase><testcase classname="HumanEval_139_test" name="test_one" time="0.001" /><testcase classname="HumanEval_139_test" name="test_two" time="0.001" /><testcase classname="HumanEval_139_test" name="test_large_number" time="0.001"><failure message="AssertionError: Test 5&#10;assert 34560 == ((((5 * 4) * 3) * 2) * 1)&#10; +  where 34560 = special_factorial(5)">def test_large_number():
+&gt;       assert special_factorial(5) == 5 * 4 * 3 * 2 * 1, 'Test 5'
+E       AssertionError: Test 5
+E       assert 34560 == ((((5 * 4) * 3) * 2) * 1)
+E        +  where 34560 = special_factorial(5)
+
+HumanEval_139_test.py:21: AssertionError</failure></testcase><testcase classname="HumanEval_139_test" name="test_large_number_2" time="0.001"><failure message="AssertionError: Test 6&#10;assert 24883200 == (((((6 * 5) * 4) * 3) * 2) * 1)&#10; +  where 24883200 = special_factorial(6)">def test_large_number_2():
+&gt;       assert special_factorial(6) == 6 * 5 * 4 * 3 * 2 * 1, 'Test 6'
+E       AssertionError: Test 6
+E       assert 24883200 == (((((6 * 5) * 4) * 3) * 2) * 1)
+E        +  where 24883200 = special_factorial(6)
+
+HumanEval_139_test.py:24: AssertionError</failure></testcase><testcase classname="HumanEval_139_test" name="test_large_number_3" time="0.001"><failure message="AssertionError: Test 7&#10;assert 125411328000 == ((((((7 * 6) * 5) * 4) * 3) * 2) * 1)&#10; +  where 125411328000 = special_factorial(7)">def test_large_number_3():
+&gt;       assert special_factorial(7) == 7 * 6 * 5 * 4 * 3 * 2 * 1, 'Test 7'
+E       AssertionError: Test 7
+E       assert 125411328000 == ((((((7 * 6) * 5) * 4) * 3) * 2) * 1)
+E        +  where 125411328000 = special_factorial(7)
+
+HumanEval_139_test.py:27: AssertionError</failure></testcase><testcase classname="HumanEval_139_test" name="test_large_number_4" time="0.001"><failure message="AssertionError: Test 8&#10;assert 5056584744960000 == (((((((8 * 7) * 6) * 5) * 4) * 3) * 2) * 1)&#10; +  where 5056584744960000 = special_factorial(8)">def test_large_number_4():
+&gt;       assert special_factorial(8) == 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1, 'Test 8'
+E       AssertionError: Test 8
+E       assert 5056584744960000 == (((((((8 * 7) * 6) * 5) * 4) * 3) * 2) * 1)
+E        +  where 5056584744960000 = special_factorial(8)
+
+HumanEval_139_test.py:30: AssertionError</failure></testcase><testcase classname="HumanEval_139_test" name="test_large_number_5" time="0.001"><failure message="AssertionError: Test 9&#10;assert 1834933472251084800000 == ((((((((9 * 8) * 7) * 6) * 5) * 4) * 3) * 2) * 1)&#10; +  where 1834933472251084800000 = special_factorial(9)">def test_large_number_5():
+&gt;       assert special_factorial(9) == 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1, 'Test 9'
+E       AssertionError: Test 9
+E       assert 1834933472251084800000 == ((((((((9 * 8) * 7) * 6) * 5) * 4) * 3) * 2) * 1)
+E        +  where 1834933472251084800000 = special_factorial(9)
+
+HumanEval_139_test.py:33: AssertionError</failure></testcase><testcase classname="HumanEval_139_test" name="test_large_number_6" time="0.001"><failure message="AssertionError: Test 10&#10;assert 6658606584104736522240000000 == (((((((((10 * 9) * 8) * 7) * 6) * 5) * 4) * 3) * 2) * 1)&#10; +  where 6658606584104736522240000000 = special_factorial(10)">def test_large_number_6():
+&gt;       assert special_factorial(10) == 10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1, 'Test 10'
+E       AssertionError: Test 10
+E       assert 6658606584104736522240000000 == (((((((((10 * 9) * 8) * 7) * 6) * 5) * 4) * 3) * 2) * 1)
+E        +  where 6658606584104736522240000000 = special_factorial(10)
+
+HumanEval_139_test.py:36: AssertionError</failure></testcase><testcase classname="HumanEval_139_test" name="test_large_number_7" time="0.001"><failure message="AssertionError: Test 11&#10;assert 265790267296391946810949632000000000 == ((((((((((11 * 10) * 9) * 8) * 7) * 6) * 5) * 4) * 3) * 2) * 1)&#10; +  where 265790267296391946810949632000000000 = special_factorial(11)">def test_large_number_7():
+&gt;       assert special_factorial(11) == 11 * 10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1, 'Test 11'
+E       AssertionError: Test 11
+E       assert 265790267296391946810949632000000000 == ((((((((((11 * 10) * 9) * 8) * 7) * 6) * 5) * 4) * 3) * 2) * 1)
+E        +  where 265790267296391946810949632000000000 = special_factorial(11)
+
+HumanEval_139_test.py:39: AssertionError</failure></testcase><testcase classname="HumanEval_139_test" name="test_large_number_8" time="0.001"><failure message="AssertionError: Test 12&#10;assert 127313963299399416...1247411200000000000 == (((((((((((12 * 11) * 10) * 9) * 8) * 7) * 6) * 5) * 4) * 3) * 2) * 1)&#10; +  where 127313963299399416...1247411200000000000 = special_factorial(12)">def test_large_number_8():
+&gt;       assert special_factorial(12) == 12 * 11 * 10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1, 'Test 12'
+E       AssertionError: Test 12
+E       assert 127313963299399416...1247411200000000000 == (((((((((((12 * 11) * 10) * 9) * 8) * 7) * 6) * 5) * 4) * 3) * 2) * 1)
+E        +  where 127313963299399416...1247411200000000000 = special_factorial(12)
+
+HumanEval_139_test.py:42: AssertionError</failure></testcase><testcase classname="HumanEval_139_test" name="test_large_number_9" time="0.001"><failure message="AssertionError: Test 13&#10;assert 792786697595796795...8552960000000000000 == ((((((((((((13 * 12) * 11) * 10) * 9) * 8) * 7) * 6) * 5) * 4) * 3) * 2) * 1)&#10; +  where 792786697595796795...8552960000000000000 = special_factorial(13)">def test_large_number_9():
+&gt;       assert special_factorial(13) == 13 * 12 * 11 * 10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1, 'Test 13'
+E       AssertionError: Test 13
+E       assert 792786697595796795...8552960000000000000 == ((((((((((((13 * 12) * 11) * 10) * 9) * 8) * 7) * 6) * 5) * 4) * 3) * 2) * 1)
+E        +  where 792786697595796795...8552960000000000000 = special_factorial(13)
+
+HumanEval_139_test.py:45: AssertionError</failure></testcase><testcase classname="HumanEval_139_test" name="test_large_number_10" time="0.001"><failure message="AssertionError: Test 14&#10;assert 691137895824927129...1952000000000000000 == (((((((((((((14 * 13) * 12) * 11) * 10) * 9) * 8) * 7) * 6) * 5) * 4) * 3) * 2) * 1)&#10; +  where 691137895824927129...1952000000000000000 = special_factorial(14)">def test_large_number_10():
+&gt;       assert special_factorial(14) == 14 * 13 * 12 * 11 * 10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1, 'Test 14'
+E       AssertionError: Test 14
+E       assert 691137895824927129...1952000000000000000 == (((((((((((((14 * 13) * 12) * 11) * 10) * 9) * 8) * 7) * 6) * 5) * 4) * 3) * 2) * 1)
+E        +  where 691137895824927129...1952000000000000000 = special_factorial(14)
+
+HumanEval_139_test.py:48: AssertionError</failure></testcase><testcase classname="HumanEval_139_test" name="test_large_number_11" time="0.001"><failure message="AssertionError: Test 15&#10;assert 903783311123711422...6000000000000000000 == ((((((((((((((15 * 14) * 13) * 12) * 11) * 10) * 9) * 8) * 7) * 6) * 5) * 4) * 3) * 2) * 1)&#10; +  where 903783311123711422...6000000000000000000 = special_factorial(15)">def test_large_number_11():
+&gt;       assert special_factorial(15) == 15 * 14 * 13 * 12 * 11 * 10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1, 'Test 15'
+E       AssertionError: Test 15
+E       assert 903783311123711422...6000000000000000000 == ((((((((((((((15 * 14) * 13) * 12) * 11) * 10) * 9) * 8) * 7) * 6) * 5) * 4) * 3) * 2) * 1)
+E        +  where 903783311123711422...6000000000000000000 = special_factorial(15)
+
+HumanEval_139_test.py:51: AssertionError</failure></testcase></testsuite></testsuites>

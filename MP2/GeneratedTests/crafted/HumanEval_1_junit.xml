@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="11" skipped="0" tests="14" time="0.138" timestamp="2026-10-11T19:15:13.855537+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_1_test" name="test_example" time="0.002"><failure message="AssertionError: assert ['(()())', '(... '((())()())'] == ['(()())', '(... '((())()())']&#10;  &#10;  At index 2 diff: '()' != ''&#10;  Use -v to get more diff">def test_example():
+&gt;       assert separate_paren_groups('(()()) ((())) () ((())()())') == ['(()())', '((()))', '', '((())()())']
+E       AssertionError: assert ['(()())', '(... '((())()())'] == ['(()())', '(... '((())()())']
+E         
+E         At index 2 diff: '()' != ''
+E         Use -v to get more diff
+
+HumanEval_1_test.py:5: AssertionError</failure></testcase><testcase classname="HumanEval_1_test" name="test_empty_string" time="0.001"><failure message="AssertionError: assert [] == ['']&#10;  &#10;  Right contains one more item: ''&#10;  Use -v to get more diff">def test_empty_string():
+&gt;       assert separate_paren_groups('') == ['']
+E       AssertionError: assert [] == ['']
+E         
+E         Right contains one more item: ''
+E         Use -v to get more diff
+
+HumanEval_1_test.py:8: AssertionError</failure></testcase><testcase classname="HumanEval_1_test" name="test_single_group" time="0.001" /><testcase classname="HumanEval_1_test" name="test_single_parenthesis" time="0.001" /><testcase classname="HumanEval_1_test" name="test_multiple_groups" time="0.001"><failure message="AssertionError: assert ['((()))', '()', '(())'] == ['((()))', '', '(())']&#10;  &#10;  At index 1 diff: '()' != ''&#10;  Use -v to get more diff">def test_multiple_groups():
+&gt;       assert separate_paren_groups('((())) () (())') == ['((()))', '', '(())']
+E       AssertionError: assert ['((()))', '()', '(())'] == ['((()))', '', '(())']
+E         
+E         At index 1 diff: '()' != ''
+E         Use -v to get more diff
+
+HumanEval_1_test.py:17: AssertionError</failure></testcase><testcase classname="HumanEval_1_test" name="test_nested_groups" time="0.001"><failure message="AssertionError: assert ['(((())))', '()', '(((())))'] == ['(((())))', '', '(((())))']&#10;  &#10;  At index 1 diff: '()' != ''&#10;  Use -v to get more diff">def test_nested_groups():
+&gt;       assert separate_paren_groups('(((()))) () (((())))') == ['(((())))', '', '(((())))']
+E       AssertionError: assert ['(((())))', '()', '(((())))'] == ['(((())))', '', '(((())))']
+E         
+E         At index 1 diff: '()' != ''
+E         Use -v to get more diff
+
+HumanEval_1_test.py:20: AssertionError</failure></testcase><testcase classname="HumanEval_1_test" name="test_no_spaces" time="0.001"><failure message="AssertionError: assert ['(()(()))', ...()', '((()))'] == ['(()(()))()()((()))']&#10;  &#10;  At index 0 diff: '(()(()))' != '(()(()))()()((()))'&#10;  Left contains 3 more items, first extra item: '()'&#10;  Use -v to get more diff">def test_no_spaces():
+&gt;       assert separate_paren_groups('(()(()))()()((()))') == ['(()(()))()()((()))']
+E       AssertionError: assert ['(()(()))', ...()', '((()))'] == ['(()(()))()()((()))']
+E         
+E         At index 0 diff: '(()(()))' != '(()(()))()()((()))'
+E         Left contains 3 more items, first extra item: '()'
+E         Use -v to get more diff
+
+HumanEval_1_test.py:23: AssertionError</failure></testcase><testcase classname="HumanEval_1_test" name="test_spaces_in_between" time="0.001" /><testcase classname="HumanEval_1_test" name="test_spaces_at_start_and_end" time="0.001"><failure message="AssertionError: assert ['(())', '(())'] == ['()', '()']&#10;  &#10;  At index 0 diff: '(())' != '()'&#10;  Use -v to get more diff">def test_spaces_at_start_and_end():
+&gt;       assert separate_paren_groups(' ( () ) ( ( ) ) ') == ['()', '()']
+E       AssertionError: assert ['(())', '(())'] == ['()', '()']
+E         
+E         At index 0 diff: '(())' != '()'
+E         Use -v to get more diff
+
+HumanEval_1_test.py:29: AssertionError</failure></testcase><testcase classname="HumanEval_1_test" name="test_spaces_in_between_and_at_start_and_end" time="0.001"><failure message="AssertionError: assert ['(())', '(())'] == ['()', '()']&#10;  &#10;  At index 0 diff: '(())' != '()'&#10;  Use -v to get more diff">def test_spaces_in_between_and_at_start_and_end():
+&gt;       assert separate_paren_groups(' ( () ) ( ( ) ) ') == ['()', '()']
+E       AssertionError: assert ['(())', '(())'] == ['()', '()']
+E         
+E         At index 0 diff: '(())' != '()'
+E         Use -v to get more diff
+
+HumanEval_1_test.py:32: AssertionError</failure></testcase><testcase classname="HumanEval_1_test" name="test_no_parenthesis" time="0.001"><failure message="AssertionError: assert [] == ['no parenthesis here']&#10;  &#10;  Right contains one more item: 'no parenthesis here'&#10;  Use -v to get more diff">def test_no_parenthesis():
+&gt;       assert separate_paren_groups('no parenthesis here') == ['no parenthesis here']
+E       AssertionError: assert [] == ['no parenthesis here']
+E         
+E         Right contains one more item: 'no parenthesis here'
+E         Use -v to get more diff
+
+HumanEval_1_test.py:35: AssertionError</failure></testcase><testcase classname="HumanEval_1_test" name="test_no_balanced_parenthesis" time="0.001"><failure message="AssertionError: assert ['(((())))'] == ['(((()))))', '((()']&#10;  &#10;  At index 0 diff: '(((())))' != '(((()))))'&#10;  Right contains one more item: '((()'&#10;  Use -v to get more diff">def test_no_balanced_parenthesis():
+&gt;       assert separate_paren_groups('(((())))))(((()') == ['(((()))))', '((()']
+E       AssertionError: assert ['(((())))'] == ['(((()))))', '((()']
+E         
+E         At index 0 diff: '(((())))' != '(((()))))'
+E         Right contains one more item: '((()'
+E         Use -v to get more diff
+
+HumanEval_1_test.py:38: AssertionError</failure></testcase><testcase classname="HumanEval_1_test" name="test_negative_numbers" time="0.001"><failure message="AssertionError: assert ['()', '()', '()'] == ['(-1)', '(2)', '(-3)']&#10;  &#10;  At index 0 diff: '()' != '(-1)'&#10;  Use -v to get more diff">def test_negative_numbers():
+&gt;       assert separate_paren_groups('(-1) (2) (-3)') == ['(-1)', '(2)', '(-3)']
+E       AssertionError: assert ['()', '()', '()'] == ['(-1)', '(2)', '(-3)']
+E         
+E         At index 0 diff: '()' != '(-1)'
+E         Use -v to get more diff
+
+HumanEval_1_test.py:41: AssertionError</failure></testcase><testcase classname="HumanEval_1_test" name="test_zero" time="0.002"><failure message="AssertionError: assert ['()', '()'] == ['0', '(1)', '0', '(2)']&#10;  &#10;  At index 0 diff: '()' != '0'&#10;  Right contains 2 more items, first extra item: '0'&#10;  Use -v to get more diff">def test_zero():
+&gt;       assert separate_paren_groups('0 (1) 0 (2)') == ['0', '(1)', '0', '(2)']
+E       AssertionError: assert ['()', '()'] == ['0', '(1)', '0', '(2)']
+E         
+E         At index 0 diff: '()' != '0'
+E         Right contains 2 more items, first extra item: '0'
+E         Use -v to get more diff
+
+HumanEval_1_test.py:44: AssertionError</failure></testcase></testsuite></testsuites>

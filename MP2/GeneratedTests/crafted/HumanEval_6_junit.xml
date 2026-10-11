@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="7" skipped="0" tests="13" time="0.110" timestamp="2026-10-11T19:13:11.375682+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_6_test" name="test_example" time="0.001" /><testcase classname="HumanEval_6_test" name="test_empty_string" time="0.001" /><testcase classname="HumanEval_6_test" name="test_single_group" time="0.001" /><testcase classname="HumanEval_6_test" name="test_single_group_with_spaces" time="0.001" /><testcase classname="HumanEval_6_test" name="test_multiple_groups_with_spaces" time="0.001" /><testcase classname="HumanEval_6_test" name="test_no_nested_parens" time="0.001" /><testcase classname="HumanEval_6_test" name="test_nested_parens_at_start" time="0.001"><failure message="assert [4, 0] == [4]&#10;  &#10;  Left contains one more item: 0&#10;  Use -v to get more diff">def test_nested_parens_at_start():
+&gt;       assert parse_nested_parens('(((()))) abcdefgh') == [4]
+E       assert [4, 0] == [4]
+E         
+E         Left contains one more item: 0
+E         Use -v to get more diff
+
+HumanEval_6_test.py:23: AssertionError</failure></testcase><testcase classname="HumanEval_6_test" name="test_nested_parens_at_end" time="0.001"><failure message="assert [0, 2] == [2]&#10;  &#10;  At index 0 diff: 0 != 2&#10;  Left contains one more item: 2&#10;  Use -v to get more diff">def test_nested_parens_at_end():
+&gt;       assert parse_nested_parens('abcdefgh (()())') == [2]
+E       assert [0, 2] == [2]
+E         
+E         At index 0 diff: 0 != 2
+E         Left contains one more item: 2
+E         Use -v to get more diff
+
+HumanEval_6_test.py:26: AssertionError</failure></testcase><testcase classname="HumanEval_6_test" name="test_nested_parens_in_middle" time="0.001"><failure message="assert [0, 2, 0] == [2]&#10;  &#10;  At index 0 diff: 0 != 2&#10;  Left contains 2 more items, first extra item: 2&#10;  Use -v to get more diff">def test_nested_parens_in_middle():
+&gt;       assert parse_nested_parens('abc (()()) def') == [2]
+E       assert [0, 2, 0] == [2]
+E         
+E         At index 0 diff: 0 != 2
+E         Left contains 2 more items, first extra item: 2
+E         Use -v to get more diff
+
+HumanEval_6_test.py:29: AssertionError</failure></testcase><testcase classname="HumanEval_6_test" name="test_nested_parens_with_text" time="0.001"><failure message="assert [0, 2, 0, 1] == [2, 1]&#10;  &#10;  At index 0 diff: 0 != 2&#10;  Left contains 2 more items, first extra item: 0&#10;  Use -v to get more diff">def test_nested_parens_with_text():
+&gt;       assert parse_nested_parens('abc (()()) def (hello)') == [2, 1]
+E       assert [0, 2, 0, 1] == [2, 1]
+E         
+E         At index 0 diff: 0 != 2
+E         Left contains 2 more items, first extra item: 0
+E         Use -v to get more diff
+
+HumanEval_6_test.py:32: AssertionError</failure></testcase><testcase classname="HumanEval_6_test" name="test_nested_parens_with_zero" time="0.001"><failure message="assert [0, 2, 0, 0] == [2, 1]&#10;  &#10;  At index 0 diff: 0 != 2&#10;  Left contains 2 more items, first extra item: 0&#10;  Use -v to get more diff">def test_nested_parens_with_zero():
+&gt;       assert parse_nested_parens('abc (()()) def 0') == [2, 1]
+E       assert [0, 2, 0, 0] == [2, 1]
+E         
+E         At index 0 diff: 0 != 2
+E         Left contains 2 more items, first extra item: 0
+E         Use -v to get more diff
+
+HumanEval_6_test.py:35: AssertionError</failure></testcase><testcase classname="HumanEval_6_test" name="test_nested_parens_with_negative" time="0.001"><failure message="assert [0, 2, 0, 0] == [2, 1]&#10;  &#10;  At index 0 diff: 0 != 2&#10;  Left contains 2 more items, first extra item: 0&#10;  Use -v to get more diff">def test_nested_parens_with_negative():
+&gt;       assert parse_nested_parens('abc (()()) def -1') == [2, 1]
+E       assert [0, 2, 0, 0] == [2, 1]
+E         
+E         At index 0 diff: 0 != 2
+E         Left contains 2 more items, first extra item: 0
+E         Use -v to get more diff
+
+HumanEval_6_test.py:38: AssertionError</failure></testcase><testcase classname="HumanEval_6_test" name="test_nested_parens_with_boundary_values" time="0.001"><failure message="assert [0, 2, 0, 0] == [2, 1]&#10;  &#10;  At index 0 diff: 0 != 2&#10;  Left contains 2 more items, first extra item: 0&#10;  Use -v to get more diff">def test_nested_parens_with_boundary_values():
+&gt;       assert parse_nested_parens('abc (()()) def 100') == [2, 1]
+E       assert [0, 2, 0, 0] == [2, 1]
+E         
+E         At index 0 diff: 0 != 2
+E         Left contains 2 more items, first extra item: 0
+E         Use -v to get more diff
+
+HumanEval_6_test.py:41: AssertionError</failure></testcase></testsuite></testsuites>

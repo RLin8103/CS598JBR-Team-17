@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="14" time="0.105" timestamp="2026-10-11T19:04:34.311979+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_109_test" name="test_example" time="0.001" /><testcase classname="HumanEval_109_test" name="test_empty_array" time="0.001" /><testcase classname="HumanEval_109_test" name="test_sorted_array" time="0.001" /><testcase classname="HumanEval_109_test" name="test_reverse_sorted_array" time="0.001"><failure message="assert False == True&#10; +  where False = move_one_ball([5, 4, 3, 2, 1])">def test_reverse_sorted_array():
+&gt;       assert move_one_ball([5, 4, 3, 2, 1]) == True
+E       assert False == True
+E        +  where False = move_one_ball([5, 4, 3, 2, 1])
+
+HumanEval_109_test.py:14: AssertionError</failure></testcase><testcase classname="HumanEval_109_test" name="test_single_element_array" time="0.001" /><testcase classname="HumanEval_109_test" name="test_negative_numbers" time="0.001"><failure message="assert False == True&#10; +  where False = move_one_ball([1, -2, -3])">def test_negative_numbers():
+&gt;       assert move_one_ball([1, -2, -3]) == True
+E       assert False == True
+E        +  where False = move_one_ball([1, -2, -3])
+
+HumanEval_109_test.py:20: AssertionError</failure></testcase><testcase classname="HumanEval_109_test" name="test_zero" time="0.001" /><testcase classname="HumanEval_109_test" name="test_boundary_values" time="0.001" /><testcase classname="HumanEval_109_test" name="test_unsorted_array" time="0.001" /><testcase classname="HumanEval_109_test" name="test_unsorted_array_with_shift" time="0.001" /><testcase classname="HumanEval_109_test" name="test_unsorted_array_with_multiple_shifts" time="0.001"><failure message="assert False == True&#10; +  where False = move_one_ball([1, 3, 2])">def test_unsorted_array_with_multiple_shifts():
+&gt;       assert move_one_ball([1, 3, 2]) == True
+E       assert False == True
+E        +  where False = move_one_ball([1, 3, 2])
+
+HumanEval_109_test.py:35: AssertionError</failure></testcase><testcase classname="HumanEval_109_test" name="test_unsorted_array_with_negative_numbers" time="0.001"><failure message="assert False == True&#10; +  where False = move_one_ball([1, -2, 3])">def test_unsorted_array_with_negative_numbers():
+&gt;       assert move_one_ball([1, -2, 3]) == True
+E       assert False == True
+E        +  where False = move_one_ball([1, -2, 3])
+
+HumanEval_109_test.py:38: AssertionError</failure></testcase><testcase classname="HumanEval_109_test" name="test_unsorted_array_with_zero" time="0.001"><failure message="assert False == True&#10; +  where False = move_one_ball([1, 0, 2])">def test_unsorted_array_with_zero():
+&gt;       assert move_one_ball([1, 0, 2]) == True
+E       assert False == True
+E        +  where False = move_one_ball([1, 0, 2])
+
+HumanEval_109_test.py:41: AssertionError</failure></testcase><testcase classname="HumanEval_109_test" name="test_unsorted_array_with_boundary_values" time="0.001"><failure message="assert False == True&#10; +  where False = move_one_ball([300, 200, 100])">def test_unsorted_array_with_boundary_values():
+&gt;       assert move_one_ball([300, 200, 100]) == True
+E       assert False == True
+E        +  where False = move_one_ball([300, 200, 100])
+
+HumanEval_109_test.py:44: AssertionError</failure></testcase></testsuite></testsuites>

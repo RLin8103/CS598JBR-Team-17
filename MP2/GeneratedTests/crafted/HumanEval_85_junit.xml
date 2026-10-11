@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="8" skipped="0" tests="14" time="0.134" timestamp="2026-10-11T19:02:42.838363+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_85_test" name="test_empty_list" time="0.001" /><testcase classname="HumanEval_85_test" name="test_single_element" time="0.001" /><testcase classname="HumanEval_85_test" name="test_zero" time="0.001"><failure message="assert 0 == 2&#10; +  where 0 = add([0, 1, 2, 0, 3])">def test_zero():
+&gt;       assert add([0, 1, 2, 0, 3]) == 2
+E       assert 0 == 2
+E        +  where 0 = add([0, 1, 2, 0, 3])
+
+HumanEval_85_test.py:11: AssertionError</failure></testcase><testcase classname="HumanEval_85_test" name="test_negative_numbers" time="0.001"><failure message="assert 6 == -2&#10; +  where 6 = add([-1, 2, -3, 4])">def test_negative_numbers():
+&gt;       assert add([-1, 2, -3, 4]) == -2
+E       assert 6 == -2
+E        +  where 6 = add([-1, 2, -3, 4])
+
+HumanEval_85_test.py:14: AssertionError</failure></testcase><testcase classname="HumanEval_85_test" name="test_odd_indices" time="0.001"><failure message="assert 6 == 9&#10; +  where 6 = add([1, 2, 3, 4, 5])">def test_odd_indices():
+&gt;       assert add([1, 2, 3, 4, 5]) == 9
+E       assert 6 == 9
+E        +  where 6 = add([1, 2, 3, 4, 5])
+
+HumanEval_85_test.py:17: AssertionError</failure></testcase><testcase classname="HumanEval_85_test" name="test_even_numbers" time="0.001" /><testcase classname="HumanEval_85_test" name="test_even_numbers_at_odd_indices" time="0.001" /><testcase classname="HumanEval_85_test" name="test_even_numbers_at_even_indices" time="0.001"><failure message="assert 0 == 8&#10; +  where 0 = add([2, 1, 4, 1, 6, 1])">def test_even_numbers_at_even_indices():
+&gt;       assert add([2, 1, 4, 1, 6, 1]) == 8
+E       assert 0 == 8
+E        +  where 0 = add([2, 1, 4, 1, 6, 1])
+
+HumanEval_85_test.py:26: AssertionError</failure></testcase><testcase classname="HumanEval_85_test" name="test_large_numbers" time="0.001" /><testcase classname="HumanEval_85_test" name="test_negative_large_numbers" time="0.001" /><testcase classname="HumanEval_85_test" name="test_mixed_positive_negative_numbers" time="0.001"><failure message="assert -600 == 200&#10; +  where -600 = add([100, -200, 300, -400, 500])">def test_mixed_positive_negative_numbers():
+&gt;       assert add([100, -200, 300, -400, 500]) == 200
+E       assert -600 == 200
+E        +  where -600 = add([100, -200, 300, -400, 500])
+
+HumanEval_85_test.py:35: AssertionError</failure></testcase><testcase classname="HumanEval_85_test" name="test_floats" time="0.001"><failure message="assert 0 == 16.5 ± 1.6e-05&#10;  &#10;  comparison failed&#10;  Obtained: 0&#10;  Expected: 16.5 ± 1.6e-05">def test_floats():
+&gt;       assert add([1.5, 2.5, 3.5, 4.5, 5.5]) == pytest.approx(16.5)
+E       assert 0 == 16.5 ± 1.6e-05
+E         
+E         comparison failed
+E         Obtained: 0
+E         Expected: 16.5 ± 1.6e-05
+
+HumanEval_85_test.py:38: AssertionError</failure></testcase><testcase classname="HumanEval_85_test" name="test_negative_floats" time="0.001"><failure message="assert 0 == -16.5 ± 1.6e-05&#10;  &#10;  comparison failed&#10;  Obtained: 0&#10;  Expected: -16.5 ± 1.6e-05">def test_negative_floats():
+&gt;       assert add([-1.5, -2.5, -3.5, -4.5, -5.5]) == pytest.approx(-16.5)
+E       assert 0 == -16.5 ± 1.6e-05
+E         
+E         comparison failed
+E         Obtained: 0
+E         Expected: -16.5 ± 1.6e-05
+
+HumanEval_85_test.py:41: AssertionError</failure></testcase><testcase classname="HumanEval_85_test" name="test_mixed_positive_negative_floats" time="0.001"><failure message="assert 0 == 3.5 ± 3.5e-06&#10;  &#10;  comparison failed&#10;  Obtained: 0&#10;  Expected: 3.5 ± 3.5e-06">def test_mixed_positive_negative_floats():
+&gt;       assert add([1.5, -2.5, 3.5, -4.5, 5.5]) == pytest.approx(3.5)
+E       assert 0 == 3.5 ± 3.5e-06
+E         
+E         comparison failed
+E         Obtained: 0
+E         Expected: 3.5 ± 3.5e-06
+
+HumanEval_85_test.py:44: AssertionError</failure></testcase></testsuite></testsuites>

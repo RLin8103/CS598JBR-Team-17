@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="5" skipped="0" tests="13" time="0.105" timestamp="2026-10-11T19:05:50.675211+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_117_test" name="test_example" time="0.001" /><testcase classname="HumanEval_117_test" name="test_empty_string" time="0.001" /><testcase classname="HumanEval_117_test" name="test_single_word" time="0.001" /><testcase classname="HumanEval_117_test" name="test_zero_consonants" time="0.001"><failure message="AssertionError: Fourth test error: []&#10;assert [] == ['hello']&#10;  &#10;  Right contains one more item: 'hello'&#10;  Use -v to get more diff">def test_zero_consonants():
+&gt;       assert select_words('hello', 0) == ['hello'], 'Fourth test error: ' + str(select_words('hello', 0))
+E       AssertionError: Fourth test error: []
+E       assert [] == ['hello']
+E         
+E         Right contains one more item: 'hello'
+E         Use -v to get more diff
+
+HumanEval_117_test.py:14: AssertionError</failure></testcase><testcase classname="HumanEval_117_test" name="test_negative_consonants" time="0.001" /><testcase classname="HumanEval_117_test" name="test_multiple_words_same_consonants" time="0.001"><failure message="AssertionError: Sixth test error: []&#10;assert [] == ['world']&#10;  &#10;  Right contains one more item: 'world'&#10;  Use -v to get more diff">def test_multiple_words_same_consonants():
+&gt;       assert select_words('hello world', 2) == ['world'], 'Sixth test error: ' + str(select_words('hello world', 2))
+E       AssertionError: Sixth test error: []
+E       assert [] == ['world']
+E         
+E         Right contains one more item: 'world'
+E         Use -v to get more diff
+
+HumanEval_117_test.py:20: AssertionError</failure></testcase><testcase classname="HumanEval_117_test" name="test_multiple_words_different_consonants" time="0.001" /><testcase classname="HumanEval_117_test" name="test_uppercase_letters" time="0.001"><failure message="AssertionError: Eighth test error: []&#10;assert [] == ['Mary']&#10;  &#10;  Right contains one more item: 'Mary'&#10;  Use -v to get more diff">def test_uppercase_letters():
+&gt;       assert select_words('Mary', 1) == ['Mary'], 'Eighth test error: ' + str(select_words('Mary', 1))
+E       AssertionError: Eighth test error: []
+E       assert [] == ['Mary']
+E         
+E         Right contains one more item: 'Mary'
+E         Use -v to get more diff
+
+HumanEval_117_test.py:26: AssertionError</failure></testcase><testcase classname="HumanEval_117_test" name="test_vowels_only" time="0.001" /><testcase classname="HumanEval_117_test" name="test_consonants_only" time="0.001" /><testcase classname="HumanEval_117_test" name="test_boundary_values" time="0.001" /><testcase classname="HumanEval_117_test" name="test_boundary_values_2" time="0.001"><failure message="AssertionError: Twelfth test error: ['a']&#10;assert ['a'] == ['Mary', 'a',...ttle', 'lamb']&#10;  &#10;  At index 0 diff: 'a' != 'Mary'&#10;  Right contains 3 more items, first extra item: 'a'&#10;  Use -v to get more diff">def test_boundary_values_2():
+&gt;       assert select_words('Mary had a little lamb', 0) == ['Mary', 'a', 'little', 'lamb'], 'Twelfth test error: ' + str(select_words('Mary had a little lamb', 0))
+E       AssertionError: Twelfth test error: ['a']
+E       assert ['a'] == ['Mary', 'a',...ttle', 'lamb']
+E         
+E         At index 0 diff: 'a' != 'Mary'
+E         Right contains 3 more items, first extra item: 'a'
+E         Use -v to get more diff
+
+HumanEval_117_test.py:38: AssertionError</failure></testcase><testcase classname="HumanEval_117_test" name="test_boundary_values_3" time="0.001"><failure message="AssertionError: Thirteenth test error: []&#10;assert [] == ['had', 'a', 'lamb']&#10;  &#10;  Right contains 3 more items, first extra item: 'had'&#10;  Use -v to get more diff">def test_boundary_values_3():
+&gt;       assert select_words('Mary had a little lamb', 1) == ['had', 'a', 'lamb'], 'Thirteenth test error: ' + str(select_words('Mary had a little lamb', 1))
+E       AssertionError: Thirteenth test error: []
+E       assert [] == ['had', 'a', 'lamb']
+E         
+E         Right contains 3 more items, first extra item: 'had'
+E         Use -v to get more diff
+
+HumanEval_117_test.py:41: AssertionError</failure></testcase></testsuite></testsuites>

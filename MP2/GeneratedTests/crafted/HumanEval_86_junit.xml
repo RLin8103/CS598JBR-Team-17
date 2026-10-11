@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="5" skipped="0" tests="15" time="0.182" timestamp="2026-10-11T19:22:40.479377+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_86_test" name="test_example" time="0.002" /><testcase classname="HumanEval_86_test" name="test_empty_string" time="0.001" /><testcase classname="HumanEval_86_test" name="test_single_word" time="0.001" /><testcase classname="HumanEval_86_test" name="test_single_character" time="0.001" /><testcase classname="HumanEval_86_test" name="test_zero" time="0.001" /><testcase classname="HumanEval_86_test" name="test_negative_numbers" time="0.001" /><testcase classname="HumanEval_86_test" name="test_multiple_words" time="0.001" /><testcase classname="HumanEval_86_test" name="test_upper_case" time="0.001" /><testcase classname="HumanEval_86_test" name="test_lower_case" time="0.001" /><testcase classname="HumanEval_86_test" name="test_mixed_case" time="0.002"><failure message="AssertionError: assert 'ACb' == 'AbC'&#10;  &#10;  - AbC&#10;  + ACb">def test_mixed_case():
+&gt;       assert anti_shuffle('AbC') == 'AbC'
+E       AssertionError: assert 'ACb' == 'AbC'
+E         
+E         - AbC
+E         + ACb
+
+HumanEval_86_test.py:32: AssertionError</failure></testcase><testcase classname="HumanEval_86_test" name="test_special_characters" time="0.001"><failure message="AssertionError: assert '!#$%&amp;()*@^' == '!@#$%^&amp;*()'&#10;  &#10;  - !@#$%^&amp;*()&#10;  + !#$%&amp;()*@^">def test_special_characters():
+&gt;       assert anti_shuffle('!@#$%^&amp;*()') == '!@#$%^&amp;*()'
+E       AssertionError: assert '!#$%&amp;()*@^' == '!@#$%^&amp;*()'
+E         
+E         - !@#$%^&amp;*()
+E         + !#$%&amp;()*@^
+
+HumanEval_86_test.py:35: AssertionError</failure></testcase><testcase classname="HumanEval_86_test" name="test_numbers_and_letters" time="0.001" /><testcase classname="HumanEval_86_test" name="test_numbers_and_special_characters" time="0.001"><failure message="AssertionError: assert '!#123@' == '123!@#'&#10;  &#10;  - 123!@#&#10;  + !#123@">def test_numbers_and_special_characters():
+&gt;       assert anti_shuffle('123!@#') == '123!@#'
+E       AssertionError: assert '!#123@' == '123!@#'
+E         
+E         - 123!@#
+E         + !#123@
+
+HumanEval_86_test.py:41: AssertionError</failure></testcase><testcase classname="HumanEval_86_test" name="test_letters_and_special_characters" time="0.001"><failure message="AssertionError: assert '!#@abc' == 'abc!@#'&#10;  &#10;  - abc!@#&#10;  + !#@abc">def test_letters_and_special_characters():
+&gt;       assert anti_shuffle('abc!@#') == 'abc!@#'
+E       AssertionError: assert '!#@abc' == 'abc!@#'
+E         
+E         - abc!@#
+E         + !#@abc
+
+HumanEval_86_test.py:44: AssertionError</failure></testcase><testcase classname="HumanEval_86_test" name="test_all_cases" time="0.002"><failure message="AssertionError: assert 'Hello !!!Wdlor #$%123' == 'Hello !!!Wdlor 123#$%'&#10;  &#10;  - Hello !!!Wdlor 123#$%&#10;  ?                   ---&#10;  + Hello !!!Wdlor #$%123&#10;  ?                +++">def test_all_cases():
+&gt;       assert anti_shuffle('Hello World!!! 123#$%') == 'Hello !!!Wdlor 123#$%'
+E       AssertionError: assert 'Hello !!!Wdlor #$%123' == 'Hello !!!Wdlor 123#$%'
+E         
+E         - Hello !!!Wdlor 123#$%
+E         ?                   ---
+E         + Hello !!!Wdlor #$%123
+E         ?                +++
+
+HumanEval_86_test.py:47: AssertionError</failure></testcase></testsuite></testsuites>

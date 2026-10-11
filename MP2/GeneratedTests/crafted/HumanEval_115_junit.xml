@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="9" skipped="0" tests="14" time="0.131" timestamp="2026-10-11T19:16:39.685803+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_115_test" name="test_example" time="0.001" /><testcase classname="HumanEval_115_test" name="test_empty_grid" time="0.001" /><testcase classname="HumanEval_115_test" name="test_single_well" time="0.001" /><testcase classname="HumanEval_115_test" name="test_all_zeros" time="0.001" /><testcase classname="HumanEval_115_test" name="test_capacity_one" time="0.001" /><testcase classname="HumanEval_115_test" name="test_capacity_two" time="0.001"><failure message="AssertionError: Error&#10;assert 8 == 4&#10; +  where 8 = max_fill([[2, 2, 2, 2], [2, 2, 2, 2]], 2)">def test_capacity_two():
+&gt;       assert max_fill([[2, 2, 2, 2], [2, 2, 2, 2]], 2) == 4, 'Error'
+E       AssertionError: Error
+E       assert 8 == 4
+E        +  where 8 = max_fill([[2, 2, 2, 2], [2, 2, 2, 2]], 2)
+
+HumanEval_115_test.py:20: AssertionError</failure></testcase><testcase classname="HumanEval_115_test" name="test_capacity_three" time="0.001"><failure message="AssertionError: Error&#10;assert 8 == 3&#10; +  where 8 = max_fill([[3, 3, 3, 3], [3, 3, 3, 3]], 3)">def test_capacity_three():
+&gt;       assert max_fill([[3, 3, 3, 3], [3, 3, 3, 3]], 3) == 3, 'Error'
+E       AssertionError: Error
+E       assert 8 == 3
+E        +  where 8 = max_fill([[3, 3, 3, 3], [3, 3, 3, 3]], 3)
+
+HumanEval_115_test.py:23: AssertionError</failure></testcase><testcase classname="HumanEval_115_test" name="test_capacity_four" time="0.001"><failure message="AssertionError: Error&#10;assert 8 == 2&#10; +  where 8 = max_fill([[4, 4, 4, 4], [4, 4, 4, 4]], 4)">def test_capacity_four():
+&gt;       assert max_fill([[4, 4, 4, 4], [4, 4, 4, 4]], 4) == 2, 'Error'
+E       AssertionError: Error
+E       assert 8 == 2
+E        +  where 8 = max_fill([[4, 4, 4, 4], [4, 4, 4, 4]], 4)
+
+HumanEval_115_test.py:26: AssertionError</failure></testcase><testcase classname="HumanEval_115_test" name="test_capacity_five" time="0.001"><failure message="AssertionError: Error&#10;assert 8 == 2&#10; +  where 8 = max_fill([[5, 5, 5, 5], [5, 5, 5, 5]], 5)">def test_capacity_five():
+&gt;       assert max_fill([[5, 5, 5, 5], [5, 5, 5, 5]], 5) == 2, 'Error'
+E       AssertionError: Error
+E       assert 8 == 2
+E        +  where 8 = max_fill([[5, 5, 5, 5], [5, 5, 5, 5]], 5)
+
+HumanEval_115_test.py:29: AssertionError</failure></testcase><testcase classname="HumanEval_115_test" name="test_capacity_six" time="0.001"><failure message="AssertionError: Error&#10;assert 8 == 2&#10; +  where 8 = max_fill([[6, 6, 6, 6], [6, 6, 6, 6]], 6)">def test_capacity_six():
+&gt;       assert max_fill([[6, 6, 6, 6], [6, 6, 6, 6]], 6) == 2, 'Error'
+E       AssertionError: Error
+E       assert 8 == 2
+E        +  where 8 = max_fill([[6, 6, 6, 6], [6, 6, 6, 6]], 6)
+
+HumanEval_115_test.py:32: AssertionError</failure></testcase><testcase classname="HumanEval_115_test" name="test_capacity_seven" time="0.001"><failure message="AssertionError: Error&#10;assert 8 == 2&#10; +  where 8 = max_fill([[7, 7, 7, 7], [7, 7, 7, 7]], 7)">def test_capacity_seven():
+&gt;       assert max_fill([[7, 7, 7, 7], [7, 7, 7, 7]], 7) == 2, 'Error'
+E       AssertionError: Error
+E       assert 8 == 2
+E        +  where 8 = max_fill([[7, 7, 7, 7], [7, 7, 7, 7]], 7)
+
+HumanEval_115_test.py:35: AssertionError</failure></testcase><testcase classname="HumanEval_115_test" name="test_capacity_eight" time="0.001"><failure message="AssertionError: Error&#10;assert 8 == 2&#10; +  where 8 = max_fill([[8, 8, 8, 8], [8, 8, 8, 8]], 8)">def test_capacity_eight():
+&gt;       assert max_fill([[8, 8, 8, 8], [8, 8, 8, 8]], 8) == 2, 'Error'
+E       AssertionError: Error
+E       assert 8 == 2
+E        +  where 8 = max_fill([[8, 8, 8, 8], [8, 8, 8, 8]], 8)
+
+HumanEval_115_test.py:38: AssertionError</failure></testcase><testcase classname="HumanEval_115_test" name="test_capacity_nine" time="0.001"><failure message="AssertionError: Error&#10;assert 8 == 2&#10; +  where 8 = max_fill([[9, 9, 9, 9], [9, 9, 9, 9]], 9)">def test_capacity_nine():
+&gt;       assert max_fill([[9, 9, 9, 9], [9, 9, 9, 9]], 9) == 2, 'Error'
+E       AssertionError: Error
+E       assert 8 == 2
+E        +  where 8 = max_fill([[9, 9, 9, 9], [9, 9, 9, 9]], 9)
+
+HumanEval_115_test.py:41: AssertionError</failure></testcase><testcase classname="HumanEval_115_test" name="test_capacity_ten" time="0.001"><failure message="AssertionError: Error&#10;assert 8 == 2&#10; +  where 8 = max_fill([[10, 10, 10, 10], [10, 10, 10, 10]], 10)">def test_capacity_ten():
+&gt;       assert max_fill([[10, 10, 10, 10], [10, 10, 10, 10]], 10) == 2, 'Error'
+E       AssertionError: Error
+E       assert 8 == 2
+E        +  where 8 = max_fill([[10, 10, 10, 10], [10, 10, 10, 10]], 10)
+
+HumanEval_115_test.py:44: AssertionError</failure></testcase></testsuite></testsuites>

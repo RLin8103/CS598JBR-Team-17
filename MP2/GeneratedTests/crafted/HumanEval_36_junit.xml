@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="9" skipped="0" tests="14" time="0.106" timestamp="2026-10-11T19:01:24.163723+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_36_test" name="test_fizz_buzz_0" time="0.001" /><testcase classname="HumanEval_36_test" name="test_fizz_buzz_1" time="0.001" /><testcase classname="HumanEval_36_test" name="test_fizz_buzz_11" time="0.001"><failure message="assert 0 == 1&#10; +  where 0 = fizz_buzz(11)">def test_fizz_buzz_11():
+&gt;       assert fizz_buzz(11) == 1
+E       assert 0 == 1
+E        +  where 0 = fizz_buzz(11)
+
+HumanEval_36_test.py:11: AssertionError</failure></testcase><testcase classname="HumanEval_36_test" name="test_fizz_buzz_13" time="0.001"><failure message="assert 0 == 1&#10; +  where 0 = fizz_buzz(13)">def test_fizz_buzz_13():
+&gt;       assert fizz_buzz(13) == 1
+E       assert 0 == 1
+E        +  where 0 = fizz_buzz(13)
+
+HumanEval_36_test.py:14: AssertionError</failure></testcase><testcase classname="HumanEval_36_test" name="test_fizz_buzz_14" time="0.001"><failure message="assert 0 == 1&#10; +  where 0 = fizz_buzz(14)">def test_fizz_buzz_14():
+&gt;       assert fizz_buzz(14) == 1
+E       assert 0 == 1
+E        +  where 0 = fizz_buzz(14)
+
+HumanEval_36_test.py:17: AssertionError</failure></testcase><testcase classname="HumanEval_36_test" name="test_fizz_buzz_22" time="0.001" /><testcase classname="HumanEval_36_test" name="test_fizz_buzz_33" time="0.001"><failure message="assert 0 == 1&#10; +  where 0 = fizz_buzz(33)">def test_fizz_buzz_33():
+&gt;       assert fizz_buzz(33) == 1
+E       assert 0 == 1
+E        +  where 0 = fizz_buzz(33)
+
+HumanEval_36_test.py:23: AssertionError</failure></testcase><testcase classname="HumanEval_36_test" name="test_fizz_buzz_44" time="0.001" /><testcase classname="HumanEval_36_test" name="test_fizz_buzz_55" time="0.001"><failure message="assert 0 == 1&#10; +  where 0 = fizz_buzz(55)">def test_fizz_buzz_55():
+&gt;       assert fizz_buzz(55) == 1
+E       assert 0 == 1
+E        +  where 0 = fizz_buzz(55)
+
+HumanEval_36_test.py:29: AssertionError</failure></testcase><testcase classname="HumanEval_36_test" name="test_fizz_buzz_66" time="0.001" /><testcase classname="HumanEval_36_test" name="test_fizz_buzz_77" time="0.001"><failure message="assert 0 == 1&#10; +  where 0 = fizz_buzz(77)">def test_fizz_buzz_77():
+&gt;       assert fizz_buzz(77) == 1
+E       assert 0 == 1
+E        +  where 0 = fizz_buzz(77)
+
+HumanEval_36_test.py:35: AssertionError</failure></testcase><testcase classname="HumanEval_36_test" name="test_fizz_buzz_88" time="0.001"><failure message="assert 3 == 0&#10; +  where 3 = fizz_buzz(88)">def test_fizz_buzz_88():
+&gt;       assert fizz_buzz(88) == 0
+E       assert 3 == 0
+E        +  where 3 = fizz_buzz(88)
+
+HumanEval_36_test.py:38: AssertionError</failure></testcase><testcase classname="HumanEval_36_test" name="test_fizz_buzz_99" time="0.001"><failure message="assert 3 == 1&#10; +  where 3 = fizz_buzz(99)">def test_fizz_buzz_99():
+&gt;       assert fizz_buzz(99) == 1
+E       assert 3 == 1
+E        +  where 3 = fizz_buzz(99)
+
+HumanEval_36_test.py:41: AssertionError</failure></testcase><testcase classname="HumanEval_36_test" name="test_fizz_buzz_100" time="0.001"><failure message="assert 3 == 0&#10; +  where 3 = fizz_buzz(100)">def test_fizz_buzz_100():
+&gt;       assert fizz_buzz(100) == 0
+E       assert 3 == 0
+E        +  where 3 = fizz_buzz(100)
+
+HumanEval_36_test.py:44: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="12" time="0.111" timestamp="2026-10-11T19:21:57.701534+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_105_test" name="test_example" time="0.001" /><testcase classname="HumanEval_105_test" name="test_empty_array" time="0.001" /><testcase classname="HumanEval_105_test" name="test_single_element" time="0.001" /><testcase classname="HumanEval_105_test" name="test_zero" time="0.001" /><testcase classname="HumanEval_105_test" name="test_negative_numbers" time="0.001" /><testcase classname="HumanEval_105_test" name="test_boundary_values" time="0.001" /><testcase classname="HumanEval_105_test" name="test_mixed_positive_negative_numbers" time="0.001"><failure message="AssertionError: Error&#10;assert ['One'] == ['Five', 'One']&#10;  &#10;  At index 0 diff: 'One' != 'Five'&#10;  Right contains one more item: 'One'&#10;  Use -v to get more diff">def test_mixed_positive_negative_numbers():
+&gt;       assert by_length([1, -1, 55]) == ['Five', 'One'], 'Error'
+E       AssertionError: Error
+E       assert ['One'] == ['Five', 'One']
+E         
+E         At index 0 diff: 'One' != 'Five'
+E         Right contains one more item: 'One'
+E         Use -v to get more diff
+
+HumanEval_105_test.py:23: AssertionError</failure></testcase><testcase classname="HumanEval_105_test" name="test_mixed_positive_negative_numbers_2" time="0.001"><failure message="AssertionError: Error&#10;assert ['One'] == ['Five', 'One']&#10;  &#10;  At index 0 diff: 'One' != 'Five'&#10;  Right contains one more item: 'One'&#10;  Use -v to get more diff">def test_mixed_positive_negative_numbers_2():
+&gt;       assert by_length([-1, 1, 55]) == ['Five', 'One'], 'Error'
+E       AssertionError: Error
+E       assert ['One'] == ['Five', 'One']
+E         
+E         At index 0 diff: 'One' != 'Five'
+E         Right contains one more item: 'One'
+E         Use -v to get more diff
+
+HumanEval_105_test.py:26: AssertionError</failure></testcase><testcase classname="HumanEval_105_test" name="test_mixed_positive_negative_numbers_3" time="0.001"><failure message="AssertionError: Error&#10;assert [] == ['Five', 'Five']&#10;  &#10;  Right contains 2 more items, first extra item: 'Five'&#10;  Use -v to get more diff">def test_mixed_positive_negative_numbers_3():
+&gt;       assert by_length([-1, -1, 55, 55]) == ['Five', 'Five'], 'Error'
+E       AssertionError: Error
+E       assert [] == ['Five', 'Five']
+E         
+E         Right contains 2 more items, first extra item: 'Five'
+E         Use -v to get more diff
+
+HumanEval_105_test.py:29: AssertionError</failure></testcase><testcase classname="HumanEval_105_test" name="test_mixed_positive_negative_numbers_4" time="0.001"><failure message="AssertionError: Error&#10;assert [] == ['Five', 'Five', 'Five']&#10;  &#10;  Right contains 3 more items, first extra item: 'Five'&#10;  Use -v to get more diff">def test_mixed_positive_negative_numbers_4():
+&gt;       assert by_length([-1, -1, -1, 55, 55, 55]) == ['Five', 'Five', 'Five'], 'Error'
+E       AssertionError: Error
+E       assert [] == ['Five', 'Five', 'Five']
+E         
+E         Right contains 3 more items, first extra item: 'Five'
+E         Use -v to get more diff
+
+HumanEval_105_test.py:32: AssertionError</failure></testcase><testcase classname="HumanEval_105_test" name="test_mixed_positive_negative_numbers_5" time="0.001"><failure message="AssertionError: Error&#10;assert [] == ['Five', 'Fiv...Five', 'Five']&#10;  &#10;  Right contains 4 more items, first extra item: 'Five'&#10;  Use -v to get more diff">def test_mixed_positive_negative_numbers_5():
+&gt;       assert by_length([-1, -1, -1, -1, 55, 55, 55, 55]) == ['Five', 'Five', 'Five', 'Five'], 'Error'
+E       AssertionError: Error
+E       assert [] == ['Five', 'Fiv...Five', 'Five']
+E         
+E         Right contains 4 more items, first extra item: 'Five'
+E         Use -v to get more diff
+
+HumanEval_105_test.py:35: AssertionError</failure></testcase><testcase classname="HumanEval_105_test" name="test_mixed_positive_negative_numbers_6" time="0.001"><failure message="AssertionError: Error&#10;assert [] == ['Five', 'Fiv...Five', 'Five']&#10;  &#10;  Right contains 5 more items, first extra item: 'Five'&#10;  Use -v to get more diff">def test_mixed_positive_negative_numbers_6():
+&gt;       assert by_length([-1, -1, -1, -1, -1, 55, 55, 55, 55, 55]) == ['Five', 'Five', 'Five', 'Five', 'Five'], 'Error'
+E       AssertionError: Error
+E       assert [] == ['Five', 'Fiv...Five', 'Five']
+E         
+E         Right contains 5 more items, first extra item: 'Five'
+E         Use -v to get more diff
+
+HumanEval_105_test.py:38: AssertionError</failure></testcase></testsuite></testsuites>

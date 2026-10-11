@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="14" time="0.086" timestamp="2026-10-11T18:58:45.490578+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_41_test" name="test_example" time="0.001" /><testcase classname="HumanEval_41_test" name="test_zero_cars" time="0.001" /><testcase classname="HumanEval_41_test" name="test_one_car" time="0.001" /><testcase classname="HumanEval_41_test" name="test_negative_cars" time="0.001"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">def test_negative_cars():
+&gt;       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+HumanEval_41_test.py:14: Failed</failure></testcase><testcase classname="HumanEval_41_test" name="test_large_number_of_cars" time="0.001" /><testcase classname="HumanEval_41_test" name="test_boundary_value" time="0.001" /><testcase classname="HumanEval_41_test" name="test_negative_boundary_value" time="0.001"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">def test_negative_boundary_value():
+&gt;       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+HumanEval_41_test.py:24: Failed</failure></testcase><testcase classname="HumanEval_41_test" name="test_float_input" time="0.001"><failure message="Failed: DID NOT RAISE &lt;class 'TypeError'&gt;">def test_float_input():
+&gt;       with pytest.raises(TypeError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE &lt;class 'TypeError'&gt;
+
+HumanEval_41_test.py:28: Failed</failure></testcase><testcase classname="HumanEval_41_test" name="test_string_input" time="0.001" /><testcase classname="HumanEval_41_test" name="test_list_input" time="0.001" /><testcase classname="HumanEval_41_test" name="test_tuple_input" time="0.001" /><testcase classname="HumanEval_41_test" name="test_dict_input" time="0.001" /><testcase classname="HumanEval_41_test" name="test_set_input" time="0.001" /><testcase classname="HumanEval_41_test" name="test_bool_input" time="0.001"><failure message="Failed: DID NOT RAISE &lt;class 'TypeError'&gt;">def test_bool_input():
+&gt;       with pytest.raises(TypeError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE &lt;class 'TypeError'&gt;
+
+HumanEval_41_test.py:52: Failed</failure></testcase></testsuite></testsuites>
