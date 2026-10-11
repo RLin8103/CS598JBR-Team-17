@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.117" timestamp="2026-10-11T18:47:32.397867+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_18_test" name="test_how_many_times" time="0.003"><failure message="AssertionError: assert 1 == 2&#10; +  where 1 = how_many_times('hello world', 'lo')">def test_how_many_times():
+&gt;       assert how_many_times('hello world', 'lo') == 2
+E       AssertionError: assert 1 == 2
+E        +  where 1 = how_many_times('hello world', 'lo')
+
+HumanEval_18_test.py:5: AssertionError</failure></testcase></testsuite></testsuites>

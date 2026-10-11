@@ -1,0 +1,16 @@
+{
+  "task_id": "HumanEval/18",
+  "coverage": 100.0,
+  "num_tests": 1,
+  "num_passed": 0,
+  "num_failed": 1,
+  "missing_lines": [],
+  "failures": [
+    [
+      "test_how_many_times",
+      "AssertionError: assert 1 == 2  +  where 1 = how_many_times('hello world', 'lo')"
+    ]
+  ],
+  "test_code": "import pytest\nfrom HumanEval_18 import *\n\ndef test_how_many_times():\n    assert how_many_times('hello world', 'lo') == 2\n    assert how_many_times('aaaaa', 'aa') == 3\n    assert how_many_times('abcabcabc', 'abc') == 3\n    assert how_many_times('abc', 'd') == 0\n    assert how_many_times('aabaa', 'aa') == 2\n    assert how_many_times('', 'a') == 0\n    assert how_many_times('a', '') == 0\n    assert how_many_times('', '') == 0\n",
+  "feedback": []
+}

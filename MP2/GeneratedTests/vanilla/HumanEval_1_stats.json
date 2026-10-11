@@ -1,0 +1,16 @@
+{
+  "task_id": "HumanEval/1",
+  "coverage": 100.0,
+  "num_tests": 1,
+  "num_passed": 0,
+  "num_failed": 1,
+  "missing_lines": [],
+  "failures": [
+    [
+      "test_separate_paren_groups",
+      "AssertionError: assert [] == [')(']      Right contains one more item: ')('   Use -v to get more diff"
+    ]
+  ],
+  "test_code": "import pytest\nfrom HumanEval_1 import *\n\ndef test_separate_paren_groups():\n    assert separate_paren_groups('()') == ['()']\n    assert separate_paren_groups('((()))()(())') == ['((()))', '()', '(())']\n    assert separate_paren_groups('') == []\n    assert separate_paren_groups('(()()()())') == ['(()()()())']\n    assert separate_paren_groups(')(') == [')(']\n    assert separate_paren_groups('((())())(()(()))') == ['((())())', '(()(()))']\n",
+  "feedback": []
+}

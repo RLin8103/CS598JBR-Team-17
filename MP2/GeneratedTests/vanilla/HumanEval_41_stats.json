@@ -1,0 +1,11 @@
+{
+  "task_id": "HumanEval/41",
+  "coverage": 100.0,
+  "num_tests": 3,
+  "num_passed": 3,
+  "num_failed": 0,
+  "missing_lines": [],
+  "failures": [],
+  "test_code": "import pytest\nfrom HumanEval_41 import *\n\ndef test_car_race_collision_positive():\n    assert car_race_collision(5) == 25\n    assert car_race_collision(10) == 100\n\ndef test_car_race_collision_negative():\n    assert car_race_collision(-5) == 25\n    assert car_race_collision(-10) == 100\n\ndef test_car_race_collision_zero():\n    assert car_race_collision(0) == 0\n",
+  "feedback": []
+}

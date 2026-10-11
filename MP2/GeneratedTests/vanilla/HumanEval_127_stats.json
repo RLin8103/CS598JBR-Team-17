@@ -1,0 +1,33 @@
+{
+  "task_id": "HumanEval/127",
+  "coverage": 75.0,
+  "num_tests": 8,
+  "num_passed": 4,
+  "num_failed": 4,
+  "missing_lines": [
+    27,
+    28,
+    29,
+    30
+  ],
+  "failures": [
+    [
+      "test_intersection_intersect_at_end",
+      "AssertionError: assert 'NO' == 'YES'      - YES   + NO"
+    ],
+    [
+      "test_intersection_intersect_at_start",
+      "AssertionError: assert 'NO' == 'YES'      - YES   + NO"
+    ],
+    [
+      "test_intersection_intersect_in_middle",
+      "AssertionError: assert 'NO' == 'YES'      - YES   + NO"
+    ],
+    [
+      "test_intersection_one_point_interval",
+      "AssertionError: assert 'NO' == 'YES'      - YES   + NO"
+    ]
+  ],
+  "test_code": "import pytest\nfrom HumanEval_127 import *\n\ndef test_intersection_no_intersection():\n    assert intersection([1, 2], [3, 4]) == 'NO'\n\ndef test_intersection_intersect_at_end():\n    assert intersection([1, 3], [2, 4]) == 'YES'\n\ndef test_intersection_intersect_at_start():\n    assert intersection([2, 4], [1, 3]) == 'YES'\n\ndef test_intersection_intersect_in_middle():\n    assert intersection([1, 4], [2, 3]) == 'YES'\n\ndef test_intersection_same_interval():\n    assert intersection([1, 3], [1, 3]) == 'YES'\n\ndef test_intersection_one_point_interval():\n    assert intersection([2, 2], [1, 3]) == 'YES'\n\ndef test_intersection_no_intersection_one_point_interval():\n    assert intersection([1, 1], [2, 3]) == 'NO'\n\ndef test_intersection_empty_interval():\n    assert intersection([1, 1], [3, 3]) == 'NO'\n",
+  "feedback": []
+}

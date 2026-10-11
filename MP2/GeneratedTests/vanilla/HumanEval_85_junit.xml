@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.056" timestamp="2026-10-11T18:43:14.111597+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_85_test" name="test_add" time="0.002"><failure message="assert 0 == 10&#10; +  where 0 = add([2, 3, 4, 5, 6])">def test_add():
+        assert add([1, 2, 3, 4, 5]) == 6
+&gt;       assert add([2, 3, 4, 5, 6]) == 10
+E       assert 0 == 10
+E        +  where 0 = add([2, 3, 4, 5, 6])
+
+HumanEval_85_test.py:6: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,16 @@
+{
+  "task_id": "HumanEval/6",
+  "coverage": 100.0,
+  "num_tests": 1,
+  "num_passed": 0,
+  "num_failed": 1,
+  "missing_lines": [],
+  "failures": [
+    [
+      "test_parse_nested_parens",
+      "assert [1] == [1, 1]      Right contains one more item: 1   Use -v to get more diff"
+    ]
+  ],
+  "test_code": "import pytest\nfrom HumanEval_6 import *\n\ndef test_parse_nested_parens():\n    assert parse_nested_parens('()') == [1]\n    assert parse_nested_parens('(())') == [2]\n    assert parse_nested_parens('()()') == [1, 1]\n    assert parse_nested_parens('((()))') == [3]\n    assert parse_nested_parens('((()))()') == [3, 1]\n    assert parse_nested_parens('') == []\n    assert parse_nested_parens(' ') == []\n    assert parse_nested_parens('  ()  ') == [1]\n    assert parse_nested_parens('  (())  ') == [2]\n",
+  "feedback": []
+}

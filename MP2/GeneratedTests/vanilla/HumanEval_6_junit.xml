@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.063" timestamp="2026-10-11T18:45:07.569600+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_6_test" name="test_parse_nested_parens" time="0.002"><failure message="assert [1] == [1, 1]&#10;  &#10;  Right contains one more item: 1&#10;  Use -v to get more diff">def test_parse_nested_parens():
+        assert parse_nested_parens('()') == [1]
+        assert parse_nested_parens('(())') == [2]
+&gt;       assert parse_nested_parens('()()') == [1, 1]
+E       assert [1] == [1, 1]
+E         
+E         Right contains one more item: 1
+E         Use -v to get more diff
+
+HumanEval_6_test.py:7: AssertionError</failure></testcase></testsuite></testsuites>

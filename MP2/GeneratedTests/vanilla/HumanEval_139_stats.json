@@ -1,0 +1,20 @@
+{
+  "task_id": "HumanEval/139",
+  "coverage": 100.0,
+  "num_tests": 4,
+  "num_passed": 2,
+  "num_failed": 2,
+  "missing_lines": [],
+  "failures": [
+    [
+      "test_special_factorial_5",
+      "assert 34560 == 120  +  where 34560 = special_factorial(5)"
+    ],
+    [
+      "test_special_factorial_10",
+      "assert 6658606584104736522240000000 == 3628800  +  where 6658606584104736522240000000 = special_factorial(10)"
+    ]
+  ],
+  "test_code": "import pytest\nfrom HumanEval_139 import *\n\ndef test_special_factorial_0():\n    assert special_factorial(0) == 1\n\ndef test_special_factorial_1():\n    assert special_factorial(1) == 1\n\ndef test_special_factorial_5():\n    assert special_factorial(5) == 120\n\ndef test_special_factorial_10():\n    assert special_factorial(10) == 3628800\n",
+  "feedback": []
+}

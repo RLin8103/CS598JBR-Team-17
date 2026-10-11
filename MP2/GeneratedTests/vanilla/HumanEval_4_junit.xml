@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.071" timestamp="2026-10-11T18:44:32.619111+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_4_test" name="test_mean_absolute_deviation" time="0.002"><failure message="assert 1.2 == 1.8&#10; +  where 1.2 = mean_absolute_deviation([1.0, 2.0, 3.0, 4.0, 5.0])">def test_mean_absolute_deviation():
+&gt;       assert mean_absolute_deviation([1.0, 2.0, 3.0, 4.0, 5.0]) == 1.8
+E       assert 1.2 == 1.8
+E        +  where 1.2 = mean_absolute_deviation([1.0, 2.0, 3.0, 4.0, 5.0])
+
+HumanEval_4_test.py:5: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,16 @@
+{
+  "task_id": "HumanEval/36",
+  "coverage": 100.0,
+  "num_tests": 1,
+  "num_passed": 0,
+  "num_failed": 1,
+  "missing_lines": [],
+  "failures": [
+    [
+      "test_fizz_buzz",
+      "assert 0 == 1  +  where 0 = fizz_buzz(11)"
+    ]
+  ],
+  "test_code": "import pytest\nfrom HumanEval_36 import *\n\ndef test_fizz_buzz():\n    assert fizz_buzz(0) == 0\n    assert fizz_buzz(1) == 0\n    assert fizz_buzz(11) == 1\n    assert fizz_buzz(13) == 1\n    assert fizz_buzz(14) == 0\n    assert fizz_buzz(100) == 1\n    assert fizz_buzz(1000) == 1\n    assert fizz_buzz(10000) == 1\n",
+  "feedback": []
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.064" timestamp="2026-10-11T18:47:04.054935+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_86_test" name="test_anti_shuffle" time="0.002"><failure message="AssertionError: assert 'ehllo dlorw' == 'dlrow olleh'&#10;  &#10;  - dlrow olleh&#10;  + ehllo dlorw">def test_anti_shuffle():
+        assert anti_shuffle('ab cd') == 'ab cd'
+&gt;       assert anti_shuffle('hello world') == 'dlrow olleh'
+E       AssertionError: assert 'ehllo dlorw' == 'dlrow olleh'
+E         
+E         - dlrow olleh
+E         + ehllo dlorw
+
+HumanEval_86_test.py:6: AssertionError</failure></testcase></testsuite></testsuites>

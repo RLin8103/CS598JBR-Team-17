@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.069" timestamp="2026-10-11T18:46:51.568549+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_105_test" name="test_by_length" time="0.002"><failure message="AssertionError: assert ['Five', 'Fou... 'Two', 'One'] == ['One', 'Two'...Four', 'Five']&#10;  &#10;  At index 0 diff: 'Five' != 'One'&#10;  Use -v to get more diff">def test_by_length():
+&gt;       assert by_length([1, 2, 3, 4, 5]) == ['One', 'Two', 'Three', 'Four', 'Five']
+E       AssertionError: assert ['Five', 'Fou... 'Two', 'One'] == ['One', 'Two'...Four', 'Five']
+E         
+E         At index 0 diff: 'Five' != 'One'
+E         Use -v to get more diff
+
+HumanEval_105_test.py:5: AssertionError</failure></testcase></testsuite></testsuites>

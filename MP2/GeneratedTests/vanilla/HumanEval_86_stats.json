@@ -1,0 +1,16 @@
+{
+  "task_id": "HumanEval/86",
+  "coverage": 100.0,
+  "num_tests": 1,
+  "num_passed": 0,
+  "num_failed": 1,
+  "missing_lines": [],
+  "failures": [
+    [
+      "test_anti_shuffle",
+      "AssertionError: assert 'ehllo dlorw' == 'dlrow olleh'      - dlrow olleh   + ehllo dlorw"
+    ]
+  ],
+  "test_code": "import pytest\nfrom HumanEval_86 import *\n\ndef test_anti_shuffle():\n    assert anti_shuffle('ab cd') == 'ab cd'\n    assert anti_shuffle('hello world') == 'dlrow olleh'\n    assert anti_shuffle('') == ''\n    assert anti_shuffle('a') == 'a'\n    assert anti_shuffle('of') == 'of'\n",
+  "feedback": []
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="4" time="0.072" timestamp="2026-10-11T18:42:37.079718+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_139_test" name="test_special_factorial_0" time="0.002" /><testcase classname="HumanEval_139_test" name="test_special_factorial_1" time="0.001" /><testcase classname="HumanEval_139_test" name="test_special_factorial_5" time="0.001"><failure message="assert 34560 == 120&#10; +  where 34560 = special_factorial(5)">def test_special_factorial_5():
+&gt;       assert special_factorial(5) == 120
+E       assert 34560 == 120
+E        +  where 34560 = special_factorial(5)
+
+HumanEval_139_test.py:11: AssertionError</failure></testcase><testcase classname="HumanEval_139_test" name="test_special_factorial_10" time="0.001"><failure message="assert 6658606584104736522240000000 == 3628800&#10; +  where 6658606584104736522240000000 = special_factorial(10)">def test_special_factorial_10():
+&gt;       assert special_factorial(10) == 3628800
+E       assert 6658606584104736522240000000 == 3628800
+E        +  where 6658606584104736522240000000 = special_factorial(10)
+
+HumanEval_139_test.py:14: AssertionError</failure></testcase></testsuite></testsuites>

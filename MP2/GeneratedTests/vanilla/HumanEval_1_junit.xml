@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.066" timestamp="2026-10-11T18:45:35.798339+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_1_test" name="test_separate_paren_groups" time="0.002"><failure message="AssertionError: assert [] == [')(']&#10;  &#10;  Right contains one more item: ')('&#10;  Use -v to get more diff">def test_separate_paren_groups():
+        assert separate_paren_groups('()') == ['()']
+        assert separate_paren_groups('((()))()(())') == ['((()))', '()', '(())']
+        assert separate_paren_groups('') == []
+        assert separate_paren_groups('(()()()())') == ['(()()()())']
+&gt;       assert separate_paren_groups(')(') == [')(']
+E       AssertionError: assert [] == [')(']
+E         
+E         Right contains one more item: ')('
+E         Use -v to get more diff
+
+HumanEval_1_test.py:9: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,18 @@
+{
+  "task_id": "HumanEval/148",
+  "coverage": 88.89,
+  "num_tests": 3,
+  "num_passed": 2,
+  "num_failed": 1,
+  "missing_lines": [
+    26
+  ],
+  "failures": [
+    [
+      "test_bf_valid_input",
+      "AssertionError: assert () == ('Mercury', 'Venus')      Right contains 2 more items, first extra item: 'Mercury'   Use -v to get more diff"
+    ]
+  ],
+  "test_code": "import pytest\nfrom HumanEval_148 import *\n\ndef test_bf_valid_input():\n    assert bf('Earth', 'Mars') == ('Mercury', 'Venus')\n    assert bf('Mars', 'Earth') == ('Mercury', 'Venus')\n    assert bf('Earth', 'Jupiter') == ('Mercury', 'Venus', 'Saturn', 'Uranus')\n    assert bf('Jupiter', 'Earth') == ('Mercury', 'Venus', 'Saturn', 'Uranus')\n\ndef test_bf_same_planet():\n    assert bf('Earth', 'Earth') == ()\n\ndef test_bf_invalid_planet():\n    assert bf('Earth', 'Pluto') == ()\n    assert bf('Pluto', 'Earth') == ()\n",
+  "feedback": []
+}

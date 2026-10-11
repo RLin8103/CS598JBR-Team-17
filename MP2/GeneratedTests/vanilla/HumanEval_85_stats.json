@@ -1,0 +1,16 @@
+{
+  "task_id": "HumanEval/85",
+  "coverage": 100.0,
+  "num_tests": 1,
+  "num_passed": 0,
+  "num_failed": 1,
+  "missing_lines": [],
+  "failures": [
+    [
+      "test_add",
+      "assert 0 == 10  +  where 0 = add([2, 3, 4, 5, 6])"
+    ]
+  ],
+  "test_code": "import pytest\nfrom HumanEval_85 import *\n\ndef test_add():\n    assert add([1, 2, 3, 4, 5]) == 6\n    assert add([2, 3, 4, 5, 6]) == 10\n    assert add([1, 2, 3, 4, 5, 6]) == 12\n    assert add([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == 30\n    assert add([2, 3, 4, 5, 6, 7, 8, 9, 10]) == 20\n    assert add([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]) == 50\n    assert add([1]) == 0\n    assert add([]) == 0\n",
+  "feedback": []
+}

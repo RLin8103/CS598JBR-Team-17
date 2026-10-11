@@ -1,0 +1,11 @@
+{
+  "task_id": "HumanEval/160",
+  "coverage": 100.0,
+  "num_tests": 5,
+  "num_passed": 5,
+  "num_failed": 0,
+  "missing_lines": [],
+  "failures": [],
+  "test_code": "import pytest\nfrom HumanEval_160 import *\n\ndef test_do_algebra_addition():\n    operator = ['+', '+']\n    operand = [1, 2, 3]\n    assert do_algebra(operator, operand) == 6\n\ndef test_do_algebra_subtraction():\n    operator = ['-']\n    operand = [5, 2]\n    assert do_algebra(operator, operand) == 3\n\ndef test_do_algebra_multiplication():\n    operator = ['*', '*']\n    operand = [1, 2, 3]\n    assert do_algebra(operator, operand) == 6\n\ndef test_do_algebra_division():\n    operator = ['/']\n    operand = [10, 2]\n    assert do_algebra(operator, operand) == 5\n\ndef test_do_algebra_exponentiation():\n    operator = ['**']\n    operand = [2, 3]\n    assert do_algebra(operator, operand) == 8\n",
+  "feedback": []
+}

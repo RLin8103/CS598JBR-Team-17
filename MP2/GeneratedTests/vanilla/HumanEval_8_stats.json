@@ -1,0 +1,16 @@
+{
+  "task_id": "HumanEval/8",
+  "coverage": 100.0,
+  "num_tests": 1,
+  "num_passed": 0,
+  "num_failed": 1,
+  "missing_lines": [],
+  "failures": [
+    [
+      "test_sum_product",
+      "assert (2, 24) == (-2, -24)      At index 0 diff: 2 != -2   Use -v to get more diff"
+    ]
+  ],
+  "test_code": "import pytest\nfrom HumanEval_8 import *\n\ndef test_sum_product():\n    assert sum_product([1, 2, 3, 4, 5]) == (15, 120)\n    assert sum_product([0, 0, 0, 0]) == (0, 0)\n    assert sum_product([-1, 2, -3, 4]) == (-2, -24)\n    assert sum_product([10, 20, 30, 40]) == (100, 24000)\n",
+  "feedback": []
+}

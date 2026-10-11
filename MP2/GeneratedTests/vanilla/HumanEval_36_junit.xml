@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.059" timestamp="2026-10-11T18:42:54.639981+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_36_test" name="test_fizz_buzz" time="0.002"><failure message="assert 0 == 1&#10; +  where 0 = fizz_buzz(11)">def test_fizz_buzz():
+        assert fizz_buzz(0) == 0
+        assert fizz_buzz(1) == 0
+&gt;       assert fizz_buzz(11) == 1
+E       assert 0 == 1
+E        +  where 0 = fizz_buzz(11)
+
+HumanEval_36_test.py:7: AssertionError</failure></testcase></testsuite></testsuites>

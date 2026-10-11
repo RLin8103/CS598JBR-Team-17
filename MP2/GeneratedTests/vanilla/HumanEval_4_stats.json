@@ -1,0 +1,16 @@
+{
+  "task_id": "HumanEval/4",
+  "coverage": 100.0,
+  "num_tests": 1,
+  "num_passed": 0,
+  "num_failed": 1,
+  "missing_lines": [],
+  "failures": [
+    [
+      "test_mean_absolute_deviation",
+      "assert 1.2 == 1.8  +  where 1.2 = mean_absolute_deviation([1.0, 2.0, 3.0, 4.0, 5.0])"
+    ]
+  ],
+  "test_code": "import pytest\nfrom HumanEval_4 import *\n\ndef test_mean_absolute_deviation():\n    assert mean_absolute_deviation([1.0, 2.0, 3.0, 4.0, 5.0]) == 1.8\n    assert mean_absolute_deviation([0.0, 1.0, 2.0]) == 1.0\n    assert mean_absolute_deviation([-1.0, -2.0, -3.0]) == 2.0\n    assert mean_absolute_deviation([1.0]) == 0.0\n    assert mean_absolute_deviation([0.0, 0.0, 0.0]) == 0.0\n    assert mean_absolute_deviation([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]) == 1.8333333333333333\n",
+  "feedback": []
+}

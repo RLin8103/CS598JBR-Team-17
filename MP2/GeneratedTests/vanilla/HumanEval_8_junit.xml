@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.108" timestamp="2026-10-11T18:47:19.588899+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_8_test" name="test_sum_product" time="0.004"><failure message="assert (2, 24) == (-2, -24)&#10;  &#10;  At index 0 diff: 2 != -2&#10;  Use -v to get more diff">def test_sum_product():
+        assert sum_product([1, 2, 3, 4, 5]) == (15, 120)
+        assert sum_product([0, 0, 0, 0]) == (0, 0)
+&gt;       assert sum_product([-1, 2, -3, 4]) == (-2, -24)
+E       assert (2, 24) == (-2, -24)
+E         
+E         At index 0 diff: 2 != -2
+E         Use -v to get more diff
+
+HumanEval_8_test.py:7: AssertionError</failure></testcase></testsuite></testsuites>

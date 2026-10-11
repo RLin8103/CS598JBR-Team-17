@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.057" timestamp="2026-10-11T18:44:03.204779+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_117_test" name="test_select_words" time="0.002"><failure message="AssertionError: assert [] == ['hello']&#10;  &#10;  Right contains one more item: 'hello'&#10;  Use -v to get more diff">def test_select_words():
+&gt;       assert select_words('hello world', 2) == ['hello']
+E       AssertionError: assert [] == ['hello']
+E         
+E         Right contains one more item: 'hello'
+E         Use -v to get more diff
+
+HumanEval_117_test.py:5: AssertionError</failure></testcase></testsuite></testsuites>

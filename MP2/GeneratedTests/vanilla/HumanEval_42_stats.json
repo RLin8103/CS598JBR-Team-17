@@ -1,0 +1,11 @@
+{
+  "task_id": "HumanEval/42",
+  "coverage": 100.0,
+  "num_tests": 4,
+  "num_passed": 4,
+  "num_failed": 0,
+  "missing_lines": [],
+  "failures": [],
+  "test_code": "import pytest\nfrom HumanEval_42 import *\n\ndef test_incr_list_empty():\n    assert incr_list([]) == []\n\ndef test_incr_list_single_element():\n    assert incr_list([1]) == [2]\n\ndef test_incr_list_multiple_elements():\n    assert incr_list([1, 2, 3]) == [2, 3, 4]\n\ndef test_incr_list_negative_elements():\n    assert incr_list([-1, 0, 1]) == [0, 1, 2]\n",
+  "feedback": []
+}
