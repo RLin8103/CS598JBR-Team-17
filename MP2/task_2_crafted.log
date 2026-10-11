@@ -1,10 +1,10 @@
 WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
-I0000 00:00:1791745014.326280    8964 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+I0000 00:00:1791748802.192067   25441 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
 To enable the following instructions: AVX2 AVX512F FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
 WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
-I0000 00:00:1791745017.417026    8964 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
+I0000 00:00:1791748805.350411   25441 cudart_stub.cc:31] Could not find cuda drivers on your machine, GPU will not be used.
 Working with deepseek-ai/deepseek-coder-6.7b-instruct prompt type False...
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:42<00:42, 42.35s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:57<00:00, 26.08s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:57<00:00, 28.52s/it]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:45<00:45, 45.93s/it]Loading checkpoint shards: 100%|██████████| 2/2 [01:02<00:00, 28.46s/it]Loading checkpoint shards: 100%|██████████| 2/2 [01:02<00:00, 31.08s/it]
 [HumanEval/41] first run: coverage 100.0, 10/14 tests pass, missing lines []
 [HumanEval/41] feedback round 1:
 prompt:
@@ -223,7 +223,7 @@ FAILED HumanEval_41_test.py::test_negative_cars - Failed: DID NOT RAISE <clas...
 FAILED HumanEval_41_test.py::test_negative_boundary_value - Failed: DID NOT R...
 FAILED HumanEval_41_test.py::test_float_input - Failed: DID NOT RAISE <class ...
 FAILED HumanEval_41_test.py::test_bool_input - Failed: DID NOT RAISE <class '...
-4 failed, 10 passed in 0.08s
+4 failed, 10 passed in 0.17s
 
 Task_ID HumanEval/41:
 prompt:
@@ -582,7 +582,7 @@ FAILED HumanEval_139_test.py::test_large_number_8 - AssertionError: Test 12
 FAILED HumanEval_139_test.py::test_large_number_9 - AssertionError: Test 13
 FAILED HumanEval_139_test.py::test_large_number_10 - AssertionError: Test 14
 FAILED HumanEval_139_test.py::test_large_number_11 - AssertionError: Test 15
-12 failed, 4 passed in 0.15s
+12 failed, 4 passed in 0.18s
 
 Task_ID HumanEval/139:
 prompt:
@@ -956,7 +956,7 @@ FAILED HumanEval_36_test.py::test_fizz_buzz_77 - assert 0 == 1
 FAILED HumanEval_36_test.py::test_fizz_buzz_88 - assert 3 == 0
 FAILED HumanEval_36_test.py::test_fizz_buzz_99 - assert 3 == 1
 FAILED HumanEval_36_test.py::test_fizz_buzz_100 - assert 3 == 0
-9 failed, 5 passed in 0.10s
+9 failed, 5 passed in 0.13s
 
 Task_ID HumanEval/36:
 prompt:
@@ -1616,7 +1616,7 @@ Coverage JSON written to file /content/CS598JBR-Team-17/MP2/Coverage/HumanEval_1
 FAILED HumanEval_160_test.py::test_multiple_operators - AssertionError: asser...
 FAILED HumanEval_160_test.py::test_single_element - Failed: DID NOT RAISE <cl...
 FAILED HumanEval_160_test.py::test_large_operands - AssertionError: assert 46...
-3 failed, 12 passed in 0.11s
+3 failed, 12 passed in 0.12s
 
 Task_ID HumanEval/160:
 prompt:
@@ -1984,7 +1984,7 @@ FAILED HumanEval_109_test.py::test_unsorted_array_with_multiple_shifts - asse...
 FAILED HumanEval_109_test.py::test_unsorted_array_with_negative_numbers - ass...
 FAILED HumanEval_109_test.py::test_unsorted_array_with_zero - assert False ==...
 FAILED HumanEval_109_test.py::test_unsorted_array_with_boundary_values - asse...
-6 failed, 8 passed in 0.10s
+6 failed, 8 passed in 0.13s
 
 Task_ID HumanEval/109:
 prompt:
@@ -2337,7 +2337,7 @@ FAILED HumanEval_117_test.py::test_multiple_words_same_consonants - Assertion...
 FAILED HumanEval_117_test.py::test_uppercase_letters - AssertionError: Eighth...
 FAILED HumanEval_117_test.py::test_boundary_values_2 - AssertionError: Twelft...
 FAILED HumanEval_117_test.py::test_boundary_values_3 - AssertionError: Thirte...
-5 failed, 8 passed in 0.10s
+5 failed, 8 passed in 0.12s
 
 Task_ID HumanEval/117:
 prompt:
@@ -2442,8 +2442,140 @@ def test_boundary_values_3():
 This test suite covers all the branches in the `select_words` function. It tests the function with different inputs, including edge cases such as empty strings, single words, negative numbers, and boundary values. It also tests the function with words that contain exactly the specified number of consonants.
 coverage:
 100.0
-[HumanEval/55] first run: coverage 0.0, 0/0 tests pass, missing lines []
-[HumanEval/55] final: 0 tests, 0 pass, 0 fail, missing lines []
+[HumanEval/55] first run: coverage 100.0, 13/14 tests pass, missing lines []
+[HumanEval/55] feedback round 1:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer
+### Instruction:
+Below is the Python function `fib` (module `HumanEval_55`) with line numbers, and a pytest test suite for it.
+
+Code:
+```
+  1: 
+  2: 
+  3: def fib(n: int):
+  4:     """Return n-th Fibonacci number.
+  5:     >>> fib(10)
+  6:     55
+  7:     >>> fib(1)
+  8:     1
+  9:     >>> fib(8)
+ 10:     21
+ 11:     """
+ 12:     if n == 0:
+ 13:         return 0
+ 14:     if n == 1:
+ 15:         return 1
+ 16:     return fib(n - 1) + fib(n - 2)
+```
+
+Current tests:
+```python
+import pytest
+from HumanEval_55 import *
+
+def test_fib_zero():
+    assert fib(0) == 0
+
+def test_fib_one():
+    assert fib(1) == 1
+
+def test_fib_two():
+    assert fib(2) == 1
+
+def test_fib_three():
+    assert fib(3) == 2
+
+def test_fib_four():
+    assert fib(4) == 3
+
+def test_fib_five():
+    assert fib(5) == 5
+
+def test_fib_six():
+    assert fib(6) == 8
+
+def test_fib_seven():
+    assert fib(7) == 13
+
+def test_fib_eight():
+    assert fib(8) == 21
+
+def test_fib_nine():
+    assert fib(9) == 34
+
+def test_fib_ten():
+    assert fib(10) == 55
+
+def test_fib_negative():
+    with pytest.raises(RecursionError):
+        fib(-1)
+
+def test_fib_large():
+    assert fib(50) == 12586269025
+
+def test_fib_large_negative():
+    with pytest.raises(RecursionError):
+        fib(-50)
+
+```
+
+These tests FAIL because their expected values are wrong (the code is correct):
+- test_fib_large: Failed: Timeout (>10.0s) from pytest-timeout.
+For each one, trace the code carefully and write a corrected version with the SAME function name.
+
+Do not redefine `fib`. Output ONE ```python code block that contains only the new and corrected test functions.
+### Response:
+
+response:
+The tests fail because the expected values are wrong. The Fibonacci sequence is defined as follows:
+
+- fib(0) = 0
+- fib(1) = 1
+- fib(n) = fib(n-1) + fib(n-2) for n > 1
+
+The tests are checking the Fibonacci sequence for n = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, and 10. The correct values for these tests are 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, and 55 respectively.
+
+Here is the corrected code:
+
+```python
+def test_fib_zero():
+    assert fib(0) == 0
+
+def test_fib_one():
+    assert fib(1) == 1
+
+def test_fib_two():
+    assert fib(2) == 1
+
+def test_fib_three():
+    assert fib(3) == 2
+
+def test_fib_four():
+    assert fib(4) == 3
+
+def test_fib_five():
+    assert fib(5) == 5
+
+def test_fib_six():
+    assert fib(6) == 8
+
+def test_fib_seven():
+    assert fib(7) == 13
+
+def test_fib_eight():
+    assert fib(8) == 21
+
+def test_fib_nine():
+    assert fib(9) == 34
+
+def test_fib_ten():
+    assert fib(10) == 55
+```
+
+The tests `test_fib_negative` and `test_fib_large` are not relevant to the Fibonacci sequence and can be removed. The test `test_fib_large` is timing out because the recursive implementation of the Fibonacci function has a time complexity of O(2^n), which is very slow for large inputs. A more efficient implementation would use memoization to store the results of previous computations and use them to compute the current Fibonacci number.
+coverage 100.0 -> 100.0
+[HumanEval/55] final: 14 tests, 13 pass, 1 fail, missing lines []
 final test file:
 import pytest
 from HumanEval_55 import *
@@ -2493,7 +2625,98 @@ def test_fib_large_negative():
         fib(-50)
 
 pytest output:
-pytest timed out after 120s
+^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+                        ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+                        ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+                        ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+                        ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+                        ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+                        ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+                        ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:3: in fib
+    def fib(n: int):
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Collector at 0x7b665651a900: CTracer>
+
+>   def lock_data(self) -> None:
+E   Failed: Timeout (>10.0s) from pytest-timeout.
+
+/usr/local/lib/python3.13/dist-packages/coverage/collector.py:236: Failed
+- generated xml file: /content/CS598JBR-Team-17/MP2/GeneratedTests/crafted/HumanEval_55_junit.xml -
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.13.15-final-0 _______________
+
+Coverage JSON written to file /content/CS598JBR-Team-17/MP2/Coverage/HumanEval_55_test_crafted.json
+=========================== short test summary info ============================
+FAILED HumanEval_55_test.py::test_fib_large - Failed: Timeout (>10.0s) from p...
+1 failed, 13 passed in 10.14s
+
 Task_ID HumanEval/55:
 prompt:
 You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer
@@ -2593,7 +2816,7 @@ def test_fib_large_negative():
 
 This test suite covers all the branches in the `fib` function. It tests the function with inputs 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, negative numbers, and large numbers. It also tests the function with inputs that should raise a `RecursionError`.
 coverage:
-0.0
+100.0
 [HumanEval/4] first run: coverage 100.0, 5/12 tests pass, missing lines []
 [HumanEval/4] feedback round 1:
 prompt:
@@ -2832,7 +3055,7 @@ FAILED HumanEval_4_test.py::test_large_dataset - assert 250000.0 == 500000.5
 FAILED HumanEval_4_test.py::test_negative_and_positive_values - assert 1.5 == 1
 FAILED HumanEval_4_test.py::test_large_deviation - assert 4500000.0 == 5000000.0
 FAILED HumanEval_4_test.py::test_negative_large_deviation - assert 4500000.0 ...
-6 failed, 6 passed in 1.26s
+6 failed, 6 passed in 0.91s
 
 Task_ID HumanEval/4:
 prompt:
@@ -3327,7 +3550,7 @@ FAILED HumanEval_127_test.py::test_intersection_one_point_in_interval_start_end_
 FAILED HumanEval_127_test.py::test_intersection_one_point_in_interval_start_end_same_prime_13
 FAILED HumanEval_127_test.py::test_intersection_one_point_in_interval_start_end_same_prime_14
 FAILED HumanEval_127_test.py::test_intersection_one_point_in_interval_start_end_same_prime_15
-11 failed, 17 passed in 0.29s
+11 failed, 17 passed in 0.19s
 
 Task_ID HumanEval/127:
 prompt:
@@ -3727,7 +3950,7 @@ FAILED HumanEval_6_test.py::test_nested_parens_with_text - assert [0, 2, 0, 1...
 FAILED HumanEval_6_test.py::test_nested_parens_with_zero - assert [0, 2, 0, 0...
 FAILED HumanEval_6_test.py::test_nested_parens_with_negative - assert [0, 2, ...
 FAILED HumanEval_6_test.py::test_nested_parens_with_boundary_values - assert ...
-7 failed, 6 passed in 0.11s
+7 failed, 6 passed in 0.12s
 
 Task_ID HumanEval/6:
 prompt:
@@ -3872,7 +4095,7 @@ pytest output:
 _______________ coverage: platform linux, python 3.13.15-final-0 _______________
 
 Coverage JSON written to file /content/CS598JBR-Team-17/MP2/Coverage/HumanEval_42_test_crafted.json
-7 passed in 0.07s
+7 passed in 0.10s
 
 Task_ID HumanEval/42:
 prompt:
@@ -4216,7 +4439,7 @@ FAILED HumanEval_1_test.py::test_no_parenthesis - AssertionError: assert [] =...
 FAILED HumanEval_1_test.py::test_no_balanced_parenthesis - AssertionError: as...
 FAILED HumanEval_1_test.py::test_negative_numbers - AssertionError: assert ['...
 FAILED HumanEval_1_test.py::test_zero - AssertionError: assert ['()', '()'] =...
-11 failed, 3 passed in 0.14s
+11 failed, 3 passed in 0.13s
 
 Task_ID HumanEval/1:
 prompt:
@@ -4951,7 +5174,7 @@ FAILED HumanEval_148_test.py::test_planet1_is_closer_to_sun - AssertionError:...
 FAILED HumanEval_148_test.py::test_planet2_is_closer_to_sun - AssertionError:...
 FAILED HumanEval_148_test.py::test_planet1_is_furthest_from_sun - AssertionEr...
 FAILED HumanEval_148_test.py::test_planet2_is_closer_to_closer_to_sun - Asser...
-4 failed, 11 passed in 0.11s
+4 failed, 11 passed in 0.14s
 
 Task_ID HumanEval/148:
 prompt:
@@ -5061,9 +5284,51 @@ def test_both_planets_are_furthest_from_sun():
 This test suite covers all possible scenarios and edge cases. It tests the function with valid inputs, including both planets closer to the sun and further from the sun. It also tests the function with invalid inputs, including planets that do not exist and planets that are the same.
 coverage:
 100.0
-[HumanEval/39] first run: coverage 0.0, 0/0 tests pass, missing lines []
-[HumanEval/39] final: 0 tests, 0 pass, 0 fail, missing lines []
-final test file:
+[HumanEval/39] first run: coverage 100.0, 13/17 tests pass, missing lines []
+[HumanEval/39] feedback round 1:
+prompt:
+You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer
+### Instruction:
+Below is the Python function `prime_fib` (module `HumanEval_39`) with line numbers, and a pytest test suite for it.
+
+Code:
+```
+  1: 
+  2: 
+  3: def prime_fib(n: int):
+  4:     """
+  5:     prime_fib returns n-th number that is a Fibonacci number and it's also prime.
+  6:     >>> prime_fib(1)
+  7:     2
+  8:     >>> prime_fib(2)
+  9:     3
+ 10:     >>> prime_fib(3)
+ 11:     5
+ 12:     >>> prime_fib(4)
+ 13:     13
+ 14:     >>> prime_fib(5)
+ 15:     89
+ 16:     """
+ 17:     import math
+ 18: 
+ 19:     def is_prime(p):
+ 20:         if p < 2:
+ 21:             return False
+ 22:         for k in range(2, min(int(math.sqrt(p)) + 1, p - 1)):
+ 23:             if p % k == 0:
+ 24:                 return False
+ 25:         return True
+ 26:     f = [0, 1]
+ 27:     while True:
+ 28:         f.append(f[-1] + f[-2])
+ 29:         if is_prime(f[-1]):
+ 30:             n -= 1
+ 31:         if n == 0:
+ 32:             return f[-1]
+```
+
+Current tests:
+```python
 import pytest
 from HumanEval_39 import *
 
@@ -5120,8 +5385,185 @@ def test_edge_case_single_digit_fibonacci():
 def test_edge_case_double_digit_fibonacci():
     assert prime_fib(5) == 89
 
+```
+
+These tests FAIL because their expected values are wrong (the code is correct):
+- test_tenth_fibonacci_prime: assert 433494437 == 832040  +  where 433494437 = prime_fib(10)
+- test_negative_input: Failed: Timeout (>10.0s) from pytest-timeout.
+- test_zero_input: Failed: DID NOT RAISE <class 'ValueError'>
+- test_large_input: Failed: Timeout (>10.0s) from pytest-timeout.
+For each one, trace the code carefully and write a corrected version with the SAME function name.
+
+Do not redefine `prime_fib`. Output ONE ```python code block that contains only the new and corrected test functions.
+### Response:
+
+response:
+The tests are failing because the expected values are incorrect. The function `prime_fib` is supposed to return the n-th Fibonacci number that is also a prime number. The tests are checking if the n-th Fibonacci number is a prime number, which is not the same as checking if the n-th prime number is a Fibonacci number.
+
+The corrected test functions are as follows:
+
+```python
+def test_tenth_fibonacci_prime():
+    assert prime_fib(10) == 144
+
+def test_negative_input():
+    with pytest.raises(ValueError):
+        prime_fib(-1)
+
+def test_zero_input():
+    with pytest.raises(ValueError):
+        prime_fib(0)
+
+def test_large_input():
+    assert prime_fib(100) == 8870976
+```
+
+The corrected values for the tests are:
+
+- `test_tenth_fibonacci_prime`: The 10th Fibonacci number is 144.
+- `test_negative_input`: The function `prime_fib` should raise a `ValueError` if the input is negative.
+- `test_zero_input`: The function `prime_fib` should raise a `ValueError` if the input is zero.
+- `test_large_input`: The 100th Fibonacci number is 8870976.
+
+Please note that the function `prime_fib` is not defined in the provided code, so I can't provide a correct implementation.
+coverage 100.0 -> 100.0
+[HumanEval/39] final: 17 tests, 13 pass, 4 fail, missing lines []
+final test file:
+import pytest
+from HumanEval_39 import *
+
+def test_example():
+    assert prime_fib(1) == 2
+
+def test_second_fibonacci_prime():
+    assert prime_fib(2) == 3
+
+def test_third_fibonacci_prime():
+    assert prime_fib(3) == 5
+
+def test_fourth_fibonacci_prime():
+    assert prime_fib(4) == 13
+
+def test_fifth_fibonacci_prime():
+    assert prime_fib(5) == 89
+
+def test_sixth_fibonacci_prime():
+    assert prime_fib(6) == 233
+
+def test_seventh_fibonacci_prime():
+    assert prime_fib(7) == 1597
+
+def test_eighth_fibonacci_prime():
+    assert prime_fib(8) == 28657
+
+def test_ninth_fibonacci_prime():
+    assert prime_fib(9) == 514229
+
+def test_tenth_fibonacci_prime():
+    assert prime_fib(10) == 144
+
+def test_negative_input():
+    with pytest.raises(ValueError):
+        prime_fib(-1)
+
+def test_zero_input():
+    with pytest.raises(ValueError):
+        prime_fib(0)
+
+def test_large_input():
+    assert prime_fib(100) == 8870976
+
+def test_edge_case_single_digit_prime():
+    assert prime_fib(1) == 2
+
+def test_edge_case_double_digit_prime():
+    assert prime_fib(2) == 3
+
+def test_edge_case_single_digit_fibonacci():
+    assert prime_fib(4) == 13
+
+def test_edge_case_double_digit_fibonacci():
+    assert prime_fib(5) == 89
+
 pytest output:
-pytest timed out after 120s
+.........FFFF....                                                        [100%]
+=================================== FAILURES ===================================
+__________________________ test_tenth_fibonacci_prime __________________________
+
+    def test_tenth_fibonacci_prime():
+>       assert prime_fib(10) == 144
+E       assert 433494437 == 144
+E        +  where 433494437 = prime_fib(10)
+
+HumanEval_39_test.py:32: AssertionError
+_____________________________ test_negative_input ______________________________
+
+    def test_negative_input():
+        with pytest.raises(ValueError):
+>           prime_fib(-1)
+
+HumanEval_39_test.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+HumanEval_39.py:29: in prime_fib
+    if is_prime(f[-1]):
+       ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = 99194853094755497
+
+    def is_prime(p):
+        if p < 2:
+            return False
+        for k in range(2, min(int(math.sqrt(p)) + 1, p - 1)):
+>           if p % k == 0:
+               ^^^^^^^^^^
+E           Failed: Timeout (>10.0s) from pytest-timeout.
+
+HumanEval_39.py:23: Failed
+_______________________________ test_zero_input ________________________________
+
+    def test_zero_input():
+>       with pytest.raises(ValueError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+HumanEval_39_test.py:39: Failed
+_______________________________ test_large_input _______________________________
+
+    def test_large_input():
+>       assert prime_fib(100) == 8870976
+               ^^^^^^^^^^^^^^
+
+HumanEval_39_test.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+HumanEval_39.py:29: in prime_fib
+    if is_prime(f[-1]):
+       ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+p = 99194853094755497
+
+    def is_prime(p):
+        if p < 2:
+            return False
+        for k in range(2, min(int(math.sqrt(p)) + 1, p - 1)):
+>           if p % k == 0:
+               ^^^^^^^^^^
+E           Failed: Timeout (>10.0s) from pytest-timeout.
+
+HumanEval_39.py:23: Failed
+- generated xml file: /content/CS598JBR-Team-17/MP2/GeneratedTests/crafted/HumanEval_39_junit.xml -
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.13.15-final-0 _______________
+
+Coverage JSON written to file /content/CS598JBR-Team-17/MP2/Coverage/HumanEval_39_test_crafted.json
+=========================== short test summary info ============================
+FAILED HumanEval_39_test.py::test_tenth_fibonacci_prime - assert 433494437 ==...
+FAILED HumanEval_39_test.py::test_negative_input - Failed: Timeout (>10.0s) f...
+FAILED HumanEval_39_test.py::test_zero_input - Failed: DID NOT RAISE <class '...
+FAILED HumanEval_39_test.py::test_large_input - Failed: Timeout (>10.0s) from...
+4 failed, 13 passed in 20.18s
+
 Task_ID HumanEval/39:
 prompt:
 You are an AI programming assistant. You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer
@@ -5246,7 +5688,7 @@ def test_edge_case_double_digit_fibonacci():
 
 This test suite covers all the branches in the `prime_fib` function. It tests the function with various inputs, including edge cases and large inputs. It also tests the function with negative and zero inputs, which are not expected to work in this context.
 coverage:
-0.0
+100.0
 [HumanEval/105] first run: coverage 100.0, 6/12 tests pass, missing lines []
 [HumanEval/105] feedback round 1:
 prompt:
@@ -5487,7 +5929,7 @@ FAILED HumanEval_105_test.py::test_mixed_positive_negative_numbers_3 - Assert...
 FAILED HumanEval_105_test.py::test_mixed_positive_negative_numbers_4 - Assert...
 FAILED HumanEval_105_test.py::test_mixed_positive_negative_numbers_5 - Assert...
 FAILED HumanEval_105_test.py::test_mixed_positive_negative_numbers_6 - Assert...
-6 failed, 6 passed in 0.11s
+6 failed, 6 passed in 0.12s
 
 Task_ID HumanEval/105:
 prompt:
@@ -5834,7 +6276,7 @@ FAILED HumanEval_86_test.py::test_special_characters - AssertionError: assert...
 FAILED HumanEval_86_test.py::test_numbers_and_special_characters - AssertionE...
 FAILED HumanEval_86_test.py::test_letters_and_special_characters - AssertionE...
 FAILED HumanEval_86_test.py::test_all_cases - AssertionError: assert 'Hello !...
-5 failed, 10 passed in 0.18s
+5 failed, 10 passed in 0.11s
 
 Task_ID HumanEval/86:
 prompt:
@@ -6423,7 +6865,7 @@ Coverage JSON written to file /content/CS598JBR-Team-17/MP2/Coverage/HumanEval_1
 FAILED HumanEval_18_test.py::test_substring_at_start - AssertionError: assert...
 FAILED HumanEval_18_test.py::test_empty_substring - AssertionError: assert 7 ...
 FAILED HumanEval_18_test.py::test_empty_string_and_empty_substring - Assertio...
-3 failed, 10 passed in 0.19s
+3 failed, 10 passed in 0.10s
 
 Task_ID HumanEval/18:
 prompt:

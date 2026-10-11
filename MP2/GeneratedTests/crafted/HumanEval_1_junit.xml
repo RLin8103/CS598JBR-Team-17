@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="11" skipped="0" tests="14" time="0.138" timestamp="2026-10-11T19:15:13.855537+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_1_test" name="test_example" time="0.002"><failure message="AssertionError: assert ['(()())', '(... '((())()())'] == ['(()())', '(... '((())()())']&#10;  &#10;  At index 2 diff: '()' != ''&#10;  Use -v to get more diff">def test_example():
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="11" skipped="0" tests="14" time="0.129" timestamp="2026-10-11T20:17:15.702226+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_1_test" name="test_example" time="0.002"><failure message="AssertionError: assert ['(()())', '(... '((())()())'] == ['(()())', '(... '((())()())']&#10;  &#10;  At index 2 diff: '()' != ''&#10;  Use -v to get more diff">def test_example():
 &gt;       assert separate_paren_groups('(()()) ((())) () ((())()())') == ['(()())', '((()))', '', '((())()())']
 E       AssertionError: assert ['(()())', '(... '((())()())'] == ['(()())', '(... '((())()())']
 E         
@@ -70,7 +70,7 @@ E
 E         At index 0 diff: '()' != '(-1)'
 E         Use -v to get more diff
 
-HumanEval_1_test.py:41: AssertionError</failure></testcase><testcase classname="HumanEval_1_test" name="test_zero" time="0.002"><failure message="AssertionError: assert ['()', '()'] == ['0', '(1)', '0', '(2)']&#10;  &#10;  At index 0 diff: '()' != '0'&#10;  Right contains 2 more items, first extra item: '0'&#10;  Use -v to get more diff">def test_zero():
+HumanEval_1_test.py:41: AssertionError</failure></testcase><testcase classname="HumanEval_1_test" name="test_zero" time="0.001"><failure message="AssertionError: assert ['()', '()'] == ['0', '(1)', '0', '(2)']&#10;  &#10;  At index 0 diff: '()' != '0'&#10;  Right contains 2 more items, first extra item: '0'&#10;  Use -v to get more diff">def test_zero():
 &gt;       assert separate_paren_groups('0 (1) 0 (2)') == ['0', '(1)', '0', '(2)']
 E       AssertionError: assert ['()', '()'] == ['0', '(1)', '0', '(2)']
 E         

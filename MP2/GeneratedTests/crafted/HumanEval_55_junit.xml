@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="14" time="10.152" timestamp="2026-10-11T20:10:13.128139+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_55_test" name="test_fib_zero" time="0.001" /><testcase classname="HumanEval_55_test" name="test_fib_one" time="0.001" /><testcase classname="HumanEval_55_test" name="test_fib_two" time="0.001" /><testcase classname="HumanEval_55_test" name="test_fib_three" time="0.001" /><testcase classname="HumanEval_55_test" name="test_fib_four" time="0.001" /><testcase classname="HumanEval_55_test" name="test_fib_five" time="0.001" /><testcase classname="HumanEval_55_test" name="test_fib_six" time="0.001" /><testcase classname="HumanEval_55_test" name="test_fib_seven" time="0.001" /><testcase classname="HumanEval_55_test" name="test_fib_eight" time="0.001" /><testcase classname="HumanEval_55_test" name="test_fib_nine" time="0.001" /><testcase classname="HumanEval_55_test" name="test_fib_ten" time="0.001" /><testcase classname="HumanEval_55_test" name="test_fib_negative" time="0.003" /><testcase classname="HumanEval_55_test" name="test_fib_large" time="10.000"><failure message="Failed: Timeout (&gt;10.0s) from pytest-timeout.">def test_fib_large():
+&gt;       assert fib(50) == 12586269025
+               ^^^^^^^
+
+HumanEval_55_test.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+                        ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+                        ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+                        ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+                        ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+                        ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+                        ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+                        ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:16: in fib
+    return fib(n - 1) + fib(n - 2)
+           ^^^^^^^^^^
+HumanEval_55.py:3: in fib
+    def fib(n: int):
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;Collector at 0x7b665651a900: CTracer&gt;
+
+&gt;   def lock_data(self) -&gt; None:
+E   Failed: Timeout (&gt;10.0s) from pytest-timeout.
+
+/usr/local/lib/python3.13/dist-packages/coverage/collector.py:236: Failed</failure></testcase><testcase classname="HumanEval_55_test" name="test_fib_large_negative" time="0.002" /></testsuite></testsuites>

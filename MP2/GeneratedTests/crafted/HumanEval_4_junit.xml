@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="12" time="1.267" timestamp="2026-10-11T19:09:29.997781+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_4_test" name="test_example" time="0.002" /><testcase classname="HumanEval_4_test" name="test_empty_list" time="0.001"><failure message="ZeroDivisionError: division by zero">def test_empty_list():
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="12" time="0.913" timestamp="2026-10-11T20:11:38.601792+00:00" hostname="77b1f9813d81"><testcase classname="HumanEval_4_test" name="test_example" time="0.001" /><testcase classname="HumanEval_4_test" name="test_empty_list" time="0.001"><failure message="ZeroDivisionError: division by zero">def test_empty_list():
 &gt;       assert mean_absolute_deviation([]) == 0
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -20,12 +20,12 @@ numbers = []
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 E       ZeroDivisionError: division by zero
 
-HumanEval_4.py:13: ZeroDivisionError</failure></testcase><testcase classname="HumanEval_4_test" name="test_single_element" time="0.001" /><testcase classname="HumanEval_4_test" name="test_zero_values" time="0.001" /><testcase classname="HumanEval_4_test" name="test_negative_values" time="0.001" /><testcase classname="HumanEval_4_test" name="test_boundary_values" time="0.002"><failure message="assert 1000000.0 == 2000000.0&#10; +  where 1000000.0 = mean_absolute_deviation([1000000.0, -1000000.0])">def test_boundary_values():
+HumanEval_4.py:13: ZeroDivisionError</failure></testcase><testcase classname="HumanEval_4_test" name="test_single_element" time="0.001" /><testcase classname="HumanEval_4_test" name="test_zero_values" time="0.001" /><testcase classname="HumanEval_4_test" name="test_negative_values" time="0.001" /><testcase classname="HumanEval_4_test" name="test_boundary_values" time="0.001"><failure message="assert 1000000.0 == 2000000.0&#10; +  where 1000000.0 = mean_absolute_deviation([1000000.0, -1000000.0])">def test_boundary_values():
 &gt;       assert mean_absolute_deviation([1000000.0, -1000000.0]) == 2000000.0
 E       assert 1000000.0 == 2000000.0
 E        +  where 1000000.0 = mean_absolute_deviation([1000000.0, -1000000.0])
 
-HumanEval_4_test.py:20: AssertionError</failure></testcase><testcase classname="HumanEval_4_test" name="test_large_dataset" time="1.084"><failure message="assert 250000.0 == 500000.5&#10; +  where 250000.0 = mean_absolute_deviation([1, 2, 3, 4, 5, 6, ...])">def test_large_dataset():
+HumanEval_4_test.py:20: AssertionError</failure></testcase><testcase classname="HumanEval_4_test" name="test_large_dataset" time="0.763"><failure message="assert 250000.0 == 500000.5&#10; +  where 250000.0 = mean_absolute_deviation([1, 2, 3, 4, 5, 6, ...])">def test_large_dataset():
         numbers = list(range(1, 1000001))
 &gt;       assert mean_absolute_deviation(numbers) == 500000.5
 E       assert 250000.0 == 500000.5
