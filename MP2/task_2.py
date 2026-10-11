@@ -155,7 +155,7 @@ def run_tests(module, program, test_code, mode):
     for stale in (cov_json, junit, os.path.join(run_dir, ".coverage")):
         if os.path.exists(stale):
             os.remove(stale)
-    cmd = [sys.executable, "-m", "pytest", f"{module}_test.py","--cov", module, "--cov-report", f"json:{cov_json}",f"--junitxml={junit}", "-q", "-p", "no:cacheprovider", "--rootdir", run_dir]
+    cmd = [sys.executable, "-m", "pytest", f"{module}_test.py","--cov", module, "--cov-report", f"json:{cov_json}",f"--junitxml={junit}", "-q", "--timeout", "10", "-p", "no:cacheprovider", "--rootdir", run_dir]
     try:
         proc = subprocess.run(cmd, cwd=run_dir, capture_output=True, text=True,timeout=PYTEST_TIMEOUT)
         pytest_output = proc.stdout + proc.stderr
