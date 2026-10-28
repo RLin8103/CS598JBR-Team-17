@@ -186,3 +186,26 @@ with zipfile.ZipFile(archive_path, "w", zipfile.ZIP_DEFLATED) as archive:
         if path.is_file() and "__pycache__" not in path.parts and path.suffix != ".class":
             archive.write(path, Path("MP3") / path.relative_to(Path.cwd()))
 files.download(str(archive_path))
+
+
+# %% [markdown]
+# # MP3 - Task 2: Bug detection
+#
+# Run after cloning the repository (`git clone https://github.com/RLin8103/CS598JBR-Team-17.git`),
+# then `%cd CS598JBR-Team-17/MP3`, `!bash -x setup_dataset.sh`, `!bash -x setup_models.sh`
+# and `!pip install -U bitsandbytes`, on a GPU runtime.
+
+# %%
+seed = "126511212782177902231984929477270226141"
+humaneval_input_dataset = "selected_humaneval_" + seed + ".jsonl"
+humanevalpack_input_dataset = "selected_humanevalpack_" + seed + ".jsonl"
+task_2_vanilla_json = "task_2_" + seed + "_vanilla.jsonl"
+task_2_crafted_json = "task_2_" + seed + "_crafted.jsonl"
+
+! python3 humanevalpack_dataset_generation.py {humaneval_input_dataset} |& tee humanevalpack_dataset_generation.log
+
+# %%
+! python3 task_2.py {humanevalpack_input_dataset} "deepseek-ai/deepseek-coder-6.7b-instruct" {task_2_vanilla_json} "True" |& tee task_2_vanilla.log
+
+# %%
+! python3 task_2.py {humanevalpack_input_dataset} "deepseek-ai/deepseek-coder-6.7b-instruct" {task_2_crafted_json} "False" |& tee task_2_crafted.log
