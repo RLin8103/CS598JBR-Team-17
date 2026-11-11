@@ -360,7 +360,7 @@ class Pipeline:
             reply_all.append(content)
             turn_msgs.append({"role": "assistant", "content": content})
             self.write_log(f"iteration_{it:02d}/assistant_{round_no}.md", content)
-            self.log_event("llm", iteration=it, round=round_no, usage=resp["usage"], finish_reason=finish_reason,
+            self.log_event("llm", iteration=it, round=round_no, model=resp["model"], usage=resp["usage"], finish_reason=finish_reason,
                            seconds=resp["seconds"], reply_chars=len(content))
             parsed = parse_reply(content)
             if parsed["notes"] is not None:

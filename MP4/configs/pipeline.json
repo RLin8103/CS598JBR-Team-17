@@ -6,14 +6,15 @@
   "llm": {
     "provider": "openai-compatible chat/completions endpoint (default: OpenRouter)",
     "base_url": "https://openrouter.ai/api/v1",
-    "model": "qwen/qwen3-coder:free",
+    "model": "cohere/north-mini-code:free",
+    "fallback_models": ["nvidia/nemotron-3-ultra-550b-a55b:free", "google/gemma-4-31b-it:free"],
     "api_key_env": "OPENROUTER_API_KEY",
     "temperature": 0.2,
     "top_p": 0.95,
     "max_tokens": 16000,
     "request_timeout_s": 900,
-    "max_retries": 6,
-    "retry_backoff_s": 20,
+    "max_retries": 3,
+    "retry_backoff_s": 15,
     "env_overrides": {
       "model": "LLM_MODEL",
       "base_url": "LLM_BASE_URL",

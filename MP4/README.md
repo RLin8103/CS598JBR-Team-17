@@ -34,9 +34,9 @@ MP4/
 | Item | Value |
 |---|---|
 | Agentic framework | `crust_agent` 1.0.0 - own controller in Python (no third-party agent framework) |
-| Model | set in `configs/pipeline.json` (`llm.model`, default `qwen/qwen3-coder:free`); the model actually used for each run is recorded in `trajectories/project_N/run_*/config_used.json` and `final_status.json` |
+| Model | set in `configs/pipeline.json` (`llm.model`, default `cohere/north-mini-code:free`, with `nvidia/nemotron-3-ultra-550b-a55b:free` and `google/gemma-4-31b-it:free` as automatic fallbacks); the model actually used for each run is recorded in `trajectories/project_N/run_*/config_used.json` and `final_status.json` |
 | Provider / runtime | any OpenAI-compatible `chat/completions` endpoint; default OpenRouter (`https://openrouter.ai/api/v1`). Local runtimes (Ollama, vLLM, llama.cpp server, LM Studio) work by setting `LLM_BASE_URL` |
-| Inference settings | temperature 0.2, top_p 0.95, max_tokens 16000 per reply, request timeout 900 s, 6 retries with back-off (`configs/pipeline.json`) |
+| Inference settings | temperature 0.2, top_p 0.95, max_tokens 16000 per reply, request timeout 900 s, 3 retries per model with back-off, then fallback (`configs/pipeline.json`) |
 | Rust toolchain | `nightly-2025-05-13` (cargo 1.89.0-nightly, clippy 0.1.88), the same one used for grading |
 | Host OS / runtime | Windows 11 host, pipeline run inside WSL2 Ubuntu (Linux x86_64), Python 3 |
 | Tools available to the agent | file write / patch (`src/*.rs` only), file read (`c_source/*`, crate files), `cargo build`, `cargo test`, `cargo clippy` (correctness / style / complexity / perf counted separately), unsafe-metrics analysis |
