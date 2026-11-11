@@ -1,0 +1,8 @@
+{
+  "COMPILE": "The crate does not compile. Fix compiler errors first, starting with the first errors in the list (later errors are often consequences of earlier ones). Do not worry about Clippy or unsafe metrics until the crate builds.",
+  "POLICY": "The workspace violates a hard rule (forbidden construct or protected file modification). Fix this first.",
+  "TESTS": "The crate compiles but tests fail. Compare the failing assertions and panics against the C behaviour. Fix the logic, never special-case test data. Replace remaining `unimplemented!()` bodies with real code.",
+  "SAFETY": "All tests pass. Now reduce unsafe behaviour: remove `unsafe` blocks and `unsafe fn`, raw-pointer casts, pointer arithmetic and manual memory management by using slices, Vec, Box, Option and iterators. All tests must still pass after your change. Also fix Clippy findings when you touch the same code.",
+  "CLIPPY": "All tests pass and unsafe metrics are zero. Now fix the Clippy findings below (correctness first, then complexity, perf, style). All tests must still pass after your change.",
+  "DONE": "Every target is met. Reply with <done/>."
+}
