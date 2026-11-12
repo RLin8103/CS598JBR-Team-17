@@ -261,6 +261,21 @@ class Workspace:
         target.write_text(content if content.endswith("\n") else content + "\n", encoding="utf-8")
         return None
 
+    def append_file(self, rel: str, content: str) -> str | None:
+        """Append to a file (used to continue a file whose reply was cut off by the output limit)."""
+        rel = rel.strip()
+        if rel.startswith("./"):
+            rel = rel[2:]
+        if not self.is_editable(rel):
+            return f"refused: `{rel}` is not an editable path"
+        target = self.crate / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        existing = target.read_text(encoding="utf-8") if target.exists() else ""
+        if existing and not existing.endswith("\n"):
+            existing += "\n"
+        target.write_text(existing + (content if content.endswith("\n") else content + "\n"), encoding="utf-8")
+        return None
+
     def edit_file(self, rel: str, search: str, replace: str) -> str | None:
         rel = rel.strip()
         if rel.startswith("./"):
@@ -324,14 +339,48 @@ def strip_fences(content: str) -> str:
     return m.group(1) if m else content
 
 
+APPEND_RE = re.compile(r'<append\s+path="([^"]+)"\s*>\n?(.*?)\n?</append>', re.S)
+OPEN_RE = re.compile(r'<(file|append)\s+path="([^"]+)"\s*>\n?')
+
+
 def parse_reply(text: str) -> dict:
+    """Parse the model reply into ordered operations plus a possibly cut-off trailing block.
+
+    ops: list of ("file"|"append", path, content) or ("edit", path, (search, replace)) in reply order.
+    truncated: (kind, path, content_so_far) when the reply ended inside an unclosed <file>/<append>
+    block (typically because the output-token limit was hit), else None.
+    """
+    ops = []
+    for m in FILE_RE.finditer(text):
+        ops.append((m.start(), "file", m.group(1), strip_fences(m.group(2))))
+    for m in APPEND_RE.finditer(text):
+        ops.append((m.start(), "append", m.group(1), strip_fences(m.group(2))))
+    for m in EDIT_RE.finditer(text):
+        ops.append((m.start(), "edit", m.group(1), (strip_fences(m.group(2)), strip_fences(m.group(3)))))
+    ops.sort(key=lambda o: o[0])
+
+    truncated = None
+    opens = list(OPEN_RE.finditer(text))
+    if opens:
+        last = opens[-1]
+        if f"</{last.group(1)}>" not in text[last.end():]:
+            truncated = (last.group(1), last.group(2), text[last.end():])
     return {
-        "files": [(p, strip_fences(c)) for p, c in FILE_RE.findall(text)],
-        "edits": [(p, strip_fences(s), strip_fences(r)) for p, s, r in EDIT_RE.findall(text)],
+        "ops": [o[1:] for o in ops],
+        "truncated": truncated,
         "reads": READ_RE.findall(text),
         "notes": (NOTES_RE.findall(text) or [None])[-1],
         "done": bool(DONE_RE.search(text)),
     }
+
+
+def salvage_partial(content: str) -> tuple[str, int, str]:
+    """Cut a truncated block back to its last complete line. Returns (content, line_count, last_line)."""
+    content = re.sub(r"^```[a-zA-Z]*\n", "", content)  # leading fence, if the model used one
+    cut_at = content.rfind("\n")
+    kept = content[: cut_at + 1] if cut_at != -1 else ""
+    lines = kept.splitlines()
+    return kept, len(lines), (lines[-1].strip()[:120] if lines else "")
 
 
 # ----------------------------------------------------------------------------- redaction

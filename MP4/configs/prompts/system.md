@@ -33,16 +33,28 @@ new text
 </replace>
 </edit>
 
-3. Read a file that is not shown in full (C sources, tests, interfaces). Paths are relative to the project, e.g. `c_source/psbt.c`, `src/bin/test.rs`, `src/interfaces/psbt.rs`:
-<read path="c_source/psbt.c"/>
-(After a read the controller returns the content and lets you continue within the same iteration.)
+3. Append to a file (to finish a long file over several blocks or turns):
+<append path="src/example.rs">
+...lines that continue the file...
+</append>
 
-4. Persistent notes. Only these notes (and the file contents) survive across iterations, so keep decisions, open problems and a TODO list here. The newest notes block replaces the previous one:
+4. Read a file. Your first message already contains the C sources, the interface, the tests and the current Rust files, so only read a file that was marked as truncated. Paths are relative to the project, e.g. `c_source/psbt.c`, `src/bin/test.rs`:
+<read path="c_source/psbt.c"/>
+(After a read the controller returns the content and lets you continue within the same iteration. Do not spend a reply only on reads of files you already have.)
+
+5. Persistent notes. Only these notes (and the file contents) survive across iterations, so keep decisions, open problems and a TODO list here. The newest notes block replaces the previous one:
 <notes>
 ...
 </notes>
 
-5. Declare completion only when you believe tests pass, unsafe is zero and Clippy is clean:
+6. Declare completion only when you believe tests pass, unsafe is zero and Clippy is clean:
 <done/>
 
-Prefer `<edit>` for small fixes and `<file>` for new or heavily changed files. Always provide complete, compilable file contents inside `<file>` blocks (no placeholders such as "rest unchanged"). Do not wrap blocks in markdown code fences.
+# Output limit (important)
+Every reply has a hard limit of about 16,000 output tokens (roughly 600 lines of Rust). A reply that hits the limit is cut off in the middle of a block and the half-written file is useless. Therefore:
+- Aim for replies of at most ~250 lines of new code in total. Never rewrite a long file in one block.
+- The module files start as compilable stubs (`unimplemented!()` bodies). Work function by function: replace a few stubs per reply with `<edit>` blocks (search = the stub's signature line plus its `unimplemented!()` body, replace = the real implementation). The crate keeps compiling, so you get compiler and test feedback after every step.
+- Use `<file>` only for files of up to ~250 lines. If a block is cut off, the controller keeps the saved lines and asks you to continue with `<append>`.
+- Plan the order in your notes: data structures and constructors first, then the core operations, then the rest.
+
+Prefer `<edit>` for changes to existing code and `<file>` for small new files. Provide complete, compilable code inside blocks (no placeholders such as "rest unchanged"). Do not wrap blocks in markdown code fences.

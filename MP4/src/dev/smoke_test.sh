@@ -12,4 +12,4 @@ trap 'kill $SRV 2>/dev/null || true' EXIT
 sleep 1
 LLM_BASE_URL=http://127.0.0.1:8765/v1 LLM_MODEL=mock LLM_FALLBACK_MODELS= \
   python3 "$MP4/src/agent.py" --project cset --subject "$MP4/subjects/project_1" \
-  --out /tmp/smoke/out --log /tmp/smoke/log --target-dir /tmp/smoke/target --max-iterations 3 --fresh || true
+  --out /tmp/smoke/out --log /tmp/smoke/log --target-dir /tmp/smoke/target --max-iterations 4 --fresh || true

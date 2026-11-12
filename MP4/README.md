@@ -92,7 +92,7 @@ cargo +nightly-2025-05-13 clippy --all-targets --all-features -- \
    `src/lib.rs`, `src/bin/**` tests, `src/interfaces/**`).
 2. `baseline`: run build, tests, Clippy and unsafe metrics once (iteration 0).
 3. First prompt: task description, workspace tree, Rust interface, tests, all C sources, current Rust files, baseline feedback.
-4. Each iteration: the model replies with `<file>` / `<edit>` / `<read>` / `<notes>` / `<done/>` blocks;
+4. Each iteration: the model replies with `<file>` / `<edit>` / `<append>` / `<read>` / `<notes>` / `<done/>` blocks (replies are limited to about 16k output tokens, so the prompt tells it to work function by function; if a reply is cut off the controller saves the complete lines and asks the model to continue with `<append>`);
    the controller applies edits (refusing protected paths), re-runs all four checks and sends back the compiler
    errors, failing tests and panic messages, Clippy findings per category, unsafe metrics with offending lines,
    plus the current Rust files and the model's own notes.
@@ -109,9 +109,9 @@ and `build.rs` (FFI back into the C code) are flagged as policy violations that 
 The run stops at the first of:
 
 1. **success**: build OK, every test passes, all primary unsafe metrics are 0 and the Clippy total is `<= clippy_accept` (0);
-2. `max_iterations` (25 repair iterations);
+2. `max_iterations` (40 repair iterations);
 3. `max_total_tokens` (2,000,000 prompt + completion tokens);
-4. `no_progress_patience`: 6 consecutive iterations without improving the best score;
+4. `no_progress_patience`: 8 consecutive iterations without improving the best score (turns spent finishing a cut-off file do not count);
 5. `agent_done`: the model sent `<done/>` twice in a row while the crate compiles and all tests pass;
 6. an unrecoverable LLM/API error (the best snapshot is still restored and recorded).
 

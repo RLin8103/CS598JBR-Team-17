@@ -31,7 +31,7 @@ sys.path.insert(0, str(HERE))
 
 from llm import LLMClient, LLMError  # noqa: E402
 from tools import (  # noqa: E402
-    CargoTools, Workspace, parse_reply, redact, unsafe_primary_total,
+    CargoTools, Workspace, parse_reply, redact, salvage_partial, unsafe_primary_total,
 )
 
 
@@ -45,6 +45,15 @@ def cut(text: str, limit: int, note: str = "... [truncated]") -> str:
 
 def fence(text: str, lang: str = "") -> str:
     return f"```{lang}\n{text}\n```"
+
+
+def compact_reply(text: str, limit: int = 8000) -> str:
+    """Replace <file>/<append> bodies (even unclosed ones) by a marker; they are re-sent in the file listing."""
+    def repl(m: re.Match) -> str:
+        lines = m.group(3).count("\n") + 1
+        return f'<{m.group(1)} path="{m.group(2)}">[{lines} lines omitted from history; see current files]</{m.group(1)}>'
+    out = re.sub(r'<(file|append)\s+path="([^"]+)"\s*>(.*?)(?:</\1>|\Z)', repl, text, flags=re.S)
+    return out if len(out) <= limit else out[:limit] + "\n... [reply truncated in history]"
 
 
 class Pipeline:
@@ -77,6 +86,7 @@ class Pipeline:
         self.run_dir = self.log_root / f"run_{stamp}"
         self.events_path = self.run_dir / "trajectory.jsonl"
         self.history: list[dict] = []
+        self.pending_partial: dict[str, dict] = {}  # files cut off mid-write by the output limit
         self.notes = ""
         self.metrics_log: list[dict] = []
         self.secrets = self.llm.secrets()
@@ -316,12 +326,13 @@ class Pipeline:
     def feedback_prompt(self, it: int, s: dict, notices: list[str]) -> str:
         tpl = (self.prompts / "feedback.md").read_text(encoding="utf-8")
         fb = self.feedback_text(s)
+        phase = "CONTINUE" if self.pending_partial else s["phase"]
         notice_txt = ("## Notices from the controller\n" + "\n".join(f"- {n}" for n in notices) + "\n\n") if notices else ""
         notes_txt = f"## Your notes from the previous turn\n{self.notes}\n\n" if self.notes else ""
         for k, v in {
             "ITERATION": str(it), "MAX_ITERATIONS": str(self.limits["max_iterations"]),
             "NOTICES": notice_txt + notes_txt, "STATUS_TABLE": self.status_table(s),
-            "PHASE": s["phase"], "PHASE_INSTRUCTIONS": self.phase_text[s["phase"]],
+            "PHASE": phase, "PHASE_INSTRUCTIONS": self.phase_text[phase],
             "FEEDBACK": fb, "CURRENT_FILES": self.current_files(fb),
         }.items():
             tpl = tpl.replace("{{" + k + "}}", v)
@@ -358,23 +369,42 @@ class Pipeline:
             finish_reason = resp["finish_reason"]
             content = resp["content"]
             reply_all.append(content)
-            turn_msgs.append({"role": "assistant", "content": content})
+            # The full reply is logged; the conversation history keeps a compact copy (file bodies are
+            # re-sent fresh in every feedback message, so storing them again would only waste context).
+            turn_msgs.append({"role": "assistant", "content": compact_reply(content)})
             self.write_log(f"iteration_{it:02d}/assistant_{round_no}.md", content)
             self.log_event("llm", iteration=it, round=round_no, model=resp["model"], usage=resp["usage"], finish_reason=finish_reason,
                            seconds=resp["seconds"], reply_chars=len(content))
             parsed = parse_reply(content)
             if parsed["notes"] is not None:
                 self.notes = parsed["notes"]
-            for rel, body in parsed["files"]:
-                err = self.ws.write_file(rel, body)
-                (problems if err else edits_applied).append(err or f"wrote {rel}")
-                self.log_event("tool", iteration=it, tool="write_file", path=rel, error=err, chars=len(body))
-            for rel, search, replace in parsed["edits"]:
-                err = self.ws.edit_file(rel, search, replace)
-                (problems if err else edits_applied).append(err or f"edited {rel}")
-                self.log_event("tool", iteration=it, tool="edit_file", path=rel, error=err)
+            for kind, rel, body in parsed["ops"]:
+                if kind == "file":
+                    err, label = self.ws.write_file(rel, body), f"wrote {rel}"
+                elif kind == "append":
+                    err, label = self.ws.append_file(rel, body), f"appended to {rel}"
+                else:
+                    err, label = self.ws.edit_file(rel, body[0], body[1]), f"edited {rel}"
+                (problems if err else edits_applied).append(err or label)
+                if not err and kind in ("file", "append"):
+                    self.pending_partial.pop(rel.strip().removeprefix("./"), None)  # block closed: file finished
+                self.log_event("tool", iteration=it, tool=f"{kind}_file" if kind != "edit" else "edit_file", path=rel, error=err,
+                               chars=len(body) if isinstance(body, str) else len(body[1]))
+            trunc = parsed["truncated"]
+            if trunc and finish_reason == "length":
+                kind, rel, partial = trunc
+                kept, n_lines, last_line = salvage_partial(partial)
+                rel = rel.strip().removeprefix("./")
+                if kept.strip():
+                    err = self.ws.write_file(rel, kept) if kind == "file" else self.ws.append_file(rel, kept)
+                    if err:
+                        problems.append(err)
+                    else:
+                        edits_applied.append(f"saved partial {rel} ({n_lines} lines of this reply, cut off by the output limit)")
+                        self.pending_partial[rel] = {"last_line": last_line}
+                        self.log_event("tool", iteration=it, tool="partial_save", path=rel, lines=n_lines)
             done = done or parsed["done"]
-            if parsed["reads"] and not parsed["files"] and not parsed["edits"] and round_no < self.limits["max_read_rounds_per_iteration"]:
+            if parsed["reads"] and not parsed["ops"] and not trunc and round_no < self.limits["max_read_rounds_per_iteration"]:
                 served = []
                 for rel in parsed["reads"]:
                     text = self.ws.read_file(rel)
@@ -390,7 +420,22 @@ class Pipeline:
                       + (f"\nnotes: {self.notes}" if self.notes else ""))
         self.history.append({"msgs": turn_msgs, "user_short": short_user, "assistant_short": short_asst})
         return {"edits": edits_applied, "problems": problems, "done": done, "finish_reason": finish_reason,
-                "reply": "\n".join(reply_all)}
+                "reply": "\n".join(reply_all), "pending": dict(self.pending_partial)}
+
+    def continuation_notice(self) -> str:
+        parts = []
+        for rel, info in self.pending_partial.items():
+            path = self.crate / rel
+            lines = path.read_text(encoding="utf-8", errors="replace").splitlines() if path.exists() else []
+            tail = "\n".join(lines[-12:])
+            parts.append(
+                f"Your previous reply was cut off by the output-token limit while writing `{rel}`. The controller saved everything up to "
+                f"the last complete line (the file now has {len(lines)} lines; the last saved line is `{info['last_line']}`). "
+                f"Continue the file with <append path=\"{rel}\"> starting at the very next line. Do not repeat saved lines and do not re-send the "
+                f"whole file. Keep each block below ~250 lines and finish the file. The crate will not compile until the file is complete.\n"
+                f"Last saved lines:\n{fence(tail, 'rust')}"
+            )
+        return "\n\n".join(parts)
 
     # ------------------------------------------------------------------ main loop
     def best_snapshot(self) -> dict[str, str]:
@@ -422,6 +467,7 @@ class Pipeline:
         notices: list[str] = []
         done_streak = 0
         it = 0
+        last_progress_it = 0
         try:
             while True:
                 if state["phase"] == "DONE":
@@ -433,7 +479,7 @@ class Pipeline:
                 if self.llm.total_tokens >= self.limits["max_total_tokens"]:
                     stop_reason = "token_budget"
                     break
-                if it - best_it >= self.limits["no_progress_patience"]:
+                if it - last_progress_it >= self.limits["no_progress_patience"]:
                     stop_reason = "no_progress"
                     break
                 it += 1
@@ -443,7 +489,8 @@ class Pipeline:
                 notices = []
                 turn = self.agent_turn(it, system, first, user_msg)
                 if turn["finish_reason"] == "length":
-                    notices.append("Your previous reply hit the output token limit. Incomplete blocks are ignored. Work in smaller steps: use <edit> or fewer/shorter <file> blocks.")
+                    notices.append("Your previous reply hit the output token limit. Keep replies short: change a few functions per reply with <edit>, "
+                                   "and never write more than ~250 lines in one <file>/<append> block.")
                 for p in turn["problems"]:
                     notices.append(p)
                 if turn["done"]:
@@ -452,7 +499,13 @@ class Pipeline:
                         notices.append(f"You sent <done/> but the targets are not met (phase {state['phase']}).")
                 else:
                     done_streak = 0
-                if turn["edits"]:
+                if self.pending_partial:
+                    # A file was cut off mid-write: cargo would only report errors about the half-written file,
+                    # so skip the checks and ask the model to finish it. Such turns do not count as "no progress".
+                    notices.append(self.continuation_notice())
+                    state = dict(state, label=f"iter {it} (file incomplete, checks skipped)")
+                    last_progress_it = it
+                elif turn["edits"]:
                     state = self.run_checks(f"iter {it}")
                 else:
                     notices.append("No valid edit was applied in your previous reply." if not turn["done"] else "No edits were made.")
@@ -462,6 +515,7 @@ class Pipeline:
                          f"unsafe={state['unsafe_total']} clippy={state['clippy_total']} tokens={self.llm.total_tokens}")
                 if state["score"] > best:
                     best, best_snap, best_it = state["score"], self.best_snapshot(), it
+                    last_progress_it = it
                 if done_streak >= 2 and state["compiles"] and state["failed"] == 0 and state["total"] > 0:
                     stop_reason = "agent_done"
                     break
