@@ -51,7 +51,7 @@ new text
 <done/>
 
 # Output limit (important)
-Every reply has a hard limit of about 16,000 output tokens (roughly 600 lines of Rust). A reply that hits the limit is cut off in the middle of a block and the half-written file is useless. Therefore:
+Every reply has a hard output limit that also counts any hidden reasoning, so think briefly and then write the answer. A reply that hits the limit is cut off in the middle of a block and the half-written file is useless. Therefore:
 - Aim for replies of at most ~250 lines of new code in total. Never rewrite a long file in one block.
 - The module files start as compilable stubs (`unimplemented!()` bodies). Work function by function: replace a few stubs per reply with `<edit>` blocks (search = the stub's signature line plus its `unimplemented!()` body, replace = the real implementation). The crate keeps compiling, so you get compiler and test feedback after every step.
 - Use `<file>` only for files of up to ~250 lines. If a block is cut off, the controller keeps the saved lines and asks you to continue with `<append>`.

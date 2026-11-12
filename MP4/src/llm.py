@@ -65,21 +65,21 @@ class LLMClient:
 
     # ------------------------------------------------------------------ single model
     def _request(self, model: str, messages: list[dict]) -> dict:
-        body = {
-            "model": model,
-            "messages": messages,
-            "temperature": self.temperature,
-            "top_p": self.top_p,
-            "max_tokens": self.max_tokens,
-            **self.extra_body,
-        }
-        data = json.dumps(body).encode("utf-8")
         headers = {"Content-Type": "application/json"}
         if self.api_key:
             headers["Authorization"] = f"Bearer {self.api_key}"
         last_err: Exception | None = None
         for attempt in range(1, self.max_retries + 1):
             started = time.time()
+            body = {
+                "model": model,
+                "messages": messages,
+                "temperature": self.temperature,
+                "top_p": self.top_p,
+                "max_tokens": self.max_tokens,
+                **self.extra_body,
+            }
+            data = json.dumps(body).encode("utf-8")
             try:
                 req = urllib.request.Request(f"{self.base_url}/chat/completions", data=data, headers=headers)
                 with urllib.request.urlopen(req, timeout=self.timeout) as resp:
@@ -114,6 +114,11 @@ class LLMClient:
                 last_err = LLMError(f"HTTP {exc.code}: {detail}")
                 if exc.code in (401, 403):
                     raise LLMError(f"authentication failed ({exc.code}); check the API key: {detail}")
+                if exc.code == 400 and self.extra_body:
+                    # Some providers reject optional parameters (e.g. `reasoning`): drop them and retry once.
+                    print(f"[llm] {model}: HTTP 400 with extra_body {list(self.extra_body)}; retrying without it ({detail[:160]})", flush=True)
+                    self.extra_body = {}
+                    continue
                 if exc.code in (400, 404):
                     raise FatalModelError(f"model {model} rejected the request: HTTP {exc.code}: {detail}")
             except (urllib.error.URLError, TimeoutError, LLMError, json.JSONDecodeError, KeyError, IndexError) as exc:
