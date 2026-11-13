@@ -113,7 +113,16 @@ The run stops at the first of:
 3. `max_total_tokens` (2,000,000 prompt + completion tokens);
 4. `no_progress_patience`: 8 consecutive iterations without improving the best score (turns spent finishing a cut-off file do not count);
 5. `agent_done`: the model sent `<done/>` twice in a row while the crate compiles and all tests pass;
-6. an unrecoverable LLM/API error (the best snapshot is still restored and recorded).
+6. an unrecoverable LLM/API error. Rate-limit/empty-completion stops keep the latest files in place so that the run can be resumed
+   (rerun without `--fresh`); other stops restore the best snapshot.
+
+Repair-loop safeguards added during the experiments (all visible in the trajectories):
+
+- *Rollback*: in the `SAFETY`/`CLIPPY` phases an edit that breaks the build or tests, or makes unsafe/Clippy worse, is reverted and the model is
+  shown the errors of the reverted attempt (`rollback` events).
+- *Escalation*: after 2 consecutive replies without an applied edit the controller switches to the next model in `fallback_models` (`escalate` events).
+- *Tolerant parsing*: unclosed `<edit>`/`<file>` blocks and CDATA/fences are accepted; malformed edit blocks are reported back to the model.
+- Edits only reset the no-progress counter in the `COMPILE`/`TESTS`/`POLICY` phases; in `SAFETY`/`CLIPPY` only score improvements count.
 
 ## Trajectories
 
@@ -122,8 +131,25 @@ The run stops at the first of:
 result, the stop event), `metrics_by_iteration.json`, `final_status.json`, and one `iteration_NN/` directory per
 iteration holding the prompts sent to / replies received from the model, `build.txt`, `test.txt`, `clippy.txt`,
 `unsafe_metrics.json`, `metrics.json` and a snapshot of the Rust files after that iteration.
-`trajectories/project_N/latest_run.txt` names the run that produced the submitted translation.
+`trajectories/project_N/latest_run.txt` names the last run (the one that produced the submitted translation).
 API keys are never written to disk and are scrubbed from every log line (`tools.redact`).
+
+Each project's submitted translation is the result of several runs in sequence: a run that stops (rate limit, patience, token budget)
+is resumed by running the pipeline again without `--fresh`, which continues from the files left in `translations/project_N`.
+Run history (all runs are kept; early runs used free models and show the problems that led to the pipeline safeguards):
+
+| Project | Run | Models used | Iterations | Stop reason | Result at end |
+|---|---|---|---|---|---|
+| 1 cset | `run_20261112_200435` | cohere/north-mini-code:free (+ free fallbacks) | 15 | free-tier daily limit (50 req/day) | did not compile |
+| 1 cset | `run_20261112_203533` | free models (cohere, nemotron) | 27 | all models failed (empty completions) | did not compile |
+| 1 cset | `run_20261112_210939` | qwen/qwen3-coder-next | 4 | interrupted by hand (no `final_status.json`) | - |
+| 1 cset | `run_20261112_212222` | qwen/qwen3-coder-next | 15 | no_progress (unclosed `<edit>` blocks were dropped by the parser; fixed afterwards) | compiles, 5/15 tests |
+| 1 cset | `run_20261112_213748` | qwen/qwen3-coder-next | 35 | token_budget | 15/15 tests, unsafe 44, Clippy 4 |
+| 1 cset | `run_20261112_215837` | qwen/qwen3-coder-next | 7 | crashed on a transient Windows file lock (no `final_status.json`; fixed with write retries) | - |
+| 1 cset | `run_20261112_220540` | qwen/qwen3-coder-next | 12 | no_progress | 15/15 tests, unsafe 36, Clippy 3 |
+| 1 cset | `run_20261112_225516` | claude-haiku-5.5 (failed), then deepseek/deepseek-v4-flash | 12 | no_progress | **15/15 tests, unsafe 14, Clippy 0** |
+| 2 libpsbt | `run_20261112_222714` | qwen/qwen3-coder-next | 19 | no_progress (model looped in its notes without edits) | compiles, 2/8 tests |
+| 2 libpsbt | `run_20261112_223757` | qwen/qwen3-coder-next, then claude-haiku-5.5 | 19 | token_budget | **6/8 tests, unsafe 0, Clippy 2** |
 
 ## Safety metrics
 
@@ -138,4 +164,18 @@ unsafe casts, pointer arithmetic) plus extras; the trajectory records which tool
 - No program logic was edited by hand. Any infrastructure fix will be listed here with the reason and whether program logic was affected.
 - Setup changes made by hand: none to the translated code. The skeleton's missing module files are created automatically by the controller
   from the provided interface stubs.
-- API / usage limits that affected the experiment: _to be filled in after the final runs (rate limits, daily request caps of the free tier, context limits)._
+- Infrastructure fixes made by hand (pipeline code only, never the translated Rust): tolerant reply parsing, `<append>` continuation for cut-off files,
+  rollback of regressing edits, model escalation, retrying file writes after a transient Windows lock, resume support. None of these changes program logic.
+- API / usage limits that affected the experiment: OpenRouter's free tier allows 50 requests/day (1000 with at least $10 of credit) and individual free
+  providers return upstream 429s; the first runs hit both and one run ended on the daily cap. The free reasoning models (cohere/north-mini-code, nemotron)
+  also spend the output budget on hidden reasoning tokens and often return empty completions, so the pipeline moved to paid non-reasoning models
+  (`qwen/qwen3-coder-next` by default; `anthropic/claude-haiku-5.5` and `deepseek/deepseek-v4-flash` as fallbacks). `max_tokens` per reply is 16,000, so
+  long files must be written function by function; the whole project cost roughly $2 of credit (about $0.01 per iteration for qwen, more for haiku).
+  Context is about 40-120k prompt tokens per iteration because the C sources, interface, tests and current Rust files are resent every turn.
+- Known test defect (project 2): `read_test_vector` in the provided `src/bin/test.rs` declares `step` as a local variable, so it asserts that *every* record
+  has type 0, while the C test shares the counter and only checks the first two records. A faithful `psbt_read` emits a type-4 record and fails it
+  (`left: 4, right: 0`); passing would require special-casing the test data, which the assignment forbids, so the translation keeps the faithful behaviour
+  (6/8 test results, i.e. one failing test counted in two targets).
+- Project 1 design note: the submitted `cset.rs` adds the bounds `T: Clone + Hash + PartialEq` to `impl<T> Cset<T>` and hashes with Rust's `DefaultHasher`
+  instead of xxh64 (this is what removed most unsafe code). The interface file itself is unchanged. The bound-free version (unsafe 36) is kept in git
+  history (commit `7d2e323`).
