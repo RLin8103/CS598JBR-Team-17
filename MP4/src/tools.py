@@ -182,6 +182,20 @@ def glob_match(rel: str, pattern: str) -> bool:
     return fnmatch.fnmatch(rel, pattern)
 
 
+def safe_write(path: Path, text: str) -> None:
+    """write_text with retries: files under /mnt/c (WSL) are occasionally locked for a moment by Windows
+    (editor, indexer, antivirus), which surfaces as OSError EINVAL/EACCES."""
+    last: OSError | None = None
+    for attempt in range(10):
+        try:
+            path.write_text(text, encoding="utf-8")
+            return
+        except OSError as exc:
+            last = exc
+            time.sleep(0.3 * (attempt + 1))
+    raise last  # type: ignore[misc]
+
+
 class Workspace:
     """Crate directory plus the guard rails: protected files cannot be modified by the agent."""
 
@@ -258,7 +272,7 @@ class Workspace:
             return f"refused: `{rel}` is not an editable path (editable: src/*.rs; protected: {', '.join(self.protected_patterns)})"
         target = self.crate / rel
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(content if content.endswith("\n") else content + "\n", encoding="utf-8")
+        safe_write(target, content if content.endswith("\n") else content + "\n")
         return None
 
     def append_file(self, rel: str, content: str) -> str | None:
@@ -273,7 +287,7 @@ class Workspace:
         existing = target.read_text(encoding="utf-8") if target.exists() else ""
         if existing and not existing.endswith("\n"):
             existing += "\n"
-        target.write_text(existing + (content if content.endswith("\n") else content + "\n"), encoding="utf-8")
+        safe_write(target, existing + (content if content.endswith("\n") else content + "\n"))
         return None
 
     def edit_file(self, rel: str, search: str, replace: str) -> str | None:
@@ -291,7 +305,7 @@ class Workspace:
             return f"edit failed in `{rel}`: search text not found (it must match the current file exactly)"
         if count > 1:
             return f"edit failed in `{rel}`: search text occurs {count} times (make it unique)"
-        target.write_text(text.replace(search, replace, 1), encoding="utf-8")
+        safe_write(target, text.replace(search, replace, 1))
         return None
 
     def read_file(self, rel: str, max_chars: int = 60000) -> str:

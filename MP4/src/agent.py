@@ -31,7 +31,7 @@ sys.path.insert(0, str(HERE))
 
 from llm import LLMClient, LLMError  # noqa: E402
 from tools import (  # noqa: E402
-    CargoTools, Workspace, parse_reply, redact, salvage_partial, strip_fences, unsafe_primary_total,
+    CargoTools, Workspace, parse_reply, redact, safe_write, salvage_partial, strip_fences, unsafe_primary_total,
 )
 
 
@@ -495,7 +495,7 @@ class Pipeline:
                 p.unlink()
         for rel, text in snap.items():
             (self.crate / rel).parent.mkdir(parents=True, exist_ok=True)
-            (self.crate / rel).write_text(text, encoding="utf-8")
+            safe_write(self.crate / rel, text)
 
     def run(self) -> int:
         self.run_dir.mkdir(parents=True, exist_ok=True)
@@ -563,6 +563,15 @@ class Pipeline:
                             f"Your edit in the previous reply made things worse (compiles={state['compiles']}, tests {state['passed']}/{state['total']}, "
                             f"unsafe {state['unsafe_total']} vs {best_state['unsafe_total']}, clippy {state['clippy_total']} vs {best_state['clippy_total']}) "
                             "and was reverted. The files below are the last good version; try a different, smaller change.")
+                        if not state["compiles"]:
+                            notices.append("What went wrong in the reverted attempt (cargo build output):\n"
+                                           + fence(cut(state["build"]["pretty"], 3500, "... [more diagnostics omitted]")))
+                        elif (state["test"] or {}).get("compile_failed"):
+                            notices.append("The reverted attempt made the test target fail to compile:\n"
+                                           + fence(cut(state["test"]["stderr"], 3000)))
+                        elif state["failed"]:
+                            notices.append("The reverted attempt broke these tests: " + ", ".join(state["test"]["failing_tests"][:8])
+                                           + "\n" + fence(cut(self.failure_details(state["test"]), 2500)))
                         self.log_event("rollback", iteration=it, worse_score=list(state["score"]), restored_score=list(best))
                         self.restore(best_snap)
                         state = dict(best_state, label=f"iter {it} (edit reverted)")

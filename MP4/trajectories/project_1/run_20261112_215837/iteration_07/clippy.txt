@@ -1,0 +1,42 @@
+# Clippy counts: {"correctness": 2, "style": 1, "complexity": 0, "perf": 0} total=3
+
+## correctness (2)
+warning: this public function might dereference a raw pointer but is not marked `unsafe`
+   --> src/cset.rs:197:53
+    |
+197 |     let slice = unsafe { std::slice::from_raw_parts(input, len) };
+    |                                                     ^^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#not_unsafe_ptr_arg_deref
+    = note: `-W clippy::not-unsafe-ptr-arg-deref` implied by `-W clippy::correctness`
+    = help: to override `-W clippy::correctness` add `#[allow(clippy::not_unsafe_ptr_arg_deref)]`
+warning: this public function might dereference a raw pointer but is not marked `unsafe`
+   --> src/cset.rs:206:53
+    |
+206 |     let slice = unsafe { std::slice::from_raw_parts(input, len) };
+    |                                                     ^^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#not_unsafe_ptr_arg_deref
+
+## style (1)
+warning: returning the result of a `let` binding from a block
+   --> src/cset.rs:290:17
+    |
+289 |                 let hash = xxh64_h(ref_bytes.as_ptr(), std::mem::size_of::<T>(), self.seed) | 1;
+    |                 -------------------------------------------------------------------------------- unnecessary `let` binding
+290 |                 hash
+    |                 ^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#let_and_return
+    = note: `-W clippy::let-and-return` implied by `-W clippy::style`
+    = help: to override `-W clippy::style` add `#[allow(clippy::let_and_return)]`
+help: return the expression directly
+    |
+289 ~                 
+290 ~                 xxh64_h(ref_bytes.as_ptr(), std::mem::size_of::<T>(), self.seed) | 1
+    |
+
+## complexity (0)
+
+
+## perf (0)

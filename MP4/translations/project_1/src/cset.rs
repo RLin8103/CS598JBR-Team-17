@@ -22,14 +22,13 @@ pub fn xxh_is_little_endian() -> bool {
     cfg!(target_endian = "little")
 }
 
-// Read 8 bytes as little-endian from a pointer
+// Read 8 bytes as little-endian from a slice
 pub fn xxh_read_le64(mem_ptr: &mut XXHU8) -> XXHU64 {
-    let ptr = mem_ptr as *mut XXHU8;
-    let bytes = unsafe { std::slice::from_raw_parts(ptr as *const u8, 8) };
+    let bytes = unsafe { std::slice::from_raw_parts(mem_ptr as *const u8, 8) };
     u64::from_le_bytes([bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]])
 }
 
-// Read 8 bytes as little-endian from a pointer (aligned version)
+// Read 8 bytes as little-endian from a slice (aligned version)
 pub fn xxh_read_le64_align(mem_ptr: &mut XXHU8) -> XXHU64 {
     xxh_read_le64(mem_ptr)
 }
@@ -44,10 +43,9 @@ pub fn xxh_swap32(x: &mut XXHU32) -> XXHU32 {
     val
 }
 
-// Read 4 bytes as little-endian from a pointer
+// Read 4 bytes as little-endian from a slice
 pub fn xxh_read32(mem_ptr: &mut XXHU32) -> XXHU32 {
-    let ptr = mem_ptr as *mut XXHU32;
-    let bytes = unsafe { std::slice::from_raw_parts(ptr as *const u8, 4) };
+    let bytes = unsafe { std::slice::from_raw_parts(mem_ptr as *const u8, 4) };
     u32::from_le_bytes([bytes[0], bytes[1], bytes[2], bytes[3]])
 }
 
@@ -566,7 +564,7 @@ impl<T: Clone> Cset<T> {
 
     // Internal resize function
     fn resize(&mut self, new_cap: usize) {
-        let old_buckets = std::mem::replace(&mut self.buckets, Vec::new());
+        let old_buckets = std::mem::take(&mut self.buckets);
         self.buckets.reserve_exact(new_cap);
         for _ in 0..new_cap {
             self.buckets.push(CsetValue { pi: 0, elem: unsafe { std::mem::zeroed() } });
