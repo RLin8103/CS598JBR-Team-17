@@ -326,8 +326,9 @@ class Workspace:
 # ----------------------------------------------------------------------------- reply parsing
 FILE_RE = re.compile(r'<file\s+path="([^"]+)"\s*>\n?(.*?)\n?</file>', re.S)
 EDIT_RE = re.compile(
-    r'<edit\s+path="([^"]+)"\s*>\s*<search>\n?(.*?)\n?</search>\s*<replace>\n?(.*?)\n?</replace>\s*</edit>', re.S
-)
+    r'<edit\s+path="([^"]+)"\s*>\s*<search>\n?(.*?)\n?</search>\s*<replace>\n?(.*?)\n?</replace>(?:\s*</edit>)?', re.S
+)  # the closing </edit> is optional: models often forget it, and everything else is unambiguous
+EDIT_START_RE = re.compile(r'<edit\s+path="([^"]+)"')
 READ_RE = re.compile(r'<read\s+path="([^"]+)"\s*/?>')
 NOTES_RE = re.compile(r"<notes>\n?(.*?)\n?</notes>", re.S)
 DONE_RE = re.compile(r"<done\s*/?>")
@@ -377,7 +378,10 @@ def parse_reply(text: str) -> dict:
     for m in EDIT_RE.finditer(text):
         ops.append((m.start(), "edit", m.group(1), (strip_fences(m.group(2)), strip_fences(m.group(3)))))
     ops.sort(key=lambda o: o[0])
+    parsed_edits = len(EDIT_RE.findall(text))
+    malformed_edits = max(0, len(EDIT_START_RE.findall(text)) - parsed_edits)
     return {
+        "malformed_edits": malformed_edits,
         "ops": [o[1:] for o in ops],
         "truncated": truncated,
         "reads": READ_RE.findall(text),

@@ -1,0 +1,100 @@
+{
+  "framework": {
+    "name": "crust_agent (custom Python controller, standard library only)",
+    "version": "1.0.0"
+  },
+  "llm": {
+    "provider": "openai-compatible chat/completions endpoint (default: OpenRouter)",
+    "base_url": "https://openrouter.ai/api/v1",
+    "model": "qwen/qwen3-coder-next",
+    "fallback_models": [
+      "anthropic/claude-haiku-5.5",
+      "deepseek/deepseek-v4-flash"
+    ],
+    "api_key_env": "OPENROUTER_API_KEY",
+    "temperature": 0.2,
+    "top_p": 0.95,
+    "max_tokens": 16000,
+    "extra_body": {},
+    "request_timeout_s": 900,
+    "max_retries": 2,
+    "retry_backoff_s": 15,
+    "env_overrides": {
+      "model": "LLM_MODEL",
+      "base_url": "LLM_BASE_URL",
+      "api_key_env": "LLM_API_KEY_ENV"
+    }
+  },
+  "toolchain": "nightly-2025-05-13",
+  "limits": {
+    "max_iterations": 40,
+    "max_total_tokens": 2000000,
+    "no_progress_patience": 8,
+    "max_read_rounds_per_iteration": 1,
+    "command_timeout_s": 900,
+    "test_timeout_s": 300
+  },
+  "stopping_condition": {
+    "success": "project builds, every test passes, all primary unsafe metrics are 0 and the Clippy warning total is <= clippy_accept",
+    "clippy_accept": 0,
+    "other_stops": [
+      "max_iterations",
+      "max_total_tokens",
+      "no_progress_patience",
+      "agent_done"
+    ]
+  },
+  "clippy": {
+    "groups": [
+      "correctness",
+      "style",
+      "complexity",
+      "perf"
+    ],
+    "extra_args": [
+      "--all-targets",
+      "--all-features"
+    ]
+  },
+  "unsafe_metrics": {
+    "command": null,
+    "command_help": "Set to the instructor-provided unsafe-metrics command to use it instead of the built-in approximation. Use {path} for the crate root and make the command print one JSON object with keys unsafe_lines, unsafe_calls, unsafe_casts, pointer_arithmetic.",
+    "builtin_fallback": "src/unsafe_check.py"
+  },
+  "context": {
+    "max_file_chars_in_prompt": 60000,
+    "max_feedback_chars": 14000,
+    "max_c_chars_in_first_prompt": 140000,
+    "keep_full_turns": 2
+  },
+  "protected_paths": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "src/lib.rs",
+    "src/bin/**",
+    "src/interfaces/**"
+  ],
+  "editable_globs": [
+    "src/*.rs",
+    "src/**/*.rs"
+  ],
+  "forbidden_patterns": [
+    "extern \"C\"",
+    "libc::",
+    "#[link(",
+    "build.rs"
+  ],
+  "llm_resolved": {
+    "base_url": "https://openrouter.ai/api/v1",
+    "model": "qwen/qwen3-coder-next",
+    "fallback_models": [
+      "anthropic/claude-haiku-5.5",
+      "deepseek/deepseek-v4-flash"
+    ],
+    "temperature": 0.2,
+    "top_p": 0.95,
+    "max_tokens": 16000,
+    "extra_body": {}
+  },
+  "project": "cset"
+}

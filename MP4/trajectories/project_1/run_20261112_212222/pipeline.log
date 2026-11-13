@@ -1,0 +1,69 @@
+[21:22:22] project=cset model=qwen/qwen3-coder-next toolchain=nightly-2025-05-13
+[21:22:22] baseline: cargo build
+[21:22:24] baseline: cargo test
+[21:22:24] baseline: cargo clippy (4 categories)
+[21:22:25] baseline: unsafe metrics
+[21:22:26] === iteration 1/40 phase=TESTS score=(1, 1, 0, -48, -6)
+[21:22:34] iter 1: cargo build
+[21:22:34] iter 1: cargo test
+[21:22:34] iter 1: cargo clippy (4 categories)
+[21:22:36] iter 1: unsafe metrics
+[21:22:36] iteration 1: phase=TESTS compiles=True tests=2/15 unsafe=48 clippy=6 tokens=29930
+[21:22:36] === iteration 2/40 phase=TESTS score=(1, 2, 0, -48, -6)
+[21:22:46] iter 2: cargo build
+[21:22:48] iter 2: cargo test
+[21:22:48] iter 2: cargo clippy (4 categories)
+[21:22:50] iter 2: unsafe metrics
+[21:22:50] iteration 2: phase=TESTS compiles=True tests=2/15 unsafe=48 clippy=6 tokens=70033
+[21:22:50] === iteration 3/40 phase=TESTS score=(1, 2, 0, -48, -6)
+[21:23:04] iter 3: cargo build
+[21:23:04] iter 3: cargo test
+[21:23:04] iter 3: cargo clippy (4 categories)
+[21:23:06] iter 3: unsafe metrics
+[21:23:06] iteration 3: phase=TESTS compiles=True tests=1/15 unsafe=48 clippy=6 tokens=120270
+[21:23:06] === iteration 4/40 phase=TESTS score=(1, 1, 0, -48, -6)
+[21:23:18] iter 4: cargo build
+[21:23:18] iter 4: cargo test
+[21:23:18] iter 4: cargo clippy (4 categories)
+[21:23:19] iter 4: unsafe metrics
+[21:23:19] iteration 4: phase=TESTS compiles=True tests=1/15 unsafe=52 clippy=6 tokens=180154
+[21:23:19] === iteration 5/40 phase=TESTS score=(1, 1, 0, -52, -6)
+[21:23:37] iter 5: cargo build
+[21:23:37] iter 5: cargo test
+[21:23:37] iter 5: cargo clippy (4 categories)
+[21:23:38] iter 5: unsafe metrics
+[21:23:39] iteration 5: phase=TESTS compiles=True tests=2/15 unsafe=52 clippy=6 tokens=241085
+[21:23:39] === iteration 6/40 phase=TESTS score=(1, 2, 0, -52, -6)
+[21:23:50] iter 6: cargo build
+[21:23:51] iter 6: cargo test
+[21:23:51] iter 6: cargo clippy (4 categories)
+[21:23:52] iter 6: unsafe metrics
+[21:23:52] iteration 6: phase=TESTS compiles=True tests=5/15 unsafe=52 clippy=6 tokens=302912
+[21:23:52] === iteration 7/40 phase=TESTS score=(1, 5, 0, -52, -6)
+[21:24:12] iter 7: cargo build
+[21:24:13] iter 7: cargo test
+[21:24:13] iter 7: cargo clippy (4 categories)
+[21:24:14] iter 7: unsafe metrics
+[21:24:14] iteration 7: phase=TESTS compiles=True tests=5/15 unsafe=52 clippy=6 tokens=366493
+[21:24:14] === iteration 8/40 phase=TESTS score=(1, 5, 0, -52, -6)
+[21:24:31] iteration 8: phase=TESTS compiles=True tests=5/15 unsafe=52 clippy=6 tokens=431339
+[21:24:31] === iteration 9/40 phase=TESTS score=(1, 5, 0, -52, -6)
+[21:24:42] iteration 9: phase=TESTS compiles=True tests=5/15 unsafe=52 clippy=6 tokens=497018
+[21:24:42] === iteration 10/40 phase=TESTS score=(1, 5, 0, -52, -6)
+[21:24:54] iteration 10: phase=TESTS compiles=True tests=5/15 unsafe=52 clippy=6 tokens=563153
+[21:24:54] === iteration 11/40 phase=TESTS score=(1, 5, 0, -52, -6)
+[21:25:14] iteration 11: phase=TESTS compiles=True tests=5/15 unsafe=52 clippy=6 tokens=628910
+[21:25:14] === iteration 12/40 phase=TESTS score=(1, 5, 0, -52, -6)
+[21:25:34] iteration 12: phase=TESTS compiles=True tests=5/15 unsafe=52 clippy=6 tokens=694611
+[21:25:35] === iteration 13/40 phase=TESTS score=(1, 5, 0, -52, -6)
+[21:25:54] iteration 13: phase=TESTS compiles=True tests=5/15 unsafe=52 clippy=6 tokens=760735
+[21:25:54] === iteration 14/40 phase=TESTS score=(1, 5, 0, -52, -6)
+[21:26:06] iteration 14: phase=TESTS compiles=True tests=5/15 unsafe=52 clippy=6 tokens=827282
+[21:26:06] === iteration 15/40 phase=TESTS score=(1, 5, 0, -52, -6)
+[21:26:19] iteration 15: phase=TESTS compiles=True tests=5/15 unsafe=52 clippy=6 tokens=894254
+[21:26:19] restoring best snapshot from iteration 6
+[21:26:19] final (best snapshot): cargo build
+[21:26:20] final (best snapshot): cargo test
+[21:26:20] final (best snapshot): cargo clippy (4 categories)
+[21:26:22] final (best snapshot): unsafe metrics
+[21:26:22] STOP: no_progress | iterations=15 (best 6) | compiles=True tests=5/15 unsafe=52 clippy=6

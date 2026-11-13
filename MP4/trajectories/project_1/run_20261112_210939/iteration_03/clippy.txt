@@ -1,0 +1,66 @@
+# Clippy counts: {"correctness": 2, "style": 2, "complexity": 2, "perf": 0} total=6
+
+## correctness (2)
+warning: this public function might dereference a raw pointer but is not marked `unsafe`
+   --> src/cset.rs:199:53
+    |
+199 |     let slice = unsafe { std::slice::from_raw_parts(input, len) };
+    |                                                     ^^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#not_unsafe_ptr_arg_deref
+    = note: `-W clippy::not-unsafe-ptr-arg-deref` implied by `-W clippy::correctness`
+    = help: to override `-W clippy::correctness` add `#[allow(clippy::not_unsafe_ptr_arg_deref)]`
+warning: this public function might dereference a raw pointer but is not marked `unsafe`
+   --> src/cset.rs:208:53
+    |
+208 |     let slice = unsafe { std::slice::from_raw_parts(input, len) };
+    |                                                     ^^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#not_unsafe_ptr_arg_deref
+
+## style (2)
+warning: writing `&Vec` instead of `&[_]` involves a new object where a slice will do
+   --> src/cset.rs:296:35
+    |
+296 |     fn matches(&self, vector_ref: &Vec<CsetValue<T>>, ref_bytes: &[u8], value: &T, index: usize) -> bool {
+    |                                   ^^^^^^^^^^^^^^^^^^ help: change this to: `&[CsetValue<T>]`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#ptr_arg
+    = note: `-W clippy::ptr-arg` implied by `-W clippy::style`
+    = help: to override `-W clippy::style` add `#[allow(clippy::ptr_arg)]`
+warning: returning the result of a `let` binding from a block
+   --> src/cset.rs:319:17
+    |
+318 |                 let hash = xxh64_h(ref_bytes.as_ptr() as *const u8, std::mem::size_of::<T>(), self.seed) | 1;
+    |                 --------------------------------------------------------------------------------------------- unnecessary `let` binding
+319 |                 hash
+    |                 ^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#let_and_return
+    = note: `-W clippy::let-and-return` implied by `-W clippy::style`
+    = help: to override `-W clippy::style` add `#[allow(clippy::let_and_return)]`
+help: return the expression directly
+    |
+318 ~                 
+319 ~                 xxh64_h(ref_bytes.as_ptr() as *const u8, std::mem::size_of::<T>(), self.seed) | 1
+    |
+
+## complexity (2)
+warning: casting raw pointers to the same type and constness is unnecessary (`*const u8` -> `*const u8`)
+   --> src/cset.rs:318:36
+    |
+318 |                 let hash = xxh64_h(ref_bytes.as_ptr() as *const u8, std::mem::size_of::<T>(), self.seed) | 1;
+    |                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: try: `ref_bytes.as_ptr()`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#unnecessary_cast
+    = note: `-W clippy::unnecessary-cast` implied by `-W clippy::complexity`
+    = help: to override `-W clippy::complexity` add `#[allow(clippy::unnecessary_cast)]`
+warning: casting raw pointers to the same type and constness is unnecessary (`*const u8` -> `*const u8`)
+   --> src/cset.rs:331:23
+    |
+331 |                 xxh64(ref_bytes.as_ptr() as *const u8, std::mem::size_of::<T>(), self.seed)
+    |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: try: `ref_bytes.as_ptr()`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#unnecessary_cast
+
+## perf (0)

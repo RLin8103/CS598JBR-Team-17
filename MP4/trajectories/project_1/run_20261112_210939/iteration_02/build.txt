@@ -1,0 +1,177 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=0 seconds=0.49
+
+   Compiling cset v0.1.0 (/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1)
+warning: unused variable: `i`
+   --> src/cset.rs:350:17
+    |
+350 |             for i in 0..buckets.capacity() {
+    |                 ^ help: if this is intentional, prefix it with an underscore: `_i`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: value assigned to `index` is never read
+   --> src/cset.rs:438:17
+    |
+438 |         let mut index = 0;
+    |                 ^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` on by default
+
+warning: value assigned to `index` is never read
+   --> src/cset.rs:470:17
+    |
+470 |         let mut index = 0;
+    |                 ^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+
+warning: unused variable: `i`
+   --> src/cset.rs:538:17
+    |
+538 |             for i in 0..self.buckets.capacity() {
+    |                 ^ help: if this is intentional, prefix it with an underscore: `_i`
+
+warning: function `cset_vector__grow` is never used
+   --> src/cset.rs:242:4
+    |
+242 | fn cset_vector__grow<T>(tv: &mut Vec<CsetValue<T>>, ncap: usize) {
+    |    ^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` on by default
+
+warning: function `cset_vector__add` is never used
+   --> src/cset.rs:246:4
+    |
+246 | fn cset_vector__add<T>(tv: &mut Vec<CsetValue<T>>, value: CsetValue<T>) {
+    |    ^^^^^^^^^^^^^^^^
+
+warning: function `cset_vector__index` is never used
+   --> src/cset.rs:250:4
+    |
+250 | fn cset_vector__index<T>(tv: &[CsetValue<T>], i: usize) -> &CsetValue<T> {
+    |    ^^^^^^^^^^^^^^^^^^
+
+warning: function `cset_vector__cap` is never used
+   --> src/cset.rs:254:4
+    |
+254 | fn cset_vector__cap<T>(tv: &Vec<CsetValue<T>>) -> usize {
+    |    ^^^^^^^^^^^^^^^^
+
+warning: function `cset_vector__free` is never used
+   --> src/cset.rs:258:4
+    |
+258 | fn cset_vector__free<T>(tv: &mut Vec<CsetValue<T>>) {
+    |    ^^^^^^^^^^^^^^^^^
+
+warning: field `v` is never read
+   --> src/cset.rs:269:5
+    |
+264 | pub struct Cset<T> {
+    |            ---- field in this struct
+...
+269 |     v: CsetValue<T>,
+    |     ^
+
+warning: associated functions `value_elem` and `value_pi` are never used
+   --> src/cset.rs:289:8
+    |
+275 | impl<T: Clone> Cset<T> {
+    | ---------------------- associated functions in this implementation
+...
+289 |     fn value_elem(val: &CsetValue<T>) -> T {
+    |        ^^^^^^^^^^
+...
+293 |     fn value_pi(val: &CsetValue<T>) -> i32 {
+    |        ^^^^^^^^
+
+warning: function `cset_vector__init_with_cap` should have a snake case name
+   --> src/cset.rs:232:4
+    |
+232 | fn cset_vector__init_with_cap<T>(tv: &mut Vec<CsetValue<T>>, ncap: usize) {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^ help: convert the identifier to snake case: `cset_vector_init_with_cap`
+    |
+    = note: `#[warn(non_snake_case)]` on by default
+
+warning: function `cset_vector__grow` should have a snake case name
+   --> src/cset.rs:242:4
+    |
+242 | fn cset_vector__grow<T>(tv: &mut Vec<CsetValue<T>>, ncap: usize) {
+    |    ^^^^^^^^^^^^^^^^^ help: convert the identifier to snake case: `cset_vector_grow`
+
+warning: function `cset_vector__add` should have a snake case name
+   --> src/cset.rs:246:4
+    |
+246 | fn cset_vector__add<T>(tv: &mut Vec<CsetValue<T>>, value: CsetValue<T>) {
+    |    ^^^^^^^^^^^^^^^^ help: convert the identifier to snake case: `cset_vector_add`
+
+warning: function `cset_vector__index` should have a snake case name
+   --> src/cset.rs:250:4
+    |
+250 | fn cset_vector__index<T>(tv: &[CsetValue<T>], i: usize) -> &CsetValue<T> {
+    |    ^^^^^^^^^^^^^^^^^^ help: convert the identifier to snake case: `cset_vector_index`
+
+warning: function `cset_vector__cap` should have a snake case name
+   --> src/cset.rs:254:4
+    |
+254 | fn cset_vector__cap<T>(tv: &Vec<CsetValue<T>>) -> usize {
+    |    ^^^^^^^^^^^^^^^^ help: convert the identifier to snake case: `cset_vector_cap`
+
+warning: function `cset_vector__free` should have a snake case name
+   --> src/cset.rs:258:4
+    |
+258 | fn cset_vector__free<T>(tv: &mut Vec<CsetValue<T>>) {
+    |    ^^^^^^^^^^^^^^^^^ help: convert the identifier to snake case: `cset_vector_free`
+
+warning: `cset` (lib) generated 17 warnings (2 duplicates)
+warning: unused import: `cset::cset`
+ --> src/bin/test.rs:1:5
+  |
+1 | use cset::cset;
+  |     ^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: struct `Node` is never constructed
+  --> src/bin/test.rs:52:8
+   |
+52 | struct Node {
+   |        ^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: function `node_pointer_comparator` is never used
+   --> src/bin/test.rs:119:4
+    |
+119 | fn node_pointer_comparator(selfs: &Node, other: &Node) -> bool {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `custom_node_compare` is never used
+   --> src/bin/test.rs:122:4
+    |
+122 | fn custom_node_compare(selfs: &Node, other: &Node) -> bool {
+    |    ^^^^^^^^^^^^^^^^^^^
+
+warning: variable does not need to be mutable
+ --> src/bin/test.rs:4:9
+  |
+4 |     let mut cset_int = cset::Cset::<i32>::new();
+  |         ----^^^^^^^^
+  |         |
+  |         help: remove this `mut`
+  |
+  = note: `#[warn(unused_mut)]` on by default
+
+warning: function `node_pointer_comparator` is never used
+   --> src/bin/test.rs:119:4
+    |
+119 | fn node_pointer_comparator(selfs: &Node, other: &Node) -> bool {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` on by default
+
+warning: `cset` (lib test) generated 17 warnings (15 duplicates)
+warning: `cset` (bin "test") generated 4 warnings (run `cargo fix --bin "test"` to apply 1 suggestion)
+warning: `cset` (bin "test" test) generated 2 warnings (run `cargo fix --bin "test" --tests` to apply 1 suggestion)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.47s

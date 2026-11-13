@@ -404,6 +404,12 @@ class Pipeline:
             parsed = parse_reply(content)
             if parsed["notes"] is not None:
                 self.notes = parsed["notes"]
+            if parsed["malformed_edits"]:
+                problems.append(
+                    f"{parsed['malformed_edits']} <edit> block(s) in your previous reply were ignored because they were malformed. "
+                    "Exact format: <edit path=\"src/x.rs\"><search>old text</search><replace>new text</replace></edit> "
+                    "(all four tags, closed in order; <search> must match the current file text exactly, including indentation).")
+                self.log_event("tool", iteration=it, tool="malformed_edit", count=parsed["malformed_edits"])
             for kind, rel, body in parsed["ops"]:
                 if kind == "file":
                     err, label = self.ws.write_file(rel, body), f"wrote {rel}"
