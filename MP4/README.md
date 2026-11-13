@@ -149,7 +149,8 @@ Run history (all runs are kept; early runs used free models and show the problem
 | 1 cset | `run_20261112_220540` | qwen/qwen3-coder-next | 12 | no_progress | 15/15 tests, unsafe 36, Clippy 3 |
 | 1 cset | `run_20261112_225516` | claude-haiku-5.5 (failed), then deepseek/deepseek-v4-flash | 12 | no_progress | **15/15 tests, unsafe 14, Clippy 0** |
 | 2 libpsbt | `run_20261112_222714` | qwen/qwen3-coder-next | 19 | no_progress (model looped in its notes without edits) | compiles, 2/8 tests |
-| 2 libpsbt | `run_20261112_223757` | qwen/qwen3-coder-next, then claude-haiku-5.5 | 19 | token_budget | **6/8 tests, unsafe 0, Clippy 2** |
+| 2 libpsbt | `run_20261112_223757` | qwen/qwen3-coder-next, then claude-haiku-5.5 | 19 | token_budget | 6/8 tests, unsafe 0, Clippy 2 (`cli.rs` still a stub; found by the final audit, which led to the `STUBS` phase) |
+| 2 libpsbt | `run_20261112_233622` | qwen/qwen3-coder-next, then claude-haiku-5.5 | 19 | token_budget (after `cli.rs` was translated in iteration 6, the model kept retrying the defective test) | **6/8 tests, unsafe 0, Clippy 2, no stubs** |
 
 ## Safety metrics
 
@@ -170,7 +171,7 @@ unsafe casts, pointer arithmetic) plus extras; the trajectory records which tool
   providers return upstream 429s; the first runs hit both and one run ended on the daily cap. The free reasoning models (cohere/north-mini-code, nemotron)
   also spend the output budget on hidden reasoning tokens and often return empty completions, so the pipeline moved to paid non-reasoning models
   (`qwen/qwen3-coder-next` by default; `anthropic/claude-haiku-5.5` and `deepseek/deepseek-v4-flash` as fallbacks). `max_tokens` per reply is 16,000, so
-  long files must be written function by function; the whole project cost roughly $2 of credit (about $0.01 per iteration for qwen, more for haiku).
+  long files must be written function by function; the whole project cost roughly $3 of credit (about $0.01 per iteration for qwen, more for haiku).
   Context is about 40-120k prompt tokens per iteration because the C sources, interface, tests and current Rust files are resent every turn.
 - Known test defect (project 2): `read_test_vector` in the provided `src/bin/test.rs` declares `step` as a local variable, so it asserts that *every* record
   has type 0, while the C test shares the counter and only checks the first two records. A faithful `psbt_read` emits a type-4 record and fails it
