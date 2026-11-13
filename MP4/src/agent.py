@@ -295,9 +295,12 @@ class Pipeline:
         u = s["unsafe"]
         tot = u.get("totals", {})
         body = "## unsafe metrics (" + str(u.get("tool")) + ")\n" + json.dumps(tot)
-        if s["unsafe_total"] and s["compiles"]:
+        if s["unsafe_total"]:
             offs = u.get("offenders", [])[:30]
             body += "\nWhere:\n" + "\n".join(f"- {o['file']}:{o['line']} [{o['kind']}] {o['text']}" for o in offs)
+            if not s["compiles"] or s["phase"] in ("COMPILE", "TESTS"):
+                body += ("\nDo not add new unsafe code while fixing this. Replace raw-pointer helpers with safe code over "
+                         "slices/`Vec`/iterators; keep unsafe, if a signature truly forces it, confined to that one function.")
         parts.append(body)
         return cut("\n\n".join(parts), cap * 2)
 
