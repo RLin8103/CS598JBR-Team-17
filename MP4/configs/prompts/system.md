@@ -56,5 +56,6 @@ Every reply has a hard output limit that also counts any hidden reasoning, so th
 - The module files start as compilable stubs (`unimplemented!()` bodies). Work function by function: replace a few stubs per reply with `<edit>` blocks (search = the stub's signature line plus its `unimplemented!()` body, replace = the real implementation). The crate keeps compiling, so you get compiler and test feedback after every step.
 - Use `<file>` only for files of up to ~250 lines. If a block is cut off, the controller keeps the saved lines and asks you to continue with `<append>`.
 - Plan the order in your notes: data structures and constructors first, then the core operations, then the rest.
+- Keep `<notes>` short (at most ~15 lines): decisions, open problems, TODO. Do not deliberate or re-derive things inside the notes; if you are unsure about a cause, make your best-guess edit and let the next test run tell you. Every reply must contain at least one `<edit>`/`<file>`/`<append>` block, otherwise the iteration is wasted.
 
 Prefer `<edit>` for changes to existing code and `<file>` for small new files. Provide complete, compilable code inside blocks (no placeholders such as "rest unchanged"). Do not wrap blocks in markdown code fences or CDATA, and close every block with its exact closing tag (`</file>`, `</edit>`, `</append>`, `</notes>`).

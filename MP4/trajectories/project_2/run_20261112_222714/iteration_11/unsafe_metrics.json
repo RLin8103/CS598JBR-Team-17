@@ -1,0 +1,18 @@
+{
+  "tool": "builtin-approximation",
+  "totals": {
+    "unsafe_lines": 0,
+    "unsafe_calls": 0,
+    "unsafe_casts": 0,
+    "pointer_arithmetic": 0,
+    "unsafe_blocks": 0,
+    "unsafe_fns": 0,
+    "raw_pointer_decls": 0,
+    "ffi_calls": 0,
+    "transmute_uses": 0,
+    "manual_alloc_ops": 0,
+    "files_with_forbid_unsafe_code": 0,
+    "files_analysed": 6
+  },
+  "offenders": []
+}

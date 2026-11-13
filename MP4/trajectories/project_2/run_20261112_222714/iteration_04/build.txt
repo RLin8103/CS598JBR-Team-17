@@ -1,0 +1,90 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=101 seconds=0.18
+
+warning: file `/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_2/src/bin/test.rs` found to be present in multiple build targets:
+  * `bin` target `test`
+  * `integration-test` target `test`
+   Compiling libpsbt v0.1.0 (/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_2)
+error[E0425]: cannot find function `base64_decode` in this scope
+   --> src/psbt.rs:344:15
+    |
+344 |         match base64_decode(src_bytes, dest) {
+    |               ^^^^^^^^^^^^^ not found in this scope
+    |
+help: consider importing this function
+    |
+2   + use crate::base64::base64_decode;
+    |
+
+error[E0425]: cannot find function `base64_encode` in this scope
+   --> src/psbt.rs:442:19
+    |
+442 |             match base64_encode(psbt_data, dest) {
+    |                   ^^^^^^^^^^^^^ not found in this scope
+    |
+help: consider importing this function
+    |
+2   + use crate::base64::base64_encode;
+    |
+
+error[E0425]: cannot find function `base62_encode` in this scope
+   --> src/psbt.rs:451:19
+    |
+451 |             match base62_encode(psbt_data, dest) {
+    |                   ^^^^^^^^^^^^^ not found in this scope
+    |
+help: consider importing this function
+    |
+2   + use crate::base64::base62_encode;
+    |
+
+error[E0308]: mismatched types
+ --> src/base64.rs:1:33
+  |
+1 | const BASE64_TABLE: &[u8; 65] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+  |                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected an array with a size of 65, found one with a size of 64
+
+error[E0308]: mismatched types
+   --> src/psbt.rs:218:37
+    |
+218 | ...                   record: psbt.records.last().unwrap().clone(),
+    |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `PsbtRecord`, found `&PsbtRecord`
+    |
+note: `PsbtRecord` does not implement `Clone`, so `&PsbtRecord` was cloned instead
+   --> src/psbt.rs:218:37
+    |
+218 | ...                   record: psbt.records.last().unwrap().clone(),
+    |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+help: consider annotating `PsbtRecord` with `#[derive(Clone)]`
+    |
+117 + #[derive(Clone)]
+118 | pub struct PsbtRecord {
+    |
+
+error[E0605]: non-primitive cast: `u8` as `PsbtInputType`
+   --> src/psbt.rs:493:52
+    |
+493 |         PsbtScope::Inputs => psbt_input_type_tostr(record_type as PsbtInputType),
+    |                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ an `as` expression can only be used to convert between primitive types or to coerce to a specific trait object
+
+error[E0605]: non-primitive cast: `u8` as `PsbtOutputType`
+   --> src/psbt.rs:494:54
+    |
+494 |         PsbtScope::Outputs => psbt_output_type_tostr(record_type as PsbtOutputType),
+    |                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ an `as` expression can only be used to convert between primitive types or to coerce to a specific trait object
+
+warning: unused variable: `dest`
+   --> src/psbt.rs:684:35
+    |
+684 | pub fn psbt_init(psbt: &mut Psbt, dest: &mut [u8], dest_size: usize) -> PsbtResult {
+    |                                   ^^^^ help: if this is intentional, prefix it with an underscore: `_dest`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+Some errors have detailed explanations: E0308, E0425, E0605.
+For more information about an error, try `rustc --explain E0308`.
+warning: `libpsbt` (lib) generated 1 warning
+error: could not compile `libpsbt` (lib) due to 7 previous errors; 1 warning emitted
+warning: build failed, waiting for other jobs to finish...
+warning: `libpsbt` (lib test) generated 1 warning (1 duplicate)
+error: could not compile `libpsbt` (lib test) due to 7 previous errors; 1 warning emitted

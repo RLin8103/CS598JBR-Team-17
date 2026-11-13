@@ -1,0 +1,45 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=101 seconds=0.18
+
+warning: file `/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_2/src/bin/test.rs` found to be present in multiple build targets:
+  * `bin` target `test`
+  * `integration-test` target `test`
+   Compiling libpsbt v0.1.0 (/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_2)
+error[E0605]: non-primitive cast: `u8` as `PsbtInputType`
+   --> src/psbt.rs:495:52
+    |
+495 |         PsbtScope::Inputs => psbt_input_type_tostr(record_type as PsbtInputType),
+    |                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ an `as` expression can only be used to convert between primitive types or to coerce to a specific trait object
+
+error[E0605]: non-primitive cast: `u8` as `PsbtOutputType`
+   --> src/psbt.rs:496:54
+    |
+496 |         PsbtScope::Outputs => psbt_output_type_tostr(record_type as PsbtOutputType),
+    |                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ an `as` expression can only be used to convert between primitive types or to coerce to a specific trait object
+
+error[E0596]: cannot borrow `elem_handler.0` as mutable, as `elem_handler` is not declared as mutable
+   --> src/psbt.rs:217:33
+    |
+217 |                     if let Some(ref mut handler) = elem_handler {
+    |                                 ^^^^^^^^^^^^^^^ cannot borrow as mutable
+    |
+help: consider changing this to be mutable
+    |
+150 |     mut elem_handler: Option<PsbtElemHandler>,
+    |     +++
+
+warning: unused variable: `dest`
+   --> src/psbt.rs:686:35
+    |
+686 | pub fn psbt_init(psbt: &mut Psbt, dest: &mut [u8], dest_size: usize) -> PsbtResult {
+    |                                   ^^^^ help: if this is intentional, prefix it with an underscore: `_dest`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+Some errors have detailed explanations: E0596, E0605.
+For more information about an error, try `rustc --explain E0596`.
+warning: `libpsbt` (lib test) generated 1 warning
+error: could not compile `libpsbt` (lib test) due to 3 previous errors; 1 warning emitted
+warning: build failed, waiting for other jobs to finish...
+warning: `libpsbt` (lib) generated 1 warning (1 duplicate)
+error: could not compile `libpsbt` (lib) due to 3 previous errors; 1 warning emitted

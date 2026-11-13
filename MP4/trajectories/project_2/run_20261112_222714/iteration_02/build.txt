@@ -1,0 +1,19 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=101 seconds=0.13
+
+warning: file `/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_2/src/bin/test.rs` found to be present in multiple build targets:
+  * `bin` target `test`
+  * `integration-test` target `test`
+   Compiling libpsbt v0.1.0 (/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_2)
+error: this file contains an unclosed delimiter
+   --> src/psbt.rs:727:3
+    |
+641 | pub fn psbt_new_input_record_set(_psbt: &mut Psbt) -> PsbtResult {
+    |                                                                  - unclosed delimiter
+...
+727 | }
+    |  ^
+
+error: could not compile `libpsbt` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `libpsbt` (lib test) due to 1 previous error

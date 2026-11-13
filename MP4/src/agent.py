@@ -403,7 +403,7 @@ class Pipeline:
                            seconds=resp["seconds"], reply_chars=len(content))
             parsed = parse_reply(content)
             if parsed["notes"] is not None:
-                self.notes = parsed["notes"]
+                self.notes = cut(parsed["notes"], 3000, "... [notes cut: keep them short]")
             if parsed["malformed_edits"]:
                 problems.append(
                     f"{parsed['malformed_edits']} <edit> block(s) in your previous reply were ignored because they were malformed. "
@@ -514,6 +514,7 @@ class Pipeline:
         stop_reason = "max_iterations"
         notices: list[str] = []
         done_streak = 0
+        no_edit_streak = 0
         it = 0
         last_progress_it = 0
         try:
@@ -554,6 +555,7 @@ class Pipeline:
                     state = dict(state, label=f"iter {it} (file incomplete, checks skipped)")
                     last_progress_it = it
                 elif turn["edits"]:
+                    no_edit_streak = 0
                     prev_phase = state["phase"]
                     state = self.run_checks(f"iter {it}")
                     if prev_phase in ("SAFETY", "CLIPPY") and state["score"] < best:
@@ -576,7 +578,13 @@ class Pipeline:
                         self.restore(best_snap)
                         state = dict(best_state, label=f"iter {it} (edit reverted)")
                 else:
-                    notices.append("No valid edit was applied in your previous reply." if not turn["done"] else "No edits were made.")
+                    no_edit_streak += 1
+                    notices.append("No valid edit was applied in your previous reply. Write an <edit> block now; keep <notes> short."
+                                   if not turn["done"] else "No edits were made.")
+                    if no_edit_streak >= 2 and self.llm.escalate(f"{no_edit_streak} replies in a row without an applied edit"):
+                        notices.append("(The controller switched you to a different model after repeated replies without edits.)")
+                        self.log_event("escalate", iteration=it, model=self.llm.model)
+                        no_edit_streak = 0
                     state = dict(state, label=f"iter {it} (unchanged)")
                 self.save_checks(it, state)
                 self.say(f"iteration {it}: phase={state['phase']} compiles={state['compiles']} tests={state['passed']}/{state['total']} "

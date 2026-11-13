@@ -1,0 +1,45 @@
+{
+  "project": "libpsbt",
+  "stop_reason": "no_progress",
+  "agent_iterations": 19,
+  "best_iteration": 11,
+  "final": {
+    "iteration": 19,
+    "phase": "TESTS",
+    "compiles": true,
+    "tests_passed": 2,
+    "tests_total": 8,
+    "build_errors": 0,
+    "clippy": {
+      "correctness": 0,
+      "style": 6,
+      "complexity": 1,
+      "perf": 0
+    },
+    "clippy_total": 7,
+    "unsafe_primary": {
+      "unsafe_lines": 0,
+      "unsafe_calls": 0,
+      "unsafe_casts": 0,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 0,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 0,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 6
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1375459
+  },
+  "llm_calls": 20,
+  "prompt_tokens": 1332390,
+  "completion_tokens": 43069,
+  "model": "qwen/qwen3-coder-next",
+  "toolchain": "nightly-2025-05-13"
+}

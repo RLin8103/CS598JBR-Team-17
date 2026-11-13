@@ -153,6 +153,16 @@ class LLMClient:
                 print(f"[llm] giving up on {model}: {exc}", flush=True)
         raise LLMError("all models failed: " + " | ".join(errors))
 
+    def escalate(self, reason: str) -> bool:
+        """Switch (sticky) to the next fallback model, e.g. when the current one keeps producing replies without edits."""
+        if not self.fallbacks:
+            return False
+        nxt = self.fallbacks.pop(0)
+        self.model_switches.append({"from": self.model, "to": nxt, "reason": reason})
+        print(f"[llm] escalating to model {nxt}: {reason}", flush=True)
+        self.model = nxt
+        return True
+
     @property
     def total_tokens(self) -> int:
         return self.total_prompt_tokens + self.total_completion_tokens
