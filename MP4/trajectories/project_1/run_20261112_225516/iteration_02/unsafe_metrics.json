@@ -1,0 +1,67 @@
+{
+  "tool": "builtin-approximation",
+  "totals": {
+    "unsafe_lines": 6,
+    "unsafe_calls": 6,
+    "unsafe_casts": 4,
+    "pointer_arithmetic": 0,
+    "unsafe_blocks": 6,
+    "unsafe_fns": 0,
+    "raw_pointer_decls": 2,
+    "ffi_calls": 0,
+    "transmute_uses": 0,
+    "manual_alloc_ops": 0,
+    "files_with_forbid_unsafe_code": 0,
+    "files_analysed": 2
+  },
+  "offenders": [
+    {
+      "file": "src/cset.rs",
+      "line": 198,
+      "kind": "raw_pointer_decls",
+      "text": "pub fn xxh64(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 203,
+      "kind": "unsafe_calls",
+      "text": "let slice = unsafe { std::slice::from_raw_parts(input, len) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 209,
+      "kind": "raw_pointer_decls",
+      "text": "pub fn xxh64_h(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 214,
+      "kind": "unsafe_calls",
+      "text": "let slice = unsafe { std::slice::from_raw_parts(input, len) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 221,
+      "kind": "unsafe_calls",
+      "text": "let slice = unsafe { std::slice::from_raw_parts(memptr as *const u8, size) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 228,
+      "kind": "unsafe_calls",
+      "text": "let slice = unsafe { std::slice::from_raw_parts(memptr as *const u8, size) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 256,
+      "kind": "unsafe_calls",
+      "text": "unsafe { std::slice::from_raw_parts(val as *const T as *const u8, size) }"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 264,
+      "kind": "unsafe_calls",
+      "text": "unsafe { std::mem::zeroed() }"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+# Clippy counts: {"correctness": 0, "style": 1, "complexity": 0, "perf": 0} total=1
+
+## correctness (0)
+
+
+## style (1)
+warning: you should consider adding a `Default` implementation for `Cset<T>`
+   --> src/cset.rs:318:5
+    |
+318 | /     pub fn new() -> Self {
+319 | |         let buckets = Self::init_buckets(CSET_INITIAL_CAP);
+320 | |         Cset {
+321 | |             buckets,
+...   |
+333 | |     }
+    | |_____^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#new_without_default
+    = note: `-W clippy::new-without-default` implied by `-W clippy::style`
+    = help: to override `-W clippy::style` add `#[allow(clippy::new_without_default)]`
+help: try adding this
+    |
+267 + impl<T: Clone> Default for Cset<T> {
+268 +     fn default() -> Self {
+269 +         Self::new()
+270 +     }
+271 + }
+    |
+
+## complexity (0)
+
+
+## perf (0)

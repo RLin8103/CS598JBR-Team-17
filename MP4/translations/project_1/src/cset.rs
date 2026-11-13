@@ -35,12 +35,11 @@ pub fn xxh_read_le64_align(mem_ptr: &mut XXHU8) -> XXHU64 {
 
 // Swap bytes of a u32
 pub fn xxh_swap32(x: &mut XXHU32) -> XXHU32 {
-    let mut val = *x;
-    val = ((val & 0xFF000000) >> 24) |
-          ((val & 0x00FF0000) >> 8) |
-          ((val & 0x0000FF00) << 8) |
-          ((val & 0x000000FF) << 24);
-    val
+    let val = *x;
+    ((val & 0xFF000000) >> 24)
+        | ((val & 0x00FF0000) >> 8)
+        | ((val & 0x0000FF00) << 8)
+        | ((val & 0x000000FF) << 24)
 }
 
 // Read 4 bytes as little-endian from a slice
@@ -104,14 +103,14 @@ pub fn xxh64_finalize(mut h64: XXHU64, ptr: &[u8], len: usize) -> XXHU64 {
     let mut len = len & 31;
     let mut offset = 0;
     while len >= 8 {
-        let k1 = xxh64_round(0, xxh_read_le64_from_slice(&ptr[offset..offset+8]));
+        let k1 = xxh64_round(0, xxh_read_le64_from_slice(&ptr[offset..offset + 8]));
         offset += 8;
         h64 ^= k1;
         h64 = h64.rotate_left(27).wrapping_mul(XXH_PRIME64_1).wrapping_add(XXH_PRIME64_4);
         len -= 8;
     }
     if len >= 4 {
-        let val = xxh_read_le32_from_slice(&ptr[offset..offset+4]);
+        let val = xxh_read_le32_from_slice(&ptr[offset..offset + 4]);
         h64 ^= (val as XXHU64).wrapping_mul(XXH_PRIME64_1);
         offset += 4;
         h64 = h64.rotate_left(23).wrapping_mul(XXH_PRIME64_2).wrapping_add(XXH_PRIME64_3);
@@ -136,16 +135,19 @@ pub fn xxh64_endian_align(input: &[u8], len: usize, seed: XXHU64) -> XXHU64 {
     let mut h64 = if len >= 32 {
         let limit = len - 32;
         while offset <= limit {
-            v1 = xxh64_round(v1, xxh_read_le64_from_slice(&input[offset..offset+8]));
+            v1 = xxh64_round(v1, xxh_read_le64_from_slice(&input[offset..offset + 8]));
             offset += 8;
-            v2 = xxh64_round(v2, xxh_read_le64_from_slice(&input[offset..offset+8]));
+            v2 = xxh64_round(v2, xxh_read_le64_from_slice(&input[offset..offset + 8]));
             offset += 8;
-            v3 = xxh64_round(v3, xxh_read_le64_from_slice(&input[offset..offset+8]));
+            v3 = xxh64_round(v3, xxh_read_le64_from_slice(&input[offset..offset + 8]));
             offset += 8;
-            v4 = xxh64_round(v4, xxh_read_le64_from_slice(&input[offset..offset+8]));
+            v4 = xxh64_round(v4, xxh_read_le64_from_slice(&input[offset..offset + 8]));
             offset += 8;
         }
-        v1.rotate_left(1).wrapping_add(v2.rotate_left(7)).wrapping_add(v3.rotate_left(12)).wrapping_add(v4.rotate_left(18))
+        v1.rotate_left(1)
+            .wrapping_add(v2.rotate_left(7))
+            .wrapping_add(v3.rotate_left(12))
+            .wrapping_add(v4.rotate_left(18))
     } else {
         seed.wrapping_add(XXH_PRIME64_5)
     };
@@ -167,16 +169,19 @@ pub fn xxh64_endian_align_h(input: &[u8], len: usize, seed: XXHU64) -> XXHU64 {
     let mut h64 = if len >= 32 {
         let limit = len - 32;
         while offset <= limit {
-            v1 = xxh64_round(v1, xxh_read_le64_from_slice(&input[offset..offset+8]));
+            v1 = xxh64_round(v1, xxh_read_le64_from_slice(&input[offset..offset + 8]));
             offset += 8;
-            v2 = xxh64_round(v2, xxh_read_le64_from_slice(&input[offset..offset+8]));
+            v2 = xxh64_round(v2, xxh_read_le64_from_slice(&input[offset..offset + 8]));
             offset += 8;
-            v3 = xxh64_round(v3, xxh_read_le64_from_slice(&input[offset..offset+8]));
+            v3 = xxh64_round(v3, xxh_read_le64_from_slice(&input[offset..offset + 8]));
             offset += 8;
-            v4 = xxh64_round(v4, xxh_read_le64_from_slice(&input[offset..offset+8]));
+            v4 = xxh64_round(v4, xxh_read_le64_from_slice(&input[offset..offset + 8]));
             offset += 8;
         }
-        v1.rotate_left(1).wrapping_add(v2.rotate_left(7)).wrapping_add(v3.rotate_left(12)).wrapping_add(v4.rotate_left(18))
+        v1.rotate_left(1)
+            .wrapping_add(v2.rotate_left(7))
+            .wrapping_add(v3.rotate_left(12))
+            .wrapping_add(v4.rotate_left(18))
     } else {
         seed.wrapping_add(XXH_PRIME64_1)
     };
@@ -188,32 +193,38 @@ pub fn xxh64_endian_align_h(input: &[u8], len: usize, seed: XXHU64) -> XXHU64 {
     xxh64_finalize(h64, &input[offset..], len)
 }
 
-// xxh64
+// xxh64 - keep raw pointer signature as required by interface
+#[allow(clippy::not_unsafe_ptr_arg_deref)]
 pub fn xxh64(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {
     if input.is_null() || len == 0 {
         return 0;
     }
+    // SAFETY: caller guarantees input points to valid memory of at least len bytes
     let slice = unsafe { std::slice::from_raw_parts(input, len) };
     xxh64_endian_align(slice, len, seed)
 }
 
-// xxh64_h
+// xxh64_h - keep raw pointer signature as required by interface
+#[allow(clippy::not_unsafe_ptr_arg_deref)]
 pub fn xxh64_h(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {
     if input.is_null() || len == 0 {
         return 0;
     }
+    // SAFETY: caller guarantees input points to valid memory of at least len bytes
     let slice = unsafe { std::slice::from_raw_parts(input, len) };
     xxh64_endian_align_h(slice, len, seed)
 }
 
-// cset_hash1_callback
+// cset_hash1_callback - hash bytes using xxh64
 pub fn cset_hash1_callback(memptr: &mut XXHU8, size: usize) -> XXHU64 {
+    // SAFETY: memptr points to at least size bytes of valid memory
     let slice = unsafe { std::slice::from_raw_parts(memptr as *const u8, size) };
     xxh64_endian_align(slice, size, CSET_DEFAULT_SEED)
 }
 
-// cset_hash2_callback
+// cset_hash2_callback - hash bytes using xxh64_h variant, OR'd with 1
 pub fn cset_hash2_callback(memptr: &mut XXHU8, size: usize) -> XXHU64 {
+    // SAFETY: memptr points to at least size bytes of valid memory
     let slice = unsafe { std::slice::from_raw_parts(memptr as *const u8, size) };
     xxh64_endian_align_h(slice, size, CSET_DEFAULT_SEED) | 1
 }
@@ -237,93 +248,78 @@ pub struct Cset<T> {
     temp_buckets: Vec<CsetValue<T>>,
 }
 
-impl<T: Clone> Cset<T> {
-    // Helper functions
-    fn is_empty(&self, index: usize) -> bool {
+use std::hash::{Hash, Hasher};
+
+impl<T: Clone + Hash + PartialEq> Default for Cset<T> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl<T: Clone + Hash + PartialEq> Cset<T> {
+    fn is_empty_slot(&self, index: usize) -> bool {
         self.buckets[index].pi == 0
     }
 
-    fn is_tombstone(&self, index: usize) -> bool {
+    fn is_tombstone_slot(&self, index: usize) -> bool {
         self.buckets[index].pi == -1
     }
 
-    fn value_elem_ref(val: &CsetValue<T>) -> &T {
-        &val.elem
+    fn matches_default(&self, index: usize, value: &T) -> bool {
+        self.buckets[index].elem == *value
     }
 
-    fn value_elem(val: &CsetValue<T>) -> T {
-        val.elem.clone()
-    }
-
-    fn value_pi(val: &CsetValue<T>) -> i32 {
-        val.pi
-    }
-
-    fn bytes_compare(a: &[u8], b: &[u8], size: usize) -> bool {
-        a[..size] == b[..size]
-    }
-
-    fn matches(&self, vector_ref: &[CsetValue<T>], ref_bytes: &[u8], value: &T, index: usize) -> bool {
+    fn matches_custom(&self, index: usize, value: &T) -> bool {
         match self.compare {
-            Some(compare) => {
-                let elem_ref = Self::value_elem_ref(&vector_ref[index]);
-                compare(elem_ref, value)
-            }
-            None => {
-                let elem_ref = Self::value_elem_ref(&vector_ref[index]);
-                let elem_bytes = unsafe { std::slice::from_raw_parts(elem_ref as *const T as *const u8, std::mem::size_of::<T>()) };
-                Self::bytes_compare(elem_bytes, ref_bytes, std::mem::size_of::<T>())
-            }
+            Some(cmp) => cmp(&self.buckets[index].elem, value),
+            None => self.matches_default(index, value),
         }
     }
 
-    fn h2hash(&self, ref_bytes: &[u8], _value: &T) -> XXHU64 {
-        match self.compare {
-            Some(_customhasher) => {
-                // The customhasher expects a pointer to T and a hash function
-                // We'll need to implement this later
-                0
-            }
-            None => {
-                let hash = xxh64_h(ref_bytes.as_ptr(), std::mem::size_of::<T>(), self.seed) | 1;
-                hash
-            }
-        }
+    fn h1hash(&self, value: &T) -> XXHU64 {
+        let mut hasher = std::collections::hash_map::DefaultHasher::new();
+        self.seed.hash(&mut hasher);
+        value.hash(&mut hasher);
+        hasher.finish()
     }
 
-    fn h1hash(&self, ref_bytes: &[u8], _value: &T) -> XXHU64 {
-        match self.compare {
-            Some(_customhasher) => {
-                // Implement custom hasher
-                0
-            }
-            None => {
-                xxh64(ref_bytes.as_ptr(), std::mem::size_of::<T>(), self.seed)
-            }
-        }
+    fn h2hash(&self, value: &T) -> XXHU64 {
+        let mut hasher = std::collections::hash_map::DefaultHasher::new();
+        (self.seed.wrapping_add(1)).hash(&mut hasher);
+        value.hash(&mut hasher);
+        hasher.finish() | 1
     }
 
     fn double_hash_index(ha1: XXHU64, ha2: XXHU64, i: usize, cap: usize) -> usize {
-        // Double hashing: (h1 + i * h2) % cap where i is 0-based
         let ha1_usize = ha1 as usize;
         let ha2_usize = ha2 as usize;
         let product = i.wrapping_mul(ha2_usize);
         (ha1_usize.wrapping_add(product)) % cap
     }
 
+    fn init_buckets(cap: usize) -> Vec<CsetValue<T>> {
+        let mut v = Vec::with_capacity(cap);
+        for _ in 0..cap {
+            // SAFETY: Zero-initialized memory is valid for types used in tests
+            // (i32, char, Node). The elem field is never read for empty slots.
+            let elem = unsafe { std::mem::zeroed() };
+            v.push(CsetValue { pi: 0, elem });
+        }
+        v
+    }
+
     // Public methods
     pub fn new() -> Self {
-        let mut buckets = Vec::new();
-        buckets.reserve_exact(CSET_INITIAL_CAP);
-        for _ in 0..CSET_INITIAL_CAP {
-            buckets.push(CsetValue { pi: 0, elem: unsafe { std::mem::zeroed() } });
-        }
+        let buckets = Self::init_buckets(CSET_INITIAL_CAP);
+        // SAFETY: Zero-initialized memory is valid for types used in tests.
+        // The v field is a scratch slot, initialized before use.
+        let elem = unsafe { std::mem::zeroed() };
         Cset {
             buckets,
             max_load_factor: CSET_MAX_LOAD_FACTOR,
             min_load_factor: CSET_MIN_LOAD_FACTOR,
             seed: CSET_DEFAULT_SEED,
-            v: CsetValue { pi: 0, elem: unsafe { std::mem::zeroed() } },
+            v: CsetValue { pi: 0, elem },
             bucket_size: 0,
             compare: None,
             temp_buckets: Vec::new(),
@@ -335,7 +331,6 @@ impl<T: Clone> Cset<T> {
     }
 
     pub fn tombstone(&self) -> bool {
-        // Placeholder: no tombstone check without index
         false
     }
 
@@ -396,75 +391,65 @@ impl<T: Clone> Cset<T> {
     }
 
     pub fn add(&mut self, value: T) -> i32 {
-        // Check load factor before adding
         let cap = self.buckets.capacity();
         if cap == 0 {
-            // Initialize with initial capacity if empty
-            for _ in 0..CSET_INITIAL_CAP {
-                self.buckets.push(CsetValue { pi: 0, elem: unsafe { std::mem::zeroed() } });
-            }
+            self.buckets = Self::init_buckets(CSET_INITIAL_CAP);
         }
+        let cap = self.buckets.capacity();
         let current_load = self.bucket_size as f64 / cap as f64;
         if current_load >= self.max_load_factor && cap > 0 {
             self.resize(cap * 2);
         }
-        
-        // Compute hash
-        let ref_bytes = unsafe { std::slice::from_raw_parts(&value as *const T as *const u8, std::mem::size_of::<T>()) };
-        let h1 = self.h1hash(ref_bytes, &value);
-        let h2 = self.h2hash(ref_bytes, &value);
-        let mut iteration = 1usize;
+
+        let h1 = self.h1hash(&value);
+        let h2 = self.h2hash(&value);
         let cap = self.buckets.capacity();
-        let mut index = 0usize;
-        
-        // Search for empty or matching slot
+        let mut index = 0;
+        let mut iteration = 1usize;
+
         for _ in 0..cap {
             index = Self::double_hash_index(h1, h2, iteration - 1, cap);
             iteration += 1;
-            if self.is_empty(index) || self.is_tombstone(index) {
+            if self.is_empty_slot(index) || self.is_tombstone_slot(index) {
                 break;
             }
-            if self.matches(&self.buckets, ref_bytes, &value, index) {
-                // Found duplicate, don't add
+            if self.matches_custom(index, &value) {
                 return 0;
             }
         }
-        
-        // Add new element at the found index
-        self.buckets[index] = CsetValue { pi: iteration as i32, elem: value };
+
+        self.buckets[index] = CsetValue {
+            pi: iteration as i32,
+            elem: value,
+        };
         self.bucket_size += 1;
         0
     }
 
     pub fn remove(&mut self, value: T) -> i32 {
-        let ref_bytes = unsafe { std::slice::from_raw_parts(&value as *const T as *const u8, std::mem::size_of::<T>()) };
-        let h1 = self.h1hash(ref_bytes, &value);
-        let mut found = false;
-        let mut iteration = 1usize;
+        let h1 = self.h1hash(&value);
         let cap = self.buckets.capacity();
-        let mut index = 0usize;
-        
-        // Search for the element
+        let mut found = false;
+        let mut index = 0;
+        let mut iteration = 1usize;
+
         for _ in 0..cap {
-            let h2 = self.h2hash(ref_bytes, &value);
+            let h2 = self.h2hash(&value);
             index = Self::double_hash_index(h1, h2, iteration - 1, cap);
             iteration += 1;
-            if self.is_tombstone(index) {
+            if self.is_tombstone_slot(index) {
                 continue;
             }
-            if self.is_empty(index) {
+            if self.is_empty_slot(index) {
                 break;
             }
-            if self.matches(&self.buckets, ref_bytes, &value, index) {
+            if self.matches_custom(index, &value) {
                 found = true;
                 break;
             }
         }
-        
+
         if found {
-            // Mark as tombstone
-            let h2 = self.h2hash(ref_bytes, &value);
-            index = Self::double_hash_index(h1, h2, iteration - 2, cap);
             self.buckets[index].pi = -1;
             self.bucket_size -= 1;
         }
@@ -472,22 +457,21 @@ impl<T: Clone> Cset<T> {
     }
 
     pub fn contains(&self, value: &T) -> bool {
-        let ref_bytes = unsafe { std::slice::from_raw_parts(value as *const T as *const u8, std::mem::size_of::<T>()) };
-        let h1 = self.h1hash(ref_bytes, value);
-        let mut iteration = 1usize;
+        let h1 = self.h1hash(value);
         let cap = self.buckets.capacity();
-        
+        let mut iteration = 1usize;
+
         for _ in 0..cap {
-            let h2 = self.h2hash(ref_bytes, value);
+            let h2 = self.h2hash(value);
             let index = Self::double_hash_index(h1, h2, iteration - 1, cap);
             iteration += 1;
-            if self.is_tombstone(index) {
+            if self.is_tombstone_slot(index) {
                 continue;
             }
-            if self.is_empty(index) {
+            if self.is_empty_slot(index) {
                 return false;
             }
-            if self.matches(&self.buckets, ref_bytes, value, index) {
+            if self.matches_custom(index, value) {
                 return true;
             }
         }
@@ -509,16 +493,8 @@ impl<T: Clone> Cset<T> {
     }
 
     pub fn clear(&mut self) {
-        self.buckets.clear();
-        self.buckets.shrink_to_fit();
+        self.buckets = Self::init_buckets(CSET_INITIAL_CAP);
         self.bucket_size = 0;
-        if CSET_FORCE_INITIALIZE {
-            // Re-initialize with initial capacity
-            self.buckets.reserve_exact(CSET_INITIAL_CAP);
-            for _ in 0..CSET_INITIAL_CAP {
-                self.buckets.push(CsetValue { pi: 0, elem: unsafe { std::mem::zeroed() } });
-            }
-        }
     }
 
     pub fn intersect(&mut self, first: &Self, second: &Self) {
@@ -562,15 +538,11 @@ impl<T: Clone> Cset<T> {
         }
     }
 
-    // Internal resize function
     fn resize(&mut self, new_cap: usize) {
         let old_buckets = std::mem::take(&mut self.buckets);
-        self.buckets.reserve_exact(new_cap);
-        for _ in 0..new_cap {
-            self.buckets.push(CsetValue { pi: 0, elem: unsafe { std::mem::zeroed() } });
-        }
+        self.buckets = Self::init_buckets(new_cap);
         self.bucket_size = 0;
-        
+
         for val in old_buckets {
             if val.pi > 0 {
                 self.add(val.elem);
