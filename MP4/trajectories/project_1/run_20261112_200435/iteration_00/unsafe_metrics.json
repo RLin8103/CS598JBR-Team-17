@@ -1,0 +1,31 @@
+{
+  "tool": "builtin-approximation",
+  "totals": {
+    "unsafe_lines": 0,
+    "unsafe_calls": 0,
+    "unsafe_casts": 0,
+    "pointer_arithmetic": 0,
+    "unsafe_blocks": 0,
+    "unsafe_fns": 0,
+    "raw_pointer_decls": 2,
+    "ffi_calls": 0,
+    "transmute_uses": 0,
+    "manual_alloc_ops": 0,
+    "files_with_forbid_unsafe_code": 0,
+    "files_analysed": 2
+  },
+  "offenders": [
+    {
+      "file": "src/cset.rs",
+      "line": 64,
+      "kind": "raw_pointer_decls",
+      "text": "pub fn xxh64(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 67,
+      "kind": "raw_pointer_decls",
+      "text": "pub fn xxh64_h(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {"
+    }
+  ]
+}

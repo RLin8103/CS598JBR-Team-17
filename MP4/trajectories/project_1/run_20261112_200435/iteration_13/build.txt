@@ -1,0 +1,376 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=101 seconds=0.11
+
+   Compiling cset v0.1.0 (/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1)
+error[E0308]: mismatched types
+   --> src/cset.rs:214:24
+    |
+214 |     xxh64_endian_align(input_mut, len, seed)
+    |     ------------------ ^^^^^^^^^ expected `&mut u8`, found `*mut u8`
+    |     |
+    |     arguments to this function are incorrect
+    |
+    = note: expected mutable reference `&mut u8`
+                     found raw pointer `*mut u8`
+note: function defined here
+   --> src/cset.rs:134:8
+    |
+134 | pub fn xxh64_endian_align(input: &mut XXHU8, len: usize, seed: XXHU64) -> XXHU64 {
+    |        ^^^^^^^^^^^^^^^^^^ -----------------
+
+error[E0308]: mismatched types
+   --> src/cset.rs:224:26
+    |
+224 |     xxh64_endian_align_h(input_mut, len, seed)
+    |     -------------------- ^^^^^^^^^ expected `&mut u8`, found `*mut u8`
+    |     |
+    |     arguments to this function are incorrect
+    |
+    = note: expected mutable reference `&mut u8`
+                     found raw pointer `*mut u8`
+note: function defined here
+   --> src/cset.rs:171:8
+    |
+171 | pub fn xxh64_endian_align_h(input: &mut XXHU8, len: usize, seed: XXHU64) -> XXHU64 {
+    |        ^^^^^^^^^^^^^^^^^^^^ -----------------
+
+warning: variable does not need to be mutable
+  --> src/cset.rs:70:9
+   |
+70 |     let mut val = xxh64_round(0, val);
+   |         ----^^^
+   |         |
+   |         help: remove this `mut`
+   |
+   = note: `#[warn(unused_mut)]` on by default
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::add` is unsafe and requires unsafe function or block
+   --> src/cset.rs:105:15
+    |
+105 |         ptr = ptr.add(8);
+    |               ^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: dereference of raw pointer is unsafe and requires unsafe function or block
+   --> src/cset.rs:112:44
+    |
+112 |         let val = xxh_read_le32_align(&mut *ptr_u32);
+    |                                            ^^^^^^^^ dereference of raw pointer
+    |
+    = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules and cause data races: all of these are undefined behavior
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::add` is unsafe and requires unsafe function or block
+   --> src/cset.rs:114:15
+    |
+114 |         ptr = ptr.add(4);
+    |               ^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: dereference of raw pointer is unsafe and requires unsafe function or block
+   --> src/cset.rs:119:17
+    |
+119 |         h64 ^= (*ptr as XXHU64).wrapping_mul(XXH_PRIME64_5);
+    |                 ^^^^ dereference of raw pointer
+    |
+    = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules and cause data races: all of these are undefined behavior
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::add` is unsafe and requires unsafe function or block
+   --> src/cset.rs:121:15
+    |
+121 |         ptr = ptr.add(1);
+    |               ^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+warning: value assigned to `h64` is never read
+   --> src/cset.rs:137:13
+    |
+137 |     let mut h64 = 0;
+    |             ^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` on by default
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::add` is unsafe and requires unsafe function or block
+   --> src/cset.rs:136:68
+    |
+136 |     let b_end = if input.is_null() { std::ptr::null_mut() } else { input.add(len) };
+    |                                                                    ^^^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::sub` is unsafe and requires unsafe function or block
+   --> src/cset.rs:139:21
+    |
+139 |         let limit = b_end.sub(32);
+    |                     ^^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::add` is unsafe and requires unsafe function or block
+   --> src/cset.rs:147:21
+    |
+147 |             input = input.add(8);
+    |                     ^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::add` is unsafe and requires unsafe function or block
+   --> src/cset.rs:150:21
+    |
+150 |             input = input.add(8);
+    |                     ^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::add` is unsafe and requires unsafe function or block
+   --> src/cset.rs:153:21
+    |
+153 |             input = input.add(8);
+    |                     ^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::add` is unsafe and requires unsafe function or block
+   --> src/cset.rs:156:21
+    |
+156 |             input = input.add(8);
+    |                     ^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: dereference of raw pointer is unsafe and requires unsafe function or block
+   --> src/cset.rs:167:30
+    |
+167 |     xxh64_finalize(h64, &mut *input, len)
+    |                              ^^^^^^ dereference of raw pointer
+    |
+    = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules and cause data races: all of these are undefined behavior
+
+warning: value assigned to `h64` is never read
+   --> src/cset.rs:174:13
+    |
+174 |     let mut h64 = 0;
+    |             ^^^
+    |
+    = help: maybe it is overwritten before being read?
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::add` is unsafe and requires unsafe function or block
+   --> src/cset.rs:173:68
+    |
+173 |     let b_end = if input.is_null() { std::ptr::null_mut() } else { input.add(len) };
+    |                                                                    ^^^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::sub` is unsafe and requires unsafe function or block
+   --> src/cset.rs:176:21
+    |
+176 |         let limit = b_end.sub(32);
+    |                     ^^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::add` is unsafe and requires unsafe function or block
+   --> src/cset.rs:184:21
+    |
+184 |             input = input.add(8);
+    |                     ^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::add` is unsafe and requires unsafe function or block
+   --> src/cset.rs:187:21
+    |
+187 |             input = input.add(8);
+    |                     ^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::add` is unsafe and requires unsafe function or block
+   --> src/cset.rs:190:21
+    |
+190 |             input = input.add(8);
+    |                     ^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::add` is unsafe and requires unsafe function or block
+   --> src/cset.rs:193:21
+    |
+193 |             input = input.add(8);
+    |                     ^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: dereference of raw pointer is unsafe and requires unsafe function or block
+   --> src/cset.rs:204:30
+    |
+204 |     xxh64_finalize(h64, &mut *input, len)
+    |                              ^^^^^^ dereference of raw pointer
+    |
+    = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules and cause data races: all of these are undefined behavior
+
+warning: variable does not need to be mutable
+   --> src/cset.rs:229:9
+    |
+229 |     let mut memptr = memptr as *mut XXHU8;
+    |         ----^^^^^^
+    |         |
+    |         help: remove this `mut`
+
+warning: variable does not need to be mutable
+   --> src/cset.rs:235:9
+    |
+235 |     let mut memptr = memptr as *mut XXHU8;
+    |         ----^^^^^^
+    |         |
+    |         help: remove this `mut`
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:301:9
+    |
+301 |         val.elem
+    |         ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:286:6
+    |
+286 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+301 |         val.elem
+    |         -------- you could clone this value
+
+warning: unused variable: `customhasher`
+   --> src/cset.rs:328:18
+    |
+328 |             Some(customhasher) => {
+    |                  ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_customhasher`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `value`
+   --> src/cset.rs:326:40
+    |
+326 |     fn h2hash(&self, ref_bytes: &[u8], value: &T) -> XXHU64 {
+    |                                        ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+warning: unused variable: `customhasher`
+   --> src/cset.rs:342:18
+    |
+342 |             Some(customhasher) => {
+    |                  ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_customhasher`
+
+warning: unused variable: `value`
+   --> src/cset.rs:340:40
+    |
+340 |     fn h1hash(&self, ref_bytes: &[u8], value: &T) -> XXHU64 {
+    |                                        ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+error[E0507]: cannot move out of index of `Vec<CsetValue<T>>`
+   --> src/cset.rs:388:9
+    |
+388 |         self.buckets[index].elem
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^ move occurs because value has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:286:6
+    |
+286 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+388 |         self.buckets[index].elem
+    |         ------------------------ you could clone this value
+
+error[E0596]: cannot borrow `self.buckets` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:428:9
+    |
+428 |         &mut self.buckets
+    |         ^^^^^^^^^^^^^^^^^ `self` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+427 |     pub fn get_buckets_ref(&mut self) -> &mut Vec<CsetValue<T>> {
+    |                             +++
+
+error[E0596]: cannot borrow `self.temp_buckets` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:432:9
+    |
+432 |         &mut self.temp_buckets
+    |         ^^^^^^^^^^^^^^^^^^^^^^ `self` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+431 |     pub fn get_temp_buckets_ref(&mut self) -> &mut Vec<CsetValue<T>> {
+    |                                  +++
+
+warning: unused variable: `value`
+   --> src/cset.rs:443:27
+    |
+443 |     pub fn add(&mut self, value: T) -> i32 {
+    |                           ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+warning: unused variable: `value`
+   --> src/cset.rs:448:30
+    |
+448 |     pub fn remove(&mut self, value: T) -> i32 {
+    |                              ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+warning: unused variable: `value`
+   --> src/cset.rs:453:32
+    |
+453 |     pub fn contains(&mut self, value: &T) -> bool {
+    |                                ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+warning: unused variable: `first`
+   --> src/cset.rs:471:33
+    |
+471 |     pub fn intersect(&mut self, first: &Self, second: &Self) {
+    |                                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_first`
+
+warning: unused variable: `second`
+   --> src/cset.rs:471:47
+    |
+471 |     pub fn intersect(&mut self, first: &Self, second: &Self) {
+    |                                               ^^^^^^ help: if this is intentional, prefix it with an underscore: `_second`
+
+warning: unused variable: `first`
+   --> src/cset.rs:475:29
+    |
+475 |     pub fn union(&mut self, first: &Self, second: &Self) {
+    |                             ^^^^^ help: if this is intentional, prefix it with an underscore: `_first`
+
+warning: unused variable: `second`
+   --> src/cset.rs:475:43
+    |
+475 |     pub fn union(&mut self, first: &Self, second: &Self) {
+    |                                           ^^^^^^ help: if this is intentional, prefix it with an underscore: `_second`
+
+warning: unused variable: `other`
+   --> src/cset.rs:479:35
+    |
+479 |     pub fn is_disjoint(&mut self, other: &Self) -> bool {
+    |                                   ^^^^^ help: if this is intentional, prefix it with an underscore: `_other`
+
+warning: unused variable: `first`
+   --> src/cset.rs:484:34
+    |
+484 |     pub fn difference(&mut self, first: &Self, second: &Self) {
+    |                                  ^^^^^ help: if this is intentional, prefix it with an underscore: `_first`
+
+warning: unused variable: `second`
+   --> src/cset.rs:484:48
+    |
+484 |     pub fn difference(&mut self, first: &Self, second: &Self) {
+    |                                                ^^^^^^ help: if this is intentional, prefix it with an underscore: `_second`
+
+Some errors have detailed explanations: E0133, E0308, E0507, E0596.
+For more information about an error, try `rustc --explain E0133`.
+warning: `cset` (lib test) generated 19 warnings
+error: could not compile `cset` (lib test) due to 25 previous errors; 19 warnings emitted
+warning: build failed, waiting for other jobs to finish...
+warning: `cset` (lib) generated 19 warnings (19 duplicates)
+error: could not compile `cset` (lib) due to 25 previous errors; 19 warnings emitted

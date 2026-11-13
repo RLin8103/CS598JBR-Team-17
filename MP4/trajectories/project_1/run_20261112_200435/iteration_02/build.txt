@@ -1,0 +1,343 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=101 seconds=0.42
+
+   Compiling cset v0.1.0 (/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1)
+error: unknown start of token: `
+   --> src/cset.rs:488:1
+    |
+488 | ```
+    | ^^^
+    |
+    = note: character appears 2 more times
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+488 - ```
+488 + '''
+    |
+
+warning: unused import: `std::mem`
+ --> src/cset.rs:2:5
+  |
+2 | use std::mem;
+  |     ^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `std::ptr`
+ --> src/cset.rs:3:5
+  |
+3 | use std::ptr;
+  |     ^^^^^^^^
+
+warning: unnecessary parentheses around block return value
+   --> src/cset.rs:237:5
+    |
+237 |     (hash | 1)
+    |     ^        ^
+    |
+    = note: `#[warn(unused_parens)]` on by default
+help: remove these parentheses
+    |
+237 -     (hash | 1)
+237 +     hash | 1
+    |
+
+error[E0592]: duplicate definitions with name `empty`
+   --> src/cset.rs:377:5
+    |
+288 |     fn empty(&self, vector_ref: &Vec<CsetValue<T>>, index: usize) -> bool {
+    |     --------------------------------------------------------------------- other definition for `empty`
+...
+377 |     pub fn empty(&self) -> bool {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ duplicate definitions for `empty`
+
+error[E0592]: duplicate definitions with name `tombstone`
+   --> src/cset.rs:381:5
+    |
+292 |     fn tombstone(&self, vector_ref: &Vec<CsetValue<T>>, index: usize) -> bool {
+    |     ------------------------------------------------------------------------- other definition for `tombstone`
+...
+381 |     pub fn tombstone(&self) -> bool {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ duplicate definitions for `tombstone`
+
+error[E0308]: mismatched types
+  --> src/cset.rs:80:20
+   |
+80 |         xxh_swap32(xxh_read32(ptr))
+   |         ---------- ^^^^^^^^^^^^^^^ expected `&mut u32`, found `u32`
+   |         |
+   |         arguments to this function are incorrect
+   |
+note: function defined here
+  --> src/cset.rs:43:8
+   |
+43 | pub fn xxh_swap32(x: &mut XXHU32) -> XXHU32 {
+   |        ^^^^^^^^^^ --------------
+help: consider mutably borrowing here
+   |
+80 |         xxh_swap32(&mut xxh_read32(ptr))
+   |                    ++++
+
+error[E0308]: mismatched types
+   --> src/cset.rs:111:32
+    |
+111 |         h64 ^= (xxh_get_32bits(ptr as *mut XXHU32) as XXHU64).wrapping_mul(XXH_PRIME64_1);
+    |                 -------------- ^^^^^^^^^^^^^^^^^^ expected `&mut u32`, found `*mut u32`
+    |                 |
+    |                 arguments to this function are incorrect
+    |
+    = note: expected mutable reference `&mut u32`
+                     found raw pointer `*mut u32`
+note: function defined here
+   --> src/cset.rs:76:8
+    |
+76  | pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32 {
+    |        ^^^^^^^^^^^^^^ ----------------
+
+error[E0308]: mismatched types
+   --> src/cset.rs:167:25
+    |
+167 |     xxh64_finalize(h64, input, len)
+    |     --------------      ^^^^^ expected `&mut u8`, found `*mut u8`
+    |     |
+    |     arguments to this function are incorrect
+    |
+    = note: expected mutable reference `&mut u8`
+                     found raw pointer `*mut u8`
+note: function defined here
+   --> src/cset.rs:100:8
+    |
+100 | pub fn xxh64_finalize(mut h64: XXHU64, ptr: &mut XXHU8, len: usize) -> XXHU64 {
+    |        ^^^^^^^^^^^^^^                  ---------------
+
+error[E0308]: mismatched types
+   --> src/cset.rs:204:25
+    |
+204 |     xxh64_finalize(h64, input, len)
+    |     --------------      ^^^^^ expected `&mut u8`, found `*mut u8`
+    |     |
+    |     arguments to this function are incorrect
+    |
+    = note: expected mutable reference `&mut u8`
+                     found raw pointer `*mut u8`
+note: function defined here
+   --> src/cset.rs:100:8
+    |
+100 | pub fn xxh64_finalize(mut h64: XXHU64, ptr: &mut XXHU8, len: usize) -> XXHU64 {
+    |        ^^^^^^^^^^^^^^                  ---------------
+
+error[E0308]: mismatched types
+   --> src/cset.rs:214:24
+    |
+214 |     xxh64_endian_align(input_mut, len, seed)
+    |     ------------------ ^^^^^^^^^ expected `&mut u8`, found `*mut u8`
+    |     |
+    |     arguments to this function are incorrect
+    |
+    = note: expected mutable reference `&mut u8`
+                     found raw pointer `*mut u8`
+note: function defined here
+   --> src/cset.rs:134:8
+    |
+134 | pub fn xxh64_endian_align(input: &mut XXHU8, len: usize, seed: XXHU64) -> XXHU64 {
+    |        ^^^^^^^^^^^^^^^^^^ -----------------
+
+error[E0308]: mismatched types
+   --> src/cset.rs:224:26
+    |
+224 |     xxh64_endian_align_h(input_mut, len, seed)
+    |     -------------------- ^^^^^^^^^ expected `&mut u8`, found `*mut u8`
+    |     |
+    |     arguments to this function are incorrect
+    |
+    = note: expected mutable reference `&mut u8`
+                     found raw pointer `*mut u8`
+note: function defined here
+   --> src/cset.rs:171:8
+    |
+171 | pub fn xxh64_endian_align_h(input: &mut XXHU8, len: usize, seed: XXHU64) -> XXHU64 {
+    |        ^^^^^^^^^^^^^^^^^^^^ -----------------
+
+warning: variable does not need to be mutable
+  --> src/cset.rs:71:9
+   |
+71 |     let mut val = xxh64_round(0, val);
+   |         ----^^^
+   |         |
+   |         help: remove this `mut`
+   |
+   = note: `#[warn(unused_mut)]` on by default
+
+warning: variable does not need to be mutable
+   --> src/cset.rs:229:9
+    |
+229 |     let mut memptr = memptr as *mut XXHU8;
+    |         ----^^^^^^
+    |         |
+    |         help: remove this `mut`
+
+warning: variable does not need to be mutable
+   --> src/cset.rs:235:9
+    |
+235 |     let mut memptr = memptr as *mut XXHU8;
+    |         ----^^^^^^
+    |         |
+    |         help: remove this `mut`
+
+warning: unused variable: `vector_ref`
+   --> src/cset.rs:288:21
+    |
+288 |     fn empty(&self, vector_ref: &Vec<CsetValue<T>>, index: usize) -> bool {
+    |                     ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_vector_ref`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `vector_ref`
+   --> src/cset.rs:292:25
+    |
+292 |     fn tombstone(&self, vector_ref: &Vec<CsetValue<T>>, index: usize) -> bool {
+    |                         ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_vector_ref`
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:301:9
+    |
+301 |         val.elem
+    |         ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:286:6
+    |
+286 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+301 |         val.elem
+    |         -------- you could clone this value
+
+warning: unused variable: `customhasher`
+   --> src/cset.rs:328:18
+    |
+328 |             Some(customhasher) => {
+    |                  ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_customhasher`
+
+warning: unused variable: `value`
+   --> src/cset.rs:326:40
+    |
+326 |     fn h2hash(&self, ref_bytes: &[u8], value: &T) -> XXHU64 {
+    |                                        ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+warning: unused variable: `customhasher`
+   --> src/cset.rs:342:18
+    |
+342 |             Some(customhasher) => {
+    |                  ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_customhasher`
+
+warning: unused variable: `value`
+   --> src/cset.rs:340:40
+    |
+340 |     fn h1hash(&self, ref_bytes: &[u8], value: &T) -> XXHU64 {
+    |                                        ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+error[E0507]: cannot move out of index of `Vec<CsetValue<T>>`
+   --> src/cset.rs:388:9
+    |
+388 |         self.buckets[index].elem
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^ move occurs because value has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:286:6
+    |
+286 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+388 |         self.buckets[index].elem
+    |         ------------------------ you could clone this value
+
+error[E0596]: cannot borrow `self.buckets` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:428:9
+    |
+428 |         &mut self.buckets
+    |         ^^^^^^^^^^^^^^^^^ `self` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+427 |     pub fn get_buckets_ref(&mut self) -> &mut Vec<CsetValue<T>> {
+    |                             +++
+
+error[E0596]: cannot borrow `self.temp_buckets` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:432:9
+    |
+432 |         &mut self.temp_buckets
+    |         ^^^^^^^^^^^^^^^^^^^^^^ `self` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+431 |     pub fn get_temp_buckets_ref(&mut self) -> &mut Vec<CsetValue<T>> {
+    |                                  +++
+
+warning: unused variable: `value`
+   --> src/cset.rs:443:27
+    |
+443 |     pub fn add(&mut self, value: T) -> i32 {
+    |                           ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+warning: unused variable: `value`
+   --> src/cset.rs:448:30
+    |
+448 |     pub fn remove(&mut self, value: T) -> i32 {
+    |                              ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+warning: unused variable: `value`
+   --> src/cset.rs:453:32
+    |
+453 |     pub fn contains(&mut self, value: &T) -> bool {
+    |                                ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+warning: unused variable: `first`
+   --> src/cset.rs:471:33
+    |
+471 |     pub fn intersect(&mut self, first: &Self, second: &Self) {
+    |                                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_first`
+
+warning: unused variable: `second`
+   --> src/cset.rs:471:47
+    |
+471 |     pub fn intersect(&mut self, first: &Self, second: &Self) {
+    |                                               ^^^^^^ help: if this is intentional, prefix it with an underscore: `_second`
+
+warning: unused variable: `first`
+   --> src/cset.rs:475:29
+    |
+475 |     pub fn union(&mut self, first: &Self, second: &Self) {
+    |                             ^^^^^ help: if this is intentional, prefix it with an underscore: `_first`
+
+warning: unused variable: `second`
+   --> src/cset.rs:475:43
+    |
+475 |     pub fn union(&mut self, first: &Self, second: &Self) {
+    |                                           ^^^^^^ help: if this is intentional, prefix it with an underscore: `_second`
+
+warning: unused variable: `other`
+   --> src/cset.rs:479:35
+    |
+479 |     pub fn is_disjoint(&mut self, other: &Self) -> bool {
+    |                                   ^^^^^ help: if this is intentional, prefix it with an underscore: `_other`
+
+warning: unused variable: `first`
+   --> src/cset.rs:484:34
+    |
+484 |     pub fn difference(&mut self, first: &Self, second: &Self) {
+    |                                  ^^^^^ help: if this is intentional, prefix it with an underscore: `_first`
+
+warning: unused variable: `second`
+   --> src/cset.rs:484:48
+    |
+484 |     pub fn difference(&mut self, first: &Self, second: &Self) {
+    |                                                ^^^^^^ help: if this is intentional, prefix it with an underscore: `_second`
+
+Some errors have detailed explanations: E0308, E0507, E0592, E0596.
+For more information about an error, try `rustc --explain E0308`.
+warning: `cset` (lib test) generated 22 warnings (12 duplicates)
+error: could not compile `cset` (lib test) due to 13 previous errors; 22 warnings emitted
+warning: build failed, waiting for other jobs to finish...
+warning: `cset` (lib) generated 22 warnings (10 duplicates)
+error: could not compile `cset` (lib) due to 13 previous errors; 22 warnings emitted

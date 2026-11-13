@@ -1,0 +1,826 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=101 seconds=0.11
+
+   Compiling cset v0.1.0 (/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1)
+error: unknown start of token: `
+   --> src/cset.rs:491:1
+    |
+491 | ```
+    | ^^^
+    |
+    = note: character appears 2 more times
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+491 - ```
+491 + '''
+    |
+
+error: prefix `Let` is unknown
+   --> src/cset.rs:493:28
+    |
+493 | We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self)...
+    |                            ^^^ unknown prefix
+    |
+    = note: prefixed identifiers and literals are reserved since Rust 2021
+help: consider inserting whitespace here
+    |
+493 | We need to fix the errors. Let 's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+    |                               +
+
+error: unknown start of token: `
+   --> src/cset.rs:493:118
+    |
+493 | We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self)...
+    |                                                                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+493 - We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+493 + We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have 'pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:493:146
+    |
+493 | ...y removed them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them,...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+493 - We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+493 + We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool' and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:493:152
+    |
+493 | ...ved them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but w...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+493 - We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+493 + We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool` and 'pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:493:184
+    |
+493 | ...`pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the ...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+493 - We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+493 + We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool'. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:493:275
+    |
+493 | ...them, but we can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The i...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+493 - We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+493 + We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros 'cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:493:287
+    |
+493 | ... can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface fun...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+493 - We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+493 + We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty' and `cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:493:293
+    |
+493 | ...mplement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+493 - We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+493 + We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty` and 'cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:493:309
+    |
+493 | ... per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions have no paramet...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+493 - We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+493 + We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone' take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We'll keep them as is.
+    |
+
+error: prefix `We` is unknown
+   --> src/cset.rs:493:525
+    |
+493 | ...ement them as returning false (or maybe check something). We'll keep them as is.
+    |                                                              ^^ unknown prefix
+    |
+    = note: prefixed identifiers and literals are reserved since Rust 2021
+help: consider inserting whitespace here
+    |
+493 | We need to fix the errors. Let's first fix the duplicate definitions: we already removed them. However we still have `pub fn empty(&self) -> bool` and `pub fn tombstone(&self) -> bool`. The interface expects them, but we can implement them as per the C macros? The C macros `cset__empty` and `cset__tombstone` take vector_ref and index. The interface functions have no parameters. Perhaps they are meant to be used as helpers? The tests do not call them. We can implement them as returning false (or maybe check something). We 'll keep them as is.
+    |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               +
+
+error: prefix `Let` is unknown
+   --> src/cset.rs:495:49
+    |
+495 | Now we need to fix the mismatched types errors. Let's examine each:
+    |                                                 ^^^ unknown prefix
+    |
+    = note: prefixed identifiers and literals are reserved since Rust 2021
+help: consider inserting whitespace here
+    |
+495 | Now we need to fix the mismatched types errors. Let 's examine each:
+    |                                                    +
+
+error: unknown start of token: `
+   --> src/cset.rs:497:4
+    |
+497 | 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` ...
+    |    ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. 'xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:41
+    |
+497 | 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` ...
+    |                                         ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32' expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:51
+    |
+497 | 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` ...
+    |                                                   ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects '&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:63
+    |
+497 | 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` ...
+    |                                                               ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32'. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:69
+    |
+497 | 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` ...
+    |                                                                     ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In 'xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:84
+    |
+497 | 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` ...
+    |                                                                                    ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits' we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:94
+    |
+497 | 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` ...
+    |                                                                                              ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call 'xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:122
+    |
+497 | 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` ...
+    |                                                                                                                          ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))'. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:125
+    |
+497 | 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` ...
+    |                                                                                                                             ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. 'xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:136
+    |
+497 | ...xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can c...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32' returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:146
+    |
+497 | ...bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns 'XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:153
+    |
+497 | ...e call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32'. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:210
+    |
+497 | ...s `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let'...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change 'xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:221
+    |
+497 | ... So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32' to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:231
+    |
+497 | ...d to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take '&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:243
+    |
+497 | ...mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32' and call it with `&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:262
+    |
+497 | ...We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with '&mut val`. Let's adjust:
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:497:271
+    |
+497 | ...ange `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+497 - 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+497 + 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val'. Let's adjust:
+    |
+
+error: prefix `Let` is unknown
+   --> src/cset.rs:497:274
+    |
+497 | ...wap32` to take `&mut XXHU32` and call it with `&mut val`. Let's adjust:
+    |                                                              ^^^ unknown prefix
+    |
+    = note: prefixed identifiers and literals are reserved since Rust 2021
+help: consider inserting whitespace here
+    |
+497 | 1. `xxh_swap32(x: &mut XXHU32) -> XXHU32` expects `&mut XXHU32`. In `xxh_get_32bits` we call `xxh_swap32(xxh_read32(ptr))`. `xxh_read32` returns `XXHU32`. So we need to pass a mutable reference. We can change `xxh_swap32` to take `&mut XXHU32` and call it with `&mut val`. Let 's adjust:
+    |                                                                                                                                                                                                                                                                                     +
+
+error: unknown start of token: `
+   --> src/cset.rs:499:1
+    |
+499 | ```
+    | ^^^
+    |
+    = note: character appears 2 more times
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+499 - ```
+499 + '''
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:508:1
+    |
+508 | ```
+    | ^^^
+    |
+    = note: character appears 2 more times
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+508 - ```
+508 + '''
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:44
+    |
+510 | But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32...
+    |                                            ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in 'xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:59
+    |
+510 | But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32...
+    |                                                           ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits'. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:88
+    |
+510 | But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32...
+    |                                                                                        ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is 'pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:138
+    |
+510 | ...on signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`....
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32'. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:144
+    |
+510 | ...nature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That'...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In 'xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:159
+    |
+510 | ...fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize' we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:169
+    |
+510 | ..._32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a re...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call 'xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:204
+    |
+510 | ...`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)'. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: prefix `That` is unknown
+   --> src/cset.rs:510:207
+    |
+510 | ..._finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get...
+    |                                                             ^^^^ unknown prefix
+    |
+    = note: prefixed identifiers and literals are reserved since Rust 2021
+help: consider inserting whitespace here
+    |
+510 | But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That 's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |                                                                                                                                                                                                                   +
+
+error: unknown start of token: `
+   --> src/cset.rs:510:276
+    |
+510 | ...t's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to 'xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:302
+    |
+510 | ...eference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)'? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:326
+    |
+510 | ...nge the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's l...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast '*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:338
+    |
+510 | ... to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32' to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:343
+    |
+510 | ...xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to '&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:355
+    |
+510 | ...ts(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32'? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:369
+    |
+510 | ...? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is de...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use 'std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:384
+    |
+510 | ...an cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_r...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read'? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: prefix `Let` is unknown
+   --> src/cset.rs:510:387
+    |
+510 | ...ut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_ali...
+    |                                                              ^^^ unknown prefix
+    |
+    = note: prefixed identifiers and literals are reserved since Rust 2021
+help: consider inserting whitespace here
+    |
+510 | But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let 's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |                                                                                                                                                                                                                                                                                                                                                                                                      +
+
+error: unknown start of token: `
+   --> src/cset.rs:510:413
+    |
+510 | ...t XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, w...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: 'XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:430
+    |
+510 | ... use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)' is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:446
+    |
+510 | ...read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` ...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as 'XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:468
+    |
+510 | ...he C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)'. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:497
+    |
+510 | ... is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&m...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement 'xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:512
+    |
+510 | ...`XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. How...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits' to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:524
+    |
+510 | ...2_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can ...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept '*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:536
+    |
+510 | ... In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the i...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32'? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:562
+    |
+510 | ... `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says '&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:574
+    |
+510 | ...bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` ...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32'. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:628
+    |
+510 | ...`&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? ...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept '*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:640
+    |
+510 | ...`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need t...
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32' and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:656
+    |
+510 | ...n change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call 'xxh_read_le32_align` with a reference? We'll need to adjust.
+    |
+
+error: unknown start of token: `
+   --> src/cset.rs:510:676
+    |
+510 | ...ntation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |                                                                      ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+510 - But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+510 + But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align' with a reference? We'll need to adjust.
+    |
+
+error: prefix `We` is unknown
+   --> src/cset.rs:510:696
+    |
+510 | ...32` and then call `xxh_read_le32_align` with a reference? We'll need to adjust.
+    |                                                              ^^ unknown prefix
+    |
+    = note: prefixed identifiers and literals are reserved since Rust 2021
+help: consider inserting whitespace here
+    |
+510 | But we need to fix the mismatched types in `xxh_get_32bits`. The function signature is `pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32`. In `xxh64_finalize` we call `xxh_get_32bits(ptr as *mut XXHU32)`. That's a raw pointer, not a reference. We need to change the call to `xxh_get_32bits(&mut *ptr)`? Actually we can cast `*mut XXHU32` to `&mut XXHU32`? We can use `std::ptr::read`? Let's look at the C code: `XXH_get32bits(p)` is defined as `XXH_readLE32_align(p)`. In Rust, we can implement `xxh_get_32bits` to accept `*mut XXHU32`? But the interface says `&mut XXHU32`. However we can change the implementation to accept `*mut XXHU32` and then call `xxh_read_le32_align` with a reference? We 'll need to adjust.
+    |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          +
+
+error: unknown start of token: `
+   --> src/cset.rs:512:76
+    |
+512 | We have to keep the interface signatures exactly as given. So we must keep `pub fn xx: &mut XXHU32) -> XXHU32`. But we can also implement...
+    |                                                                            ^
+    |
+help: Unicode character '`' (Grave Accent) looks like ''' (Single Quote), but it is not
+    |
+512 - We have to keep the interface signatures exactly as given. So we must keep `pub fn xx: &mut XXHU32) -> XXHU32`. But we can also implement a wrapper that takes `*mut XXHU32` and calls the interface function with a temporary reference? That's not possible.
+512 + We have to keep the interface signatures exactly as given. So we must keep 'pub fn xx: &mut XXHU32) -> XXHU32`. But we can also implement a wrapper that takes `*mut XXHU32` and calls the interface function with a temporary reference? That's not possible.
+    |
+
+error: unexpected closing delimiter: `)`
+   --> src/cset.rs:512:99
+    |
+500 | pub fn xxh_swap32(x: &mut XXHU32) -> XXHU32 {
+    |                                             - this opening brace...
+...
+507 | }
+    | - ...matches this closing brace
+...
+512 | We have to keep the interface signatures exactly as given. So we must keep `pub fn xx: &mut XXHU32) -> XXHU32`. But we can also implement...
+    |                                                                                                   ^ unexpected closing delimiter
+
+error: could not compile `cset` (lib) due to 68 previous errors
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `cset` (lib test) due to 68 previous errors

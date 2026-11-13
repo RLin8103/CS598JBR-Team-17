@@ -126,6 +126,28 @@ class Pipeline:
                     shutil.copyfile(iface, dest)
         (self.crate / ".gitignore").write_text("target/\n", encoding="utf-8")
         self.ws.snapshot_protected()
+        if self.args.resume_from:
+            self.resume_from_snapshot(self.args.resume_from)
+
+    def resume_from_snapshot(self, spec: str) -> None:
+        """Continue from the Rust files the agent itself produced in an earlier iteration (RUN:ITER).
+
+        Used after a controller/provider interruption so the agent's own earlier work is not lost.
+        Only editable files are copied; the event is logged in this run's trajectory.
+        """
+        run, _, n = spec.partition(":")
+        src_dir = self.log_root / run / f"iteration_{int(n):02d}" / "files"
+        if not src_dir.is_dir():
+            raise SystemExit(f"--resume-from: {src_dir} not found")
+        copied = []
+        for p in sorted(src_dir.rglob("*.rs")):
+            rel = str(p.relative_to(src_dir)).replace("\\", "/")
+            if self.ws.is_editable(rel):
+                (self.crate / rel).parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(p, self.crate / rel)
+                copied.append(rel)
+        self.say(f"resumed from {run} iteration {n}: restored {copied}")
+        self.log_event("resume_from", source_run=run, source_iteration=int(n), files=copied)
 
     # ------------------------------------------------------------------ checks
     def run_checks(self, label: str) -> dict:
@@ -550,12 +572,19 @@ class Pipeline:
         except KeyboardInterrupt:
             stop_reason = "interrupted"
 
-        if best_it != it:
+        resumable = stop_reason.startswith("llm_error") or stop_reason == "interrupted"
+        if resumable and best_it != it:
+            # Rate limit / outage / Ctrl-C: keep the latest work in translations/ so that running the
+            # pipeline again WITHOUT --fresh continues from here instead of from the empty skeleton.
+            self.say("stopped early: keeping the latest Rust files in place; rerun without --fresh to continue")
+        elif best_it != it:
             self.say(f"restoring best snapshot from iteration {best_it}")
             self.restore(best_snap)
             state = self.run_checks("final (best snapshot)")
             self.save_checks(it + 1, state)
         self.finish(state, stop_reason, it, best_it)
+        if resumable:
+            self.say("RESUME: bash MP4/src/run_pipeline.sh <project-id>   (no --fresh)")
         return 0 if state["phase"] == "DONE" else 1
 
     def finish(self, state: dict, stop_reason: str, iterations: int, best_it: int) -> None:
@@ -585,6 +614,9 @@ def main() -> int:
     ap.add_argument("--max-iterations", type=int, default=0)
     ap.add_argument("--target-dir", default="", help="cargo target dir (default ~/.cache/crust_target/<project>)")
     ap.add_argument("--fresh", action="store_true", help="discard the existing translation and start from the skeleton")
+    ap.add_argument("--resume-from", default="", metavar="RUN:ITER",
+                    help="continue from the agent's own Rust files saved in trajectories/<project>/RUN/iteration_ITER/files "
+                         "(e.g. run_20261112_200435:9)")
     args = ap.parse_args()
     if not args.project_id and not (args.project and args.subject and args.out and args.log):
         ap.error("use --project-id N, or --project/--subject/--out/--log")

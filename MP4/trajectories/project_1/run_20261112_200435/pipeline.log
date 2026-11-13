@@ -1,0 +1,59 @@
+[20:04:35] project=cset model=google/gemma-4-31b-it:free toolchain=nightly-2025-05-13
+[20:04:35] baseline: cargo build
+[20:04:36] baseline: cargo test
+[20:04:36] baseline: cargo clippy (4 categories)
+[20:04:37] baseline: unsafe metrics
+[20:04:37] === iteration 1/40 phase=TESTS score=(1, 0, 0, 0, -1)
+[20:08:55] iter 1: cargo build
+[20:08:56] iter 1: unsafe metrics
+[20:08:56] iteration 1: phase=COMPILE compiles=False tests=0/0 unsafe=41 clippy=None tokens=121910
+[20:08:56] === iteration 2/40 phase=COMPILE score=(0, 0, -463, -41, -10000)
+[20:10:12] iter 2: cargo build
+[20:10:13] iter 2: unsafe metrics
+[20:10:13] iteration 2: phase=COMPILE compiles=False tests=0/0 unsafe=47 clippy=None tokens=179874
+[20:10:13] === iteration 3/40 phase=COMPILE score=(0, 0, -13, -47, -10000)
+[20:10:32] iter 3: cargo build
+[20:10:32] iter 3: unsafe metrics
+[20:10:32] iteration 3: phase=COMPILE compiles=False tests=0/0 unsafe=47 clippy=None tokens=242227
+[20:10:32] === iteration 4/40 phase=COMPILE score=(0, 0, -11, -47, -10000)
+[20:14:00] iter 4: cargo build
+[20:14:00] iter 4: unsafe metrics
+[20:14:00] iteration 4: phase=COMPILE compiles=False tests=0/0 unsafe=52 clippy=None tokens=375689
+[20:14:00] === iteration 5/40 phase=COMPILE score=(0, 0, -68, -52, -10000)
+[20:18:25] iteration 5: phase=COMPILE compiles=False tests=0/0 unsafe=52 clippy=None tokens=521888
+[20:18:25] === iteration 6/40 phase=COMPILE score=(0, 0, -68, -52, -10000)
+[20:22:17] iter 6: cargo build
+[20:22:17] iter 6: unsafe metrics
+[20:22:17] iteration 6: phase=COMPILE compiles=False tests=0/0 unsafe=51 clippy=None tokens=698041
+[20:22:17] === iteration 7/40 phase=COMPILE score=(0, 0, -68, -51, -10000)
+[20:23:26] iteration 7: phase=COMPILE compiles=False tests=0/0 unsafe=51 clippy=None tokens=1055780
+[20:23:26] === iteration 8/40 phase=COMPILE score=(0, 0, -68, -51, -10000)
+[20:23:53] iter 8: cargo build
+[20:23:54] iter 8: unsafe metrics
+[20:23:54] iteration 8: phase=COMPILE compiles=False tests=0/0 unsafe=46 clippy=None tokens=1147316
+[20:23:54] === iteration 9/40 phase=COMPILE score=(0, 0, -16, -46, -10000)
+[20:24:30] iter 9: cargo build
+[20:24:30] iter 9: unsafe metrics
+[20:24:31] iteration 9: phase=COMPILE compiles=False tests=0/0 unsafe=44 clippy=None tokens=1224473
+[20:24:31] === iteration 10/40 phase=COMPILE score=(0, 0, -1, -44, -10000)
+[20:24:38] iteration 10: phase=COMPILE compiles=False tests=0/0 unsafe=44 clippy=None tokens=1435460
+[20:24:38] === iteration 11/40 phase=COMPILE score=(0, 0, -1, -44, -10000)
+[20:25:15] iter 11: cargo build
+[20:25:15] iter 11: unsafe metrics
+[20:25:15] iteration 11: phase=COMPILE compiles=False tests=0/0 unsafe=40 clippy=None tokens=1492424
+[20:25:15] === iteration 12/40 phase=COMPILE score=(0, 0, -13, -40, -10000)
+[20:25:32] iter 12: cargo build
+[20:25:32] iter 12: unsafe metrics
+[20:25:32] iteration 12: phase=COMPILE compiles=False tests=0/0 unsafe=40 clippy=None tokens=1543762
+[20:25:32] === iteration 13/40 phase=COMPILE score=(0, 0, -19, -40, -10000)
+[20:25:49] iter 13: cargo build
+[20:25:49] iter 13: unsafe metrics
+[20:25:49] iteration 13: phase=COMPILE compiles=False tests=0/0 unsafe=40 clippy=None tokens=1645985
+[20:25:49] === iteration 14/40 phase=COMPILE score=(0, 0, -25, -40, -10000)
+[20:28:53] llm_error: all models failed: cohere/north-mini-code:free: failed after 3 attempts: HTTP 429: {"error":{"message":"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day: https://openrouter.ai/settings/credits?utm_source=api&utm_campaign=free_daily_limit","code":429,"metadata":{"headers":{"X-RateLimit-Limit":"50","X-RateLimit-Remaining":"0","X-RateLimit-Reset":"1794614400000"},"limit_source":"openrouter_free_tier_daily","remedy_hint":"Wait for t | nvidia/nemotron-3-ultra-550b-a55b:free: failed after 3 attempts: HTTP 429: {"error":{"message":"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day: https://openrouter.ai/settings/credits?utm_source=api&utm_campaign=free_daily_limit","code":429,"metadata":{"headers":{"X-RateLimit-Limit":"50","X-RateLimit-Remaining":"0","X-RateLimit-Reset":"1794614400000"},"limit_source":"openrouter_free_tier_daily","remedy_hint":"Wait for t
+[20:28:53] restoring best snapshot from iteration 0
+[20:28:53] final (best snapshot): cargo build
+[20:28:54] final (best snapshot): cargo test
+[20:28:54] final (best snapshot): cargo clippy (4 categories)
+[20:28:55] final (best snapshot): unsafe metrics
+[20:28:55] STOP: llm_error: all models failed: cohere/north-mini-code:free: failed after 3 attempts: HTTP 429: {"error":{"message":"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day: https://openrouter.ai/settings/credits?utm_source=api&utm_campaign=free_daily_limit","code":429,"metadata":{"headers":{"X-RateLimit-Limit":"50","X-RateLimit-Remaining":"0","X-RateLimit-Reset":"1794614400000"},"limit_source":"openrouter_free_tier_daily","remedy_hint":"Wait for t | nvidia/nemotron-3-ultra-550b-a55b:free: failed after 3 attempts: HTTP 429: {"error":{"message":"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day: https://openrouter.ai/settings/credits?utm_source=api&utm_campaign=free_daily_limit","code":429,"metadata":{"headers":{"X-RateLimit-Limit":"50","X-RateLimit-Remaining":"0","X-RateLimit-Reset":"1794614400000"},"limit_source":"openrouter_free_tier_daily","remedy_hint":"Wait for t | iterations=14 (best 0) | compiles=True tests=0/15 unsafe=0 clippy=1

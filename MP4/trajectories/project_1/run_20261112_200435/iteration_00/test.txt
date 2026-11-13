@@ -1,0 +1,508 @@
+$ cargo +nightly-2025-05-13 test --no-fail-fast
+returncode=101 timed_out=False
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 15 tests
+test test_cset_contains ... FAILED
+test test_cset_init ... FAILED
+test test_cset_add ... FAILED
+test test_cset_difference ... FAILED
+test test_cset_intersection ... FAILED
+test test_cset_clear ... FAILED
+test test_cset_remove ... FAILED
+test test_cset_iteration ... FAILED
+test test_cset_disjoint ... FAILED
+test test_cset_resize ... FAILED
+test test_cset_struct ... FAILED
+test test_cset_union ... FAILED
+test test_cset_unique ... FAILED
+test test_custom_comparator ... FAILED
+test test_default_bytes_comparator ... FAILED
+
+failures:
+
+---- test_cset_contains stdout ----
+
+thread 'test_cset_contains' panicked at /mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:92:9:
+not implemented
+
+---- test_cset_init stdout ----
+
+thread 'test_cset_init' panicked at /mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:92:9:
+not implemented
+
+---- test_cset_add stdout ----
+
+thread 'test_cset_add' panicked at /mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:92:9:
+not implemented
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- test_cset_difference stdout ----
+
+thread 'test_cset_difference' panicked at /mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:92:9:
+not implemented
+
+---- test_cset_intersection stdout ----
+
+thread 'test_cset_intersection' panicked at /mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:92:9:
+not implemented
+
+---- test_cset_clear stdout ----
+
+thread 'test_cset_clear' panicked at /mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:92:9:
+not implemented
+
+---- test_cset_remove stdout ----
+
+thread 'test_cset_remove' panicked at /mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:92:9:
+not implemented
+
+---- test_cset_iteration stdout ----
+
+thread 'test_cset_iteration' panicked at /mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:92:9:
+not implemented
+
+---- test_cset_disjoint stdout ----
+
+thread 'test_cset_disjoint' panicked at /mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:92:9:
+not implemented
+
+---- test_cset_resize stdout ----
+
+thread 'test_cset_resize' panicked at /mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:92:9:
+not implemented
+
+---- test_cset_struct stdout ----
+
+thread 'test_cset_struct' panicked at /mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:92:9:
+not implemented
+
+---- test_cset_union stdout ----
+
+thread 'test_cset_union' panicked at /mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:92:9:
+not implemented
+
+---- test_cset_unique stdout ----
+
+thread 'test_cset_unique' panicked at /mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:92:9:
+not implemented
+
+---- test_custom_comparator stdout ----
+
+thread 'test_custom_comparator' panicked at /mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:92:9:
+not implemented
+
+---- test_default_bytes_comparator stdout ----
+
+thread 'test_default_bytes_comparator' panicked at /mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:92:9:
+not implemented
+
+
+failures:
+    test_cset_add
+    test_cset_clear
+    test_cset_contains
+    test_cset_difference
+    test_cset_disjoint
+    test_cset_init
+    test_cset_intersection
+    test_cset_iteration
+    test_cset_remove
+    test_cset_resize
+    test_cset_struct
+    test_cset_union
+    test_cset_unique
+    test_custom_comparator
+    test_default_bytes_comparator
+
+test result: FAILED. 0 passed; 15 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+warning: unused import: `std::mem`
+ --> src/cset.rs:2:5
+  |
+2 | use std::mem;
+  |     ^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `std::ptr`
+ --> src/cset.rs:3:5
+  |
+3 | use std::ptr;
+  |     ^^^^^^^^
+
+warning: unused variable: `mem_ptr`
+  --> src/cset.rs:22:22
+   |
+22 | pub fn xxh_get64bits(mem_ptr: &mut XXHU8) -> XXHU64 {
+   |                      ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_mem_ptr`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `mem_ptr`
+  --> src/cset.rs:25:22
+   |
+25 | pub fn xxh_read_le64(mem_ptr: &mut XXHU8) -> XXHU64 {
+   |                      ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_mem_ptr`
+
+warning: unused variable: `mem_ptr`
+  --> src/cset.rs:31:28
+   |
+31 | pub fn xxh_read_le64_align(mem_ptr: &mut XXHU8) -> XXHU64 {
+   |                            ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_mem_ptr`
+
+warning: unused variable: `x`
+  --> src/cset.rs:34:19
+   |
+34 | pub fn xxh_swap32(x: &mut  XXHU32) -> XXHU32 {
+   |                   ^ help: if this is intentional, prefix it with an underscore: `_x`
+
+warning: unused variable: `mem_ptr`
+  --> src/cset.rs:37:19
+   |
+37 | pub fn xxh_read32(mem_ptr: &mut XXHU32) -> XXHU32 {
+   |                   ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_mem_ptr`
+
+warning: unused variable: `acc`
+  --> src/cset.rs:40:20
+   |
+40 | pub fn xxh64_round(acc: XXHU64, input: XXHU64) -> XXHU64 {
+   |                    ^^^ help: if this is intentional, prefix it with an underscore: `_acc`
+
+warning: unused variable: `input`
+  --> src/cset.rs:40:33
+   |
+40 | pub fn xxh64_round(acc: XXHU64, input: XXHU64) -> XXHU64 {
+   |                                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_input`
+
+warning: unused variable: `acc`
+  --> src/cset.rs:43:26
+   |
+43 | pub fn xxh64_merge_round(acc: XXHU64, val: XXHU64) -> XXHU64 {
+   |                          ^^^ help: if this is intentional, prefix it with an underscore: `_acc`
+
+warning: unused variable: `val`
+  --> src/cset.rs:43:39
+   |
+43 | pub fn xxh64_merge_round(acc: XXHU64, val: XXHU64) -> XXHU64 {
+   |                                       ^^^ help: if this is intentional, prefix it with an underscore: `_val`
+
+warning: unused variable: `ptr`
+  --> src/cset.rs:46:23
+   |
+46 | pub fn xxh_get_32bits(ptr: &mut XXHU32) -> XXHU32 {
+   |                       ^^^ help: if this is intentional, prefix it with an underscore: `_ptr`
+
+warning: unused variable: `ptr`
+  --> src/cset.rs:49:28
+   |
+49 | pub fn xxh_read_le32_align(ptr: &mut XXHU32) -> XXHU32 {
+   |                            ^^^ help: if this is intentional, prefix it with an underscore: `_ptr`
+
+warning: unused variable: `h64`
+  --> src/cset.rs:52:28
+   |
+52 | pub fn xxh64_avalanche(mut h64: XXHU64) -> XXHU64 {
+   |                            ^^^ help: if this is intentional, prefix it with an underscore: `_h64`
+
+warning: variable does not need to be mutable
+  --> src/cset.rs:52:24
+   |
+52 | pub fn xxh64_avalanche(mut h64: XXHU64) -> XXHU64 {
+   |                        ----^^^
+   |                        |
+   |                        help: remove this `mut`
+   |
+   = note: `#[warn(unused_mut)]` on by default
+
+warning: unused variable: `h64`
+  --> src/cset.rs:55:27
+   |
+55 | pub fn xxh64_finalize(mut h64: XXHU64, ptr: &mut XXHU8, len: usize) -> XXHU64 {
+   |                           ^^^ help: if this is intentional, prefix it with an underscore: `_h64`
+
+warning: unused variable: `ptr`
+  --> src/cset.rs:55:40
+   |
+55 | pub fn xxh64_finalize(mut h64: XXHU64, ptr: &mut XXHU8, len: usize) -> XXHU64 {
+   |                                        ^^^ help: if this is intentional, prefix it with an underscore: `_ptr`
+
+warning: unused variable: `len`
+  --> src/cset.rs:55:57
+   |
+55 | pub fn xxh64_finalize(mut h64: XXHU64, ptr: &mut XXHU8, len: usize) -> XXHU64 {
+   |                                                         ^^^ help: if this is intentional, prefix it with an underscore: `_len`
+
+warning: variable does not need to be mutable
+  --> src/cset.rs:55:23
+   |
+55 | pub fn xxh64_finalize(mut h64: XXHU64, ptr: &mut XXHU8, len: usize) -> XXHU64 {
+   |                       ----^^^
+   |                       |
+   |                       help: remove this `mut`
+
+warning: unused variable: `input`
+  --> src/cset.rs:58:27
+   |
+58 | pub fn xxh64_endian_align(input: &mut XXHU8, len: usize, seed: XXHU64) -> XXHU64 {
+   |                           ^^^^^ help: if this is intentional, prefix it with an underscore: `_input`
+
+warning: unused variable: `len`
+  --> src/cset.rs:58:46
+   |
+58 | pub fn xxh64_endian_align(input: &mut XXHU8, len: usize, seed: XXHU64) -> XXHU64 {
+   |                                              ^^^ help: if this is intentional, prefix it with an underscore: `_len`
+
+warning: unused variable: `seed`
+  --> src/cset.rs:58:58
+   |
+58 | pub fn xxh64_endian_align(input: &mut XXHU8, len: usize, seed: XXHU64) -> XXHU64 {
+   |                                                          ^^^^ help: if this is intentional, prefix it with an underscore: `_seed`
+
+warning: unused variable: `input`
+  --> src/cset.rs:61:29
+   |
+61 | pub fn xxh64_endian_align_h(input: &mut XXHU8, len: usize, seed: XXHU64) -> XXHU64 {
+   |                             ^^^^^ help: if this is intentional, prefix it with an underscore: `_input`
+
+warning: unused variable: `len`
+  --> src/cset.rs:61:48
+   |
+61 | pub fn xxh64_endian_align_h(input: &mut XXHU8, len: usize, seed: XXHU64) -> XXHU64 {
+   |                                                ^^^ help: if this is intentional, prefix it with an underscore: `_len`
+
+warning: unused variable: `seed`
+  --> src/cset.rs:61:60
+   |
+61 | pub fn xxh64_endian_align_h(input: &mut XXHU8, len: usize, seed: XXHU64) -> XXHU64 {
+   |                                                            ^^^^ help: if this is intentional, prefix it with an underscore: `_seed`
+
+warning: unused variable: `input`
+  --> src/cset.rs:64:14
+   |
+64 | pub fn xxh64(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {
+   |              ^^^^^ help: if this is intentional, prefix it with an underscore: `_input`
+
+warning: unused variable: `len`
+  --> src/cset.rs:64:32
+   |
+64 | pub fn xxh64(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {
+   |                                ^^^ help: if this is intentional, prefix it with an underscore: `_len`
+
+warning: unused variable: `seed`
+  --> src/cset.rs:64:44
+   |
+64 | pub fn xxh64(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {
+   |                                            ^^^^ help: if this is intentional, prefix it with an underscore: `_seed`
+
+warning: unused variable: `input`
+  --> src/cset.rs:67:16
+   |
+67 | pub fn xxh64_h(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {
+   |                ^^^^^ help: if this is intentional, prefix it with an underscore: `_input`
+
+warning: unused variable: `len`
+  --> src/cset.rs:67:34
+   |
+67 | pub fn xxh64_h(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {
+   |                                  ^^^ help: if this is intentional, prefix it with an underscore: `_len`
+
+warning: unused variable: `seed`
+  --> src/cset.rs:67:46
+   |
+67 | pub fn xxh64_h(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {
+   |                                              ^^^^ help: if this is intentional, prefix it with an underscore: `_seed`
+
+warning: unused variable: `memptr`
+  --> src/cset.rs:70:28
+   |
+70 | pub fn cset_hash1_callback(memptr: &mut XXHU8, size: usize) -> XXHU64 {
+   |                            ^^^^^^ help: if this is intentional, prefix it with an underscore: `_memptr`
+
+warning: unused variable: `size`
+  --> src/cset.rs:70:48
+   |
+70 | pub fn cset_hash1_callback(memptr: &mut XXHU8, size: usize) -> XXHU64 {
+   |                                                ^^^^ help: if this is intentional, prefix it with an underscore: `_size`
+
+warning: unused variable: `memptr`
+  --> src/cset.rs:73:28
+   |
+73 | pub fn cset_hash2_callback(memptr: &mut XXHU8, size: usize) -> XXHU64 {
+   |                            ^^^^^^ help: if this is intentional, prefix it with an underscore: `_memptr`
+
+warning: unused variable: `size`
+  --> src/cset.rs:73:48
+   |
+73 | pub fn cset_hash2_callback(memptr: &mut XXHU8, size: usize) -> XXHU64 {
+   |                                                ^^^^ help: if this is intentional, prefix it with an underscore: `_size`
+
+warning: unused variable: `index`
+   --> src/cset.rs:100:25
+    |
+100 |     pub fn index(&self, index: usize) -> T {
+    |                         ^^^^^ help: if this is intentional, prefix it with an underscore: `_index`
+
+warning: unused variable: `new_size`
+   --> src/cset.rs:106:32
+    |
+106 |     pub fn set_size(&mut self, new_size: usize) {
+    |                                ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_new_size`
+
+warning: unused variable: `seed`
+   --> src/cset.rs:112:32
+    |
+112 |     pub fn set_seed(&mut self, seed: u64){
+    |                                ^^^^ help: if this is intentional, prefix it with an underscore: `_seed`
+
+warning: unused variable: `new_factor`
+   --> src/cset.rs:118:43
+    |
+118 |     pub fn set_max_load_factor(&mut self, new_factor: f64) {
+    |                                           ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_new_factor`
+
+warning: unused variable: `new_factor`
+   --> src/cset.rs:124:43
+    |
+124 |     pub fn set_min_load_factor(&mut self, new_factor: f64) {
+    |                                           ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_new_factor`
+
+warning: unused variable: `value`
+   --> src/cset.rs:142:27
+    |
+142 |     pub fn add(&mut self, value: T) -> i32 {
+    |                           ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+warning: unused variable: `value`
+   --> src/cset.rs:145:30
+    |
+145 |     pub fn remove(&mut self, value: T) -> i32 {
+    |                              ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+warning: unused variable: `value`
+   --> src/cset.rs:148:32
+    |
+148 |     pub fn contains(&mut self, value: &T) -> bool {
+    |                                ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+warning: unused variable: `compare`
+   --> src/cset.rs:154:38
+    |
+154 |     pub fn set_comparator(&mut self, compare: fn(&T, &T) -> bool) {
+    |                                      ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_compare`
+
+warning: unused variable: `first`
+   --> src/cset.rs:160:33
+    |
+160 |     pub fn intersect(&mut self, first: &Self, second: &Self) {
+    |                                 ^^^^^ help: if this is intentional, prefix it with an underscore: `_first`
+
+warning: unused variable: `second`
+   --> src/cset.rs:160:47
+    |
+160 |     pub fn intersect(&mut self, first: &Self, second: &Self) {
+    |                                               ^^^^^^ help: if this is intentional, prefix it with an underscore: `_second`
+
+warning: unused variable: `first`
+   --> src/cset.rs:163:29
+    |
+163 |     pub fn union(&mut self, first: &Self, second: &Self) {
+    |                             ^^^^^ help: if this is intentional, prefix it with an underscore: `_first`
+
+warning: unused variable: `second`
+   --> src/cset.rs:163:43
+    |
+163 |     pub fn union(&mut self, first: &Self, second: &Self) {
+    |                                           ^^^^^^ help: if this is intentional, prefix it with an underscore: `_second`
+
+warning: unused variable: `other`
+   --> src/cset.rs:166:35
+    |
+166 |     pub fn is_disjoint(&mut self, other: &Self) -> bool {
+    |                                   ^^^^^ help: if this is intentional, prefix it with an underscore: `_other`
+
+warning: unused variable: `first`
+   --> src/cset.rs:169:34
+    |
+169 |     pub fn difference(&mut self, first: &Self, second: &Self) {
+    |                                  ^^^^^ help: if this is intentional, prefix it with an underscore: `_first`
+
+warning: unused variable: `second`
+   --> src/cset.rs:169:48
+    |
+169 |     pub fn difference(&mut self, first: &Self, second: &Self) {
+    |                                                ^^^^^^ help: if this is intentional, prefix it with an underscore: `_second`
+
+warning: fields `pi` and `elem` are never read
+  --> src/cset.rs:77:5
+   |
+76 | pub struct  CsetValue<T> {
+   |             --------- fields in this struct
+77 |     pi: i32, 
+   |     ^^
+78 |     elem: T, 
+   |     ^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: multiple fields are never read
+  --> src/cset.rs:81:5
+   |
+80 | pub struct Cset<T> {
+   |            ---- fields in this struct
+81 |     buckets: Vec<CsetValue<T>>,
+   |     ^^^^^^^
+82 |     max_load_factor: f64,                                                   
+   |     ^^^^^^^^^^^^^^^
+83 |     min_load_factor: f64,                                                    
+   |     ^^^^^^^^^^^^^^^
+84 |     seed: u64,                                                          
+   |     ^^^^
+85 |     v: CsetValue<T>,                                                        
+   |     ^
+86 |     bucket_size: usize, 
+   |     ^^^^^^^^^^^
+87 |     compare: Option<fn(&T, &T) -> bool>, 
+   |     ^^^^^^^
+88 |     temp_buckets: Vec<CsetValue<T>>,
+   |     ^^^^^^^^^^^^
+
+warning: `cset` (lib) generated 53 warnings (run `cargo fix --lib -p cset` to apply 4 suggestions)
+warning: variable does not need to be mutable
+ --> src/bin/test.rs:4:9
+  |
+4 |     let mut cset_int = cset::Cset::<i32>::new();
+  |         ----^^^^^^^^
+  |         |
+  |         help: remove this `mut`
+  |
+  = note: `#[warn(unused_mut)]` on by default
+
+warning: function `node_pointer_comparator` is never used
+   --> src/bin/test.rs:119:4
+    |
+119 | fn node_pointer_comparator(selfs: &Node, other: &Node) -> bool {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` on by default
+
+warning: `cset` (bin "test" test) generated 2 warnings (run `cargo fix --bin "test" --tests` to apply 1 suggestion)
+warning: `cset` (lib test) generated 53 warnings (53 duplicates)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running unittests src/lib.rs (/home/rlin8/.cache/crust_target/cset/debug/deps/cset-649622f80b527509)
+     Running unittests src/bin/test.rs (/home/rlin8/.cache/crust_target/cset/debug/deps/test-bdc1afc990740c44)
+error: test failed, to rerun pass `--bin test`
+   Doc-tests cset
+error: 1 target failed:
+    `--bin test`
