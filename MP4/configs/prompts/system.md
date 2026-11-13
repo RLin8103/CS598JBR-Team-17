@@ -57,4 +57,4 @@ Every reply has a hard output limit that also counts any hidden reasoning, so th
 - Use `<file>` only for files of up to ~250 lines. If a block is cut off, the controller keeps the saved lines and asks you to continue with `<append>`.
 - Plan the order in your notes: data structures and constructors first, then the core operations, then the rest.
 
-Prefer `<edit>` for changes to existing code and `<file>` for small new files. Provide complete, compilable code inside blocks (no placeholders such as "rest unchanged"). Do not wrap blocks in markdown code fences.
+Prefer `<edit>` for changes to existing code and `<file>` for small new files. Provide complete, compilable code inside blocks (no placeholders such as "rest unchanged"). Do not wrap blocks in markdown code fences or CDATA, and close every block with its exact closing tag (`</file>`, `</edit>`, `</append>`, `</notes>`).

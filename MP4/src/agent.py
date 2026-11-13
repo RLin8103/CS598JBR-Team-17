@@ -31,7 +31,7 @@ sys.path.insert(0, str(HERE))
 
 from llm import LLMClient, LLMError  # noqa: E402
 from tools import (  # noqa: E402
-    CargoTools, Workspace, parse_reply, redact, salvage_partial, unsafe_primary_total,
+    CargoTools, Workspace, parse_reply, redact, salvage_partial, strip_fences, unsafe_primary_total,
 )
 
 
@@ -364,6 +364,7 @@ class Pipeline:
         edits_applied: list[str] = []
         problems: list[str] = []
         reply_all: list[str] = []
+        served_reads: set[str] = set()
         done = False
         finish_reason = None
         for round_no in range(self.limits["max_read_rounds_per_iteration"] + 1):
@@ -394,6 +395,17 @@ class Pipeline:
                 self.log_event("tool", iteration=it, tool=f"{kind}_file" if kind != "edit" else "edit_file", path=rel, error=err,
                                chars=len(body) if isinstance(body, str) else len(body[1]))
             trunc = parsed["truncated"]
+            if trunc and finish_reason != "length":
+                # Reply finished normally but the closing tag is missing/wrong: accept the block as complete.
+                kind, rel, body = trunc
+                body = strip_fences(body)
+                if body.strip():
+                    err = self.ws.write_file(rel, body) if kind == "file" else self.ws.append_file(rel, body)
+                    (problems if err else edits_applied).append(err or f"wrote {rel} (closing tag missing, accepted)")
+                    if not err:
+                        self.pending_partial.pop(rel.strip().removeprefix("./"), None)
+                    self.log_event("tool", iteration=it, tool=f"{kind}_file_unclosed", path=rel, error=err, chars=len(body))
+                trunc = None
             if trunc and finish_reason == "length":
                 kind, rel, partial = trunc
                 kept, n_lines, last_line = salvage_partial(partial)
@@ -410,10 +422,15 @@ class Pipeline:
             if parsed["reads"] and not parsed["ops"] and not trunc and round_no < self.limits["max_read_rounds_per_iteration"]:
                 served = []
                 for rel in parsed["reads"]:
+                    if rel in served_reads:
+                        served.append(f"### {rel}\n(already provided above in this turn - do not request it again; write your edits now)")
+                        self.log_event("tool", iteration=it, tool="read_file_duplicate", path=rel)
+                        continue
+                    served_reads.add(rel)
                     text = self.ws.read_file(rel)
                     self.log_event("tool", iteration=it, tool="read_file", path=rel, chars=len(text))
                     served.append(f"### {rel}\n{fence(text)}")
-                follow = "Requested files:\n\n" + "\n\n".join(served) + "\n\nContinue with your edits."
+                follow = "Requested files:\n\n" + "\n\n".join(served) + "\n\nNow write your edits in this same turn. Do not reply with only <read> blocks again."
                 turn_msgs.append({"role": "user", "content": follow})
                 self.write_log(f"iteration_{it:02d}/user_{round_no + 1}.md", follow)
                 continue
@@ -518,6 +535,11 @@ class Pipeline:
                          f"unsafe={state['unsafe_total']} clippy={state['clippy_total']} tokens={self.llm.total_tokens}")
                 if state["score"] > best:
                     best, best_snap, best_it = state["score"], self.best_snapshot(), it
+                    last_progress_it = it
+                elif turn["edits"]:
+                    # The model is actively changing code (e.g. working through compile errors whose
+                    # count may temporarily rise): that is activity, not a stall. Only score
+                    # improvements update the best snapshot, but activity resets the patience clock.
                     last_progress_it = it
                 if done_streak >= 2 and state["compiles"] and state["failed"] == 0 and state["total"] > 0:
                     stop_reason = "agent_done"

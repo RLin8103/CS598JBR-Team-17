@@ -334,37 +334,49 @@ DONE_RE = re.compile(r"<done\s*/?>")
 
 
 def strip_fences(content: str) -> str:
-    """Models sometimes wrap file bodies in a markdown fence even when told not to."""
-    m = re.match(r"^\s*```[a-zA-Z]*\n(.*?)\n```\s*$", content, re.S)
-    return m.group(1) if m else content
+    """Models sometimes wrap file bodies in a markdown fence or CDATA even when told not to."""
+    text = content.strip("\n")
+    stripped = text.strip()
+    if stripped.startswith("<![CDATA["):
+        stripped = stripped[len("<![CDATA["):]
+        if stripped.endswith("]]>"):
+            stripped = stripped[:-3]
+        text = stripped
+    m = re.match(r"^\s*```[a-zA-Z]*\n(.*?)\n```\s*$", text, re.S)
+    return m.group(1) if m else text
 
 
-APPEND_RE = re.compile(r'<append\s+path="([^"]+)"\s*>\n?(.*?)\n?</append>', re.S)
-OPEN_RE = re.compile(r'<(file|append)\s+path="([^"]+)"\s*>\n?')
+BLOCK_START_RE = re.compile(r'<(file|append)\s+path="([^"]+)"\s*>')
+BLOCK_END_RE = re.compile(
+    r'</(?:file|append|edit)>\s*(?:]]>)?|<file\s+path=|<append\s+path=|<edit\s+path=|<notes>|<done\s*/?>'
+)
 
 
 def parse_reply(text: str) -> dict:
     """Parse the model reply into ordered operations plus a possibly cut-off trailing block.
 
+    Tolerant by design (free models are sloppy): a <file>/<append> block ends at any closing
+    block tag, at the start of the next block, or at the end of the reply; CDATA/fence wrappers
+    are stripped. A block that runs to the end of the reply without a closer is reported as
+    `truncated` -- the caller accepts it as a complete block when the reply finished normally
+    and treats it as a cut-off partial when the output limit was hit.
+
     ops: list of ("file"|"append", path, content) or ("edit", path, (search, replace)) in reply order.
-    truncated: (kind, path, content_so_far) when the reply ended inside an unclosed <file>/<append>
-    block (typically because the output-token limit was hit), else None.
+    truncated: (kind, path, content_so_far) or None.
     """
     ops = []
-    for m in FILE_RE.finditer(text):
-        ops.append((m.start(), "file", m.group(1), strip_fences(m.group(2))))
-    for m in APPEND_RE.finditer(text):
-        ops.append((m.start(), "append", m.group(1), strip_fences(m.group(2))))
+    starts = list(BLOCK_START_RE.finditer(text))
+    truncated = None
+    for i, m in enumerate(starts):
+        end = BLOCK_END_RE.search(text, m.end())
+        content = text[m.end(): end.start() if end else len(text)]
+        if end is None or (i == len(starts) - 1 and end.start() == len(text)):
+            truncated = (m.group(1), m.group(2), content)
+        else:
+            ops.append((m.start(), m.group(1), m.group(2), strip_fences(content)))
     for m in EDIT_RE.finditer(text):
         ops.append((m.start(), "edit", m.group(1), (strip_fences(m.group(2)), strip_fences(m.group(3)))))
     ops.sort(key=lambda o: o[0])
-
-    truncated = None
-    opens = list(OPEN_RE.finditer(text))
-    if opens:
-        last = opens[-1]
-        if f"</{last.group(1)}>" not in text[last.end():]:
-            truncated = (last.group(1), last.group(2), text[last.end():])
     return {
         "ops": [o[1:] for o in ops],
         "truncated": truncated,
@@ -377,6 +389,7 @@ def parse_reply(text: str) -> dict:
 def salvage_partial(content: str) -> tuple[str, int, str]:
     """Cut a truncated block back to its last complete line. Returns (content, line_count, last_line)."""
     content = re.sub(r"^```[a-zA-Z]*\n", "", content)  # leading fence, if the model used one
+    content = re.sub(r"^\s*<!\[CDATA\[", "", content)  # leading CDATA marker, if the model used one
     cut_at = content.rfind("\n")
     kept = content[: cut_at + 1] if cut_at != -1 else ""
     lines = kept.splitlines()

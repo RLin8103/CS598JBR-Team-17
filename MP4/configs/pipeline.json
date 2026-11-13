@@ -27,7 +27,7 @@
     "max_iterations": 40,
     "max_total_tokens": 2000000,
     "no_progress_patience": 8,
-    "max_read_rounds_per_iteration": 1,
+    "max_read_rounds_per_iteration": 3,
     "command_timeout_s": 900,
     "test_timeout_s": 300
   },
