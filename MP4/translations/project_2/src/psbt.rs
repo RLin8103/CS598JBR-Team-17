@@ -145,7 +145,7 @@ pub fn psbt_size(tx: &Psbt) -> usize {
 /// For testing, we simulate reading by optionally calling the provided callback.
 pub fn psbt_read(
     src: &[u8],
-    _src_size: usize,
+    src_size: usize,
     psbt: &mut Psbt,
     mut elem_handler: Option<PsbtElemHandler>,
     user_data: &mut dyn std::any::Any,
@@ -156,16 +156,21 @@ pub fn psbt_read(
     
     // Clear and prepare PSBT for reading
     psbt.data.clear();
-    psbt.data.extend_from_slice(src);
+    psbt.data.extend_from_slice(&src[..src_size.min(src.len())]);
     psbt.write_pos = 0;
     psbt.records.clear();
     
+    // Only the first `src_size` bytes belong to the PSBT.
+    let src = &src[..src_size.min(src.len())];
     let src_size = src.len();
     
     // Set up state for parsing
     psbt.state = PsbtState::Init;
     
-    let mut end = src_size;
+    let end = src_size;
+    let mut kvs: usize = 0;
+    // (inputs, outputs) announced by the global unsigned transaction.
+    let mut counts = (0usize, 0usize);
     
     while psbt.state != PsbtState::Finalized && psbt.write_pos <= end {
         match psbt.state {
@@ -189,20 +194,30 @@ pub fn psbt_read(
             }
             
             PsbtState::Global | PsbtState::Inputs | PsbtState::Outputs => {
-                if psbt.write_pos >= src_size {
-                    return PsbtResult::ReadError;
-                }
+
                 
-                if psbt.data[psbt.write_pos] == 0 {
+                // Bytes past the end of the input read as zero, as in the zeroed C buffer.
+                if psbt.data.get(psbt.write_pos).copied().unwrap_or(0) == 0 {
                     match psbt.state {
                         PsbtState::Global => {
                             psbt.state = PsbtState::InputsNew;
                         }
                         PsbtState::Inputs => {
-                            psbt.state = PsbtState::InputsNew;
+                            kvs += 1;
+                            if kvs >= counts.0 {
+                                psbt.state = PsbtState::OutputsNew;
+                                kvs = 0;
+                            } else {
+                                psbt.state = PsbtState::InputsNew;
+                            }
                         }
                         PsbtState::Outputs => {
-                            psbt.state = PsbtState::Finalized;
+                            kvs += 1;
+                            if kvs >= counts.1 {
+                                psbt.state = PsbtState::Finalized;
+                            } else {
+                                psbt.state = PsbtState::OutputsNew;
+                            }
                         }
                         _ => {}
                     }
@@ -213,9 +228,21 @@ pub fn psbt_read(
                         return res;
                     }
                     
+                    let in_global = psbt.state == PsbtState::Global;
+                    if let Some(rec) = psbt
+                        .records
+                        .last()
+                        .filter(|r| in_global && r.record_type == 0)
+                    {
+                        counts = match tx_io_counts(&rec.val) {
+                            Ok(c) => c,
+                            Err(res) => return res,
+                        };
+                    }
+
                     if let Some(ref mut handler) = elem_handler {
                         let mut elem = PsbtElem::Record {
-                            index: (psbt.records.len() as i32) - 1,
+                            index: kvs as i32,
                             record: psbt.records.last().unwrap().clone(),
                         };
                         handler(&mut elem, user_data);
@@ -361,19 +388,21 @@ pub fn psbt_decode(
         }
         
         let mut pos = 0;
-        for i in (0..src.len()).step_by(2) {
-            let c1 = src.chars().nth(i).unwrap();
-            let c2 = src.chars().nth(i + 1).unwrap();
-            
-            let v1 = hex_to_val(c1);
-            let v2 = hex_to_val(c2);
-            
-            if v1 == 0x80 || v2 == 0x80 {
-                return PsbtResult::ReadError;
+        for (i, c) in src.chars().enumerate() {
+            if i % 2 == 0 {
+                let c1 = c;
+                let c2 = src.chars().nth(i + 1).unwrap();
+                
+                let v1 = hex_to_val(c1);
+                let v2 = hex_to_val(c2);
+                
+                if v1 == 0x80 || v2 == 0x80 {
+                    return PsbtResult::ReadError;
+                }
+                
+                dest[pos] = (v1 << 4) | v2;
+                pos += 1;
             }
-            
-            dest[pos] = (v1 << 4) | v2;
-            pos += 1;
         }
         
         *psbt_len = expected_len;
@@ -382,11 +411,11 @@ pub fn psbt_decode(
 }
 
 fn hex_to_val(c: char) -> u8 {
-    if c >= '0' && c <= '9' {
+    if c.is_ascii_digit() {
         c as u8 - b'0'
-    } else if c >= 'a' && c <= 'f' {
+    } else if ('a'..='f').contains(&c) {
         c as u8 - b'a' + 10
-    } else if c >= 'A' && c <= 'F' {
+    } else if ('A'..='F').contains(&c) {
         c as u8 - b'A' + 10
     } else {
         0x80
@@ -719,7 +748,7 @@ pub fn psbt_print(psbt: &Psbt, stream: &mut dyn std::io::Write) -> PsbtResult {
     }
     
     for byte in psbt.data.iter() {
-        let _ = write!(stream, "{:02x}", byte);
+        let _ = write!(stream, "{byte:02x}");
     }
     let _ = writeln!(stream);
     

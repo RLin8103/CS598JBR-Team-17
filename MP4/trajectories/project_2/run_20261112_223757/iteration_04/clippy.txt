@@ -1,0 +1,87 @@
+# Clippy counts: {"correctness": 0, "style": 6, "complexity": 0, "perf": 0} total=6
+
+## correctness (0)
+
+
+## style (6)
+warning: manual `RangeInclusive::contains` implementation
+   --> src/psbt.rs:387:8
+    |
+387 |     if c >= '0' && c <= '9' {
+    |        ^^^^^^^^^^^^^^^^^^^^ help: use: `('0'..='9').contains(&c)`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#manual_range_contains
+    = note: `-W clippy::manual-range-contains` implied by `-W clippy::style`
+    = help: to override `-W clippy::style` add `#[allow(clippy::manual_range_contains)]`
+warning: manual `RangeInclusive::contains` implementation
+   --> src/psbt.rs:389:15
+    |
+389 |     } else if c >= 'a' && c <= 'f' {
+    |               ^^^^^^^^^^^^^^^^^^^^ help: use: `('a'..='f').contains(&c)`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#manual_range_contains
+warning: manual `RangeInclusive::contains` implementation
+   --> src/psbt.rs:391:15
+    |
+391 |     } else if c >= 'A' && c <= 'F' {
+    |               ^^^^^^^^^^^^^^^^^^^^ help: use: `('A'..='F').contains(&c)`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#manual_range_contains
+warning: variables can be used directly in the `format!` string
+   --> src/psbt.rs:724:17
+    |
+724 |         let _ = write!(stream, "{:02x}", byte);
+    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#uninlined_format_args
+    = note: `-W clippy::uninlined-format-args` implied by `-W clippy::style`
+    = help: to override `-W clippy::style` add `#[allow(clippy::uninlined_format_args)]`
+help: change this to
+    |
+724 -         let _ = write!(stream, "{:02x}", byte);
+724 +         let _ = write!(stream, "{byte:02x}");
+    |
+warning: variables can be used directly in the `format!` string
+ --> src/bin/test.rs:6:9
+  |
+6 |         print!("{:02x}", byte);
+  |         ^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#uninlined_format_args
+  = note: `-W clippy::uninlined-format-args` implied by `-W clippy::style`
+  = help: to override `-W clippy::style` add `#[allow(clippy::uninlined_format_args)]`
+help: change this to
+  |
+6 -         print!("{:02x}", byte);
+6 +         print!("{byte:02x}");
+  |
+warning: you seem to be trying to use `match` for destructuring a single pattern. Consider using `if let`
+   --> src/bin/test.rs:123:9
+    |
+123 | /         match elem {
+124 | |             PsbtElem::Record { record, .. } => {
+125 | |                 match step {
+126 | |                     0 => assert_eq!(record.record_type, 0), // PSBT_GLOBAL_UNSIGNED_TX
+...   |
+131 | |             _ => {}
+132 | |         }
+    | |_________^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#single_match
+    = note: `-W clippy::single-match` implied by `-W clippy::style`
+    = help: to override `-W clippy::style` add `#[allow(clippy::single_match)]`
+help: try
+    |
+123 ~         if let PsbtElem::Record { record, .. } = elem {
+124 +             match step {
+125 +                 0 => assert_eq!(record.record_type, 0), // PSBT_GLOBAL_UNSIGNED_TX
+126 +                 1 => assert_eq!(record.record_type, 0), // PSBT_IN_NON_WITNESS_UTXO (simulated as 0)
+127 +                 _ => {}
+128 +             }
+129 +         }
+    |
+
+## complexity (0)
+
+
+## perf (0)
