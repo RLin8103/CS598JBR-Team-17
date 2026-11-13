@@ -1,0 +1,16 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=101 seconds=0.07
+
+   Compiling cset v0.1.0 (/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1)
+error: this file contains an unclosed delimiter
+   --> src/cset.rs:592:3
+    |
+134 | pub fn xxh64_endian_align(input: &[u8], len: usize, seed: XXHU64) -> XXHU64 {
+    |                                                                             - unclosed delimiter
+...
+592 | }
+    |  ^
+
+error: could not compile `cset` (lib test) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `cset` (lib) due to 1 previous error

@@ -1,0 +1,19 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=101 seconds=0.08
+
+   Compiling cset v0.1.0 (/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1)
+error: unexpected closing delimiter: `}`
+   --> src/cset.rs:189:1
+    |
+184 |     } else {
+    |            - this opening brace...
+185 |         h64 = seed.wrapping_add(XXH_PRIME64_5);
+186 |     }
+    |     - ...matches this closing brace
+...
+189 | }
+    | ^ unexpected closing delimiter
+
+error: could not compile `cset` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `cset` (lib test) due to 1 previous error

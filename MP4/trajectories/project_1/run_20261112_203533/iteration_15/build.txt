@@ -1,0 +1,15 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=101 seconds=0.49
+
+   Compiling cset v0.1.0 (/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1)
+error: expected item, found `[`
+   --> src/cset.rs:596:1
+    |
+596 | [remaining lines]
+    | ^ expected item
+    |
+    = note: for a full list of items that can appear in modules, see <https://doc.rust-lang.org/reference/items.html>
+
+error: could not compile `cset` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `cset` (lib test) due to 1 previous error

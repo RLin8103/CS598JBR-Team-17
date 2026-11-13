@@ -1,0 +1,438 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=101 seconds=0.72
+
+   Compiling cset v0.1.0 (/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1)
+warning: unused import: `std::mem`
+ --> src/cset.rs:2:5
+  |
+2 | use std::mem;
+  |     ^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `std::ptr`
+ --> src/cset.rs:3:5
+  |
+3 | use std::ptr;
+  |     ^^^^^^^^
+
+warning: unused import: `std::slice`
+ --> src/cset.rs:4:5
+  |
+4 | use std::slice;
+  |     ^^^^^^^^^^
+
+error[E0308]: mismatched types
+   --> src/cset.rs:174:25
+    |
+174 |     xxh64_finalize(h64, input, len)
+    |     --------------      ^^^^^ expected `&mut u8`, found `*mut u8`
+    |     |
+    |     arguments to this function are incorrect
+    |
+    = note: expected mutable reference `&mut u8`
+                     found raw pointer `*mut u8`
+note: function defined here
+   --> src/cset.rs:105:8
+    |
+105 | pub fn xxh64_finalize(mut h64: XXHU64, ptr: &mut XXHU8, len: usize) -> XXHU64 {
+    |        ^^^^^^^^^^^^^^                  ---------------
+
+error[E0308]: mismatched types
+   --> src/cset.rs:211:25
+    |
+211 |     xxh64_finalize(h64, input, len)
+    |     --------------      ^^^^^ expected `&mut u8`, found `*mut u8`
+    |     |
+    |     arguments to this function are incorrect
+    |
+    = note: expected mutable reference `&mut u8`
+                     found raw pointer `*mut u8`
+note: function defined here
+   --> src/cset.rs:105:8
+    |
+105 | pub fn xxh64_finalize(mut h64: XXHU64, ptr: &mut XXHU8, len: usize) -> XXHU64 {
+    |        ^^^^^^^^^^^^^^                  ---------------
+
+error[E0308]: mismatched types
+   --> src/cset.rs:221:24
+    |
+221 |     xxh64_endian_align(input_mut, len, seed)
+    |     ------------------ ^^^^^^^^^ expected `&mut u8`, found `*mut u8`
+    |     |
+    |     arguments to this function are incorrect
+    |
+    = note: expected mutable reference `&mut u8`
+                     found raw pointer `*mut u8`
+note: function defined here
+   --> src/cset.rs:141:8
+    |
+141 | pub fn xxh64_endian_align(input: &mut XXHU8, len: usize, seed: XXHU64) -> XXHU64 {
+    |        ^^^^^^^^^^^^^^^^^^ -----------------
+
+error[E0308]: mismatched types
+   --> src/cset.rs:231:26
+    |
+231 |     xxh64_endian_align_h(input_mut, len, seed)
+    |     -------------------- ^^^^^^^^^ expected `&mut u8`, found `*mut u8`
+    |     |
+    |     arguments to this function are incorrect
+    |
+    = note: expected mutable reference `&mut u8`
+                     found raw pointer `*mut u8`
+note: function defined here
+   --> src/cset.rs:178:8
+    |
+178 | pub fn xxh64_endian_align_h(input: &mut XXHU8, len: usize, seed: XXHU64) -> XXHU64 {
+    |        ^^^^^^^^^^^^^^^^^^^^ -----------------
+
+error[E0599]: no method named `double_hash_index` found for mutable reference `&mut Cset<T>` in the current scope
+   --> src/cset.rs:459:26
+    |
+459 |             index = self.double_hash_index(h1, h2, iteration - 1, cap);
+    |                     -----^^^^^^^^^^^^^^^^^----------------------------
+    |                     |    |
+    |                     |    this is an associated function, not a method
+    |                     help: use associated function syntax instead: `Cset::<T>::double_hash_index(h1, h2, iteration - 1, cap)`
+    |
+    = note: found the following associated functions; to be used as methods, functions must have a `self` parameter
+note: the candidate is defined in an impl for the type `Cset<T>`
+   --> src/cset.rs:359:5
+    |
+359 |     fn double_hash_index(ha1: XXHU64, ha2: XXHU64, i: usize, cap: usize) -> usize {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error[E0599]: no method named `double_hash_index` found for mutable reference `&mut Cset<T>` in the current scope
+   --> src/cset.rs:474:30
+    |
+474 |             let index = self.double_hash_index(h1, self.h2hash(ref_bytes, &value), iteration - 1, self.buckets.capacity());
+    |                         -----^^^^^^^^^^^^^^^^^----------------------------------------------------------------------------
+    |                         |    |
+    |                         |    this is an associated function, not a method
+    |                         help: use associated function syntax instead: `Cset::<T>::double_hash_index(h1, self.h2hash(ref_bytes, &value), iteration - 1, self.buckets.capacity())`
+    |
+    = note: found the following associated functions; to be used as methods, functions must have a `self` parameter
+note: the candidate is defined in an impl for the type `Cset<T>`
+   --> src/cset.rs:359:5
+    |
+359 |     fn double_hash_index(ha1: XXHU64, ha2: XXHU64, i: usize, cap: usize) -> usize {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error[E0599]: no method named `double_hash_index` found for mutable reference `&mut Cset<T>` in the current scope
+   --> src/cset.rs:489:30
+    |
+489 |             let index = self.double_hash_index(h1, h2, iteration - 1, cap);
+    |                         -----^^^^^^^^^^^^^^^^^----------------------------
+    |                         |    |
+    |                         |    this is an associated function, not a method
+    |                         help: use associated function syntax instead: `Cset::<T>::double_hash_index(h1, h2, iteration - 1, cap)`
+    |
+    = note: found the following associated functions; to be used as methods, functions must have a `self` parameter
+note: the candidate is defined in an impl for the type `Cset<T>`
+   --> src/cset.rs:359:5
+    |
+359 |     fn double_hash_index(ha1: XXHU64, ha2: XXHU64, i: usize, cap: usize) -> usize {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error[E0599]: no method named `double_hash_index` found for mutable reference `&mut Cset<T>` in the current scope
+   --> src/cset.rs:503:30
+    |
+503 |             let index = self.double_hash_index(h1, self.h2hash(ref_bytes, &value), iteration - 2, self.buckets.capacity());
+    |                         -----^^^^^^^^^^^^^^^^^----------------------------------------------------------------------------
+    |                         |    |
+    |                         |    this is an associated function, not a method
+    |                         help: use associated function syntax instead: `Cset::<T>::double_hash_index(h1, self.h2hash(ref_bytes, &value), iteration - 2, self.buckets.capacity())`
+    |
+    = note: found the following associated functions; to be used as methods, functions must have a `self` parameter
+note: the candidate is defined in an impl for the type `Cset<T>`
+   --> src/cset.rs:359:5
+    |
+359 |     fn double_hash_index(ha1: XXHU64, ha2: XXHU64, i: usize, cap: usize) -> usize {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error[E0599]: no method named `double_hash_index` found for mutable reference `&mut Cset<T>` in the current scope
+   --> src/cset.rs:517:30
+    |
+517 |             let index = self.double_hash_index(h1, h2, iteration - 1, cap);
+    |                         -----^^^^^^^^^^^^^^^^^----------------------------
+    |                         |    |
+    |                         |    this is an associated function, not a method
+    |                         help: use associated function syntax instead: `Cset::<T>::double_hash_index(h1, h2, iteration - 1, cap)`
+    |
+    = note: found the following associated functions; to be used as methods, functions must have a `self` parameter
+note: the candidate is defined in an impl for the type `Cset<T>`
+   --> src/cset.rs:359:5
+    |
+359 |     fn double_hash_index(ha1: XXHU64, ha2: XXHU64, i: usize, cap: usize) -> usize {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: variable does not need to be mutable
+  --> src/cset.rs:75:9
+   |
+75 |     let mut val = xxh64_round(0, val);
+   |         ----^^^
+   |         |
+   |         help: remove this `mut`
+   |
+   = note: `#[warn(unused_mut)]` on by default
+
+error[E0596]: cannot borrow `val` as mutable, as it is not declared as mutable
+  --> src/cset.rs:85:20
+   |
+85 |         xxh_swap32(&mut val)
+   |                    ^^^^^^^^ cannot borrow as mutable
+   |
+help: consider changing this to be mutable
+   |
+84 |         let mut val = xxh_read32(ptr);
+   |             +++
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::add` is unsafe and requires unsafe function or block
+   --> src/cset.rs:110:15
+    |
+110 |         ptr = ptr.add(8);
+    |               ^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: dereference of raw pointer is unsafe and requires unsafe function or block
+   --> src/cset.rs:117:44
+    |
+117 |         let val = xxh_read_le32_align(&mut *ptr_u32);
+    |                                            ^^^^^^^^ dereference of raw pointer
+    |
+    = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules and cause data races: all of these are undefined behavior
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::add` is unsafe and requires unsafe function or block
+   --> src/cset.rs:119:15
+    |
+119 |         ptr = ptr.add(4);
+    |               ^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: dereference of raw pointer is unsafe and requires unsafe function or block
+   --> src/cset.rs:124:17
+    |
+124 |         h64 ^= (*ptr as XXHU64).wrapping_mul(XXH_PRIME64_5);
+    |                 ^^^^ dereference of raw pointer
+    |
+    = note: raw pointers may be null, dangling or unaligned; they can violate aliasing rules and cause data races: all of these are undefined behavior
+
+error[E0133]: call to unsafe function `std::ptr::mut_ptr::<impl *mut T>::add` is unsafe and requires unsafe function or block
+   --> src/cset.rs:126:15
+    |
+126 |         ptr = ptr.add(1);
+    |               ^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+warning: variable does not need to be mutable
+   --> src/cset.rs:236:9
+    |
+236 |     let mut memptr = memptr as *mut XXHU8;
+    |         ----^^^^^^
+    |         |
+    |         help: remove this `mut`
+
+warning: variable does not need to be mutable
+   --> src/cset.rs:242:9
+    |
+242 |     let mut memptr = memptr as *mut XXHU8;
+    |         ----^^^^^^
+    |         |
+    |         help: remove this `mut`
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:308:9
+    |
+308 |         val.elem
+    |         ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:293:6
+    |
+293 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+308 |         val.elem
+    |         -------- you could clone this value
+
+warning: unused variable: `customhasher`
+   --> src/cset.rs:335:18
+    |
+335 |             Some(customhasher) => {
+    |                  ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_customhasher`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `value`
+   --> src/cset.rs:333:40
+    |
+333 |     fn h2hash(&self, ref_bytes: &[u8], value: &T) -> XXHU64 {
+    |                                        ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+warning: unused variable: `customhasher`
+   --> src/cset.rs:349:18
+    |
+349 |             Some(customhasher) => {
+    |                  ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_customhasher`
+
+warning: unused variable: `value`
+   --> src/cset.rs:347:40
+    |
+347 |     fn h1hash(&self, ref_bytes: &[u8], value: &T) -> XXHU64 {
+    |                                        ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+error[E0507]: cannot move out of index of `Vec<CsetValue<T>>`
+   --> src/cset.rs:394:9
+    |
+394 |         self.buckets[index].elem
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^ move occurs because value has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:293:6
+    |
+293 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+394 |         self.buckets[index].elem
+    |         ------------------------ you could clone this value
+
+error[E0596]: cannot borrow `self.buckets` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:434:9
+    |
+434 |         &mut self.buckets
+    |         ^^^^^^^^^^^^^^^^^ `self` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+433 |     pub fn get_buckets_ref(&mut self) -> &mut Vec<CsetValue<T>> {
+    |                             +++
+
+error[E0596]: cannot borrow `self.temp_buckets` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:438:9
+    |
+438 |         &mut self.temp_buckets
+    |         ^^^^^^^^^^^^^^^^^^^^^^ `self` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+437 |     pub fn get_temp_buckets_ref(&mut self) -> &mut Vec<CsetValue<T>> {
+    |                                  +++
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:536:29
+    |
+536 |                 result.push(val.elem);
+    |                             ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:293:6
+    |
+293 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+536 |                 result.push(val.elem);
+    |                             -------- you could clone this value
+
+error[E0596]: cannot borrow `*second` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:562:30
+    |
+562 |             if val.pi > 0 && second.contains(&val.elem) {
+    |                              ^^^^^^ `second` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+559 |     pub fn intersect(&mut self, first: &Self, second: &mut Self) {
+    |                                                        +++
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:563:26
+    |
+563 |                 self.add(val.elem);
+    |                          ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:293:6
+    |
+293 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+563 |                 self.add(val.elem);
+    |                          -------- you could clone this value
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:572:26
+    |
+572 |                 self.add(val.elem);
+    |                          ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:293:6
+    |
+293 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+572 |                 self.add(val.elem);
+    |                          -------- you could clone this value
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:577:26
+    |
+577 |                 self.add(val.elem);
+    |                          ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:293:6
+    |
+293 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+577 |                 self.add(val.elem);
+    |                          -------- you could clone this value
+
+error[E0596]: cannot borrow `*other` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:584:30
+    |
+584 |             if val.pi > 0 && other.contains(&val.elem) {
+    |                              ^^^^^ `other` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+582 |     pub fn is_disjoint(&mut self, other: &mut Self) -> bool {
+    |                                           +++
+
+error[E0596]: cannot borrow `*second` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:594:31
+    |
+594 |             if val.pi > 0 && !second.contains(&val.elem) {
+    |                               ^^^^^^ `second` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+591 |     pub fn difference(&mut self, first: &Self, second: &mut Self) {
+    |                                                         +++
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:595:26
+    |
+595 |                 self.add(val.elem);
+    |                          ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:293:6
+    |
+293 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+595 |                 self.add(val.elem);
+    |                          -------- you could clone this value
+
+Some errors have detailed explanations: E0133, E0308, E0507, E0596, E0599.
+For more information about an error, try `rustc --explain E0133`.
+warning: `cset` (lib) generated 10 warnings (6 duplicates)
+error: could not compile `cset` (lib) due to 27 previous errors; 10 warnings emitted
+warning: build failed, waiting for other jobs to finish...
+warning: `cset` (lib test) generated 10 warnings (4 duplicates)
+error: could not compile `cset` (lib test) due to 27 previous errors; 10 warnings emitted

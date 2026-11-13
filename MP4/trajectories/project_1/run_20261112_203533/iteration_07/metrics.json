@@ -1,0 +1,29 @@
+{
+  "iteration": 7,
+  "phase": "COMPILE",
+  "compiles": false,
+  "tests_passed": 0,
+  "tests_total": 0,
+  "build_errors": 1,
+  "clippy": null,
+  "clippy_total": null,
+  "unsafe_primary": {
+    "unsafe_lines": 8,
+    "unsafe_calls": 6,
+    "unsafe_casts": 32,
+    "pointer_arithmetic": 0
+  },
+  "unsafe_extra": {
+    "unsafe_blocks": 8,
+    "unsafe_fns": 0,
+    "raw_pointer_decls": 3,
+    "ffi_calls": 0,
+    "transmute_uses": 0,
+    "manual_alloc_ops": 0,
+    "files_with_forbid_unsafe_code": 1,
+    "files_analysed": 2
+  },
+  "unsafe_tool": "builtin-approximation",
+  "policy_issues": [],
+  "llm_tokens_so_far": 672451
+}

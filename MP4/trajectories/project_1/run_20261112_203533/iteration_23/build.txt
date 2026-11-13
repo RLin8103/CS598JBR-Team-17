@@ -1,0 +1,193 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=101 seconds=0.12
+
+   Compiling cset v0.1.0 (/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1)
+warning: unused variable: `customhasher`
+   --> src/cset.rs:316:18
+    |
+316 |             Some(customhasher) => {
+    |                  ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_customhasher`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `value`
+   --> src/cset.rs:314:40
+    |
+314 |     fn h2hash(&self, ref_bytes: &[u8], value: &T) -> XXHU64 {
+    |                                        ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+warning: unused variable: `customhasher`
+   --> src/cset.rs:330:18
+    |
+330 |             Some(customhasher) => {
+    |                  ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_customhasher`
+
+warning: unused variable: `value`
+   --> src/cset.rs:328:40
+    |
+328 |     fn h1hash(&self, ref_bytes: &[u8], value: &T) -> XXHU64 {
+    |                                        ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+error[E0507]: cannot move out of index of `Vec<CsetValue<T>>`
+   --> src/cset.rs:375:9
+    |
+375 |         self.buckets[index].elem
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^ move occurs because value has type `T`, which does not implement the `Copy` trait
+    |
+help: consider cloning the value if the performance cost is acceptable
+    |
+375 |         self.buckets[index].elem.clone()
+    |                                 ++++++++
+
+error[E0596]: cannot borrow `self.buckets` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:415:9
+    |
+415 |         &mut self.buckets
+    |         ^^^^^^^^^^^^^^^^^ `self` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+414 |     pub fn get_buckets_ref(&mut self) -> &mut Vec<CsetValue<T>> {
+    |                             +++
+
+error[E0596]: cannot borrow `self.temp_buckets` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:419:9
+    |
+419 |         &mut self.temp_buckets
+    |         ^^^^^^^^^^^^^^^^^^^^^^ `self` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+418 |     pub fn get_temp_buckets_ref(&mut self) -> &mut Vec<CsetValue<T>> {
+    |                                  +++
+
+warning: value assigned to `index` is never read
+   --> src/cset.rs:436:17
+    |
+436 |         let mut index = 0;
+    |                 ^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` on by default
+
+warning: variable does not need to be mutable
+   --> src/cset.rs:432:13
+    |
+432 |         let mut ref_bytes = unsafe { std::slice::from_raw_parts(&value as *const T as *const u8, std::mem::size_of::<T>()) };
+    |             ----^^^^^^^^^
+    |             |
+    |             help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` on by default
+
+warning: variable does not need to be mutable
+   --> src/cset.rs:463:13
+    |
+463 |         let mut ref_bytes = unsafe { std::slice::from_raw_parts(&value as *const T as *const u8, std::mem::size_of::<T>()) };
+    |             ----^^^^^^^^^
+    |             |
+    |             help: remove this `mut`
+
+warning: variable does not need to be mutable
+   --> src/cset.rs:492:13
+    |
+492 |         let mut ref_bytes = unsafe { std::slice::from_raw_parts(value as *const T as *const u8, std::mem::size_of::<T>()) };
+    |             ----^^^^^^^^^
+    |             |
+    |             help: remove this `mut`
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:517:29
+    |
+517 |                 result.push(val.elem);
+    |                             ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: consider cloning the value if the performance cost is acceptable
+    |
+517 |                 result.push(val.elem.clone());
+    |                                     ++++++++
+
+error[E0596]: cannot borrow `*second` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:543:30
+    |
+543 |             if val.pi > 0 && second.contains(&val.elem) {
+    |                              ^^^^^^ `second` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+540 |     pub fn intersect(&mut self, first: &Self, second: &mut Self) {
+    |                                                        +++
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:544:26
+    |
+544 |                 self.add(val.elem);
+    |                          ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: consider cloning the value if the performance cost is acceptable
+    |
+544 |                 self.add(val.elem.clone());
+    |                                  ++++++++
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:553:26
+    |
+553 |                 self.add(val.elem);
+    |                          ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: consider cloning the value if the performance cost is acceptable
+    |
+553 |                 self.add(val.elem.clone());
+    |                                  ++++++++
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:558:26
+    |
+558 |                 self.add(val.elem);
+    |                          ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: consider cloning the value if the performance cost is acceptable
+    |
+558 |                 self.add(val.elem.clone());
+    |                                  ++++++++
+
+error[E0596]: cannot borrow `*other` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:565:30
+    |
+565 |             if val.pi > 0 && other.contains(&val.elem) {
+    |                              ^^^^^ `other` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+563 |     pub fn is_disjoint(&mut self, other: &mut Self) -> bool {
+    |                                           +++
+
+error[E0596]: cannot borrow `*second` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:575:31
+    |
+575 |             if val.pi > 0 && !second.contains(&val.elem) {
+    |                               ^^^^^^ `second` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+572 |     pub fn difference(&mut self, first: &Self, second: &mut Self) {
+    |                                                         +++
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:576:26
+    |
+576 |                 self.add(val.elem);
+    |                          ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: consider cloning the value if the performance cost is acceptable
+    |
+576 |                 self.add(val.elem.clone());
+    |                                  ++++++++
+
+Some errors have detailed explanations: E0507, E0596.
+For more information about an error, try `rustc --explain E0507`.
+warning: `cset` (lib) generated 8 warnings
+error: could not compile `cset` (lib) due to 11 previous errors; 8 warnings emitted
+warning: build failed, waiting for other jobs to finish...
+warning: `cset` (lib test) generated 8 warnings (8 duplicates)
+error: could not compile `cset` (lib test) due to 11 previous errors; 8 warnings emitted

@@ -1,0 +1,40 @@
+{
+  "project": "cset",
+  "stop_reason": "llm_error: all models failed: nvidia/nemotron-3-ultra-550b-a55b:free: failed after 2 attempts: empty completion (finish_reason=stop, prompt_tokens=56003, completion_tokens=34, reasoning_tokens=34, reasoning_chars=56, provider=Nvidia)",
+  "agent_iterations": 27,
+  "best_iteration": 18,
+  "final": {
+    "iteration": 27,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 7,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 12,
+      "unsafe_calls": 12,
+      "unsafe_casts": 18,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 12,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 2,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1879854
+  },
+  "llm_calls": 31,
+  "prompt_tokens": 1703157,
+  "completion_tokens": 176697,
+  "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+  "toolchain": "nightly-2025-05-13"
+}

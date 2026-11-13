@@ -1,0 +1,247 @@
+{
+  "tool": "builtin-approximation",
+  "totals": {
+    "unsafe_lines": 10,
+    "unsafe_calls": 8,
+    "unsafe_casts": 36,
+    "pointer_arithmetic": 0,
+    "unsafe_blocks": 10,
+    "unsafe_fns": 0,
+    "raw_pointer_decls": 3,
+    "ffi_calls": 0,
+    "transmute_uses": 0,
+    "manual_alloc_ops": 0,
+    "files_with_forbid_unsafe_code": 1,
+    "files_analysed": 2
+  },
+  "offenders": [
+    {
+      "file": "src/cset.rs",
+      "line": 30,
+      "kind": "unsafe_casts",
+      "text": "let ptr = mem_ptr as *mut XXHU8;"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 32,
+      "kind": "unsafe_calls",
+      "text": "let bytes = unsafe { std::slice::from_raw_parts(ptr as *const u8, 8) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 53,
+      "kind": "unsafe_casts",
+      "text": "let ptr = mem_ptr as *mut XXHU32;"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 54,
+      "kind": "unsafe_calls",
+      "text": "let bytes = unsafe { std::slice::from_raw_parts(ptr as *const u8, 4) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 101,
+      "kind": "unsafe_casts",
+      "text": "let mut ptr = ptr as *mut XXHU8;"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 103,
+      "kind": "unsafe_casts",
+      "text": "let k1 = xxh64_round(0, xxh_get64bits(ptr as *mut XXHU8));"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 110,
+      "kind": "unsafe_casts",
+      "text": "let ptr_u32 = ptr as *mut XXHU32;"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 127,
+      "kind": "raw_pointer_decls",
+      "text": "pub fn xxh_get64bits(ptr: *mut XXHU8) -> XXHU64 {"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 128,
+      "kind": "unsafe_calls",
+      "text": "let bytes = unsafe { std::slice::from_raw_parts(ptr as *const u8, 8) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 134,
+      "kind": "unsafe_casts",
+      "text": "let mut input = input as *mut XXHU8;"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 144,
+      "kind": "unsafe_casts",
+      "text": "let mut block = xxh_get64bits(input as *mut XXHU8);"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 147,
+      "kind": "unsafe_casts",
+      "text": "block = xxh_get64bits(input as *mut XXHU8);"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 150,
+      "kind": "unsafe_casts",
+      "text": "block = xxh_get64bits(input as *mut XXHU8);"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 153,
+      "kind": "unsafe_casts",
+      "text": "block = xxh_get64bits(input as *mut XXHU8);"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 167,
+      "kind": "unsafe_line",
+      "text": "let ptr_ref = unsafe { &mut *input };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 173,
+      "kind": "unsafe_casts",
+      "text": "let mut input = input as *mut XXHU8;"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 183,
+      "kind": "unsafe_casts",
+      "text": "let mut block = xxh_get64bits(input as *mut XXHU8);"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 186,
+      "kind": "unsafe_casts",
+      "text": "block = xxh_get64bits(input as *mut XXHU8);"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 189,
+      "kind": "unsafe_casts",
+      "text": "block = xxh_get64bits(input as *mut XXHU8);"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 192,
+      "kind": "unsafe_casts",
+      "text": "block = xxh_get64bits(input as *mut XXHU8);"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 205,
+      "kind": "unsafe_line",
+      "text": "let ptr_ref = unsafe { &mut *input };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 210,
+      "kind": "raw_pointer_decls",
+      "text": "pub fn xxh64(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 214,
+      "kind": "unsafe_casts",
+      "text": "let mut input = input as *const XXHU8;"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 215,
+      "kind": "unsafe_casts",
+      "text": "let mut input_mut = input as *mut XXHU8;"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 220,
+      "kind": "raw_pointer_decls",
+      "text": "pub fn xxh64_h(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 224,
+      "kind": "unsafe_casts",
+      "text": "let mut input = input as *const XXHU8;"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 225,
+      "kind": "unsafe_casts",
+      "text": "let mut input_mut = input as *mut XXHU8;"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 231,
+      "kind": "unsafe_casts",
+      "text": "let mut memptr = memptr as *mut XXHU8;"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 232,
+      "kind": "unsafe_casts",
+      "text": "xxh64(memptr as *const u8, size, CSET_DEFAULT_SEED)"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 237,
+      "kind": "unsafe_casts",
+      "text": "let mut memptr = memptr as *mut XXHU8;"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 238,
+      "kind": "unsafe_casts",
+      "text": "let hash = xxh64_h(memptr as *const u8, size, CSET_DEFAULT_SEED);"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 322,
+      "kind": "unsafe_calls",
+      "text": "let elem_bytes = unsafe { std::slice::from_raw_parts(elem_ref as *const T as *const u8, std::mem::size_of::<T>()) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 336,
+      "kind": "unsafe_casts",
+      "text": "let hash = xxh64_h(ref_bytes.as_ptr() as *const u8, std::mem::size_of::<T>(), self.seed) | 1;"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 349,
+      "kind": "unsafe_casts",
+      "text": "xxh64(ref_bytes.as_ptr() as *const u8, std::mem::size_of::<T>(), self.seed)"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 372,
+      "kind": "unsafe_calls",
+      "text": "v: CsetValue { pi: 0, elem: unsafe { std::mem::zeroed() } },"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 446,
+      "kind": "unsafe_calls",
+      "text": "let mut ref_bytes = unsafe { std::slice::from_raw_parts(&value as *const T as *const u8, std::mem::size_of::<T>()) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 477,
+      "kind": "unsafe_calls",
+      "text": "let mut ref_bytes = unsafe { std::slice::from_raw_parts(&value as *const T as *const u8, std::mem::size_of::<T>()) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 506,
+      "kind": "unsafe_calls",
+      "text": "let mut ref_bytes = unsafe { std::slice::from_raw_parts(value as *const T as *const u8, std::mem::size_of::<T>()) };"
+    }
+  ]
+}

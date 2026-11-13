@@ -1,0 +1,91 @@
+[20:35:33] resumed from run_20261112_200435 iteration 9: restored ['src/cset.rs']
+[20:35:33] project=cset model=google/gemma-4-31b-it:free toolchain=nightly-2025-05-13
+[20:35:33] baseline: cargo build
+[20:35:34] baseline: unsafe metrics
+[20:35:34] === iteration 1/40 phase=COMPILE score=(0, 0, -1, -44, -10000)
+[20:36:45] iteration 1: phase=COMPILE compiles=False tests=0/0 unsafe=44 clippy=None tokens=71545
+[20:36:45] === iteration 2/40 phase=COMPILE score=(0, 0, -1, -44, -10000)
+[20:36:50] iteration 2: phase=COMPILE compiles=False tests=0/0 unsafe=44 clippy=None tokens=174288
+[20:36:50] === iteration 3/40 phase=COMPILE score=(0, 0, -1, -44, -10000)
+[20:38:00] iter 3: cargo build
+[20:38:01] iter 3: unsafe metrics
+[20:38:01] iteration 3: phase=COMPILE compiles=False tests=0/0 unsafe=61 clippy=None tokens=302598
+[20:38:01] === iteration 4/40 phase=COMPILE score=(0, 0, -27, -61, -10000)
+[20:38:24] iteration 4: phase=COMPILE compiles=False tests=0/0 unsafe=61 clippy=None tokens=406243
+[20:38:24] === iteration 5/40 phase=COMPILE score=(0, 0, -27, -61, -10000)
+[20:41:04] iteration 5: phase=COMPILE compiles=False tests=0/0 unsafe=61 clippy=None tokens=479130
+[20:41:04] === iteration 6/40 phase=COMPILE score=(0, 0, -27, -61, -10000)
+[20:41:30] iteration 6: phase=COMPILE compiles=False tests=0/0 unsafe=61 clippy=None tokens=590217
+[20:41:30] === iteration 7/40 phase=COMPILE score=(0, 0, -27, -61, -10000)
+[20:44:02] iter 7: cargo build
+[20:44:02] iter 7: unsafe metrics
+[20:44:03] iteration 7: phase=COMPILE compiles=False tests=0/0 unsafe=46 clippy=None tokens=672451
+[20:44:03] === iteration 8/40 phase=COMPILE score=(0, 0, -1, -46, -10000)
+[20:45:57] iteration 8: phase=COMPILE compiles=False tests=0/0 unsafe=46 clippy=None tokens=753989
+[20:45:57] === iteration 9/40 phase=COMPILE score=(0, 0, -1, -46, -10000)
+[20:47:36] iter 9: cargo build
+[20:47:36] iter 9: unsafe metrics
+[20:47:36] iteration 9: phase=COMPILE compiles=False tests=0/0 unsafe=54 clippy=None tokens=826038
+[20:47:36] === iteration 10/40 phase=COMPILE score=(0, 0, -42, -54, -10000)
+[20:49:18] iteration 10: phase=COMPILE compiles=False tests=0/0 unsafe=54 clippy=None tokens=898198
+[20:49:18] === iteration 11/40 phase=COMPILE score=(0, 0, -42, -54, -10000)
+[20:53:44] iteration 11: phase=COMPILE compiles=False tests=0/0 unsafe=54 clippy=None tokens=959804
+[20:53:44] === iteration 12/40 phase=COMPILE score=(0, 0, -42, -54, -10000)
+[20:54:33] iteration 12: phase=COMPILE compiles=False tests=0/0 unsafe=54 clippy=None tokens=1024933
+[20:54:33] === iteration 13/40 phase=COMPILE score=(0, 0, -42, -54, -10000)
+[20:56:22] iteration 13: phase=COMPILE compiles=False tests=0/0 unsafe=54 clippy=None tokens=1091283
+[20:56:22] === iteration 14/40 phase=COMPILE score=(0, 0, -42, -54, -10000)
+[20:58:21] iteration 14: phase=COMPILE compiles=False tests=0/0 unsafe=54 clippy=None tokens=1160218
+[20:58:21] === iteration 15/40 phase=COMPILE score=(0, 0, -42, -54, -10000)
+[21:00:43] iter 15: cargo build
+[21:00:43] iter 15: unsafe metrics
+[21:00:43] iteration 15: phase=COMPILE compiles=False tests=0/0 unsafe=57 clippy=None tokens=1232601
+[21:00:43] === iteration 16/40 phase=COMPILE score=(0, 0, -1, -57, -10000)
+[21:02:58] iter 16: cargo build
+[21:02:58] iter 16: unsafe metrics
+[21:02:58] iteration 16: phase=COMPILE compiles=False tests=0/0 unsafe=38 clippy=None tokens=1303790
+[21:02:58] === iteration 17/40 phase=COMPILE score=(0, 0, -12, -38, -10000)
+[21:03:19] iter 17: cargo build
+[21:03:19] iter 17: unsafe metrics
+[21:03:19] iteration 17: phase=COMPILE compiles=False tests=0/0 unsafe=38 clippy=None tokens=1369188
+[21:03:19] === iteration 18/40 phase=COMPILE score=(0, 0, -12, -38, -10000)
+[21:03:37] iter 18: cargo build
+[21:03:37] iter 18: unsafe metrics
+[21:03:37] iteration 18: phase=COMPILE compiles=False tests=0/0 unsafe=38 clippy=None tokens=1433367
+[21:03:37] === iteration 19/40 phase=COMPILE score=(0, 0, -1, -38, -10000)
+[21:03:45] iter 19: cargo build
+[21:03:45] iter 19: unsafe metrics
+[21:03:46] iteration 19: phase=COMPILE compiles=False tests=0/0 unsafe=38 clippy=None tokens=1488751
+[21:03:46] === iteration 20/40 phase=COMPILE score=(0, 0, -1, -38, -10000)
+[21:03:51] iter 20: cargo build
+[21:03:51] iter 20: unsafe metrics
+[21:03:51] iteration 20: phase=COMPILE compiles=False tests=0/0 unsafe=38 clippy=None tokens=1542129
+[21:03:51] === iteration 21/40 phase=COMPILE score=(0, 0, -16, -38, -10000)
+[21:04:08] iter 21: cargo build
+[21:04:09] iter 21: unsafe metrics
+[21:04:09] iteration 21: phase=COMPILE compiles=False tests=0/0 unsafe=38 clippy=None tokens=1596211
+[21:04:09] === iteration 22/40 phase=COMPILE score=(0, 0, -12, -38, -10000)
+[21:04:27] iter 22: cargo build
+[21:04:27] iter 22: unsafe metrics
+[21:04:27] iteration 22: phase=COMPILE compiles=False tests=0/0 unsafe=38 clippy=None tokens=1652236
+[21:04:27] === iteration 23/40 phase=COMPILE score=(0, 0, -12, -38, -10000)
+[21:04:34] iter 23: cargo build
+[21:04:34] iter 23: unsafe metrics
+[21:04:34] iteration 23: phase=COMPILE compiles=False tests=0/0 unsafe=38 clippy=None tokens=1710159
+[21:04:34] === iteration 24/40 phase=COMPILE score=(0, 0, -11, -38, -10000)
+[21:04:42] iter 24: cargo build
+[21:04:42] iter 24: unsafe metrics
+[21:04:42] iteration 24: phase=COMPILE compiles=False tests=0/0 unsafe=38 clippy=None tokens=1767065
+[21:04:42] === iteration 25/40 phase=COMPILE score=(0, 0, -10, -38, -10000)
+[21:04:52] iter 25: cargo build
+[21:04:53] iter 25: unsafe metrics
+[21:04:53] iteration 25: phase=COMPILE compiles=False tests=0/0 unsafe=38 clippy=None tokens=1823090
+[21:04:53] === iteration 26/40 phase=COMPILE score=(0, 0, -8, -38, -10000)
+[21:05:14] iter 26: cargo build
+[21:05:14] iter 26: unsafe metrics
+[21:05:15] iteration 26: phase=COMPILE compiles=False tests=0/0 unsafe=42 clippy=None tokens=1879854
+[21:05:15] === iteration 27/40 phase=COMPILE score=(0, 0, -7, -42, -10000)
+[21:06:12] llm_error: all models failed: nvidia/nemotron-3-ultra-550b-a55b:free: failed after 2 attempts: empty completion (finish_reason=stop, prompt_tokens=56003, completion_tokens=34, reasoning_tokens=34, reasoning_chars=56, provider=Nvidia)
+[21:06:12] stopped early: keeping the latest Rust files in place; rerun without --fresh to continue
+[21:06:12] STOP: llm_error: all models failed: nvidia/nemotron-3-ultra-550b-a55b:free: failed after 2 attempts: empty completion (finish_reason=stop, prompt_tokens=56003, completion_tokens=34, reasoning_tokens=34, reasoning_chars=56, provider=Nvidia) | iterations=27 (best 18) | compiles=False tests=0/0 unsafe=42 clippy=None
+[21:06:12] RESUME: bash MP4/src/run_pipeline.sh <project-id>   (no --fresh)

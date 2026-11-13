@@ -1,0 +1,248 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=101 seconds=0.39
+
+   Compiling cset v0.1.0 (/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1)
+warning: value assigned to `h64` is never read
+   --> src/cset.rs:135:13
+    |
+135 |     let mut h64 = 0;
+    |             ^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` on by default
+
+warning: value assigned to `h64` is never read
+   --> src/cset.rs:167:13
+    |
+167 |     let mut h64 = 0;
+    |             ^^^
+    |
+    = help: maybe it is overwritten before being read?
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:288:9
+    |
+288 |         val.elem
+    |         ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:273:6
+    |
+273 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+288 |         val.elem
+    |         -------- you could clone this value
+
+warning: unused variable: `customhasher`
+   --> src/cset.rs:315:18
+    |
+315 |             Some(customhasher) => {
+    |                  ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_customhasher`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `value`
+   --> src/cset.rs:313:40
+    |
+313 |     fn h2hash(&self, ref_bytes: &[u8], value: &T) -> XXHU64 {
+    |                                        ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+warning: unused variable: `customhasher`
+   --> src/cset.rs:329:18
+    |
+329 |             Some(customhasher) => {
+    |                  ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_customhasher`
+
+warning: unused variable: `value`
+   --> src/cset.rs:327:40
+    |
+327 |     fn h1hash(&self, ref_bytes: &[u8], value: &T) -> XXHU64 {
+    |                                        ^^^^^ help: if this is intentional, prefix it with an underscore: `_value`
+
+error[E0507]: cannot move out of index of `Vec<CsetValue<T>>`
+   --> src/cset.rs:374:9
+    |
+374 |         self.buckets[index].elem
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^ move occurs because value has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:273:6
+    |
+273 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+374 |         self.buckets[index].elem
+    |         ------------------------ you could clone this value
+
+error[E0596]: cannot borrow `self.buckets` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:414:9
+    |
+414 |         &mut self.buckets
+    |         ^^^^^^^^^^^^^^^^^ `self` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+413 |     pub fn get_buckets_ref(&mut self) -> &mut Vec<CsetValue<T>> {
+    |                             +++
+
+error[E0596]: cannot borrow `self.temp_buckets` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:418:9
+    |
+418 |         &mut self.temp_buckets
+    |         ^^^^^^^^^^^^^^^^^^^^^^ `self` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+417 |     pub fn get_temp_buckets_ref(&mut self) -> &mut Vec<CsetValue<T>> {
+    |                                  +++
+
+warning: value assigned to `index` is never read
+   --> src/cset.rs:435:17
+    |
+435 |         let mut index = 0;
+    |                 ^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+
+warning: variable does not need to be mutable
+   --> src/cset.rs:431:13
+    |
+431 |         let mut ref_bytes = unsafe { std::slice::from_raw_parts(&value as *const T as *const u8, std::mem::size_of::<T>()) };
+    |             ----^^^^^^^^^
+    |             |
+    |             help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` on by default
+
+warning: variable does not need to be mutable
+   --> src/cset.rs:462:13
+    |
+462 |         let mut ref_bytes = unsafe { std::slice::from_raw_parts(&value as *const T as *const u8, std::mem::size_of::<T>()) };
+    |             ----^^^^^^^^^
+    |             |
+    |             help: remove this `mut`
+
+warning: variable does not need to be mutable
+   --> src/cset.rs:491:13
+    |
+491 |         let mut ref_bytes = unsafe { std::slice::from_raw_parts(value as *const T as *const u8, std::mem::size_of::<T>()) };
+    |             ----^^^^^^^^^
+    |             |
+    |             help: remove this `mut`
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:516:29
+    |
+516 |                 result.push(val.elem);
+    |                             ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:273:6
+    |
+273 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+516 |                 result.push(val.elem);
+    |                             -------- you could clone this value
+
+error[E0596]: cannot borrow `*second` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:542:30
+    |
+542 |             if val.pi > 0 && second.contains(&val.elem) {
+    |                              ^^^^^^ `second` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+539 |     pub fn intersect(&mut self, first: &Self, second: &mut Self) {
+    |                                                        +++
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:543:26
+    |
+543 |                 self.add(val.elem);
+    |                          ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:273:6
+    |
+273 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+543 |                 self.add(val.elem);
+    |                          -------- you could clone this value
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:552:26
+    |
+552 |                 self.add(val.elem);
+    |                          ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:273:6
+    |
+273 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+552 |                 self.add(val.elem);
+    |                          -------- you could clone this value
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:557:26
+    |
+557 |                 self.add(val.elem);
+    |                          ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:273:6
+    |
+273 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+557 |                 self.add(val.elem);
+    |                          -------- you could clone this value
+
+error[E0596]: cannot borrow `*other` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:564:30
+    |
+564 |             if val.pi > 0 && other.contains(&val.elem) {
+    |                              ^^^^^ `other` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+562 |     pub fn is_disjoint(&mut self, other: &mut Self) -> bool {
+    |                                           +++
+
+error[E0596]: cannot borrow `*second` as mutable, as it is behind a `&` reference
+   --> src/cset.rs:574:31
+    |
+574 |             if val.pi > 0 && !second.contains(&val.elem) {
+    |                               ^^^^^^ `second` is a `&` reference, so the data it refers to cannot be borrowed as mutable
+    |
+help: consider changing this to be a mutable reference
+    |
+571 |     pub fn difference(&mut self, first: &Self, second: &mut Self) {
+    |                                                         +++
+
+error[E0507]: cannot move out of `val.elem` which is behind a shared reference
+   --> src/cset.rs:575:26
+    |
+575 |                 self.add(val.elem);
+    |                          ^^^^^^^^ move occurs because `val.elem` has type `T`, which does not implement the `Copy` trait
+    |
+help: if `T` implemented `Clone`, you could clone the value
+   --> src/cset.rs:273:6
+    |
+273 | impl<T> Cset<T> {
+    |      ^ consider constraining this type parameter with `Clone`
+...
+575 |                 self.add(val.elem);
+    |                          -------- you could clone this value
+
+Some errors have detailed explanations: E0507, E0596.
+For more information about an error, try `rustc --explain E0507`.
+warning: `cset` (lib) generated 10 warnings (5 duplicates)
+error: could not compile `cset` (lib) due to 12 previous errors; 10 warnings emitted
+warning: build failed, waiting for other jobs to finish...
+warning: `cset` (lib test) generated 10 warnings (5 duplicates)
+error: could not compile `cset` (lib test) due to 12 previous errors; 10 warnings emitted

@@ -1,0 +1,785 @@
+[
+  {
+    "iteration": 0,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 1,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 13,
+      "unsafe_calls": 4,
+      "unsafe_casts": 27,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 4,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 3,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 0
+  },
+  {
+    "iteration": 1,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 1,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 13,
+      "unsafe_calls": 4,
+      "unsafe_casts": 27,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 4,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 3,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 71545
+  },
+  {
+    "iteration": 2,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 1,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 13,
+      "unsafe_calls": 4,
+      "unsafe_casts": 27,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 4,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 3,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 174288
+  },
+  {
+    "iteration": 3,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 27,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 17,
+      "unsafe_calls": 8,
+      "unsafe_casts": 36,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 8,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 3,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 302598
+  },
+  {
+    "iteration": 4,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 27,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 17,
+      "unsafe_calls": 8,
+      "unsafe_casts": 36,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 8,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 3,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 406243
+  },
+  {
+    "iteration": 5,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 27,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 17,
+      "unsafe_calls": 8,
+      "unsafe_casts": 36,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 8,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 3,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 479130
+  },
+  {
+    "iteration": 6,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 27,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 17,
+      "unsafe_calls": 8,
+      "unsafe_casts": 36,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 8,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 3,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 590217
+  },
+  {
+    "iteration": 7,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 1,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 8,
+      "unsafe_calls": 6,
+      "unsafe_casts": 32,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 8,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 3,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 1,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 672451
+  },
+  {
+    "iteration": 8,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 1,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 8,
+      "unsafe_calls": 6,
+      "unsafe_casts": 32,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 8,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 3,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 1,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 753989
+  },
+  {
+    "iteration": 9,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 42,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 10,
+      "unsafe_calls": 8,
+      "unsafe_casts": 36,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 10,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 3,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 1,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 826038
+  },
+  {
+    "iteration": 10,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 42,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 10,
+      "unsafe_calls": 8,
+      "unsafe_casts": 36,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 10,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 3,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 1,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 898198
+  },
+  {
+    "iteration": 11,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 42,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 10,
+      "unsafe_calls": 8,
+      "unsafe_casts": 36,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 10,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 3,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 1,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 959804
+  },
+  {
+    "iteration": 12,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 42,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 10,
+      "unsafe_calls": 8,
+      "unsafe_casts": 36,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 10,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 3,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 1,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1024933
+  },
+  {
+    "iteration": 13,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 42,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 10,
+      "unsafe_calls": 8,
+      "unsafe_casts": 36,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 10,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 3,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 1,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1091283
+  },
+  {
+    "iteration": 14,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 42,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 10,
+      "unsafe_calls": 8,
+      "unsafe_casts": 36,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 10,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 3,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 1,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1160218
+  },
+  {
+    "iteration": 15,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 1,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 17,
+      "unsafe_calls": 17,
+      "unsafe_casts": 23,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 17,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 4,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1232601
+  },
+  {
+    "iteration": 16,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 12,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 11,
+      "unsafe_calls": 11,
+      "unsafe_casts": 16,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 11,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 2,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1303790
+  },
+  {
+    "iteration": 17,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 12,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 11,
+      "unsafe_calls": 11,
+      "unsafe_casts": 16,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 11,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 2,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1369188
+  },
+  {
+    "iteration": 18,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 1,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 11,
+      "unsafe_calls": 11,
+      "unsafe_casts": 16,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 11,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 2,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1433367
+  },
+  {
+    "iteration": 19,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 1,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 11,
+      "unsafe_calls": 11,
+      "unsafe_casts": 16,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 11,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 2,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1488751
+  },
+  {
+    "iteration": 20,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 16,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 11,
+      "unsafe_calls": 11,
+      "unsafe_casts": 16,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 11,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 2,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1542129
+  },
+  {
+    "iteration": 21,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 12,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 11,
+      "unsafe_calls": 11,
+      "unsafe_casts": 16,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 11,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 2,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1596211
+  },
+  {
+    "iteration": 22,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 12,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 11,
+      "unsafe_calls": 11,
+      "unsafe_casts": 16,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 11,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 2,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1652236
+  },
+  {
+    "iteration": 23,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 11,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 11,
+      "unsafe_calls": 11,
+      "unsafe_casts": 16,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 11,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 2,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1710159
+  },
+  {
+    "iteration": 24,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 10,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 11,
+      "unsafe_calls": 11,
+      "unsafe_casts": 16,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 11,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 2,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1767065
+  },
+  {
+    "iteration": 25,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 8,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 11,
+      "unsafe_calls": 11,
+      "unsafe_casts": 16,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 11,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 2,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1823090
+  },
+  {
+    "iteration": 26,
+    "phase": "COMPILE",
+    "compiles": false,
+    "tests_passed": 0,
+    "tests_total": 0,
+    "build_errors": 7,
+    "clippy": null,
+    "clippy_total": null,
+    "unsafe_primary": {
+      "unsafe_lines": 12,
+      "unsafe_calls": 12,
+      "unsafe_casts": 18,
+      "pointer_arithmetic": 0
+    },
+    "unsafe_extra": {
+      "unsafe_blocks": 12,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 2,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 0,
+      "files_analysed": 2
+    },
+    "unsafe_tool": "builtin-approximation",
+    "policy_issues": [],
+    "llm_tokens_so_far": 1879854
+  }
+]
