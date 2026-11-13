@@ -24,8 +24,8 @@ pub fn xxh_is_little_endian() -> bool {
 
 // Read 8 bytes as little-endian from a slice
 pub fn xxh_read_le64(mem_ptr: &mut XXHU8) -> XXHU64 {
-    let bytes = unsafe { std::slice::from_raw_parts(mem_ptr as *const u8, 8) };
-    u64::from_le_bytes([bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]])
+    let val = *mem_ptr as u64;
+    val.to_le()
 }
 
 // Read 8 bytes as little-endian from a slice (aligned version)
@@ -45,8 +45,8 @@ pub fn xxh_swap32(x: &mut XXHU32) -> XXHU32 {
 
 // Read 4 bytes as little-endian from a slice
 pub fn xxh_read32(mem_ptr: &mut XXHU32) -> XXHU32 {
-    let bytes = unsafe { std::slice::from_raw_parts(mem_ptr as *const u8, 4) };
-    u32::from_le_bytes([bytes[0], bytes[1], bytes[2], bytes[3]])
+    let val = *mem_ptr;
+    val.to_le()
 }
 
 // xxh64 round
