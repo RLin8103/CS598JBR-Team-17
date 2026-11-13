@@ -1,0 +1,36 @@
+# Clippy counts: {"correctness": 0, "style": 3, "complexity": 0, "perf": 0} total=3
+
+## correctness (0)
+
+
+## style (3)
+warning: unsafe function's docs are missing a `# Safety` section
+   --> src/cset.rs:194:1
+    |
+194 | pub unsafe fn xxh64(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
+    = note: `-W clippy::missing-safety-doc` implied by `-W clippy::style`
+    = help: to override `-W clippy::style` add `#[allow(clippy::missing_safety_doc)]`
+warning: unsafe function's docs are missing a `# Safety` section
+   --> src/cset.rs:203:1
+    |
+203 | pub unsafe fn xxh64_h(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
+warning: replacing a value of type `T` with `T::default()` is better expressed using `std::mem::take`
+   --> src/cset.rs:566:27
+    |
+566 |         let old_buckets = std::mem::replace(&mut self.buckets, Vec::new());
+    |                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: consider using: `std::mem::take(&mut self.buckets)`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#mem_replace_with_default
+    = note: `-W clippy::mem-replace-with-default` implied by `-W clippy::style`
+    = help: to override `-W clippy::style` add `#[allow(clippy::mem_replace_with_default)]`
+
+## complexity (0)
+
+
+## perf (0)

@@ -1,0 +1,178 @@
+$ cargo +nightly-2025-05-13 test --no-fail-fast
+returncode=101 timed_out=False
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 15 tests
+test test_cset_add ... ok
+test test_cset_clear ... FAILED
+test test_cset_contains ... FAILED
+test test_cset_disjoint ... FAILED
+test test_cset_difference ... FAILED
+test test_cset_init ... ok
+test test_cset_intersection ... FAILED
+test test_cset_remove ... FAILED
+test test_cset_struct ... ok
+test test_cset_union ... FAILED
+test test_cset_unique ... FAILED
+test test_custom_comparator ... ok
+test test_default_bytes_comparator ... FAILED
+test test_cset_resize ... ok
+test test_cset_iteration ... FAILED
+
+failures:
+
+---- test_cset_clear stdout ----
+
+thread 'test_cset_clear' panicked at src/bin/test.rs:143:5:
+assertion `left == right` failed
+  left: 2
+ right: 3
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- test_cset_contains stdout ----
+
+thread 'test_cset_contains' panicked at src/bin/test.rs:26:1:
+assertion failed: cset_int.contains(&34)
+
+---- test_cset_disjoint stdout ----
+
+thread 'test_cset_disjoint' panicked at src/bin/test.rs:193:5:
+assertion failed: !cset_a.is_disjoint(&cset_b)
+
+---- test_cset_difference stdout ----
+
+thread 'test_cset_difference' panicked at src/bin/test.rs:210:5:
+assertion failed: result.contains(&46)
+
+---- test_cset_intersection stdout ----
+
+thread 'test_cset_intersection' panicked at src/bin/test.rs:161:5:
+assertion `left == right` failed
+  left: 0
+ right: 2
+
+---- test_cset_remove stdout ----
+
+thread 'test_cset_remove' panicked at src/bin/test.rs:74:5:
+assertion `left == right` failed
+  left: 2
+ right: 3
+
+---- test_cset_union stdout ----
+
+thread 'test_cset_union' panicked at src/bin/test.rs:178:5:
+assertion `left == right` failed
+  left: 3
+ right: 5
+
+---- test_cset_unique stdout ----
+
+thread 'test_cset_unique' panicked at src/bin/test.rs:47:5:
+assertion `left == right` failed
+  left: 2
+ right: 3
+
+---- test_default_bytes_comparator stdout ----
+
+thread 'test_default_bytes_comparator' panicked at src/bin/test.rs:100:5:
+assertion failed: cset_int.contains(&45)
+
+---- test_cset_iteration stdout ----
+
+thread 'test_cset_iteration' panicked at src/bin/test.rs:38:5:
+assertion failed: cset_int.contains(&value)
+
+
+failures:
+    test_cset_clear
+    test_cset_contains
+    test_cset_difference
+    test_cset_disjoint
+    test_cset_intersection
+    test_cset_iteration
+    test_cset_remove
+    test_cset_union
+    test_cset_unique
+    test_default_bytes_comparator
+
+test result: FAILED. 5 passed; 10 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+warning: value assigned to `index` is never read
+   --> src/cset.rs:419:17
+    |
+419 |         let mut index = 0usize;
+    |                 ^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` on by default
+
+warning: value assigned to `index` is never read
+   --> src/cset.rs:449:17
+    |
+449 |         let mut index = 0usize;
+    |                 ^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+
+warning: field `v` is never read
+   --> src/cset.rs:236:5
+    |
+231 | pub struct Cset<T> {
+    |            ---- field in this struct
+...
+236 |     v: CsetValue<T>,
+    |     ^
+    |
+    = note: `#[warn(dead_code)]` on by default
+
+warning: associated functions `value_elem` and `value_pi` are never used
+   --> src/cset.rs:256:8
+    |
+242 | impl<T: Clone> Cset<T> {
+    | ---------------------- associated functions in this implementation
+...
+256 |     fn value_elem(val: &CsetValue<T>) -> T {
+    |        ^^^^^^^^^^
+...
+260 |     fn value_pi(val: &CsetValue<T>) -> i32 {
+    |        ^^^^^^^^
+
+warning: `cset` (lib) generated 4 warnings
+warning: variable does not need to be mutable
+ --> src/bin/test.rs:4:9
+  |
+4 |     let mut cset_int = cset::Cset::<i32>::new();
+  |         ----^^^^^^^^
+  |         |
+  |         help: remove this `mut`
+  |
+  = note: `#[warn(unused_mut)]` on by default
+
+warning: function `node_pointer_comparator` is never used
+   --> src/bin/test.rs:119:4
+    |
+119 | fn node_pointer_comparator(selfs: &Node, other: &Node) -> bool {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` on by default
+
+warning: `cset` (bin "test" test) generated 2 warnings (run `cargo fix --bin "test" --tests` to apply 1 suggestion)
+warning: `cset` (lib test) generated 4 warnings (4 duplicates)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running unittests src/lib.rs (/home/rlin8/.cache/crust_target/cset/debug/deps/cset-649622f80b527509)
+     Running unittests src/bin/test.rs (/home/rlin8/.cache/crust_target/cset/debug/deps/test-bdc1afc990740c44)
+error: test failed, to rerun pass `--bin test`
+   Doc-tests cset
+error: 1 target failed:
+    `--bin test`

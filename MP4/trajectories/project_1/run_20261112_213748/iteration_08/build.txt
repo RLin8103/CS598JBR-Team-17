@@ -1,0 +1,57 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=101 seconds=0.16
+
+   Compiling cset v0.1.0 (/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1)
+error: expected one of `...`, `..=`, `..`, `:`, or `|`, found `}`
+   --> src/cset.rs:289:13
+    |
+288 |                 unsafe { xxh64_h(ref_bytes.as_ptr(), std::mem::size_of::<T>(), self.seed) } | 1
+    |                                                                                                - expected one of `...`, `..=`, `..`, `:`, or `|`
+289 |             }
+    |             ^ unexpected token
+    |
+help: parentheses are required to parse this as an expression
+    |
+288 |                 (unsafe { xxh64_h(ref_bytes.as_ptr(), std::mem::size_of::<T>(), self.seed) }) | 1
+    |                 +                                                                           +
+
+error[E0308]: mismatched types
+   --> src/cset.rs:288:26
+    |
+281 | /         match self.compare {
+282 | |             Some(_customhasher) => {
+...   |
+288 | |                 unsafe { xxh64_h(ref_bytes.as_ptr(), std::mem::size_of::<T>(), self.seed) } | 1
+    | |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected `()`, found `u64`
+289 | |             }
+290 | |         }
+    | |_________- expected this to be `()`
+    |
+help: consider using a semicolon here
+    |
+288 |                 unsafe { xxh64_h(ref_bytes.as_ptr(), std::mem::size_of::<T>(), self.seed); } | 1
+    |                                                                                          +
+help: consider using a semicolon here
+    |
+290 |         };
+    |          +
+help: you might have meant to return this value
+    |
+288 |                 unsafe { return xxh64_h(ref_bytes.as_ptr(), std::mem::size_of::<T>(), self.seed); } | 1
+    |                          ++++++                                                                 +
+
+warning: value assigned to `index` is never read
+   --> src/cset.rs:444:17
+    |
+444 |         let mut index = 0usize;
+    |                 ^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` on by default
+
+For more information about this error, try `rustc --explain E0308`.
+warning: `cset` (lib) generated 1 warning
+error: could not compile `cset` (lib) due to 2 previous errors; 1 warning emitted
+warning: build failed, waiting for other jobs to finish...
+warning: `cset` (lib test) generated 1 warning (1 duplicate)
+error: could not compile `cset` (lib test) due to 2 previous errors; 1 warning emitted

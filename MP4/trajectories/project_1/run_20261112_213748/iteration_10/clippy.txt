@@ -1,0 +1,27 @@
+# Clippy counts: {"correctness": 0, "style": 2, "complexity": 0, "perf": 0} total=2
+
+## correctness (0)
+
+
+## style (2)
+warning: unsafe function's docs are missing a `# Safety` section
+   --> src/cset.rs:194:1
+    |
+194 | pub unsafe fn xxh64(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
+    = note: `-W clippy::missing-safety-doc` implied by `-W clippy::style`
+    = help: to override `-W clippy::style` add `#[allow(clippy::missing_safety_doc)]`
+warning: unsafe function's docs are missing a `# Safety` section
+   --> src/cset.rs:203:1
+    |
+203 | pub unsafe fn xxh64_h(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#missing_safety_doc
+
+## complexity (0)
+
+
+## perf (0)

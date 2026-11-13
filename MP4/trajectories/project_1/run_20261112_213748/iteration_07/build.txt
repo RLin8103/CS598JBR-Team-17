@@ -1,0 +1,35 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=101 seconds=0.13
+
+   Compiling cset v0.1.0 (/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1)
+error[E0133]: call to unsafe function `xxh64_h` is unsafe and requires unsafe function or block
+   --> src/cset.rs:288:28
+    |
+288 |                 let hash = xxh64_h(ref_bytes.as_ptr(), std::mem::size_of::<T>(), self.seed) | 1;
+    |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+error[E0133]: call to unsafe function `xxh64` is unsafe and requires unsafe function or block
+   --> src/cset.rs:301:17
+    |
+301 |                 xxh64(ref_bytes.as_ptr(), std::mem::size_of::<T>(), self.seed)
+    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ call to unsafe function
+    |
+    = note: consult the function's documentation for information on how to avoid undefined behavior
+
+warning: value assigned to `index` is never read
+   --> src/cset.rs:445:17
+    |
+445 |         let mut index = 0usize;
+    |                 ^^^^^
+    |
+    = help: maybe it is overwritten before being read?
+    = note: `#[warn(unused_assignments)]` on by default
+
+For more information about this error, try `rustc --explain E0133`.
+warning: `cset` (lib test) generated 1 warning
+error: could not compile `cset` (lib test) due to 2 previous errors; 1 warning emitted
+warning: build failed, waiting for other jobs to finish...
+warning: `cset` (lib) generated 1 warning (1 duplicate)
+error: could not compile `cset` (lib) due to 2 previous errors; 1 warning emitted

@@ -510,7 +510,7 @@ class Pipeline:
         self.save_checks(0, state)
         first = self.first_prompt(state)
         self.write_log("initial_prompt.md", first)
-        best, best_snap, best_it = state["score"], self.best_snapshot(), 0
+        best, best_snap, best_it, best_state = state["score"], self.best_snapshot(), 0, state
         stop_reason = "max_iterations"
         notices: list[str] = []
         done_streak = 0
@@ -554,7 +554,18 @@ class Pipeline:
                     state = dict(state, label=f"iter {it} (file incomplete, checks skipped)")
                     last_progress_it = it
                 elif turn["edits"]:
+                    prev_phase = state["phase"]
                     state = self.run_checks(f"iter {it}")
+                    if prev_phase in ("SAFETY", "CLIPPY") and state["score"] < best:
+                        # Refinement phases must never lose ground: undo an edit that broke the build/tests
+                        # or made unsafe/Clippy worse, and tell the model so it tries a different change.
+                        notices.append(
+                            f"Your edit in the previous reply made things worse (compiles={state['compiles']}, tests {state['passed']}/{state['total']}, "
+                            f"unsafe {state['unsafe_total']} vs {best_state['unsafe_total']}, clippy {state['clippy_total']} vs {best_state['clippy_total']}) "
+                            "and was reverted. The files below are the last good version; try a different, smaller change.")
+                        self.log_event("rollback", iteration=it, worse_score=list(state["score"]), restored_score=list(best))
+                        self.restore(best_snap)
+                        state = dict(best_state, label=f"iter {it} (edit reverted)")
                 else:
                     notices.append("No valid edit was applied in your previous reply." if not turn["done"] else "No edits were made.")
                     state = dict(state, label=f"iter {it} (unchanged)")
@@ -562,9 +573,9 @@ class Pipeline:
                 self.say(f"iteration {it}: phase={state['phase']} compiles={state['compiles']} tests={state['passed']}/{state['total']} "
                          f"unsafe={state['unsafe_total']} clippy={state['clippy_total']} tokens={self.llm.total_tokens}")
                 if state["score"] > best:
-                    best, best_snap, best_it = state["score"], self.best_snapshot(), it
+                    best, best_snap, best_it, best_state = state["score"], self.best_snapshot(), it, state
                     last_progress_it = it
-                elif turn["edits"]:
+                elif turn["edits"] and state["phase"] in ("COMPILE", "TESTS", "POLICY"):
                     # The model is actively changing code (e.g. working through compile errors whose
                     # count may temporarily rise): that is activity, not a stall. Only score
                     # improvements update the best snapshot, but activity resets the patience clock.
