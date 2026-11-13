@@ -194,10 +194,10 @@ pub fn psbt_read(
             }
             
             PsbtState::Global | PsbtState::Inputs | PsbtState::Outputs => {
-
-                
                 // Bytes past the end of the input read as zero, as in the zeroed C buffer.
-                if psbt.data.get(psbt.write_pos).copied().unwrap_or(0) == 0 {
+                let current_byte = psbt.data.get(psbt.write_pos).copied().unwrap_or(0);
+                
+                if current_byte == 0 {
                     match psbt.state {
                         PsbtState::Global => {
                             psbt.state = PsbtState::InputsNew;
