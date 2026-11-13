@@ -262,6 +262,16 @@ class Workspace:
                     found.append(f"{self.rel(p)}:{line}: forbidden construct `{pat}`")
         return found
 
+    def stub_findings(self) -> list[str]:
+        """Bodies the agent has not translated yet (`unimplemented!()` / `todo!()` left over from the interface stubs).
+        Tests may not exercise every module, so a green test run alone does not mean the project is fully translated."""
+        found = []
+        for p in self.editable_files():
+            for no, line in enumerate(p.read_text(encoding="utf-8", errors="replace").splitlines(), 1):
+                if re.search(r"\b(?:unimplemented|todo)!\s*[(\[{]", line) and not line.lstrip().startswith("//"):
+                    found.append(f"{self.rel(p)}:{no}: {line.strip()[:100]}")
+        return found
+
     # ----- agent actions
     def write_file(self, rel: str, content: str) -> str | None:
         """Returns an error message or None on success."""

@@ -40,7 +40,7 @@ MP4/
 | Rust toolchain | `nightly-2025-05-13` (cargo 1.89.0-nightly, clippy 0.1.88), the same one used for grading |
 | Host OS / runtime | Windows 11 host, pipeline run inside WSL2 Ubuntu (Linux x86_64), Python 3 |
 | Tools available to the agent | file write / patch (`src/*.rs` only), file read (`c_source/*`, crate files), `cargo build`, `cargo test`, `cargo clippy` (correctness / style / complexity / perf counted separately), unsafe-metrics analysis |
-| Multiple agents or models | No. One agent, one model per run |
+| Multiple agents or models | One agent (single controller loop, no multi-agent setup). Several models were used across the experiment: the default model works until a rate limit/failure or until it produces 2 replies in a row without an applied edit, then the controller switches (sticky) to the next model in `fallback_models` (`model_switches` / `escalate` events in the trajectory). The model used for every call is logged |
 
 The agent does not get a free shell: the controller runs the fixed set of tools after each edit so
 the feedback always matches the grading environment (same toolchain, same Clippy flags).
@@ -96,7 +96,7 @@ cargo +nightly-2025-05-13 clippy --all-targets --all-features -- \
    the controller applies edits (refusing protected paths), re-runs all four checks and sends back the compiler
    errors, failing tests and panic messages, Clippy findings per category, unsafe metrics with offending lines,
    plus the current Rust files and the model's own notes.
-5. The feedback has a *phase* that tells the model what to prioritise: `COMPILE` -> `TESTS` -> `SAFETY` -> `CLIPPY` -> `DONE`.
+5. The feedback has a *phase* that tells the model what to prioritise: `COMPILE` -> `TESTS` -> `STUBS` (bodies still `unimplemented!()`, e.g. modules the tests do not exercise) -> `SAFETY` -> `CLIPPY` -> `DONE`.
 6. The best snapshot (lexicographic score: compiles, tests passed, fewer build errors, lower unsafe total, lower Clippy total)
    is restored at the end, so a regression in the final iteration cannot be what gets submitted.
 
@@ -108,7 +108,7 @@ and `build.rs` (FFI back into the C code) are flagged as policy violations that 
 
 The run stops at the first of:
 
-1. **success**: build OK, every test passes, all primary unsafe metrics are 0 and the Clippy total is `<= clippy_accept` (0);
+1. **success**: build OK, every test passes, no `unimplemented!()`/`todo!()` is left, all primary unsafe metrics are 0 and the Clippy total is `<= clippy_accept` (0);
 2. `max_iterations` (40 repair iterations);
 3. `max_total_tokens` (2,000,000 prompt + completion tokens);
 4. `no_progress_patience`: 8 consecutive iterations without improving the best score (turns spent finishing a cut-off file do not count);

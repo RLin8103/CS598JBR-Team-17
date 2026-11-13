@@ -171,6 +171,7 @@ class Pipeline:
         state["total"] = t.get("total", 0)
         state["failed"] = t.get("failed", 0)
         state["unsafe_total"] = unsafe_primary_total(state["unsafe"])
+        state["stubs"] = self.ws.stub_findings()
         c = state["clippy"]
         state["clippy_counts"] = c["counts"] if c else None
         state["clippy_total"] = c["total"] if c else None
@@ -183,6 +184,10 @@ class Pipeline:
             return "POLICY"
         if not s["compiles"]:
             return "COMPILE"
+        if s["stubs"] and (s["failed"] == 0 or s["passed"] > 0):
+            # Untranslated bodies remain although the code compiles (and the tests either pass or the failures are
+            # not about missing code): finish the translation of the modules the tests do not exercise.
+            return "STUBS"
         if s["failed"] > 0 or s["total"] == 0 or (s["test"] or {}).get("compile_failed"):
             return "TESTS"
         if s["unsafe_total"] > 0:
@@ -196,7 +201,7 @@ class Pipeline:
     def score_of(s: dict) -> tuple:
         errors = s["build"]["error_count"] if not s["compiles"] else 0
         return (
-            int(s["compiles"]), s["passed"], -errors, -s["unsafe_total"],
+            int(s["compiles"]), s["passed"], -errors, -len(s["stubs"]), -s["unsafe_total"],
             -(s["clippy_total"] if s["clippy_total"] is not None else 10_000),
         )
 
@@ -227,7 +232,7 @@ class Pipeline:
         return {
             "iteration": it, "phase": s["phase"], "compiles": s["compiles"],
             "tests_passed": s["passed"], "tests_total": s["total"],
-            "build_errors": s["build"]["error_count"],
+            "build_errors": s["build"]["error_count"], "stubs_remaining": len(s["stubs"]),
             "clippy": s["clippy_counts"], "clippy_total": s["clippy_total"],
             "unsafe_primary": {k: totals.get(k, 0) for k in ("unsafe_lines", "unsafe_calls", "unsafe_casts", "pointer_arithmetic")},
             "unsafe_extra": {k: v for k, v in totals.items() if k not in ("unsafe_lines", "unsafe_calls", "unsafe_casts", "pointer_arithmetic")},
@@ -269,6 +274,8 @@ class Pipeline:
             f"- unsafe metrics ({s['unsafe'].get('tool')}): lines={t.get('unsafe_lines', 0)}, calls={t.get('unsafe_calls', 0)}, "
             f"casts={t.get('unsafe_casts', 0)}, pointer_arithmetic={t.get('pointer_arithmetic', 0)}\n"
             f"- clippy warnings: {clippy}\n"
+            f"- untranslated bodies (`unimplemented!()`/`todo!()`): {len(s['stubs'])}"
+            + ("".join(f"\n  - {x}" for x in s["stubs"][:15]) if s["stubs"] else "") + "\n"
             f"- tokens used so far: {self.llm.total_tokens} / {self.limits['max_total_tokens']}"
         )
 
@@ -592,7 +599,7 @@ class Pipeline:
                 if state["score"] > best:
                     best, best_snap, best_it, best_state = state["score"], self.best_snapshot(), it, state
                     last_progress_it = it
-                elif turn["edits"] and state["phase"] in ("COMPILE", "TESTS", "POLICY"):
+                elif turn["edits"] and state["phase"] in ("COMPILE", "TESTS", "POLICY", "STUBS"):
                     # The model is actively changing code (e.g. working through compile errors whose
                     # count may temporarily rise): that is activity, not a stall. Only score
                     # improvements update the best snapshot, but activity resets the patience clock.
