@@ -150,9 +150,17 @@ Run history (all runs are kept; early runs used free models and show the problem
 | 1 cset | `run_20261112_215837` | qwen/qwen3-coder-next | 7 | crashed on a transient Windows file lock (no `final_status.json`; fixed with write retries) | - |
 | 1 cset | `run_20261112_220540` | qwen/qwen3-coder-next | 12 | no_progress | 15/15 tests, unsafe 36, Clippy 3 |
 | 1 cset | `run_20261112_225516` | claude-haiku-5.5 (failed), then deepseek/deepseek-v4-flash | 12 | no_progress | **15/15 tests, unsafe 14, Clippy 0** |
+| 1 cset | `run_20261116_204023` | qwen/qwen3-coder-next, `--fresh` (after the `INTERFACE` phase was added) | 40 | max_iterations: the model rewrote the whole file each turn and never fixed one syntax error; best snapshot = skeleton | did not compile (this attempt was discarded; the previous translation was restored from git) |
+| 1 cset | `run_20261116_214112` | deepseek/deepseek-v4-flash | 0 | aborted at start (stale config, before `git pull`) | - |
+| 1 cset | `run_20261116_214135` | deepseek/deepseek-v4-flash, resumed from the compiling version | 33 | token_budget: `INTERFACE` phase restored the exact interface (9 -> 0 deviations) but with 87 unsafe lines | 15/15 tests, interface exact, unsafe 87, Clippy 2 |
+| 1 cset | `run_20261116_221609` | deepseek/deepseek-v4-flash, then claude-haiku-5.5, resumed | 29 | no_progress after 2 `REVIEW` rounds | **15/15 tests, interface exact (0 deviations), unsafe 7 (built-in total; 4 unsafe lines), Clippy 0** |
 | 2 libpsbt | `run_20261112_222714` | qwen/qwen3-coder-next | 19 | no_progress (model looped in its notes without edits) | compiles, 2/8 tests |
 | 2 libpsbt | `run_20261112_223757` | qwen/qwen3-coder-next, then claude-haiku-5.5 | 19 | token_budget | 6/8 tests, unsafe 0, Clippy 2 (`cli.rs` still a stub; found by the final audit, which led to the `STUBS` phase) |
 | 2 libpsbt | `run_20261112_233622` | qwen/qwen3-coder-next, then claude-haiku-5.5 | 19 | token_budget (after `cli.rs` was translated in iteration 6, the model kept retrying the defective test) | **6/8 tests, unsafe 0, Clippy 2, no stubs** |
+| 2 libpsbt | `run_20261116_211540` | qwen, then deepseek, then haiku | 20 | token_budget (stuck on the defective test; best snapshot = start) | 6/8 tests, unsafe 0, Clippy 2 |
+| 2 libpsbt | `run_20261116_214117` | qwen/qwen3-coder-next | 0 | aborted at start (stale config) | - |
+| 2 libpsbt | `run_20261116_215353` | qwen, then deepseek, then haiku | 20 | token_budget: `REVIEW` rounds found real panics, but their fixes were discarded by the final snapshot restore (bug, fixed afterwards) | 6/8 tests, unsafe 0, Clippy 2 |
+| 2 libpsbt | `run_20261116_223403` | qwen, then deepseek, then haiku | 10 | no_progress after 2 back-to-back `REVIEW` rounds; review fixes kept | **6/8 tests, unsafe 0, Clippy 2** (defective provided test only) |
 
 ## Safety metrics
 
@@ -179,7 +187,10 @@ unsafe casts, pointer arithmetic) plus extras; the trajectory records which tool
   has type 0, while the C test shares the counter and only checks the first two records. A faithful `psbt_read` emits a type-4 record and fails it
   (`left: 4, right: 0`); passing would require special-casing the test data, which the assignment forbids, so the translation keeps the faithful behaviour
   (6/8 test results, i.e. one failing test counted in two targets).
-- Project 1 design note: an earlier translation of `cset.rs` (commit `d38693c`) added the bound `T: Clone + Hash + PartialEq` to `impl<T> Cset<T>`, changed
+- Project 1 design note: an earlier translation of `cset.rs` (commit `d38693c`, unsafe 14 on the built-in metric) added the bound `T: Clone + Hash + PartialEq` to `impl<T> Cset<T>`, changed
   several signatures (`&mut XXHU8` -> `&[u8]`, `&self` <-> `&mut self`) and hashed with `DefaultHasher`. An external review pointed out that this breaks the
-  required public interface, so the interface check and `INTERFACE` phase were added and project 1 was regenerated from the skeleton (see the run history).
-  The remaining unsafe code in project 1 is the unavoidable part of the exact interface (e.g. `&self -> &mut Vec`, a single `&mut u8` standing for a buffer).
+  required public interface, so the interface check and `INTERFACE` phase were added and the pipeline repaired the existing translation (no hand edits): the final
+  `cset.rs` matches `src/interfaces/cset.rs` exactly (`interface_check.py`: 0 deviations), with 7 unsafe sites on the built-in metric, all in a few helpers
+  needed by the exact interface (`&self -> &mut Vec`, a single `&mut u8` standing for a buffer, byte-level hashing of an unbounded `T`).
+- Project 2 review fixes (made by the agent in `REVIEW` rounds, not by hand): non-ASCII input no longer panics in `psbt_decode`'s hex/prefix paths, and hex encode/decode clamp the
+  destination size to the real buffer length.

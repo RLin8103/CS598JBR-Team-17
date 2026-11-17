@@ -154,6 +154,10 @@ pub fn psbt_read(
         return PsbtResult::InvalidState;
     }
     
+    if src_size > psbt.data_capacity {
+        return PsbtResult::OobWrite;
+    }
+
     // Clear and prepare PSBT for reading
     psbt.data.clear();
     psbt.data.extend_from_slice(&src[..src_size.min(src.len())]);
@@ -240,13 +244,14 @@ pub fn psbt_read(
                         };
                     }
 
-                    if let Some(ref mut handler) = elem_handler {
+                    if let Some(handler) = elem_handler.as_mut() {
                         let mut elem = PsbtElem::Record {
                             index: kvs as i32,
                             record: psbt.records.last().unwrap().clone(),
                         };
                         handler(&mut elem, user_data);
                     }
+                    kvs += 1;
                 }
             }
             
@@ -366,7 +371,7 @@ pub fn psbt_decode(
         return PsbtResult::ReadError;
     }
     
-    if &src[..b64_magic.len()] == b64_magic {
+    if src.as_bytes().starts_with(b64_magic.as_bytes()) {
         // Base64 decode
         let src_bytes = src.as_bytes();
         match base64_decode(src_bytes, dest) {
@@ -388,10 +393,10 @@ pub fn psbt_decode(
         }
         
         let mut pos = 0;
-        for (i, c) in src.chars().enumerate() {
+        for (i, &c) in src.as_bytes().iter().enumerate() {
             if i % 2 == 0 {
-                let c1 = c;
-                let c2 = src.chars().nth(i + 1).unwrap();
+                let c1 = c as char;
+                let c2 = src.as_bytes()[i + 1] as char;
                 
                 let v1 = hex_to_val(c1);
                 let v2 = hex_to_val(c2);

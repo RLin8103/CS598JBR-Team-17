@@ -1,0 +1,47 @@
+[22:34:03] project=libpsbt model=qwen/qwen3-coder-next toolchain=nightly-2025-05-13
+[22:34:03] baseline: cargo build
+[22:34:04] baseline: cargo test
+[22:34:04] baseline: cargo clippy (4 categories)
+[22:34:06] baseline: unsafe metrics
+[22:34:07] === iteration 1/40 phase=TESTS score=(1, 6, 0, 0, 0, 0, -2)
+[22:34:36] iter 1: cargo build
+[22:34:37] iter 1: cargo test
+[22:34:37] iter 1: cargo clippy (4 categories)
+[22:34:38] iter 1: unsafe metrics
+[22:34:39] iteration 1: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=93746
+[22:34:39] === iteration 2/40 phase=TESTS score=(1, 6, 0, 0, 0, 0, -2)
+[22:37:35] iteration 2: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=170895
+[22:37:35] === iteration 3/40 phase=TESTS score=(1, 6, 0, 0, 0, 0, -2)
+[22:37:40] iter 3: cargo build
+[22:37:41] iter 3: cargo test
+[22:37:41] iter 3: cargo clippy (4 categories)
+[22:37:43] iter 3: unsafe metrics
+[22:37:43] iteration 3: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=245829
+[22:37:44] === iteration 4/40 phase=TESTS score=(1, 6, 0, 0, 0, 0, -2)
+[22:40:38] iteration 4: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=341850
+[22:40:38] === iteration 5/40 phase=TESTS score=(1, 6, 0, 0, 0, 0, -2)
+[22:45:38] iteration 5: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=422986
+[22:45:38] === iteration 6/40 phase=TESTS score=(1, 6, 0, 0, 0, 0, -2)
+[22:48:14] iteration 6: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=520902
+[22:48:14] === iteration 7/40 phase=TESTS score=(1, 6, 0, 0, 0, 0, -2)
+[22:50:47] iteration 7: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=619658
+[22:50:47] === iteration 8/40 phase=TESTS score=(1, 6, 0, 0, 0, 0, -2)
+[22:51:14] iter 8: cargo build
+[22:51:15] iter 8: cargo test
+[22:51:16] iter 8: cargo clippy (4 categories)
+[22:51:17] iter 8: unsafe metrics
+[22:51:17] iteration 8: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=748151
+[22:51:17] === iteration 9/40 phase=REVIEW score=(1, 6, 0, 0, 0, 0, -2)
+[22:51:39] iter 9: cargo build
+[22:51:40] iter 9: cargo test
+[22:51:40] iter 9: cargo clippy (4 categories)
+[22:51:42] iter 9: unsafe metrics
+[22:51:42] iteration 9: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=873923
+[22:51:42] === iteration 10/40 phase=REVIEW score=(1, 6, 0, 0, 0, 0, -2)
+[22:51:52] iteration 10: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=995512
+[22:51:52] restoring best snapshot from iteration 9
+[22:51:52] final (best snapshot): cargo build
+[22:51:53] final (best snapshot): cargo test
+[22:51:53] final (best snapshot): cargo clippy (4 categories)
+[22:51:54] final (best snapshot): unsafe metrics
+[22:51:55] STOP: no_progress | iterations=10 (best 9) | compiles=True tests=6/8 unsafe=0 clippy=2

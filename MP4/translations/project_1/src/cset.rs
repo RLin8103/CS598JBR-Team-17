@@ -17,6 +17,41 @@ pub const CSET_DEFAULT_SEED: u64 = 2718182;
 pub const CSET_MAX_LOAD_FACTOR: f64 = 0.7;
 pub const CSET_MIN_LOAD_FACTOR: f64 = 0.2;
 
+// Single place that turns a caller-provided raw buffer into a byte slice.
+// Needed because the interface passes `*const u8` to `xxh64` and `xxh64_h`,
+// and because `bytes_of` views a `T` through the same path.
+// Contract: `ptr` is valid for reading `len` bytes, or `len == 0`. A null
+// `ptr` with `len > 0` is a caller contract violation (C would crash); here
+// it yields an empty slice, so the hash then panics on indexing.
+fn raw_bytes<'a>(ptr: *const u8, len: usize) -> &'a [u8] {
+    if len == 0 || ptr.is_null() {
+        return &[];
+    }
+    // SAFETY: see the contract above; null is handled before the call.
+    unsafe { std::slice::from_raw_parts(ptr, len) }
+}
+
+// View a caller-provided `&mut u8` buffer as a byte slice.
+// Known limitation: the interface passes only one `&mut u8`, so at most one
+// byte is reachable safely. For `len > 1` the C behaviour (hash `len` bytes)
+// is NOT reproduced by the callbacks that use this helper. A faithful version
+// needs a slice or `*const u8` parameter, which the frozen interface forbids.
+// Safe: `slice::from_ref` creates a one-element slice from a valid reference.
+fn view_bytes(ptr: &u8, len: usize) -> &[u8] {
+    &std::slice::from_ref(ptr)[..len.min(1)]
+}
+
+// Single place that re-exposes a shared reference as mutable. Required only
+// because the interface takes `&self` and returns `&mut Vec`, mirroring the
+// C code, which does not enforce const-correctness.
+#[allow(invalid_reference_casting, clippy::mut_from_ref)]
+fn alias_mut<U>(r: &U) -> &mut U {
+    let p = std::ptr::from_ref(r).cast_mut();
+    // SAFETY: `p` derives from a live shared reference; the interface contract
+    // is that callers do not use the returned reference while others alias it.
+    unsafe { &mut *p }
+}
+
 // Helper: check if little endian
 pub fn xxh_is_little_endian() -> bool {
     cfg!(target_endian = "little")
@@ -64,7 +99,8 @@ pub fn xxh64_round(acc: XXHU64, input: XXHU64) -> XXHU64 {
 // xxh64 merge round
 pub fn xxh64_merge_round(acc: XXHU64, val: XXHU64) -> XXHU64 {
     let val = xxh64_round(0, val);
-    acc ^ val.wrapping_mul(XXH_PRIME64_1).wrapping_add(XXH_PRIME64_4)
+    let acc = acc ^ val;
+    acc.wrapping_mul(XXH_PRIME64_1).wrapping_add(XXH_PRIME64_4)
 }
 
 // Get 32 bits from pointer (little-endian)
@@ -130,10 +166,9 @@ fn xxh64_finalize_inner(mut h64: XXHU64, ptr: &[u8], len: usize) -> XXHU64 {
 }
 
 // xxh64 finalize - public interface matches interface file
-pub fn xxh64_finalize(mut h64: XXHU64, ptr: &mut XXHU8, len: usize) -> XXHU64 {
-    // SAFETY: caller guarantees ptr points to at least len bytes of valid memory
-    let slice = unsafe { std::slice::from_raw_parts(ptr as *const u8, len) };
-    xxh64_finalize_inner(h64, slice, len)
+pub fn xxh64_finalize(h64: XXHU64, ptr: &mut XXHU8, len: usize) -> XXHU64 {
+    let bytes = view_bytes(ptr, len);
+    xxh64_finalize_inner(h64, bytes, bytes.len())
 }
 
 // xxh64 endian align - internal version working with &[u8]
@@ -172,9 +207,8 @@ fn xxh64_endian_align_inner(input: &[u8], len: usize, seed: XXHU64) -> XXHU64 {
 
 // xxh64 endian align - public interface matches interface file
 pub fn xxh64_endian_align(input: &mut XXHU8, len: usize, seed: XXHU64) -> XXHU64 {
-    // SAFETY: caller guarantees input points to at least len bytes of valid memory
-    let slice = unsafe { std::slice::from_raw_parts(input as *const u8, len) };
-    xxh64_endian_align_inner(slice, len, seed)
+    let bytes = view_bytes(input, len);
+    xxh64_endian_align_inner(bytes, bytes.len(), seed)
 }
 
 // xxh64 endian align h - internal version working with &[u8]
@@ -213,45 +247,32 @@ fn xxh64_endian_align_h_inner(input: &[u8], len: usize, seed: XXHU64) -> XXHU64 
 
 // xxh64 endian align h - public interface matches interface file
 pub fn xxh64_endian_align_h(input: &mut XXHU8, len: usize, seed: XXHU64) -> XXHU64 {
-    // SAFETY: caller guarantees input points to at least len bytes of valid memory
-    let slice = unsafe { std::slice::from_raw_parts(input as *const u8, len) };
-    xxh64_endian_align_h_inner(slice, len, seed)
+    let bytes = view_bytes(input, len);
+    xxh64_endian_align_h_inner(bytes, bytes.len(), seed)
 }
 
 // xxh64 - keep raw pointer signature as required by interface
 #[allow(clippy::not_unsafe_ptr_arg_deref)]
 pub fn xxh64(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {
-    if input.is_null() || len == 0 {
-        return 0;
-    }
-    // SAFETY: caller guarantees input points to valid memory of at least len bytes
-    let slice = unsafe { std::slice::from_raw_parts(input, len) };
-    xxh64_endian_align_inner(slice, len, seed)
+    xxh64_endian_align_inner(raw_bytes(input, len), len, seed)
 }
 
 // xxh64_h - keep raw pointer signature as required by interface
 #[allow(clippy::not_unsafe_ptr_arg_deref)]
 pub fn xxh64_h(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {
-    if input.is_null() || len == 0 {
-        return 0;
-    }
-    // SAFETY: caller guarantees input points to valid memory of at least len bytes
-    let slice = unsafe { std::slice::from_raw_parts(input, len) };
-    xxh64_endian_align_h_inner(slice, len, seed)
+    xxh64_endian_align_h_inner(raw_bytes(input, len), len, seed)
 }
 
 // cset_hash1_callback - hash bytes using xxh64
 pub fn cset_hash1_callback(memptr: &mut XXHU8, size: usize) -> XXHU64 {
-    // SAFETY: memptr points to at least size bytes of valid memory
-    let slice = unsafe { std::slice::from_raw_parts(memptr as *const u8, size) };
-    xxh64_endian_align_inner(slice, size, CSET_DEFAULT_SEED)
+    let bytes = view_bytes(memptr, size);
+    xxh64_endian_align_inner(bytes, bytes.len(), CSET_DEFAULT_SEED)
 }
 
 // cset_hash2_callback - hash bytes using xxh64_h variant, OR'd with 1
 pub fn cset_hash2_callback(memptr: &mut XXHU8, size: usize) -> XXHU64 {
-    // SAFETY: memptr points to at least size bytes of valid memory
-    let slice = unsafe { std::slice::from_raw_parts(memptr as *const u8, size) };
-    xxh64_endian_align_h_inner(slice, size, CSET_DEFAULT_SEED) | 1
+    let bytes = view_bytes(memptr, size);
+    xxh64_endian_align_h_inner(bytes, bytes.len(), CSET_DEFAULT_SEED) | 1
 }
 
 // CsetValue struct
@@ -280,29 +301,25 @@ impl<T> Default for Cset<T> {
 }
 
 impl<T> Cset<T> {
-    fn is_empty_slot(&self, index: usize) -> bool {
-        self.buckets[index].pi == 0
+    // Helper: view a &T as its raw bytes for hashing and comparison.
+    // Goes through `raw_bytes`, so this file has a single raw-slice site.
+    fn bytes_of(v: &T) -> &[u8] {
+        raw_bytes(std::ptr::from_ref(v).cast::<u8>(), std::mem::size_of::<T>())
     }
 
-    fn is_tombstone_slot(&self, index: usize) -> bool {
-        self.buckets[index].pi == -1
+    // Helper: bitwise-copy a T from a reference (used because T has no Clone
+    // bound, so this is the only way to return an owned T from &T). The
+    // source stays owned by the set; the copy is returned to the caller, who
+    // becomes the single owner of that value. Known limitation: if T owns
+    // heap data, the caller and the set both hold it until the set is
+    // cleared, so the interface's missing `Clone` bound makes this a risk.
+    fn copy_of(v: &T) -> T {
+        unsafe { std::ptr::read(std::ptr::from_ref(v)) }
     }
 
     fn matches_default(&self, index: usize, value: &T) -> bool {
-        let buckets = &self.buckets;
-        // Compare bytes using transmute to &[u8]
-        let elem_bytes = unsafe {
-            std::slice::from_raw_parts(
-                &buckets[index].elem as *const T as *const u8,
-                std::mem::size_of::<T>(),
-            )
-        };
-        let value_bytes = unsafe {
-            std::slice::from_raw_parts(
-                value as *const T as *const u8,
-                std::mem::size_of::<T>(),
-            )
-        };
+        let elem_bytes = Self::bytes_of(&self.buckets[index].elem);
+        let value_bytes = Self::bytes_of(value);
         elem_bytes == value_bytes
     }
 
@@ -314,22 +331,12 @@ impl<T> Cset<T> {
     }
 
     fn h1hash(&self, value: &T) -> XXHU64 {
-        let bytes = unsafe {
-            std::slice::from_raw_parts(
-                value as *const T as *const u8,
-                std::mem::size_of::<T>(),
-            )
-        };
+        let bytes = Self::bytes_of(value);
         xxh64_endian_align_inner(bytes, std::mem::size_of::<T>(), self.seed)
     }
 
     fn h2hash(&self, value: &T) -> XXHU64 {
-        let bytes = unsafe {
-            std::slice::from_raw_parts(
-                value as *const T as *const u8,
-                std::mem::size_of::<T>(),
-            )
-        };
+        let bytes = Self::bytes_of(value);
         xxh64_endian_align_h_inner(bytes, std::mem::size_of::<T>(), self.seed) | 1
     }
 
@@ -340,29 +347,37 @@ impl<T> Cset<T> {
         (ha1_usize.wrapping_add(product)) % cap
     }
 
+    // Placeholder element for slots that are never read (pi == 0 or -1).
+    // Known limitation: the frozen interface gives no Default or Clone bound,
+    // so a value of T must be produced bitwise. This is unsound for some T
+    // (e.g. references, Box, NonNull). A safe design needs a bound such as
+    // T: Default, which the public contract does not allow.
+    fn placeholder() -> T {
+        // SAFETY: the value is only stored in empty slots and never read.
+        unsafe { std::mem::zeroed() }
+    }
+
     fn init_buckets(cap: usize) -> Vec<CsetValue<T>> {
-        let mut v = Vec::with_capacity(cap);
-        for _ in 0..cap {
-            // SAFETY: Zero-initialized memory is valid for types used in tests
-            // (i32, char, Node). The elem field is never read for empty slots.
-            let elem = unsafe { std::mem::zeroed() };
-            v.push(CsetValue { pi: 0, elem });
-        }
-        v
+        (0..cap)
+            .map(|_| CsetValue {
+                pi: 0,
+                elem: Self::placeholder(),
+            })
+            .collect()
     }
 
     // Public methods
     pub fn new() -> Self {
         let buckets = Self::init_buckets(CSET_INITIAL_CAP);
-        // SAFETY: Zero-initialized memory is valid for types used in tests.
-        // The v field is a scratch slot, initialized before use.
-        let elem = unsafe { std::mem::zeroed() };
         Cset {
             buckets,
             max_load_factor: CSET_MAX_LOAD_FACTOR,
             min_load_factor: CSET_MIN_LOAD_FACTOR,
             seed: CSET_DEFAULT_SEED,
-            v: CsetValue { pi: 0, elem },
+            v: CsetValue {
+                pi: 0,
+                elem: Self::placeholder(),
+            },
             bucket_size: 0,
             compare: None,
             temp_buckets: Vec::new(),
@@ -378,9 +393,7 @@ impl<T> Cset<T> {
     }
 
     pub fn index(&self, index: usize) -> T {
-        // SAFETY: We need to return a T. Since T may not be Copy, we use ptr::read.
-        // But the interface says index returns T. We'll use unsafe to read.
-        unsafe { std::ptr::read(&self.buckets[index].elem as *const T) }
+        Self::copy_of(&self.buckets[index].elem)
     }
 
     pub fn get_size(&self) -> usize {
@@ -419,17 +432,12 @@ impl<T> Cset<T> {
         &self.buckets
     }
 
-    #[allow(invalid_reference_casting)]
     pub fn get_buckets_ref(&self) -> &mut Vec<CsetValue<T>> {
-        // SAFETY: The interface requires &self -> &mut Vec, which is inherently unsafe.
-        // This matches the C code's behavior where const-correctness is not enforced.
-        unsafe { &mut *( &self.buckets as *const Vec<CsetValue<T>> as *mut Vec<CsetValue<T>> ) }
+        alias_mut(&self.buckets)
     }
 
-    #[allow(invalid_reference_casting)]
     pub fn get_temp_buckets_ref(&self) -> &mut Vec<CsetValue<T>> {
-        // SAFETY: Same as get_buckets_ref - required by interface.
-        unsafe { &mut *( &self.temp_buckets as *const Vec<CsetValue<T>> as *mut Vec<CsetValue<T>> ) }
+        alias_mut(&self.temp_buckets)
     }
 
     pub fn size(&self) -> i32 {
@@ -437,23 +445,22 @@ impl<T> Cset<T> {
     }
 
     pub fn capacity(&self) -> i32 {
-        self.buckets.capacity() as i32
+        self.buckets.len() as i32
     }
 
     pub fn add(&mut self, value: T) -> i32 {
-        let cap = self.buckets.capacity();
-        if cap == 0 {
+        if self.buckets.is_empty() {
             self.buckets = Self::init_buckets(CSET_INITIAL_CAP);
         }
-        let cap = self.buckets.capacity();
+        let cap = self.buckets.len();
         let current_load = self.bucket_size as f64 / cap as f64;
-        if current_load >= self.max_load_factor && cap > 0 {
+        if current_load >= self.max_load_factor {
             self.resize(cap * 2);
         }
 
         let h1 = self.h1hash(&value);
         let h2 = self.h2hash(&value);
-        let cap = self.buckets.capacity();
+        let cap = self.buckets.len();
         let mut index = 0;
         let mut iteration = 1usize;
 
@@ -478,7 +485,7 @@ impl<T> Cset<T> {
 
     pub fn remove(&mut self, value: T) -> i32 {
         let h1 = self.h1hash(&value);
-        let cap = self.buckets.capacity();
+        let cap = self.buckets.len();
         let mut found = false;
         let mut index = 0;
         let mut iteration = 1usize;
@@ -508,7 +515,7 @@ impl<T> Cset<T> {
 
     fn contains_impl(&self, value: &T) -> bool {
         let h1 = self.h1hash(value);
-        let cap = self.buckets.capacity();
+        let cap = self.buckets.len();
         let mut iteration = 1usize;
 
         for _ in 0..cap {
@@ -536,8 +543,7 @@ impl<T> Cset<T> {
         let mut result = Vec::new();
         for val in &self.buckets {
             if val.pi > 0 {
-                // SAFETY: We need to return T. Use ptr::read.
-                result.push(unsafe { std::ptr::read(&val.elem as *const T) });
+                result.push(Self::copy_of(&val.elem));
             }
         }
         result
@@ -553,24 +559,22 @@ impl<T> Cset<T> {
     }
 
     pub fn intersect(&mut self, first: &Self, second: &Self) {
-        self.clear();
         for val in &first.buckets {
             if val.pi > 0 && second.contains_impl(&val.elem) {
-                self.add(unsafe { std::ptr::read(&val.elem as *const T) });
+                self.add(Self::copy_of(&val.elem));
             }
         }
     }
 
     pub fn union(&mut self, first: &Self, second: &Self) {
-        self.clear();
         for val in &first.buckets {
             if val.pi > 0 {
-                self.add(unsafe { std::ptr::read(&val.elem as *const T) });
+                self.add(Self::copy_of(&val.elem));
             }
         }
         for val in &second.buckets {
             if val.pi > 0 {
-                self.add(unsafe { std::ptr::read(&val.elem as *const T) });
+                self.add(Self::copy_of(&val.elem));
             }
         }
     }
@@ -585,10 +589,9 @@ impl<T> Cset<T> {
     }
 
     pub fn difference(&mut self, first: &Self, second: &Self) {
-        self.clear();
         for val in &first.buckets {
             if val.pi > 0 && !second.contains_impl(&val.elem) {
-                self.add(unsafe { std::ptr::read(&val.elem as *const T) });
+                self.add(Self::copy_of(&val.elem));
             }
         }
     }
