@@ -172,6 +172,7 @@ class Pipeline:
         state["failed"] = t.get("failed", 0)
         state["unsafe_total"] = unsafe_primary_total(state["unsafe"])
         state["stubs"] = self.ws.stub_findings()
+        state["interface"] = self.ws.interface_findings()
         c = state["clippy"]
         state["clippy_counts"] = c["counts"] if c else None
         state["clippy_total"] = c["total"] if c else None
@@ -184,6 +185,9 @@ class Pipeline:
             return "POLICY"
         if not s["compiles"]:
             return "COMPILE"
+        if s["interface"]:
+            # The CRUST-Bench interface is part of the specification: signatures must stay exactly as given.
+            return "INTERFACE"
         if s["stubs"] and (s["failed"] == 0 or s["passed"] > 0):
             # Untranslated bodies remain although the code compiles (and the tests either pass or the failures are
             # not about missing code): finish the translation of the modules the tests do not exercise.
@@ -201,7 +205,7 @@ class Pipeline:
     def score_of(s: dict) -> tuple:
         errors = s["build"]["error_count"] if not s["compiles"] else 0
         return (
-            int(s["compiles"]), s["passed"], -errors, -len(s["stubs"]), -s["unsafe_total"],
+            int(s["compiles"]), -len(s["interface"]), s["passed"], -errors, -len(s["stubs"]), -s["unsafe_total"],
             -(s["clippy_total"] if s["clippy_total"] is not None else 10_000),
         )
 
@@ -232,7 +236,7 @@ class Pipeline:
         return {
             "iteration": it, "phase": s["phase"], "compiles": s["compiles"],
             "tests_passed": s["passed"], "tests_total": s["total"],
-            "build_errors": s["build"]["error_count"], "stubs_remaining": len(s["stubs"]),
+            "build_errors": s["build"]["error_count"], "stubs_remaining": len(s["stubs"]), "interface_deviations": len(s["interface"]),
             "clippy": s["clippy_counts"], "clippy_total": s["clippy_total"],
             "unsafe_primary": {k: totals.get(k, 0) for k in ("unsafe_lines", "unsafe_calls", "unsafe_casts", "pointer_arithmetic")},
             "unsafe_extra": {k: v for k, v in totals.items() if k not in ("unsafe_lines", "unsafe_calls", "unsafe_casts", "pointer_arithmetic")},
@@ -274,6 +278,7 @@ class Pipeline:
             f"- unsafe metrics ({s['unsafe'].get('tool')}): lines={t.get('unsafe_lines', 0)}, calls={t.get('unsafe_calls', 0)}, "
             f"casts={t.get('unsafe_casts', 0)}, pointer_arithmetic={t.get('pointer_arithmetic', 0)}\n"
             f"- clippy warnings: {clippy}\n"
+            f"- interface deviations (signatures that differ from src/interfaces/*.rs): {len(s['interface'])}\n"
             f"- untranslated bodies (`unimplemented!()`/`todo!()`): {len(s['stubs'])}"
             + ("".join(f"\n  - {x}" for x in s["stubs"][:15]) if s["stubs"] else "") + "\n"
             f"- tokens used so far: {self.llm.total_tokens} / {self.limits['max_total_tokens']}"
@@ -292,6 +297,13 @@ class Pipeline:
         parts: list[str] = []
         if s["policy"]:
             parts.append("## Policy violations\n" + "\n".join(f"- {p}" for p in s["policy"]))
+        if s["interface"]:
+            parts.append("## Interface deviations (the interface files are part of the specification and hidden tests are compiled against them)\n"
+                         + "\n".join(f"- {x}" for x in s["interface"][:14])
+                         + ("\n- ... more omitted" if len(s["interface"]) > 14 else "")
+                         + "\nRestore every signature, struct/enum definition and `impl` header exactly as in `src/interfaces/`. "
+                           "Do not add or remove generic bounds, change `&self`/`&mut self`, or change parameter or return types to make the body easier. "
+                           "If a signature forces raw memory access, keep the signature and confine the unsafe code to a few small private helpers.")
         b = s["build"]
         if not b["ok"]:
             parts.append("## cargo build errors\n" + fence(cut(b["pretty"], cap // 2, "... [more diagnostics omitted; fix these first]")))
@@ -524,9 +536,12 @@ class Pipeline:
         no_edit_streak = 0
         it = 0
         last_progress_it = 0
+        review_rounds = self.limits.get("review_rounds", 2)
+        reviews_done = 0
+        review_prior = "TESTS"
         try:
             while True:
-                if state["phase"] == "DONE":
+                if state["phase"] == "DONE" and reviews_done >= review_rounds:
                     stop_reason = "success"
                     break
                 if it >= self.limits["max_iterations"]:
@@ -535,9 +550,19 @@ class Pipeline:
                 if self.llm.total_tokens >= self.limits["max_total_tokens"]:
                     stop_reason = "token_budget"
                     break
-                if it - last_progress_it >= self.limits["no_progress_patience"]:
+                stalled = it - last_progress_it >= self.limits["no_progress_patience"]
+                if reviews_done < review_rounds and (state["phase"] == "DONE" or stalled):
+                    # Everything the automatic checks can see is done (or stuck): ask the model to compare its code with
+                    # the C sources for behaviour the visible tests do not cover (hidden tests exercise the same API).
+                    reviews_done += 1
+                    last_progress_it = it
+                    review_prior = state["phase"]
+                    state = dict(state, phase="REVIEW")
+                    self.log_event("review_round", iteration=it + 1, round=reviews_done, prior_phase=review_prior)
+                elif stalled:
                     stop_reason = "no_progress"
                     break
+                was_review = state["phase"] == "REVIEW"
                 it += 1
                 self.say(f"=== iteration {it}/{self.limits['max_iterations']} phase={state['phase']} score={state['score']}")
                 # Iteration 1 is answered directly from the first prompt (task + baseline check).
@@ -551,7 +576,7 @@ class Pipeline:
                     notices.append(p)
                 if turn["done"]:
                     done_streak += 1
-                    if state["phase"] != "DONE":
+                    if state["phase"] not in ("DONE", "REVIEW"):
                         notices.append(f"You sent <done/> but the targets are not met (phase {state['phase']}).")
                 else:
                     done_streak = 0
@@ -565,7 +590,7 @@ class Pipeline:
                     no_edit_streak = 0
                     prev_phase = state["phase"]
                     state = self.run_checks(f"iter {it}")
-                    if prev_phase in ("SAFETY", "CLIPPY") and state["score"] < best:
+                    if prev_phase in ("SAFETY", "CLIPPY", "REVIEW") and state["score"] < best:
                         # Refinement phases must never lose ground: undo an edit that broke the build/tests
                         # or made unsafe/Clippy worse, and tell the model so it tries a different change.
                         notices.append(
@@ -585,7 +610,8 @@ class Pipeline:
                         self.restore(best_snap)
                         state = dict(best_state, label=f"iter {it} (edit reverted)")
                 else:
-                    no_edit_streak += 1
+                    if not turn["done"]:
+                        no_edit_streak += 1
                     notices.append("No valid edit was applied in your previous reply. Write an <edit> block now; keep <notes> short."
                                    if not turn["done"] else "No edits were made.")
                     if no_edit_streak >= 2 and self.llm.escalate(f"{no_edit_streak} replies in a row without an applied edit"):
@@ -593,13 +619,18 @@ class Pipeline:
                         self.log_event("escalate", iteration=it, model=self.llm.model)
                         no_edit_streak = 0
                     state = dict(state, label=f"iter {it} (unchanged)")
+                if was_review:
+                    if not turn["edits"]:
+                        reviews_done = review_rounds  # the review found nothing to change: no further rounds
+                    if state["phase"] == "REVIEW":  # no checks were re-run, so the real phase is the one before the review
+                        state = dict(state, phase=review_prior)
                 self.save_checks(it, state)
                 self.say(f"iteration {it}: phase={state['phase']} compiles={state['compiles']} tests={state['passed']}/{state['total']} "
                          f"unsafe={state['unsafe_total']} clippy={state['clippy_total']} tokens={self.llm.total_tokens}")
                 if state["score"] > best:
                     best, best_snap, best_it, best_state = state["score"], self.best_snapshot(), it, state
                     last_progress_it = it
-                elif turn["edits"] and state["phase"] in ("COMPILE", "TESTS", "POLICY", "STUBS"):
+                elif turn["edits"] and state["phase"] in ("COMPILE", "TESTS", "POLICY", "STUBS", "INTERFACE"):
                     # The model is actively changing code (e.g. working through compile errors whose
                     # count may temporarily rise): that is activity, not a stall. Only score
                     # improvements update the best snapshot, but activity resets the patience clock.

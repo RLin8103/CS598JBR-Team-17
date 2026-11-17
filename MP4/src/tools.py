@@ -17,6 +17,9 @@ import sys
 import time
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import interface_check  # noqa: E402  (same directory)
+
 HERE = Path(__file__).resolve().parent
 
 
@@ -260,6 +263,24 @@ class Workspace:
                 if pat in text:
                     line = text[: text.index(pat)].count("\n") + 1
                     found.append(f"{self.rel(p)}:{line}: forbidden construct `{pat}`")
+        return found
+
+    def interface_findings(self) -> list[str]:
+        """Declared items of every `src/interfaces/<module>.rs` that `src/<module>.rs` does not provide unchanged."""
+        found: list[str] = []
+        idir = self.crate / "src" / "interfaces"
+        if not idir.exists():
+            return found
+        for spec in sorted(idir.glob("*.rs")):
+            impl = self.crate / "src" / spec.name
+            if not impl.exists():
+                found.append(f"src/{spec.name}: missing file (interface `src/interfaces/{spec.name}` has no implementation module)")
+                continue
+            try:
+                found.extend(interface_check.check_module(spec.read_text(encoding="utf-8", errors="replace"),
+                                                          impl.read_text(encoding="utf-8", errors="replace"), spec.stem))
+            except Exception as exc:  # the checker must never stop a run
+                found.append(f"(interface checker could not analyse src/{spec.name}: {exc})")
         return found
 
     def stub_findings(self) -> list[str]:

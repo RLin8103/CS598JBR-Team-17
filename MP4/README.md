@@ -17,6 +17,7 @@ MP4/
 │   ├── agent.py             # controller / main loop / prompt building / logging
 │   ├── tools.py             # cargo runner, result parsers, guarded file edits, redaction
 │   ├── llm.py               # OpenAI-compatible chat client (API key from env var only)
+│   ├── interface_check.py   # compares src/<module>.rs with the provided src/interfaces/<module>.rs
 │   ├── unsafe_check.py      # built-in approximation of the unsafe-metrics tool (fallback)
 │   ├── run_pipeline.sh      # one-command reproduction for a project
 │   └── dev/mock_llm_server.py   # offline smoke test of the plumbing only (not used for results)
@@ -34,7 +35,7 @@ MP4/
 | Item | Value |
 |---|---|
 | Agentic framework | `crust_agent` 1.0.0 - own controller in Python (no third-party agent framework) |
-| Model | set in `configs/pipeline.json` (`llm.model`, default `qwen/qwen3-coder-next` via OpenRouter, with `anthropic/claude-haiku-5.5` and `deepseek/deepseek-v4-flash` as automatic fallbacks); the model actually used for each call is recorded in `trajectories/project_N/run_*/trajectory.jsonl` and `config_used.json`. History: the first runs used free OpenRouter models (`google/gemma-4-31b-it:free`, `cohere/north-mini-code:free`, `nvidia/nemotron-3-ultra-550b-a55b:free`); they were rate-limited (50 free requests/day), spent most of their output on hidden reasoning tokens, and never got the crate to compile, so the pipeline switched to a paid non-reasoning coding model. Those earlier runs are kept in `trajectories/` |
+| Model | set in `configs/pipeline.json` (`llm.model`, default `qwen/qwen3-coder-next` via OpenRouter, with `deepseek/deepseek-v4-flash` and then `anthropic/claude-haiku-5.5` as automatic fallbacks); the model actually used for each call is recorded in `trajectories/project_N/run_*/trajectory.jsonl` and `config_used.json`. History: the first runs used free OpenRouter models (`google/gemma-4-31b-it:free`, `cohere/north-mini-code:free`, `nvidia/nemotron-3-ultra-550b-a55b:free`); they were rate-limited (50 free requests/day), spent most of their output on hidden reasoning tokens, and never got the crate to compile, so the pipeline switched to a paid non-reasoning coding model. Those earlier runs are kept in `trajectories/` |
 | Provider / runtime | any OpenAI-compatible `chat/completions` endpoint; default OpenRouter (`https://openrouter.ai/api/v1`). Local runtimes (Ollama, vLLM, llama.cpp server, LM Studio) work by setting `LLM_BASE_URL` |
 | Inference settings | temperature 0.2, top_p 0.95, max_tokens 16000 per reply, request timeout 900 s, 2 retries per model with back-off, then fallback to the next model (`configs/pipeline.json`) |
 | Rust toolchain | `nightly-2025-05-13` (cargo 1.89.0-nightly, clippy 0.1.88), the same one used for grading |
@@ -96,8 +97,8 @@ cargo +nightly-2025-05-13 clippy --all-targets --all-features -- \
    the controller applies edits (refusing protected paths), re-runs all four checks and sends back the compiler
    errors, failing tests and panic messages, Clippy findings per category, unsafe metrics with offending lines,
    plus the current Rust files and the model's own notes.
-5. The feedback has a *phase* that tells the model what to prioritise: `COMPILE` -> `TESTS` -> `STUBS` (bodies still `unimplemented!()`, e.g. modules the tests do not exercise) -> `SAFETY` -> `CLIPPY` -> `DONE`.
-6. The best snapshot (lexicographic score: compiles, tests passed, fewer build errors, lower unsafe total, lower Clippy total)
+5. The feedback has a *phase* that tells the model what to prioritise: `COMPILE` -> `INTERFACE` (a public signature, type or `impl` header differs from `src/interfaces/*.rs`, found by `src/interface_check.py`) -> `TESTS` -> `STUBS` (bodies still `unimplemented!()`, e.g. modules the tests do not exercise) -> `SAFETY` -> `CLIPPY` -> `DONE`. When everything is `DONE` (or the run stalls), up to `review_rounds` (2) `REVIEW` turns ask the model to compare every function with the C source for behaviour the visible tests do not cover (size/length parameters, empty input, table bounds, callbacks); edits made in a review are rolled back if they lower the score, and a review reply of `<done/>` with no edits ends the reviews.
+6. The best snapshot (lexicographic score: compiles, fewer interface deviations, tests passed, fewer build errors, fewer stubs, lower unsafe total, lower Clippy total)
    is restored at the end, so a regression in the final iteration cannot be what gets submitted.
 
 Guard rails (enforced by the controller, logged in the trajectory): the agent cannot write outside `src/*.rs`;
@@ -122,7 +123,8 @@ Repair-loop safeguards added during the experiments (all visible in the trajecto
   shown the errors of the reverted attempt (`rollback` events).
 - *Escalation*: after 2 consecutive replies without an applied edit the controller switches to the next model in `fallback_models` (`escalate` events).
 - *Tolerant parsing*: unclosed `<edit>`/`<file>` blocks and CDATA/fences are accepted; malformed edit blocks are reported back to the model.
-- Edits only reset the no-progress counter in the `COMPILE`/`TESTS`/`POLICY` phases; in `SAFETY`/`CLIPPY` only score improvements count.
+- *Interface conformance*: after every edit `interface_check.py` compares each `src/<module>.rs` with `src/interfaces/<module>.rs` (function signatures including `&self`/`&mut self`, parameter and return types, struct/enum/const/alias definitions, `impl` headers and generic bounds). Deviations are reported to the model and block `DONE`.
+- Edits only reset the no-progress counter in the `COMPILE`/`INTERFACE`/`TESTS`/`POLICY`/`STUBS` phases; in `SAFETY`/`CLIPPY` only score improvements count.
 
 ## Trajectories
 
@@ -170,13 +172,14 @@ unsafe casts, pointer arithmetic) plus extras; the trajectory records which tool
 - API / usage limits that affected the experiment: OpenRouter's free tier allows 50 requests/day (1000 with at least $10 of credit) and individual free
   providers return upstream 429s; the first runs hit both and one run ended on the daily cap. The free reasoning models (cohere/north-mini-code, nemotron)
   also spend the output budget on hidden reasoning tokens and often return empty completions, so the pipeline moved to paid non-reasoning models
-  (`qwen/qwen3-coder-next` by default; `anthropic/claude-haiku-5.5` and `deepseek/deepseek-v4-flash` as fallbacks). `max_tokens` per reply is 16,000, so
+  (`qwen/qwen3-coder-next` by default; `deepseek/deepseek-v4-flash` and `anthropic/claude-haiku-5.5` as fallbacks). `max_tokens` per reply is 16,000, so
   long files must be written function by function; the whole project cost roughly $3 of credit (about $0.01 per iteration for qwen, more for haiku).
   Context is about 40-120k prompt tokens per iteration because the C sources, interface, tests and current Rust files are resent every turn.
 - Known test defect (project 2): `read_test_vector` in the provided `src/bin/test.rs` declares `step` as a local variable, so it asserts that *every* record
   has type 0, while the C test shares the counter and only checks the first two records. A faithful `psbt_read` emits a type-4 record and fails it
   (`left: 4, right: 0`); passing would require special-casing the test data, which the assignment forbids, so the translation keeps the faithful behaviour
   (6/8 test results, i.e. one failing test counted in two targets).
-- Project 1 design note: the submitted `cset.rs` adds the bounds `T: Clone + Hash + PartialEq` to `impl<T> Cset<T>` and hashes with Rust's `DefaultHasher`
-  instead of xxh64 (this is what removed most unsafe code). The interface file itself is unchanged. The bound-free version (unsafe 36) is kept in git
-  history (commit `7d2e323`).
+- Project 1 design note: an earlier translation of `cset.rs` (commit `d38693c`) added the bound `T: Clone + Hash + PartialEq` to `impl<T> Cset<T>`, changed
+  several signatures (`&mut XXHU8` -> `&[u8]`, `&self` <-> `&mut self`) and hashed with `DefaultHasher`. An external review pointed out that this breaks the
+  required public interface, so the interface check and `INTERFACE` phase were added and project 1 was regenerated from the skeleton (see the run history).
+  The remaining unsafe code in project 1 is the unavoidable part of the exact interface (e.g. `&self -> &mut Vec`, a single `&mut u8` standing for a buffer).
