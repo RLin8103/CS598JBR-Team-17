@@ -565,6 +565,7 @@ class Pipeline:
                     stop_reason = "no_progress"
                     break
                 was_review = state["phase"] == "REVIEW"
+                checked_now = False
                 it += 1
                 self.say(f"=== iteration {it}/{self.limits['max_iterations']} phase={state['phase']} score={state['score']}")
                 # Iteration 1 is answered directly from the first prompt (task + baseline check).
@@ -592,6 +593,7 @@ class Pipeline:
                     no_edit_streak = 0
                     prev_phase = state["phase"]
                     state = self.run_checks(f"iter {it}")
+                    checked_now = True
                     if prev_phase in ("INTERFACE", "SAFETY", "CLIPPY", "REVIEW") and state["score"] < best:
                         # Refinement phases must never lose ground: undo an edit that broke the build/tests
                         # or made unsafe/Clippy worse, and tell the model so it tries a different change.
@@ -611,6 +613,7 @@ class Pipeline:
                         self.log_event("rollback", iteration=it, worse_score=list(state["score"]), restored_score=list(best))
                         self.restore(best_snap)
                         state = dict(best_state, label=f"iter {it} (edit reverted)")
+                        checked_now = False
                 else:
                     if not turn["done"]:
                         no_edit_streak += 1
@@ -634,7 +637,7 @@ class Pipeline:
                 self.say(f"iteration {it}: phase={state['phase']} compiles={state['compiles']} tests={state['passed']}/{state['total']} "
                          f"unsafe={state['unsafe_total']} clippy={state['clippy_total']} tokens={self.llm.total_tokens}")
                 improved = state["score"] > best
-                if improved or (turn["edits"] and state["score"] == best and state["compiles"]):
+                if improved or (checked_now and state["score"] == best and state["compiles"]):
                     # An edit that keeps the score (e.g. a review fix for a panic the tests do not cover) must
                     # not be lost when the final snapshot is restored.
                     best, best_snap, best_it, best_state = state["score"], self.best_snapshot(), it, state
