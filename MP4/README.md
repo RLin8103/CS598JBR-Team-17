@@ -181,7 +181,7 @@ unsafe casts, pointer arithmetic) plus extras; the trajectory records which tool
   providers return upstream 429s; the first runs hit both and one run ended on the daily cap. The free reasoning models (cohere/north-mini-code, nemotron)
   also spend the output budget on hidden reasoning tokens and often return empty completions, so the pipeline moved to paid non-reasoning models
   (`qwen/qwen3-coder-next` by default; `deepseek/deepseek-v4-flash` and `anthropic/claude-haiku-5.5` as fallbacks). `max_tokens` per reply is 16,000, so
-  long files must be written function by function; the whole project cost roughly $3 of credit (about $0.01 per iteration for qwen, more for haiku).
+  long files must be written function by function; the paid runs cost about $5.40 of credit in total (summed from the `cost` fields in the trajectories: about $1.16 for project 1 and $4.24 for project 2).
   Context is about 40-120k prompt tokens per iteration because the C sources, interface, tests and current Rust files are resent every turn.
 - Known test defect (project 2): `read_test_vector` in the provided `src/bin/test.rs` declares `step` as a local variable, so it asserts that *every* record
   has type 0, while the C test shares the counter and only checks the first two records. A faithful `psbt_read` emits a type-4 record and fails it
