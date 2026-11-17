@@ -25,7 +25,7 @@
   "toolchain": "nightly-2025-05-13",
   "limits": {
     "max_iterations": 40,
-    "max_total_tokens": 2000000,
+    "max_total_tokens": 4000000,
     "no_progress_patience": 8,
     "review_rounds": 2,
     "max_read_rounds_per_iteration": 1,

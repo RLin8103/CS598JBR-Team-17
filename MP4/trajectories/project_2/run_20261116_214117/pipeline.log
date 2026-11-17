@@ -1,0 +1,4 @@
+[21:41:17] project=libpsbt model=qwen/qwen3-coder-next toolchain=nightly-2025-05-13
+[21:41:18] baseline: cargo build
+[21:41:18] baseline: cargo test
+[21:41:18] baseline: cargo clippy (4 categories)

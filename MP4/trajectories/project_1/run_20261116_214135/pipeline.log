@@ -1,0 +1,147 @@
+[21:41:37] project=cset model=deepseek/deepseek-v4-flash toolchain=nightly-2025-05-13
+[21:41:37] baseline: cargo build
+[21:41:37] baseline: cargo test
+[21:41:37] baseline: cargo clippy (4 categories)
+[21:41:38] baseline: unsafe metrics
+[21:41:40] === iteration 1/40 phase=INTERFACE score=(1, 15, -9, 0, 0, -14, 0)
+[21:42:00] iter 1: cargo build
+[21:42:00] iter 1: cargo test
+[21:42:01] iter 1: cargo clippy (4 categories)
+[21:42:02] iter 1: unsafe metrics
+[21:42:02] iteration 1: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=30752
+[21:42:02] === iteration 2/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:42:10] iteration 2: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=65379
+[21:42:10] === iteration 3/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:42:48] iter 3: cargo build
+[21:42:49] iter 3: unsafe metrics
+[21:42:49] iteration 3: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=113588
+[21:42:49] === iteration 4/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:42:56] iter 4: cargo build
+[21:42:56] iter 4: unsafe metrics
+[21:42:56] iteration 4: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=164942
+[21:42:56] === iteration 5/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:43:01] iter 5: cargo build
+[21:43:01] iter 5: unsafe metrics
+[21:43:01] iteration 5: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=217889
+[21:43:01] === iteration 6/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:43:34] iter 6: cargo build
+[21:43:34] iter 6: unsafe metrics
+[21:43:34] iteration 6: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=278418
+[21:43:34] === iteration 7/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:43:38] iter 7: cargo build
+[21:43:38] iter 7: unsafe metrics
+[21:43:39] iteration 7: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=332875
+[21:43:39] === iteration 8/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:44:11] iter 8: cargo build
+[21:44:11] iter 8: unsafe metrics
+[21:44:11] iteration 8: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=393443
+[21:44:11] === iteration 9/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:44:22] iter 9: cargo build
+[21:44:23] iter 9: unsafe metrics
+[21:44:23] iteration 9: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=449992
+[21:44:23] === iteration 10/40 phase=REVIEW score=(1, 15, -8, 0, 0, -14, 0)
+[21:44:31] iter 10: cargo build
+[21:44:31] iter 10: unsafe metrics
+[21:44:31] iteration 10: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=507363
+[21:44:31] === iteration 11/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:44:40] iter 11: cargo build
+[21:44:40] iter 11: unsafe metrics
+[21:44:41] iteration 11: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=566161
+[21:44:41] === iteration 12/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:45:15] iter 12: cargo build
+[21:45:15] iter 12: unsafe metrics
+[21:45:15] iteration 12: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=629711
+[21:45:15] === iteration 13/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:45:20] iter 13: cargo build
+[21:45:20] iter 13: unsafe metrics
+[21:45:21] iteration 13: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=688005
+[21:45:21] === iteration 14/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:45:29] iter 14: cargo build
+[21:45:29] iter 14: unsafe metrics
+[21:45:29] iteration 14: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=746167
+[21:45:29] === iteration 15/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:45:34] iter 15: cargo build
+[21:45:34] iter 15: unsafe metrics
+[21:45:35] iteration 15: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=805178
+[21:45:35] === iteration 16/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:46:17] iter 16: cargo build
+[21:46:17] iter 16: unsafe metrics
+[21:46:17] iteration 16: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=870295
+[21:46:17] === iteration 17/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:46:23] iter 17: cargo build
+[21:46:23] iter 17: unsafe metrics
+[21:46:24] iteration 17: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=930237
+[21:46:24] === iteration 18/40 phase=REVIEW score=(1, 15, -8, 0, 0, -14, 0)
+[21:47:04] iter 18: cargo build
+[21:47:04] iter 18: unsafe metrics
+[21:47:04] iteration 18: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=996832
+[21:47:04] === iteration 19/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:47:09] iter 19: cargo build
+[21:47:09] iter 19: unsafe metrics
+[21:47:10] iteration 19: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=1057715
+[21:47:10] === iteration 20/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:48:06] iter 20: cargo build
+[21:48:06] iter 20: unsafe metrics
+[21:48:06] iteration 20: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=1124111
+[21:48:06] === iteration 21/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:48:11] iter 21: cargo build
+[21:48:11] iter 21: unsafe metrics
+[21:48:12] iteration 21: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=1186064
+[21:48:12] === iteration 22/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:48:15] iter 22: cargo build
+[21:48:15] iter 22: unsafe metrics
+[21:48:16] iteration 22: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=1248688
+[21:48:16] === iteration 23/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:48:19] iter 23: cargo build
+[21:48:19] iter 23: unsafe metrics
+[21:48:20] iteration 23: phase=INTERFACE compiles=True tests=15/15 unsafe=14 clippy=0 tokens=1312040
+[21:48:20] === iteration 24/40 phase=INTERFACE score=(1, 15, -8, 0, 0, -14, 0)
+[21:48:53] iter 24: cargo build
+[21:48:54] iter 24: cargo test
+[21:48:54] iter 24: cargo clippy (4 categories)
+[21:48:55] iter 24: unsafe metrics
+[21:48:56] iteration 24: phase=INTERFACE compiles=True tests=15/15 unsafe=93 clippy=2 tokens=1380984
+[21:48:56] === iteration 25/40 phase=INTERFACE score=(1, 15, -4, 0, 0, -93, -2)
+[21:49:12] iter 25: cargo build
+[21:49:12] iter 25: unsafe metrics
+[21:49:12] iteration 25: phase=INTERFACE compiles=True tests=15/15 unsafe=93 clippy=2 tokens=1447967
+[21:49:12] === iteration 26/40 phase=INTERFACE score=(1, 15, -4, 0, 0, -93, -2)
+[21:49:30] iter 26: cargo build
+[21:49:30] iter 26: unsafe metrics
+[21:49:31] iteration 26: phase=INTERFACE compiles=True tests=15/15 unsafe=93 clippy=2 tokens=1519589
+[21:49:31] === iteration 27/40 phase=INTERFACE score=(1, 15, -4, 0, 0, -93, -2)
+[21:50:36] iter 27: cargo build
+[21:50:36] iter 27: unsafe metrics
+[21:50:36] iteration 27: phase=INTERFACE compiles=True tests=15/15 unsafe=93 clippy=2 tokens=1602885
+[21:50:36] === iteration 28/40 phase=INTERFACE score=(1, 15, -4, 0, 0, -93, -2)
+[21:51:19] iter 28: cargo build
+[21:51:19] iter 28: unsafe metrics
+[21:51:20] iteration 28: phase=INTERFACE compiles=True tests=15/15 unsafe=93 clippy=2 tokens=1684406
+[21:51:20] === iteration 29/40 phase=INTERFACE score=(1, 15, -4, 0, 0, -93, -2)
+[21:52:10] iter 29: cargo build
+[21:52:10] iter 29: cargo test
+[21:52:10] iter 29: cargo clippy (4 categories)
+[21:52:11] iter 29: unsafe metrics
+[21:52:12] iteration 29: phase=SAFETY compiles=True tests=15/15 unsafe=87 clippy=2 tokens=1765575
+[21:52:12] === iteration 30/40 phase=SAFETY score=(1, 15, 0, 0, 0, -87, -2)
+[21:53:05] iter 30: cargo build
+[21:53:06] iter 30: unsafe metrics
+[21:53:06] iteration 30: phase=SAFETY compiles=True tests=15/15 unsafe=87 clippy=2 tokens=1839186
+[21:53:06] === iteration 31/40 phase=SAFETY score=(1, 15, 0, 0, 0, -87, -2)
+[21:53:39] iter 31: cargo build
+[21:53:39] iter 31: unsafe metrics
+[21:53:40] iteration 31: phase=SAFETY compiles=True tests=15/15 unsafe=87 clippy=2 tokens=1913909
+[21:53:40] === iteration 32/40 phase=SAFETY score=(1, 15, 0, 0, 0, -87, -2)
+[21:53:45] iter 32: cargo build
+[21:53:45] iter 32: unsafe metrics
+[21:53:46] iteration 32: phase=SAFETY compiles=True tests=15/15 unsafe=87 clippy=2 tokens=1986452
+[21:53:46] === iteration 33/40 phase=SAFETY score=(1, 15, 0, 0, 0, -87, -2)
+[21:53:51] iter 33: cargo build
+[21:53:51] iter 33: unsafe metrics
+[21:53:51] iteration 33: phase=SAFETY compiles=True tests=15/15 unsafe=87 clippy=2 tokens=2058397
+[21:53:51] restoring best snapshot from iteration 29
+[21:53:51] final (best snapshot): cargo build
+[21:53:51] final (best snapshot): cargo test
+[21:53:51] final (best snapshot): cargo clippy (4 categories)
+[21:53:52] final (best snapshot): unsafe metrics
+[21:53:53] STOP: token_budget | iterations=33 (best 29) | compiles=True tests=15/15 unsafe=87 clippy=2

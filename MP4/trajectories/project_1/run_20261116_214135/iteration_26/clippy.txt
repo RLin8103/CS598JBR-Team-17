@@ -1,0 +1,37 @@
+# Clippy counts: {"correctness": 2, "style": 0, "complexity": 0, "perf": 0} total=2
+
+## correctness (2)
+warning: mutable borrow from immutable input(s)
+   --> src/cset.rs:408:38
+    |
+408 |     pub fn get_buckets_ref(&self) -> &mut Vec<CsetValue<T>> {
+    |                                      ^^^^^^^^^^^^^^^^^^^^^^
+    |
+note: immutable borrow here
+   --> src/cset.rs:408:28
+    |
+408 |     pub fn get_buckets_ref(&self) -> &mut Vec<CsetValue<T>> {
+    |                            ^^^^^
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#mut_from_ref
+    = note: `-W clippy::mut-from-ref` implied by `-W clippy::correctness`
+    = help: to override `-W clippy::correctness` add `#[allow(clippy::mut_from_ref)]`
+warning: mutable borrow from immutable input(s)
+   --> src/cset.rs:412:43
+    |
+412 |     pub fn get_temp_buckets_ref(&self) -> &mut Vec<CsetValue<T>> {
+    |                                           ^^^^^^^^^^^^^^^^^^^^^^
+    |
+note: immutable borrow here
+   --> src/cset.rs:412:33
+    |
+412 |     pub fn get_temp_buckets_ref(&self) -> &mut Vec<CsetValue<T>> {
+    |                                 ^^^^^
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#mut_from_ref
+
+## style (0)
+
+
+## complexity (0)
+
+
+## perf (0)

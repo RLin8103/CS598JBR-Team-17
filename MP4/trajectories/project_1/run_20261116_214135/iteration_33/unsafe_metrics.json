@@ -1,0 +1,277 @@
+{
+  "tool": "builtin-approximation",
+  "totals": {
+    "unsafe_lines": 41,
+    "unsafe_calls": 19,
+    "unsafe_casts": 23,
+    "pointer_arithmetic": 4,
+    "unsafe_blocks": 21,
+    "unsafe_fns": 0,
+    "raw_pointer_decls": 2,
+    "ffi_calls": 0,
+    "transmute_uses": 0,
+    "manual_alloc_ops": 0,
+    "files_with_forbid_unsafe_code": 0,
+    "files_analysed": 2
+  },
+  "offenders": [
+    {
+      "file": "src/cset.rs",
+      "line": 135,
+      "kind": "unsafe_calls",
+      "text": "let slice = unsafe { std::slice::from_raw_parts(ptr as *const u8, len) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 176,
+      "kind": "unsafe_calls",
+      "text": "let slice = unsafe { std::slice::from_raw_parts(input as *const u8, len) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 217,
+      "kind": "unsafe_calls",
+      "text": "let slice = unsafe { std::slice::from_raw_parts(input as *const u8, len) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 223,
+      "kind": "raw_pointer_decls",
+      "text": "pub fn xxh64(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 228,
+      "kind": "unsafe_calls",
+      "text": "let slice = unsafe { std::slice::from_raw_parts(input, len) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 234,
+      "kind": "raw_pointer_decls",
+      "text": "pub fn xxh64_h(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 239,
+      "kind": "unsafe_calls",
+      "text": "let slice = unsafe { std::slice::from_raw_parts(input, len) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 246,
+      "kind": "unsafe_calls",
+      "text": "let slice = unsafe { std::slice::from_raw_parts(memptr as *const u8, size) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 253,
+      "kind": "unsafe_calls",
+      "text": "let slice = unsafe { std::slice::from_raw_parts(memptr as *const u8, size) };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 294,
+      "kind": "unsafe_line",
+      "text": "let elem_bytes = unsafe {"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 295,
+      "kind": "unsafe_calls",
+      "text": "std::slice::from_raw_parts("
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 296,
+      "kind": "unsafe_casts",
+      "text": "&buckets[index].elem as *const T as *const u8,"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 297,
+      "kind": "unsafe_line",
+      "text": "std::mem::size_of::<T>(),"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 298,
+      "kind": "unsafe_line",
+      "text": ")"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 299,
+      "kind": "unsafe_line",
+      "text": "};"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 300,
+      "kind": "unsafe_line",
+      "text": "let value_bytes = unsafe {"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 301,
+      "kind": "unsafe_calls",
+      "text": "std::slice::from_raw_parts("
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 302,
+      "kind": "unsafe_casts",
+      "text": "value as *const T as *const u8,"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 303,
+      "kind": "unsafe_line",
+      "text": "std::mem::size_of::<T>(),"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 304,
+      "kind": "unsafe_line",
+      "text": ")"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 305,
+      "kind": "unsafe_line",
+      "text": "};"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 317,
+      "kind": "unsafe_line",
+      "text": "let bytes = unsafe {"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 318,
+      "kind": "unsafe_calls",
+      "text": "std::slice::from_raw_parts("
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 319,
+      "kind": "unsafe_casts",
+      "text": "value as *const T as *const u8,"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 320,
+      "kind": "unsafe_line",
+      "text": "std::mem::size_of::<T>(),"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 321,
+      "kind": "unsafe_line",
+      "text": ")"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 322,
+      "kind": "unsafe_line",
+      "text": "};"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 327,
+      "kind": "unsafe_line",
+      "text": "let bytes = unsafe {"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 328,
+      "kind": "unsafe_calls",
+      "text": "std::slice::from_raw_parts("
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 329,
+      "kind": "unsafe_casts",
+      "text": "value as *const T as *const u8,"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 330,
+      "kind": "unsafe_line",
+      "text": "std::mem::size_of::<T>(),"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 331,
+      "kind": "unsafe_line",
+      "text": ")"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 332,
+      "kind": "unsafe_line",
+      "text": "};"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 348,
+      "kind": "unsafe_calls",
+      "text": "let elem = unsafe { std::mem::zeroed() };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 359,
+      "kind": "unsafe_calls",
+      "text": "let elem = unsafe { std::mem::zeroed() };"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 383,
+      "kind": "unsafe_calls",
+      "text": "unsafe { std::ptr::read(&self.buckets[index].elem as *const T) }"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 426,
+      "kind": "unsafe_casts",
+      "text": "unsafe { &mut *( &self.buckets as *const Vec<CsetValue<T>> as *mut Vec<CsetValue<T>> ) }"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 432,
+      "kind": "unsafe_casts",
+      "text": "unsafe { &mut *( &self.temp_buckets as *const Vec<CsetValue<T>> as *mut Vec<CsetValue<T>> ) }"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 540,
+      "kind": "unsafe_calls",
+      "text": "result.push(unsafe { std::ptr::read(&val.elem as *const T) });"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 559,
+      "kind": "unsafe_calls",
+      "text": "self.add(unsafe { std::ptr::read(&val.elem as *const T) });"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 568,
+      "kind": "unsafe_calls",
+      "text": "self.add(unsafe { std::ptr::read(&val.elem as *const T) });"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 573,
+      "kind": "unsafe_calls",
+      "text": "self.add(unsafe { std::ptr::read(&val.elem as *const T) });"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 591,
+      "kind": "unsafe_calls",
+      "text": "self.add(unsafe { std::ptr::read(&val.elem as *const T) });"
+    }
+  ]
+}

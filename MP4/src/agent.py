@@ -539,6 +539,7 @@ class Pipeline:
         review_rounds = self.limits.get("review_rounds", 2)
         reviews_done = 0
         review_prior = "TESTS"
+        force_review = False
         try:
             while True:
                 if state["phase"] == "DONE" and reviews_done >= review_rounds:
@@ -551,10 +552,11 @@ class Pipeline:
                     stop_reason = "token_budget"
                     break
                 stalled = it - last_progress_it >= self.limits["no_progress_patience"]
-                if reviews_done < review_rounds and (state["phase"] == "DONE" or stalled):
+                if reviews_done < review_rounds and (state["phase"] == "DONE" or stalled or force_review):
                     # Everything the automatic checks can see is done (or stuck): ask the model to compare its code with
                     # the C sources for behaviour the visible tests do not cover (hidden tests exercise the same API).
                     reviews_done += 1
+                    force_review = False
                     last_progress_it = it
                     review_prior = state["phase"]
                     state = dict(state, phase="REVIEW")
@@ -622,13 +624,21 @@ class Pipeline:
                 if was_review:
                     if not turn["edits"]:
                         reviews_done = review_rounds  # the review found nothing to change: no further rounds
+                    elif reviews_done < review_rounds:
+                        force_review = True  # run the next review round right away
+                    if reviews_done >= review_rounds:
+                        last_progress_it = it - self.limits["no_progress_patience"]  # reviews are over: stop unless this turn improves the score
                     if state["phase"] == "REVIEW":  # no checks were re-run, so the real phase is the one before the review
                         state = dict(state, phase=review_prior)
                 self.save_checks(it, state)
                 self.say(f"iteration {it}: phase={state['phase']} compiles={state['compiles']} tests={state['passed']}/{state['total']} "
                          f"unsafe={state['unsafe_total']} clippy={state['clippy_total']} tokens={self.llm.total_tokens}")
-                if state["score"] > best:
+                improved = state["score"] > best
+                if improved or (turn["edits"] and state["score"] == best and state["compiles"]):
+                    # An edit that keeps the score (e.g. a review fix for a panic the tests do not cover) must
+                    # not be lost when the final snapshot is restored.
                     best, best_snap, best_it, best_state = state["score"], self.best_snapshot(), it, state
+                if improved:
                     last_progress_it = it
                 elif turn["edits"] and state["phase"] in ("COMPILE", "POLICY", "STUBS"):
                     # The model is actively changing code (e.g. working through compile errors whose

@@ -111,7 +111,7 @@ The run stops at the first of:
 
 1. **success**: build OK, every test passes, no `unimplemented!()`/`todo!()` is left, all primary unsafe metrics are 0 and the Clippy total is `<= clippy_accept` (0);
 2. `max_iterations` (40 repair iterations);
-3. `max_total_tokens` (2,000,000 prompt + completion tokens);
+3. `max_total_tokens` (4,000,000 prompt + completion tokens);
 4. `no_progress_patience`: 8 consecutive iterations without improving the best score (turns spent finishing a cut-off file do not count);
 5. `agent_done`: the model sent `<done/>` twice in a row while the crate compiles and all tests pass;
 6. an unrecoverable LLM/API error. Rate-limit/empty-completion stops keep the latest files in place so that the run can be resumed

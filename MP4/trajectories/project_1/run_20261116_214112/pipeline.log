@@ -1,0 +1,5 @@
+[21:41:14] project=cset model=deepseek/deepseek-v4-flash toolchain=nightly-2025-05-13
+[21:41:14] baseline: cargo build
+[21:41:14] baseline: cargo test
+[21:41:14] baseline: cargo clippy (4 categories)
+[21:41:15] baseline: unsafe metrics
