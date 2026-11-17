@@ -1,0 +1,18 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=101 seconds=0.37
+
+   Compiling cset v0.1.0 (/mnt/c/VSCodeProjects/CS598JBR-Team-17/MP4/translations/project_1)
+error: unexpected closing delimiter: `}`
+   --> src/cset.rs:174:1
+    |
+140 | pub fn xxh64_endian_align(input: &mut XXHU8, len: usize, seed: XXHU64) -> XXHU64 {
+    |                                                                                  - this delimiter might not be properly closed...
+141 |     let b_end = if !input.is_null() { input as *mut XXHU8 }.add(len) } else { input as *mut XXHU8 };
+    |                                                                      - ...as it matches this but it has different indentation
+...
+174 | }
+    | ^ unexpected closing delimiter
+
+error: could not compile `cset` (lib test) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `cset` (lib) due to 1 previous error

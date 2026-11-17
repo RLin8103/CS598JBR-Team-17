@@ -205,7 +205,7 @@ class Pipeline:
     def score_of(s: dict) -> tuple:
         errors = s["build"]["error_count"] if not s["compiles"] else 0
         return (
-            int(s["compiles"]), -len(s["interface"]), s["passed"], -errors, -len(s["stubs"]), -s["unsafe_total"],
+            int(s["compiles"]), s["passed"], -len(s["interface"]), -errors, -len(s["stubs"]), -s["unsafe_total"],
             -(s["clippy_total"] if s["clippy_total"] is not None else 10_000),
         )
 
@@ -590,7 +590,7 @@ class Pipeline:
                     no_edit_streak = 0
                     prev_phase = state["phase"]
                     state = self.run_checks(f"iter {it}")
-                    if prev_phase in ("SAFETY", "CLIPPY", "REVIEW") and state["score"] < best:
+                    if prev_phase in ("INTERFACE", "SAFETY", "CLIPPY", "REVIEW") and state["score"] < best:
                         # Refinement phases must never lose ground: undo an edit that broke the build/tests
                         # or made unsafe/Clippy worse, and tell the model so it tries a different change.
                         notices.append(
@@ -630,7 +630,7 @@ class Pipeline:
                 if state["score"] > best:
                     best, best_snap, best_it, best_state = state["score"], self.best_snapshot(), it, state
                     last_progress_it = it
-                elif turn["edits"] and state["phase"] in ("COMPILE", "TESTS", "POLICY", "STUBS", "INTERFACE"):
+                elif turn["edits"] and state["phase"] in ("COMPILE", "POLICY", "STUBS"):
                     # The model is actively changing code (e.g. working through compile errors whose
                     # count may temporarily rise): that is activity, not a stall. Only score
                     # improvements update the best snapshot, but activity resets the patience clock.
