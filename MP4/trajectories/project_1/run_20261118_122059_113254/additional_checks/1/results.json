@@ -1,0 +1,92 @@
+{
+  "project_id": 1,
+  "source_sha256": {
+    "1": {
+      "src/bin/test.rs": "3db55043272a4de6cf923e9fbbbacc09e4961f40b42d351fc9155c77857cb663",
+      "src/cset.rs": "afc92e21c4643f387842f0a64e72d446b887971175362c2817e1c59325862a0a",
+      "src/interfaces/cset.rs": "95ad1b829f76a70aef067d6bd2fc30000e3ad2b9f65613ef6785cbe67e6542c8",
+      "src/lib.rs": "59a83b2e2fac7b382dfdf42b2ea06ae1646ccf2ef1e2763a432ca50bedced8d7"
+    },
+    "2": {
+      "src/base64.rs": "98d8877f29674e7fa161f3ffda1799cf334be679c769780a235de7d3d433a9fa",
+      "src/bin/test.rs": "62f4c11b45b95ea46e0f4f52fd987eb249e6ea8aea12dbf174f370cc2c556e19",
+      "src/cli.rs": "e2e599177bfae540dc3acb294db4cffd79626fd97a592d00f7849574d8e290bf",
+      "src/compactsize.rs": "31ab471ea49f3efaa62b6afa06c9fe2c848cb488327778f918f11a6b2330038e",
+      "src/interfaces/base64.rs": "905751f804cf7c6748bada6b8fb107b6b2260ceccde1946f2b746402a215bc69",
+      "src/interfaces/cli.rs": "6511b2df52ddb56d441a5cd81f24ad81b6484653afdf5d3670aa96fedae7dc0a",
+      "src/interfaces/compactsize.rs": "ea57f5da93401c50ea2de97f25f2d6ec0820e93086a0a7eb1d659c218c8bc383",
+      "src/interfaces/psbt.rs": "2b4d05eae31beac98134444d9b71c54c38675cec473ac3d9c7dea71a98f2286b",
+      "src/interfaces/tx.rs": "5ed53be87ba4983bf03de0dc09d3d193095046a03486cdf6fe02405562865fda",
+      "src/lib.rs": "a5de0ce136c3cc45ff66c0d2cf53e24c74782a0505c561aca7944b4de6ca4b0f",
+      "src/psbt.rs": "3a89b255ec30158f1b272cf575d57c4151527005fede6964dfc06bdae323a7ae",
+      "src/tx.rs": "e198cdef735b95bb8530afd233dcc86e3dea6d47f951608c0317a68ecf57a47b"
+    }
+  },
+  "c_compile": {
+    "cmd": "cc -std=c11 -fsanitize=address,undefined -fno-sanitize-recover=all -g /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/evaluation/harness/cset_oracle.c -o /var/folders/_d/1v55s9t963nd576lttdnhgy00000gn/T/mp4-oracle-lmtwfpp9/oracle",
+    "returncode": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.22,
+    "timed_out": false,
+    "interrupted": false
+  },
+  "c_oracle": {
+    "cmd": "/var/folders/_d/1v55s9t963nd576lttdnhgy00000gn/T/mp4-oracle-lmtwfpp9/oracle",
+    "returncode": 0,
+    "stdout": "0 0 17241709254077376921 13315799867417602922\n0 2718182 17164995725320669776 9609742367336788117\n1 0 16804241149081757544 11193626097507625299\n1 2718182 12030735130094489608 16585143914630977865\n2 0 5216751715308240086 962134502339947765\n2 2718182 6839953705013005250 14547683834055110473\n7 0 1498682999415010002 4249893767171937820\n7 2718182 15642697405811612460 1518540224581367784\n8 0 9820687458478070669 3730646594863863303\n8 2718182 9136710207871035179 1811739754178317970\n15 0 12198270006012390445 12756233403702556746\n15 2718182 12026005270239508466 17353067986731924435\n16 0 4951407828574235127 14830457271042726377\n16 2718182 13836727961620331567 4311501666727977334\n31 0 14071165763202158305 15169082307081493518\n31 2718182 15171138851224130528 15084038666174280388\n32 0 14696824831085589172 14725178889228742492\n32 2718182 5866791991713541440 13359209665706158658\n33 0 888155921178136237 17817948416945077874\n33 2718182 1622702135249360346 2858395675821256491\n63 0 16315039391072357967 16086438002849603130\n63 2718182 7551585449867492368 13839665984921505786\n64 0 17854084224570037232 5878197960064603527\n64 2718182 1424698289199409264 3461350535024105179\n80 0 13455637070898668723 1089948450866728288\n80 2718182 13096215664268336420 11707668789675316103\n96 0 4975257207486779926 18365706018071507944\n96 2718182 8631607981877538565 8470106966396429451\n",
+    "stderr": "",
+    "seconds": 0.27,
+    "timed_out": false,
+    "interrupted": false
+  },
+  "inventory": {
+    "cmd": "cargo +nightly-2025-05-13 test --offline --locked --lib --manifest-path /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/evaluation/harness/Cargo.toml cset_ -- --list",
+    "returncode": 0,
+    "stdout": "tests::cset_hash_00: test\ntests::cset_hash_01: test\ntests::cset_hash_02: test\ntests::cset_hash_07: test\ntests::cset_hash_08: test\ntests::cset_hash_15: test\ntests::cset_hash_16: test\ntests::cset_hash_31: test\ntests::cset_hash_32: test\ntests::cset_hash_33: test\ntests::cset_hash_63: test\ntests::cset_hash_64: test\ntests::cset_hash_80: test\ntests::cset_hash_96: test\ntests::cset_hash_h_00: test\ntests::cset_hash_h_01: test\ntests::cset_hash_h_02: test\ntests::cset_hash_h_07: test\ntests::cset_hash_h_08: test\ntests::cset_hash_h_15: test\ntests::cset_hash_h_16: test\ntests::cset_hash_h_31: test\ntests::cset_hash_h_32: test\ntests::cset_hash_h_33: test\ntests::cset_hash_h_63: test\ntests::cset_hash_h_64: test\ntests::cset_hash_h_80: test\ntests::cset_hash_h_96: test\ntests::cset_padding_free_copy_generic: test\n\n29 tests, 0 benchmarks\n",
+    "stderr": "   Compiling cset v0.1.0 (/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_1)\nwarning: constant `BUF_SIZE` is never used\n --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/cli.rs:6:7\n  |\n6 | const BUF_SIZE: usize = 4096;\n  |       ^^^^^^^^\n  |\n  = note: `#[warn(dead_code)]` on by default\n\nwarning: function `main` is never used\n --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/cli.rs:8:4\n  |\n8 | fn main() -> i32 {\n  |    ^^^^\n\nwarning: `libpsbt` (lib) generated 2 warnings\nwarning: field `v` is never read\n   --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:292:5\n    |\n287 | pub struct Cset<T> {\n    |            ---- field in this struct\n...\n292 |     v: CsetValue<T>,\n    |     ^\n    |\n    = note: `#[warn(dead_code)]` on by default\n\nwarning: `cset` (lib) generated 1 warning\n   Compiling mp4-regressions v0.1.0 (/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/evaluation/harness)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.27s\n     Running unittests src/lib.rs (.runtime/target/regressions/debug/deps/mp4_regressions-b5d92567a85da7ba)\n",
+    "seconds": 0.5,
+    "timed_out": false,
+    "interrupted": false
+  },
+  "rust": {
+    "cmd": "cargo +nightly-2025-05-13 test --offline --locked --lib --manifest-path /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/evaluation/harness/Cargo.toml cset_ -- --test-threads=1",
+    "returncode": 101,
+    "stdout": "\nrunning 29 tests\ntest tests::cset_hash_00 ... ok\ntest tests::cset_hash_01 ... ok\ntest tests::cset_hash_02 ... ok\ntest tests::cset_hash_07 ... ok\ntest tests::cset_hash_08 ... ok\ntest tests::cset_hash_15 ... ok\ntest tests::cset_hash_16 ... ok\ntest tests::cset_hash_31 ... ok\ntest tests::cset_hash_32 ... ok\ntest tests::cset_hash_33 ... ok\ntest tests::cset_hash_63 ... ok\ntest tests::cset_hash_64 ... ok\ntest tests::cset_hash_80 ... ok\ntest tests::cset_hash_96 ... ok\ntest tests::cset_hash_h_00 ... FAILED\ntest tests::cset_hash_h_01 ... FAILED\ntest tests::cset_hash_h_02 ... FAILED\ntest tests::cset_hash_h_07 ... FAILED\ntest tests::cset_hash_h_08 ... FAILED\ntest tests::cset_hash_h_15 ... FAILED\ntest tests::cset_hash_h_16 ... FAILED\ntest tests::cset_hash_h_31 ... FAILED\ntest tests::cset_hash_h_32 ... ok\ntest tests::cset_hash_h_33 ... ok\ntest tests::cset_hash_h_63 ... ok\ntest tests::cset_hash_h_64 ... ok\ntest tests::cset_hash_h_80 ... ok\ntest tests::cset_hash_h_96 ... ok\ntest tests::cset_padding_free_copy_generic ... ok\n\nfailures:\n\n---- tests::cset_hash_h_00 stdout ----\n\nthread 'tests::cset_hash_h_00' panicked at src/lib.rs:264:9:\ninput bytes 0..96, truncated to len:\nlen=0 seed=0: Rust=6089448738516538328, C=13315799867417602922\nlen=0 seed=2718182: Rust=11614518687002993724, C=9609742367336788117\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n\n---- tests::cset_hash_h_01 stdout ----\n\nthread 'tests::cset_hash_h_01' panicked at src/lib.rs:264:9:\ninput bytes 0..96, truncated to len:\nlen=1 seed=0: Rust=1344935720564239988, C=11193626097507625299\nlen=1 seed=2718182: Rust=6594899528827042558, C=16585143914630977865\n\n---- tests::cset_hash_h_02 stdout ----\n\nthread 'tests::cset_hash_h_02' panicked at src/lib.rs:264:9:\ninput bytes 0..96, truncated to len:\nlen=2 seed=0: Rust=8617509540135573086, C=962134502339947765\nlen=2 seed=2718182: Rust=4971479887067988310, C=14547683834055110473\n\n---- tests::cset_hash_h_07 stdout ----\n\nthread 'tests::cset_hash_h_07' panicked at src/lib.rs:264:9:\ninput bytes 0..96, truncated to len:\nlen=7 seed=0: Rust=7584827969456509918, C=4249893767171937820\nlen=7 seed=2718182: Rust=12829040013170679280, C=1518540224581367784\n\n---- tests::cset_hash_h_08 stdout ----\n\nthread 'tests::cset_hash_h_08' panicked at src/lib.rs:264:9:\ninput bytes 0..96, truncated to len:\nlen=8 seed=0: Rust=9163211194136353357, C=3730646594863863303\nlen=8 seed=2718182: Rust=4170975662148065910, C=1811739754178317970\n\n---- tests::cset_hash_h_15 stdout ----\n\nthread 'tests::cset_hash_h_15' panicked at src/lib.rs:264:9:\ninput bytes 0..96, truncated to len:\nlen=15 seed=0: Rust=13813176779204586094, C=12756233403702556746\nlen=15 seed=2718182: Rust=2989575921063934098, C=17353067986731924435\n\n---- tests::cset_hash_h_16 stdout ----\n\nthread 'tests::cset_hash_h_16' panicked at src/lib.rs:264:9:\ninput bytes 0..96, truncated to len:\nlen=16 seed=0: Rust=15602599801977290796, C=14830457271042726377\nlen=16 seed=2718182: Rust=5130008953502153227, C=4311501666727977334\n\n---- tests::cset_hash_h_31 stdout ----\n\nthread 'tests::cset_hash_h_31' panicked at src/lib.rs:264:9:\ninput bytes 0..96, truncated to len:\nlen=31 seed=0: Rust=2122892477728805114, C=15169082307081493518\nlen=31 seed=2718182: Rust=6837672701383405910, C=15084038666174280388\n\n\nfailures:\n    tests::cset_hash_h_00\n    tests::cset_hash_h_01\n    tests::cset_hash_h_02\n    tests::cset_hash_h_07\n    tests::cset_hash_h_08\n    tests::cset_hash_h_15\n    tests::cset_hash_h_16\n    tests::cset_hash_h_31\n\ntest result: FAILED. 21 passed; 8 failed; 0 ignored; 0 measured; 21 filtered out; finished in 0.00s\n\n",
+    "stderr": "warning: field `v` is never read\n   --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:292:5\n    |\n287 | pub struct Cset<T> {\n    |            ---- field in this struct\n...\n292 |     v: CsetValue<T>,\n    |     ^\n    |\n    = note: `#[warn(dead_code)]` on by default\n\nwarning: `cset` (lib) generated 1 warning\nwarning: constant `BUF_SIZE` is never used\n --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/cli.rs:6:7\n  |\n6 | const BUF_SIZE: usize = 4096;\n  |       ^^^^^^^^\n  |\n  = note: `#[warn(dead_code)]` on by default\n\nwarning: function `main` is never used\n --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/cli.rs:8:4\n  |\n8 | fn main() -> i32 {\n  |    ^^^^\n\nwarning: `libpsbt` (lib) generated 2 warnings\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s\n     Running unittests src/lib.rs (.runtime/target/regressions/debug/deps/mp4_regressions-b5d92567a85da7ba)\nerror: test failed, to rerun pass `--lib`\n",
+    "seconds": 0.04,
+    "timed_out": false,
+    "interrupted": false
+  },
+  "outcomes": {
+    "tests::cset_hash_00": "ok",
+    "tests::cset_hash_01": "ok",
+    "tests::cset_hash_02": "ok",
+    "tests::cset_hash_07": "ok",
+    "tests::cset_hash_08": "ok",
+    "tests::cset_hash_15": "ok",
+    "tests::cset_hash_16": "ok",
+    "tests::cset_hash_31": "ok",
+    "tests::cset_hash_32": "ok",
+    "tests::cset_hash_33": "ok",
+    "tests::cset_hash_63": "ok",
+    "tests::cset_hash_64": "ok",
+    "tests::cset_hash_80": "ok",
+    "tests::cset_hash_96": "ok",
+    "tests::cset_hash_h_00": "FAILED",
+    "tests::cset_hash_h_01": "FAILED",
+    "tests::cset_hash_h_02": "FAILED",
+    "tests::cset_hash_h_07": "FAILED",
+    "tests::cset_hash_h_08": "FAILED",
+    "tests::cset_hash_h_15": "FAILED",
+    "tests::cset_hash_h_16": "FAILED",
+    "tests::cset_hash_h_31": "FAILED",
+    "tests::cset_hash_h_32": "ok",
+    "tests::cset_hash_h_33": "ok",
+    "tests::cset_hash_h_63": "ok",
+    "tests::cset_hash_h_64": "ok",
+    "tests::cset_hash_h_80": "ok",
+    "tests::cset_hash_h_96": "ok",
+    "tests::cset_padding_free_copy_generic": "ok"
+  }
+}

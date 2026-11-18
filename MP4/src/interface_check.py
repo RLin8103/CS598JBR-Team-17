@@ -178,8 +178,9 @@ def parse_fn(header: str, self_ty: str = "") -> tuple[str, str, str] | None:
     if self_ty:  # inside `impl X<T>` the type name and `Self` are the same type
         params = [p.replace(self_ty, "Self") for p in params]
         ret = ret.replace(self_ty, "Self")
-    vis = "pub" if m.group("vis") else ""
-    norm = f"{vis}|{squash(generics)}|({','.join(params)})->{ret}|{where}"
+    vis = squash(m.group("vis") or "")
+    qualifiers = squash(h[(len(m.group("vis")) if m.group("vis") else 0):h.index("fn")])
+    norm = f"{vis}|{qualifiers}|{squash(generics)}|({','.join(params)})->{ret}|{where}"
     shown = f"{'pub ' if vis else ''}fn {name}{pretty(generics)}({pretty(raw_params)}) -> {ret_shown}"
     return name, norm, shown
 
@@ -273,6 +274,8 @@ def parse_items(text: str, context: str = "", top: bool = True, self_ty: str = "
 def check_module(interface_text: str, impl_text: str, module: str) -> list[str]:
     spec = parse_items(strip_comments_and_attrs(interface_text))
     got = parse_items(strip_comments_and_attrs(impl_text))
+    if not spec:
+        return [f"src/{module}.rs: interface parser found no declarations; validation incomplete"]
     findings: list[str] = []
     for key, val in spec.items():
         norm, shown = val[0], val[1]

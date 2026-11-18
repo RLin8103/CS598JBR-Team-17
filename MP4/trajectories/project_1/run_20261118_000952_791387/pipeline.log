@@ -1,0 +1,21 @@
+[00:09:52] project=cset model=cohere/north-mini-code:free toolchain=nightly-2025-05-13
+[00:09:52] baseline: cargo build
+[00:09:53] baseline: cargo test
+[00:09:54] baseline: cargo clippy (4 categories)
+[00:09:55] baseline: unsafe metrics
+[00:09:57] === iteration 1/4 phase=REGRESSIONS score=(1, 0, 0, 1, 1, 1, 15, 0, 0, 0, -1, 1, 1, -7, 0)
+[00:10:01] iteration 1: phase=REGRESSIONS compiles=True tests=15/15 unsafe=7 clippy=0 tokens=27906
+[00:10:01] === iteration 2/4 phase=REGRESSIONS score=(1, 0, 0, 1, 1, 1, 15, 0, 0, 0, -1, 1, 1, -7, 0)
+[00:10:05] iteration 2: phase=REGRESSIONS compiles=True tests=15/15 unsafe=7 clippy=0 tokens=63329
+[00:10:05] === iteration 3/4 phase=REGRESSIONS score=(1, 0, 0, 1, 1, 1, 15, 0, 0, 0, -1, 1, 1, -7, 0)
+[00:10:44] iter 3: cargo build
+[00:10:45] iter 3: cargo test
+[00:10:46] iter 3: cargo clippy (4 categories)
+[00:10:46] iter 3: unsafe metrics
+[00:10:48] iteration 3: phase=REGRESSIONS compiles=True tests=15/15 unsafe=10 clippy=0 tokens=114259
+[00:10:48] restoring best snapshot from iteration 0
+[00:10:48] final (selected snapshot): cargo build
+[00:10:48] final (selected snapshot): cargo test
+[00:10:49] final (selected snapshot): cargo clippy (4 categories)
+[00:10:49] final (selected snapshot): unsafe metrics
+[00:10:51] STOP: no_progress | iterations=3 (best 0) | compiles=True tests=15/15 unsafe=7 clippy=0

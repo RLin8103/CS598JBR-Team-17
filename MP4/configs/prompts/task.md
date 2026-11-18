@@ -1,6 +1,6 @@
 # Project: {{PROJECT_NAME}}
 
-Translate the C project `{{PROJECT_NAME}}` to Rust. The Rust crate already exists in your workspace. The module files declared by `src/lib.rs` are copies of the interface stubs, with `unimplemented!()` bodies that you must replace by real implementations.
+{{TASK}}
 
 ## Workspace layout
 {{TREE}}
@@ -17,7 +17,7 @@ Translate the C project `{{PROJECT_NAME}}` to Rust. The Rust crate already exist
 ## Tests (read-only, they are part of the specification)
 {{TEST_FILES}}
 
-## Original C source (this is the behaviour to preserve)
+{{SOURCE_INDEX}}## Original C source (this is the behaviour to preserve)
 {{C_FILES}}
 
 ## Current state of the editable Rust files
@@ -25,5 +25,3 @@ Translate the C project `{{PROJECT_NAME}}` to Rust. The Rust crate already exist
 
 ## Baseline check result before your first edit
 {{FEEDBACK}}
-
-Start by studying the C code, the interface and the tests, then write your first implementation. Cover every function and type in the interface.

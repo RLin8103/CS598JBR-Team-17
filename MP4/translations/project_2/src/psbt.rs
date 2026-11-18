@@ -147,7 +147,7 @@ pub fn psbt_read(
     src: &[u8],
     src_size: usize,
     psbt: &mut Psbt,
-    mut elem_handler: Option<PsbtElemHandler>,
+    elem_handler: Option<PsbtElemHandler>,
     user_data: &mut dyn std::any::Any,
 ) -> PsbtResult {
     if psbt.state != PsbtState::Init {
@@ -158,14 +158,18 @@ pub fn psbt_read(
         return PsbtResult::OobWrite;
     }
 
+    // The declared length must lie within the backing slice.
+    let Some(src) = src.get(..src_size) else {
+        return PsbtResult::ReadError;
+    };
+
     // Clear and prepare PSBT for reading
     psbt.data.clear();
-    psbt.data.extend_from_slice(&src[..src_size.min(src.len())]);
+    psbt.data.extend_from_slice(src);
     psbt.write_pos = 0;
     psbt.records.clear();
     
     // Only the first `src_size` bytes belong to the PSBT.
-    let src = &src[..src_size.min(src.len())];
     let src_size = src.len();
     
     // Set up state for parsing
@@ -233,25 +237,40 @@ pub fn psbt_read(
                     }
                     
                     let in_global = psbt.state == PsbtState::Global;
-                    if let Some(rec) = psbt
-                        .records
-                        .last()
-                        .filter(|r| in_global && r.record_type == 0)
-                    {
-                        counts = match tx_io_counts(&rec.val) {
-                            Ok(c) => c,
-                            Err(res) => return res,
+                    if let Some(rec) = psbt.records.last().cloned() {
+                        let txelems = if in_global && rec.record_type == 0 {
+                            let v = match tx_elements(&rec.val) {
+                                Ok(v) => v,
+                                Err(res) => return res,
+                            };
+                            counts = (
+                                v.iter()
+                                    .filter(|e| matches!(e, PsbtTxElem::TxIn(_)))
+                                    .count(),
+                                v.iter()
+                                    .filter(|e| matches!(e, PsbtTxElem::TxOut(_)))
+                                    .count(),
+                            );
+                            v
+                        } else {
+                            Vec::new()
                         };
-                    }
 
-                    if let Some(handler) = elem_handler.as_mut() {
-                        let mut elem = PsbtElem::Record {
-                            index: kvs as i32,
-                            record: psbt.records.last().unwrap().clone(),
-                        };
-                        handler(&mut elem, user_data);
+                        if let Some(handler) = elem_handler {
+                            for txelem in txelems {
+                                let mut elem = PsbtElem::TxElem {
+                                    index: kvs as i32,
+                                    txelem,
+                                };
+                                handler(&mut elem, user_data);
+                            }
+                            let mut elem = PsbtElem::Record {
+                                index: kvs as i32,
+                                record: rec,
+                            };
+                            handler(&mut elem, user_data);
+                        }
                     }
-                    kvs += 1;
                 }
             }
             
@@ -357,6 +376,16 @@ fn read_record(psbt: &mut Psbt, src_size: usize) -> Result<(), PsbtResult> {
     Ok(())
 }
 
+/// Declared source length, clamped to what the source string actually holds.
+/// Returns the declared length itself; `get` rejects lengths past the end.
+fn src_size_declared(src: &str, declared: usize) -> usize {
+    if declared > src.len() {
+        src.len() + 1
+    } else {
+        declared
+    }
+}
+
 /// Decode a hex string into dest. (This simple implementation uses the `hex` crate.)
 pub fn psbt_decode(
     src: &str,
@@ -365,6 +394,12 @@ pub fn psbt_decode(
     dest_size: usize,
     psbt_len: &mut usize,
 ) -> PsbtResult {
+    // Honour the declared source length and the declared destination capacity.
+    let Some(src) = src.get(..src_size_declared(src, _src_size)) else {
+        return PsbtResult::ReadError;
+    };
+    let dest_size = dest_size.min(dest.len());
+    let dest = &mut dest[..dest_size];
     let b64_magic = "cHNid";
     
     if src.len() < b64_magic.len() {
@@ -388,7 +423,7 @@ pub fn psbt_decode(
         }
         
         let expected_len = src.len() / 2;
-        if dest_size < expected_len {
+        if dest_size < expected_len || dest.len() < expected_len {
             return PsbtResult::ReadError;
         }
         
@@ -437,6 +472,7 @@ pub fn psbt_encode(
     out_len: &mut usize,
 ) -> PsbtResult {
     if psbt.state != PsbtState::Finalized {
+        set_last_error("psbt_encode: psbt not in finalized state. use psbt_read to parse an existing psbt, or the psbt_write functions to create one.");
         return PsbtResult::WriteError;
     }
     
@@ -452,6 +488,11 @@ pub fn psbt_encode_raw(
     dest_size: usize,
     out_len: &mut usize,
 ) -> PsbtResult {
+    let Some(psbt_data) = psbt_data.get(.._psbt_len) else {
+        return PsbtResult::ReadError;
+    };
+    let dest_size = dest_size.min(dest.len());
+    let dest = &mut dest[..dest_size];
     match encoding {
         PsbtEncoding::Hex => {
             if dest_size < psbt_data.len() * 2 + 1 {
@@ -505,7 +546,16 @@ fn hex_char(val: u8) -> u8 {
 
 /// Return the last error message.
 pub fn psbt_geterr() -> &'static str {
-    PSBT_ERRMSG
+    LAST_ERROR.lock().map(|g| *g).unwrap_or(PSBT_ERRMSG)
+}
+
+/// Process-wide last error message, mirroring the C `psbt_errmsg` global.
+static LAST_ERROR: std::sync::Mutex<&'static str> = std::sync::Mutex::new(PSBT_ERRMSG);
+
+fn set_last_error(msg: &'static str) {
+    if let Ok(mut guard) = LAST_ERROR.lock() {
+        *guard = msg;
+    }
 }
 
 /// Convert a PSBT state to a human–readable string.
@@ -524,7 +574,10 @@ pub fn psbt_state_tostr(state: PsbtState) -> &'static str {
 /// Return a string for a record type and scope.
 pub fn psbt_type_tostr(record_type: u8, scope: PsbtScope) -> &'static str {
     match scope {
-        PsbtScope::Global => psbt_global_type_tostr(PsbtGlobalType::UnsignedTx),
+        PsbtScope::Global => match record_type {
+            0 => psbt_global_type_tostr(PsbtGlobalType::UnsignedTx),
+            _ => "UNKNOWN_GLOBAL_TYPE",
+        },
         PsbtScope::Inputs => {
             match record_type {
                 0 => psbt_input_type_tostr(PsbtInputType::NonWitnessUtxo),

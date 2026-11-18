@@ -1,0 +1,12 @@
+[00:46:34] project=libpsbt model=recursive/flint-v1.0:free toolchain=nightly-2025-05-13
+[00:46:34] baseline: cargo build
+[00:46:34] baseline: cargo test
+[00:46:35] baseline: cargo clippy (4 categories)
+[00:46:36] baseline: unsafe metrics
+[00:46:37] === iteration 1/1 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[00:46:48] iteration 1: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=45125
+[00:46:48] final (selected snapshot): cargo build
+[00:46:48] final (selected snapshot): cargo test
+[00:46:49] final (selected snapshot): cargo clippy (4 categories)
+[00:46:50] final (selected snapshot): unsafe metrics
+[00:46:51] STOP: max_iterations | iterations=1 (best 0) | compiles=True tests=6/8 unsafe=0 clippy=2

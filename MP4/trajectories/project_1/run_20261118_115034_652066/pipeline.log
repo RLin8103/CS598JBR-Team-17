@@ -1,0 +1,14 @@
+[11:50:34] project=cset model=anthropic/claude-haiku-5.5 toolchain=nightly-2025-05-13
+[11:50:34] baseline: cargo build
+[11:50:35] baseline: cargo test
+[11:50:35] baseline: cargo clippy (4 categories)
+[11:50:36] baseline: unsafe metrics
+[11:50:37] replayed candidate: cargo build
+[11:50:37] replayed candidate: cargo test
+[11:50:38] replayed candidate: cargo clippy (4 categories)
+[11:50:39] replayed candidate: unsafe metrics
+[11:50:40] final (selected replay snapshot): cargo build
+[11:50:40] final (selected replay snapshot): cargo test
+[11:50:40] final (selected replay snapshot): cargo clippy (4 categories)
+[11:50:41] final (selected replay snapshot): unsafe metrics
+[11:50:42] STOP: candidate_replay | iterations=0 (best 1) | compiles=True tests=15/15 unsafe=7 clippy=0

@@ -1,0 +1,13 @@
+{
+  "retained": true,
+  "reason": null,
+  "pending_partial": false,
+  "selected_hashes": {
+    "src/base64.rs": "98d8877f29674e7fa161f3ffda1799cf334be679c769780a235de7d3d433a9fa",
+    "src/cli.rs": "e2e599177bfae540dc3acb294db4cffd79626fd97a592d00f7849574d8e290bf",
+    "src/compactsize.rs": "31ab471ea49f3efaa62b6afa06c9fe2c848cb488327778f918f11a6b2330038e",
+    "src/psbt.rs": "1e33c93729c107b46b92e487b5cb4b9317973df996a482cbf3e423f1dae4dcc7",
+    "src/tx.rs": "e198cdef735b95bb8530afd233dcc86e3dea6d47f951608c0317a68ecf57a47b"
+  },
+  "selected_phase": "TESTS"
+}

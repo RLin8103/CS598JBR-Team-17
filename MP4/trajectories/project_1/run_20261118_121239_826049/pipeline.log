@@ -1,0 +1,13 @@
+[12:12:39] project=cset model=qwen3.5:9b toolchain=nightly-2025-05-13
+[12:12:39] baseline: cargo build
+[12:12:40] baseline: cargo test
+[12:12:41] baseline: cargo clippy (4 categories)
+[12:12:41] baseline: unsafe metrics
+[12:12:43] === iteration 1/2 phase=REGRESSIONS score=(1, 0, 0, 1, 1, 1, 15, 0, 0, 0, -1, 1, 1, -7, 0)
+[12:15:43] llm_error: all models failed: qwen3.5:9b: failed after 1 attempts: timed out
+[12:15:43] final (selected snapshot): cargo build
+[12:15:43] final (selected snapshot): cargo test
+[12:15:44] final (selected snapshot): cargo clippy (4 categories)
+[12:15:45] final (selected snapshot): unsafe metrics
+[12:15:46] STOP: llm_error: all models failed: qwen3.5:9b: failed after 1 attempts: timed out | iterations=1 (best 0) | compiles=True tests=15/15 unsafe=7 clippy=0
+[12:15:46] Selected best snapshot restored; interrupted_work/ retains the unvalidated work for inspection.

@@ -1,0 +1,13 @@
+[00:27:00] project=libpsbt model=devstral-small-2:24b toolchain=nightly-2025-05-13
+[00:27:00] baseline: cargo build
+[00:27:01] baseline: cargo test
+[00:27:02] baseline: cargo clippy (4 categories)
+[00:27:03] baseline: unsafe metrics
+[00:27:05] === iteration 1/2 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[00:37:05] llm_error: all models failed: devstral-small-2:24b: failed after 1 attempts: timed out
+[00:37:05] final (selected snapshot): cargo build
+[00:37:10] final (selected snapshot): cargo test
+[00:37:13] final (selected snapshot): cargo clippy (4 categories)
+[00:37:17] final (selected snapshot): unsafe metrics
+[00:37:29] STOP: llm_error: all models failed: devstral-small-2:24b: failed after 1 attempts: timed out | iterations=1 (best 0) | compiles=True tests=6/8 unsafe=0 clippy=2
+[00:37:29] Selected best snapshot restored; interrupted_work/ retains the unvalidated work for inspection.

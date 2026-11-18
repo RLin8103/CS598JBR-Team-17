@@ -1,0 +1,29 @@
+{
+  "retrieved_utc": "2026-11-18T06:45:04.400414+00:00",
+  "source": "https://openrouter.ai/api/v1/models",
+  "authenticated_access_verified": true,
+  "inference_calls": 0,
+  "models": {
+    "recursive/flint-v1.0:free": {
+      "id": "recursive/flint-v1.0:free",
+      "context_length": 262144,
+      "pricing": {
+        "prompt": "0",
+        "completion": "0"
+      },
+      "supported_parameters": [
+        "include_reasoning",
+        "logprobs",
+        "max_tokens",
+        "reasoning",
+        "response_format",
+        "seed",
+        "stop",
+        "temperature",
+        "tools",
+        "top_logprobs",
+        "top_p"
+      ]
+    }
+  }
+}

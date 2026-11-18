@@ -1,0 +1,17 @@
+[00:11:09] project=libpsbt model=cohere/north-mini-code:free toolchain=nightly-2025-05-13
+[00:11:09] baseline: cargo build
+[00:11:09] baseline: cargo test
+[00:11:10] baseline: cargo clippy (4 categories)
+[00:11:11] baseline: unsafe metrics
+[00:11:12] === iteration 1/4 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[00:12:05] iteration 1: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=53608
+[00:12:05] === iteration 2/4 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[00:12:54] iteration 2: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=124326
+[00:12:54] === iteration 3/4 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[00:15:03] llm_error: all models failed: nvidia/nemotron-3-ultra-550b-a55b:free: failed after 1 attempts: empty completion (finish_reason=length, prompt_tokens=90923, completion_tokens=10000, reasoning_tokens=10000, reasoning_chars=20296, provider=Nvidia)
+[00:15:03] final (selected snapshot): cargo build
+[00:15:04] final (selected snapshot): cargo test
+[00:15:05] final (selected snapshot): cargo clippy (4 categories)
+[00:15:06] final (selected snapshot): unsafe metrics
+[00:15:08] STOP: llm_error: all models failed: nvidia/nemotron-3-ultra-550b-a55b:free: failed after 1 attempts: empty completion (finish_reason=length, prompt_tokens=90923, completion_tokens=10000, reasoning_tokens=10000, reasoning_chars=20296, provider=Nvidia) | iterations=3 (best 0) | compiles=True tests=6/8 unsafe=0 clippy=2
+[00:15:08] Selected best snapshot restored; interrupted_work/ retains the unvalidated work for inspection.

@@ -1,0 +1,41 @@
+{
+  "limit_usd": "0",
+  "reserved_usd": "0",
+  "requests": [
+    {
+      "model": "cohere/north-mini-code:free",
+      "maximum_usd": "0",
+      "t": "2026-11-18T06:09:57.093929+00:00"
+    },
+    {
+      "model": "cohere/north-mini-code:free",
+      "maximum_usd": "0",
+      "t": "2026-11-18T06:10:01.986309+00:00"
+    },
+    {
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "maximum_usd": "0",
+      "t": "2026-11-18T06:10:05.045105+00:00"
+    },
+    {
+      "model": "cohere/north-mini-code:free",
+      "maximum_usd": "0",
+      "t": "2026-11-18T06:11:12.694514+00:00"
+    },
+    {
+      "model": "cohere/north-mini-code:free",
+      "maximum_usd": "0",
+      "t": "2026-11-18T06:12:05.130102+00:00"
+    },
+    {
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "maximum_usd": "0",
+      "t": "2026-11-18T06:12:54.919907+00:00"
+    },
+    {
+      "model": "recursive/flint-v1.0:free",
+      "maximum_usd": "0",
+      "t": "2026-11-18T06:46:37.351682+00:00"
+    }
+  ]
+}

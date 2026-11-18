@@ -1,0 +1,159 @@
+{
+  "commit": "40d2e6036bb2c84d31ce5a7aaaf22fe61952c2c8",
+  "branch": "mp4/agent-repair-experiments",
+  "git_status": "?? .DS_Store\n?? MP2.zip\n?? MP2/.DS_Store\n?? MP4/evaluation/\n?? MP4/have-to.txt\n?? report.tex\n",
+  "python": "3.13.17 (main, Oct 21 2026, 13:48:20) [Clang 21.0.0 (clang-2100.3.34.2)]",
+  "platform": "macOS-26.7.1-arm64-arm-64bit-Mach-O",
+  "hashes": {
+    "MP4/src/run_pipeline.sh": "3290678bec4f269d43634641b51e2509ab87811d6c03fb047f3db9d4b91296d8",
+    "MP4/src/tools.py": "bc9ef50dfd555d418caaac4a24796fac21ccbbe9cc61e963832c44e6a6436e09",
+    "MP4/src/llm.py": "5d86524f0015cc131011eba221f566768ff46432fe319cb412c80ea55577752c",
+    "MP4/src/agent.py": "4490ce04447a4500396ec825f01f8d031f07232168057c4affd106937ec23e62",
+    "MP4/src/interface_check.py": "65c15d3747fab7e46d4c0818709826f8da4fc937fd9ee97fe781ef9f41a7d3ac",
+    "MP4/src/unsafe_check.py": "6d94b79db7b8678f3ecb6cfde41b225265546f13e630c4582f79821671157cb5",
+    "MP4/src/dev/smoke_test.sh": "ae72a2a4ea57e3d416179ed389e2067482735fe483726c965ef3be267655353b",
+    "MP4/src/dev/mock_llm_server.py": "df25a56f25bd7f575b207cd08b3a7527719422074626b43b49bcc9593f0ebe79",
+    "MP4/configs/projects.json": "604f94a8bac604d1a7dcbf3bf5cb18cf4b3b430994b87415f098479a62730175",
+    "MP4/configs/pipeline.json": "6bef0b9fd6caf51202848ad380264b915750d162faa8723980da4e90ea543101",
+    "MP4/configs/prompts/system.md": "5a65d65841c2df319872d28f570cc11cba8c253f0d8519ce3b53ff96579f7abb",
+    "MP4/configs/prompts/task.md": "5583e48183c0f39ad0d1f87d4ff73b28cafae0a5c071e7bd8c90fdc14068a609",
+    "MP4/configs/prompts/feedback.md": "230a6ec90b656c1fb9a38259bc345dd58e63ac17673496e0232d371e62da6fcf",
+    "MP4/configs/prompts/phases.json": "ad6baabafe5952e2919c95cdf94c535485f87ba17027b1f9fd646f7c1914b15c",
+    "MP4/translations/project_2/Cargo.toml": "a1a255f6116609911c10cbc79d4037bdbb097300157d8f9c92a14151177acecf",
+    "MP4/translations/project_2/Cargo.lock": "7b696914217f687a8d8ad5726522f70b033a51c9633deaa93da5613fdc6ea7c7",
+    "MP4/translations/project_2/.gitignore": "b53ee26e6ff1da219b0563333a76d2c9ec19eec713d6ee54e11a1edacb0e9f3d",
+    "MP4/translations/project_1/Cargo.toml": "8ea43d666c9fda259c1b23fff946996dc2e57bd88f9945edcf5bb46d529f29cd",
+    "MP4/translations/project_1/Cargo.lock": "047f6e50b7b954b730015565cfbc11fe361afaacf99384d954c415bd44b371e7",
+    "MP4/translations/project_1/.gitignore": "b53ee26e6ff1da219b0563333a76d2c9ec19eec713d6ee54e11a1edacb0e9f3d",
+    "MP4/translations/project_1/src/cset.rs": "d45349c939f8b415a06862020252e41f8d874ff7d6d494aebdf17792af59bd3a",
+    "MP4/translations/project_1/src/lib.rs": "59a83b2e2fac7b382dfdf42b2ea06ae1646ccf2ef1e2763a432ca50bedced8d7",
+    "MP4/translations/project_1/src/bin/test.rs": "3db55043272a4de6cf923e9fbbbacc09e4961f40b42d351fc9155c77857cb663",
+    "MP4/translations/project_1/src/interfaces/cset.rs": "95ad1b829f76a70aef067d6bd2fc30000e3ad2b9f65613ef6785cbe67e6542c8",
+    "MP4/translations/project_2/src/base64.rs": "233eb43a347520710feca7a66954eecb7575189ad921a193bf19c0dcfee71e6d",
+    "MP4/translations/project_2/src/lib.rs": "a5de0ce136c3cc45ff66c0d2cf53e24c74782a0505c561aca7944b4de6ca4b0f",
+    "MP4/translations/project_2/src/compactsize.rs": "31ab471ea49f3efaa62b6afa06c9fe2c848cb488327778f918f11a6b2330038e",
+    "MP4/translations/project_2/src/tx.rs": "e198cdef735b95bb8530afd233dcc86e3dea6d47f951608c0317a68ecf57a47b",
+    "MP4/translations/project_2/src/cli.rs": "e2e599177bfae540dc3acb294db4cffd79626fd97a592d00f7849574d8e290bf",
+    "MP4/translations/project_2/src/psbt.rs": "a6eff177bf7bc65336832545ad8342cfd3ea197cb0fcda6f26f8628a12a52830",
+    "MP4/translations/project_2/src/bin/test.rs": "62f4c11b45b95ea46e0f4f52fd987eb249e6ea8aea12dbf174f370cc2c556e19",
+    "MP4/translations/project_2/src/interfaces/base64.rs": "905751f804cf7c6748bada6b8fb107b6b2260ceccde1946f2b746402a215bc69",
+    "MP4/translations/project_2/src/interfaces/compactsize.rs": "ea57f5da93401c50ea2de97f25f2d6ec0820e93086a0a7eb1d659c218c8bc383",
+    "MP4/translations/project_2/src/interfaces/tx.rs": "5ed53be87ba4983bf03de0dc09d3d193095046a03486cdf6fe02405562865fda",
+    "MP4/translations/project_2/src/interfaces/cli.rs": "6511b2df52ddb56d441a5cd81f24ad81b6484653afdf5d3670aa96fedae7dc0a",
+    "MP4/translations/project_2/src/interfaces/psbt.rs": "2b4d05eae31beac98134444d9b71c54c38675cec473ac3d9c7dea71a98f2286b",
+    "MP4/README.md": "02016ab50628be851b8af05b30b07d9770a1c31afd44d5849e7d43fdd1716ca6",
+    "report.tex": "366ae5d5853bc80a00d0344fa0efb2fe124a7a0151513304b6f1967a38b79825"
+  },
+  "protected_comparison": [
+    {
+      "project": 1,
+      "path": "Cargo.toml",
+      "skeleton_sha256": "8ea43d666c9fda259c1b23fff946996dc2e57bd88f9945edcf5bb46d529f29cd",
+      "translation_sha256": "8ea43d666c9fda259c1b23fff946996dc2e57bd88f9945edcf5bb46d529f29cd",
+      "identical": true
+    },
+    {
+      "project": 1,
+      "path": "Cargo.lock",
+      "skeleton_sha256": "047f6e50b7b954b730015565cfbc11fe361afaacf99384d954c415bd44b371e7",
+      "translation_sha256": "047f6e50b7b954b730015565cfbc11fe361afaacf99384d954c415bd44b371e7",
+      "identical": true
+    },
+    {
+      "project": 1,
+      "path": ".gitignore",
+      "skeleton_sha256": "44c92e3a70ad3307b7056871c2bdb096d8bfa9373f5bf06a79bb6324a20ff2fb",
+      "translation_sha256": "b53ee26e6ff1da219b0563333a76d2c9ec19eec713d6ee54e11a1edacb0e9f3d",
+      "identical": false
+    },
+    {
+      "project": 1,
+      "path": "src/lib.rs",
+      "skeleton_sha256": "59a83b2e2fac7b382dfdf42b2ea06ae1646ccf2ef1e2763a432ca50bedced8d7",
+      "translation_sha256": "59a83b2e2fac7b382dfdf42b2ea06ae1646ccf2ef1e2763a432ca50bedced8d7",
+      "identical": true
+    },
+    {
+      "project": 1,
+      "path": "src/bin/test.rs",
+      "skeleton_sha256": "3db55043272a4de6cf923e9fbbbacc09e4961f40b42d351fc9155c77857cb663",
+      "translation_sha256": "3db55043272a4de6cf923e9fbbbacc09e4961f40b42d351fc9155c77857cb663",
+      "identical": true
+    },
+    {
+      "project": 1,
+      "path": "src/interfaces/cset.rs",
+      "skeleton_sha256": "95ad1b829f76a70aef067d6bd2fc30000e3ad2b9f65613ef6785cbe67e6542c8",
+      "translation_sha256": "95ad1b829f76a70aef067d6bd2fc30000e3ad2b9f65613ef6785cbe67e6542c8",
+      "identical": true
+    },
+    {
+      "project": 2,
+      "path": "Cargo.toml",
+      "skeleton_sha256": "a1a255f6116609911c10cbc79d4037bdbb097300157d8f9c92a14151177acecf",
+      "translation_sha256": "a1a255f6116609911c10cbc79d4037bdbb097300157d8f9c92a14151177acecf",
+      "identical": true
+    },
+    {
+      "project": 2,
+      "path": "Cargo.lock",
+      "skeleton_sha256": "7b696914217f687a8d8ad5726522f70b033a51c9633deaa93da5613fdc6ea7c7",
+      "translation_sha256": "7b696914217f687a8d8ad5726522f70b033a51c9633deaa93da5613fdc6ea7c7",
+      "identical": true
+    },
+    {
+      "project": 2,
+      "path": "src/lib.rs",
+      "skeleton_sha256": "a5de0ce136c3cc45ff66c0d2cf53e24c74782a0505c561aca7944b4de6ca4b0f",
+      "translation_sha256": "a5de0ce136c3cc45ff66c0d2cf53e24c74782a0505c561aca7944b4de6ca4b0f",
+      "identical": true
+    },
+    {
+      "project": 2,
+      "path": "src/bin/test.rs",
+      "skeleton_sha256": "62f4c11b45b95ea46e0f4f52fd987eb249e6ea8aea12dbf174f370cc2c556e19",
+      "translation_sha256": "62f4c11b45b95ea46e0f4f52fd987eb249e6ea8aea12dbf174f370cc2c556e19",
+      "identical": true
+    },
+    {
+      "project": 2,
+      "path": "src/interfaces/base64.rs",
+      "skeleton_sha256": "905751f804cf7c6748bada6b8fb107b6b2260ceccde1946f2b746402a215bc69",
+      "translation_sha256": "905751f804cf7c6748bada6b8fb107b6b2260ceccde1946f2b746402a215bc69",
+      "identical": true
+    },
+    {
+      "project": 2,
+      "path": "src/interfaces/compactsize.rs",
+      "skeleton_sha256": "ea57f5da93401c50ea2de97f25f2d6ec0820e93086a0a7eb1d659c218c8bc383",
+      "translation_sha256": "ea57f5da93401c50ea2de97f25f2d6ec0820e93086a0a7eb1d659c218c8bc383",
+      "identical": true
+    },
+    {
+      "project": 2,
+      "path": "src/interfaces/tx.rs",
+      "skeleton_sha256": "5ed53be87ba4983bf03de0dc09d3d193095046a03486cdf6fe02405562865fda",
+      "translation_sha256": "5ed53be87ba4983bf03de0dc09d3d193095046a03486cdf6fe02405562865fda",
+      "identical": true
+    },
+    {
+      "project": 2,
+      "path": "src/interfaces/cli.rs",
+      "skeleton_sha256": "6511b2df52ddb56d441a5cd81f24ad81b6484653afdf5d3670aa96fedae7dc0a",
+      "translation_sha256": "6511b2df52ddb56d441a5cd81f24ad81b6484653afdf5d3670aa96fedae7dc0a",
+      "identical": true
+    },
+    {
+      "project": 2,
+      "path": "src/interfaces/psbt.rs",
+      "skeleton_sha256": "2b4d05eae31beac98134444d9b71c54c38675cec473ac3d9c7dea71a98f2286b",
+      "translation_sha256": "2b4d05eae31beac98134444d9b71c54c38675cec473ac3d9c7dea71a98f2286b",
+      "identical": true
+    }
+  ],
+  "credential_present": false,
+  "paid_calls_authorized": false,
+  "pinned_toolchain_available": false,
+  "official_analyzer": null,
+  "official_validator": null
+}

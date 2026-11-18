@@ -1,0 +1,8 @@
+{
+  "retained": true,
+  "pending_partial": false,
+  "selected_hashes": {
+    "src/cset.rs": "069b7dcbe67ea99b7ec880b8cb31fafaf3a89de5615c38a49fe79d9bde1184a7"
+  },
+  "selected_phase": "REGRESSIONS"
+}

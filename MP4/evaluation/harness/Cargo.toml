@@ -1,0 +1,9 @@
+[package]
+name = "mp4-regressions"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+cset = { path = "../../translations/project_1" }
+libpsbt = { path = "../../translations/project_2" }

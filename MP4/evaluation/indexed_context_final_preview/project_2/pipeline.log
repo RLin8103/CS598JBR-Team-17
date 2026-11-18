@@ -1,0 +1,4 @@
+[12:13:45] preview baseline: cargo build
+[12:13:46] preview baseline: cargo test
+[12:13:46] preview baseline: cargo clippy (4 categories)
+[12:13:48] preview baseline: unsafe metrics

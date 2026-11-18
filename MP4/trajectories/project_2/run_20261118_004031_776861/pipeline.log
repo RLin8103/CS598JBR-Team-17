@@ -1,0 +1,13 @@
+[00:40:31] project=libpsbt model=qwen3.5:9b toolchain=nightly-2025-05-13
+[00:40:31] baseline: cargo build
+[00:40:34] baseline: cargo test
+[00:40:37] baseline: cargo clippy (4 categories)
+[00:40:44] baseline: unsafe metrics
+[00:40:50] === iteration 1/1 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[00:43:50] llm_error: all models failed: qwen3.5:9b: failed after 1 attempts: timed out
+[00:43:50] final (selected snapshot): cargo build
+[00:43:51] final (selected snapshot): cargo test
+[00:43:52] final (selected snapshot): cargo clippy (4 categories)
+[00:43:54] final (selected snapshot): unsafe metrics
+[00:43:57] STOP: llm_error: all models failed: qwen3.5:9b: failed after 1 attempts: timed out | iterations=1 (best 0) | compiles=True tests=6/8 unsafe=0 clippy=2
+[00:43:57] Selected best snapshot restored; interrupted_work/ retains the unvalidated work for inspection.

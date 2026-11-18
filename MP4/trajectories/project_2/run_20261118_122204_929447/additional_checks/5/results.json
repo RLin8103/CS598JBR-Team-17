@@ -1,0 +1,84 @@
+{
+  "project_id": 2,
+  "source_sha256": {
+    "1": {
+      "src/bin/test.rs": "3db55043272a4de6cf923e9fbbbacc09e4961f40b42d351fc9155c77857cb663",
+      "src/cset.rs": "58f3a5421a759005d2ac0cb2c87e1bce7d039dc0c79bab886ab07b8a2b922310",
+      "src/interfaces/cset.rs": "95ad1b829f76a70aef067d6bd2fc30000e3ad2b9f65613ef6785cbe67e6542c8",
+      "src/lib.rs": "59a83b2e2fac7b382dfdf42b2ea06ae1646ccf2ef1e2763a432ca50bedced8d7"
+    },
+    "2": {
+      "src/base64.rs": "98d8877f29674e7fa161f3ffda1799cf334be679c769780a235de7d3d433a9fa",
+      "src/bin/test.rs": "62f4c11b45b95ea46e0f4f52fd987eb249e6ea8aea12dbf174f370cc2c556e19",
+      "src/cli.rs": "e2e599177bfae540dc3acb294db4cffd79626fd97a592d00f7849574d8e290bf",
+      "src/compactsize.rs": "31ab471ea49f3efaa62b6afa06c9fe2c848cb488327778f918f11a6b2330038e",
+      "src/interfaces/base64.rs": "905751f804cf7c6748bada6b8fb107b6b2260ceccde1946f2b746402a215bc69",
+      "src/interfaces/cli.rs": "6511b2df52ddb56d441a5cd81f24ad81b6484653afdf5d3670aa96fedae7dc0a",
+      "src/interfaces/compactsize.rs": "ea57f5da93401c50ea2de97f25f2d6ec0820e93086a0a7eb1d659c218c8bc383",
+      "src/interfaces/psbt.rs": "2b4d05eae31beac98134444d9b71c54c38675cec473ac3d9c7dea71a98f2286b",
+      "src/interfaces/tx.rs": "5ed53be87ba4983bf03de0dc09d3d193095046a03486cdf6fe02405562865fda",
+      "src/lib.rs": "a5de0ce136c3cc45ff66c0d2cf53e24c74782a0505c561aca7944b4de6ca4b0f",
+      "src/psbt.rs": "cc1012cd98a338db0d14cd44af71640f708992c007b9cca6bf634686a303e682",
+      "src/tx.rs": "e198cdef735b95bb8530afd233dcc86e3dea6d47f951608c0317a68ecf57a47b"
+    }
+  },
+  "c_compile": {
+    "cmd": "cc -std=c11 -fsanitize=address,undefined -fno-sanitize-recover=all -g -I /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/evaluation/harness/compat /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/evaluation/harness/psbt_oracle.c /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/subjects/project_2/c_source/psbt.c /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/subjects/project_2/c_source/base64.c /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/subjects/project_2/c_source/compactsize.c /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/subjects/project_2/c_source/tx.c -o /var/folders/_d/1v55s9t963nd576lttdnhgy00000gn/T/mp4-oracle-o3pz6jjo/oracle",
+    "returncode": 0,
+    "stdout": "",
+    "stderr": "",
+    "seconds": 0.18,
+    "timed_out": false,
+    "interrupted": false
+  },
+  "c_oracle": {
+    "cmd": "/var/folders/_d/1v55s9t963nd576lttdnhgy00000gn/T/mp4-oracle-o3pz6jjo/oracle",
+    "returncode": 0,
+    "stdout": "hex_prefix 70736274ff\nraw_prefix 3132333400\nbase64 63484e696450383d00\nbase62 7a30303000\nunknown_global UNKNOWN_GLOBAL_TYPE\ncompactsize_253_c fd00aa\n",
+    "stderr": "",
+    "seconds": 0.29,
+    "timed_out": false,
+    "interrupted": false
+  },
+  "inventory": {
+    "cmd": "cargo +nightly-2025-05-13 test --offline --locked --lib --manifest-path /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/evaluation/harness/Cargo.toml -- --skip cset_ --list",
+    "returncode": 0,
+    "stdout": "tests::base62_ambiguous_index_62_returns_failure_without_panic: test\ntests::base62_defined_table_indices_match_c: test\ntests::base62_undefined_c_index_63_returns_failure_without_panic: test\ntests::base64_known_defined_c_output: test\ntests::compactsize_exact_buffers: test\ntests::decode_base64_honors_declared_destination_limit: test\ntests::decode_hex_checks_actual_destination: test\ntests::decode_honors_input_prefix: test\ntests::decode_rejects_oversized_source_length: test\ntests::encode_base62_honors_declared_limit: test\ntests::encode_base64_honors_declared_limit: test\ntests::encode_hex_checks_actual_destination: test\ntests::encode_honors_input_prefix: test\ntests::encode_rejects_oversized_source_length: test\ntests::errors_include_useful_context: test\ntests::malformed_hex_and_non_ascii_return_errors: test\ntests::multiple_maps_preserve_all_records_and_scopes: test\ntests::read_rejects_length_larger_than_backing_slice: test\ntests::record_callback_indices_for_multi_map_fixture: test\ntests::transaction_callbacks_precede_unsigned_record: test\ntests::unknown_global_type_label: test\n\n21 tests, 0 benchmarks\n",
+    "stderr": "warning: field `v` is never read\n   --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:293:5\n    |\n288 | pub struct Cset<T> {\n    |            ---- field in this struct\n...\n293 |     v: CsetValue<T>,\n    |     ^\n    |\n    = note: `#[warn(dead_code)]` on by default\n\nwarning: `cset` (lib) generated 1 warning\n   Compiling libpsbt v0.1.0 (/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2)\nwarning: constant `BUF_SIZE` is never used\n --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/cli.rs:6:7\n  |\n6 | const BUF_SIZE: usize = 4096;\n  |       ^^^^^^^^\n  |\n  = note: `#[warn(dead_code)]` on by default\n\nwarning: function `main` is never used\n --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/cli.rs:8:4\n  |\n8 | fn main() -> i32 {\n  |    ^^^^\n\nwarning: `libpsbt` (lib) generated 2 warnings\n   Compiling mp4-regressions v0.1.0 (/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/evaluation/harness)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.29s\n     Running unittests src/lib.rs (.runtime/target/regressions/debug/deps/mp4_regressions-b5d92567a85da7ba)\n",
+    "seconds": 0.52,
+    "timed_out": false,
+    "interrupted": false
+  },
+  "rust": {
+    "cmd": "cargo +nightly-2025-05-13 test --offline --locked --lib --manifest-path /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/evaluation/harness/Cargo.toml -- --skip cset_ --test-threads=1",
+    "returncode": 101,
+    "stdout": "\nrunning 21 tests\ntest tests::base62_ambiguous_index_62_returns_failure_without_panic ... ok\ntest tests::base62_defined_table_indices_match_c ... ok\ntest tests::base62_undefined_c_index_63_returns_failure_without_panic ... ok\ntest tests::base64_known_defined_c_output ... ok\ntest tests::compactsize_exact_buffers ... ok\ntest tests::decode_base64_honors_declared_destination_limit ... FAILED\ntest tests::decode_hex_checks_actual_destination ... ok\ntest tests::decode_honors_input_prefix ... FAILED\ntest tests::decode_rejects_oversized_source_length ... FAILED\ntest tests::encode_base62_honors_declared_limit ... FAILED\ntest tests::encode_base64_honors_declared_limit ... FAILED\ntest tests::encode_hex_checks_actual_destination ... FAILED\ntest tests::encode_honors_input_prefix ... FAILED\ntest tests::encode_rejects_oversized_source_length ... FAILED\ntest tests::errors_include_useful_context ... FAILED\ntest tests::malformed_hex_and_non_ascii_return_errors ... ok\ntest tests::multiple_maps_preserve_all_records_and_scopes ... ok\ntest tests::read_rejects_length_larger_than_backing_slice ... FAILED\ntest tests::record_callback_indices_for_multi_map_fixture ... ok\ntest tests::transaction_callbacks_precede_unsigned_record ... FAILED\ntest tests::unknown_global_type_label ... ok\n\nfailures:\n\n---- tests::decode_base64_honors_declared_destination_limit stdout ----\n\nthread 'tests::decode_base64_honors_declared_destination_limit' panicked at src/lib.rs:133:9:\nassertion `left != right` failed: input cHNidP8=, declared destination capacity 1, backing slice capacity 20\n  left: Ok\n right: Ok\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n\n---- tests::decode_honors_input_prefix stdout ----\n\nthread 'tests::decode_honors_input_prefix' panicked at src/lib.rs:112:9:\nassertion `left == right` failed: input 70736274ffNOT_HEX, declared source length 10, destination capacity 20\n  left: ReadError\n right: Ok\n\n---- tests::decode_rejects_oversized_source_length stdout ----\n\nthread 'tests::decode_rejects_oversized_source_length' panicked at src/lib.rs:120:9:\nassertion `left != right` failed: hex input has 10 bytes, declared source length is 11, destination capacity 20\n  left: Ok\n right: Ok\n\n---- tests::encode_base62_honors_declared_limit stdout ----\n\nthread 'tests::encode_base62_honors_declared_limit' panicked at src/lib.rs:177:9:\nassertion `left != right` failed: Base62 source [0x12, 0x34], declared destination capacity 1, backing slice capacity 32\n  left: Ok\n right: Ok\n\n---- tests::encode_base64_honors_declared_limit stdout ----\n\nthread 'tests::encode_base64_honors_declared_limit' panicked at src/lib.rs:169:9:\nassertion `left != right` failed: Base64 source [0x12, 0x34], declared destination capacity 1, backing slice capacity 32\n  left: Ok\n right: Ok\n\n---- tests::encode_hex_checks_actual_destination stdout ----\n\nthread 'tests::encode_hex_checks_actual_destination' panicked at /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/psbt.rs:467:17:\nindex out of bounds: the len is 1 but the index is 1\n\n---- tests::encode_honors_input_prefix stdout ----\n\nthread 'tests::encode_honors_input_prefix' panicked at src/lib.rs:150:9:\nassertion `left == right` failed: hex encoding [0x12, 0x34, 0xff] with declared source length 2\n  left: [49, 50, 51, 52, 102, 102, 0]\n right: [49, 50, 51, 52, 0]\n\n---- tests::encode_rejects_oversized_source_length stdout ----\n\nthread 'tests::encode_rejects_oversized_source_length' panicked at src/lib.rs:156:9:\nassertion `left != right` failed: hex source [0x12] with declared source length 2\n  left: Ok\n right: Ok\n\n---- tests::errors_include_useful_context stdout ----\n\nthread 'tests::errors_include_useful_context' panicked at src/lib.rs:219:9:\nencoding a fresh PSBT, expected finalization context, got \"psbt error\"\n\n---- tests::read_rejects_length_larger_than_backing_slice stdout ----\n\nthread 'tests::read_rejects_length_larger_than_backing_slice' panicked at src/lib.rs:105:9:\nassertion `left != right` failed: declared length 160, backing slice length 159\n  left: Ok\n right: Ok\n\n---- tests::transaction_callbacks_precede_unsigned_record stdout ----\n\nthread 'tests::transaction_callbacks_precede_unsigned_record' panicked at src/lib.rs:97:9:\nexpected prefix [txin, txin, txout, txout, tx, record:Global:0:0], observed [\"record:Global:0:0\", \"record:Global:0:153\", \"record:Inputs:0:4\", \"record:Inputs:0:5\", \"record:Inputs:1:4\", \"record:Inputs:1:5\", \"record:Outputs:0:0\", \"record:Outputs:0:1\", \"record:Outputs:1:0\", \"record:Outputs:1:1\"]\n\n\nfailures:\n    tests::decode_base64_honors_declared_destination_limit\n    tests::decode_honors_input_prefix\n    tests::decode_rejects_oversized_source_length\n    tests::encode_base62_honors_declared_limit\n    tests::encode_base64_honors_declared_limit\n    tests::encode_hex_checks_actual_destination\n    tests::encode_honors_input_prefix\n    tests::encode_rejects_oversized_source_length\n    tests::errors_include_useful_context\n    tests::read_rejects_length_larger_than_backing_slice\n    tests::transaction_callbacks_precede_unsigned_record\n\ntest result: FAILED. 10 passed; 11 failed; 0 ignored; 0 measured; 29 filtered out; finished in 0.00s\n\n",
+    "stderr": "warning: field `v` is never read\n   --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:293:5\n    |\n288 | pub struct Cset<T> {\n    |            ---- field in this struct\n...\n293 |     v: CsetValue<T>,\n    |     ^\n    |\n    = note: `#[warn(dead_code)]` on by default\n\nwarning: `cset` (lib) generated 1 warning\nwarning: constant `BUF_SIZE` is never used\n --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/cli.rs:6:7\n  |\n6 | const BUF_SIZE: usize = 4096;\n  |       ^^^^^^^^\n  |\n  = note: `#[warn(dead_code)]` on by default\n\nwarning: function `main` is never used\n --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/cli.rs:8:4\n  |\n8 | fn main() -> i32 {\n  |    ^^^^\n\nwarning: `libpsbt` (lib) generated 2 warnings\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s\n     Running unittests src/lib.rs (.runtime/target/regressions/debug/deps/mp4_regressions-b5d92567a85da7ba)\nerror: test failed, to rerun pass `--lib`\n",
+    "seconds": 0.04,
+    "timed_out": false,
+    "interrupted": false
+  },
+  "outcomes": {
+    "tests::base62_ambiguous_index_62_returns_failure_without_panic": "ok",
+    "tests::base62_defined_table_indices_match_c": "ok",
+    "tests::base62_undefined_c_index_63_returns_failure_without_panic": "ok",
+    "tests::base64_known_defined_c_output": "ok",
+    "tests::compactsize_exact_buffers": "ok",
+    "tests::decode_base64_honors_declared_destination_limit": "FAILED",
+    "tests::decode_hex_checks_actual_destination": "ok",
+    "tests::decode_honors_input_prefix": "FAILED",
+    "tests::decode_rejects_oversized_source_length": "FAILED",
+    "tests::encode_base62_honors_declared_limit": "FAILED",
+    "tests::encode_base64_honors_declared_limit": "FAILED",
+    "tests::encode_hex_checks_actual_destination": "FAILED",
+    "tests::encode_honors_input_prefix": "FAILED",
+    "tests::encode_rejects_oversized_source_length": "FAILED",
+    "tests::errors_include_useful_context": "FAILED",
+    "tests::malformed_hex_and_non_ascii_return_errors": "ok",
+    "tests::multiple_maps_preserve_all_records_and_scopes": "ok",
+    "tests::read_rejects_length_larger_than_backing_slice": "FAILED",
+    "tests::record_callback_indices_for_multi_map_fixture": "ok",
+    "tests::transaction_callbacks_precede_unsigned_record": "FAILED",
+    "tests::unknown_global_type_label": "ok"
+  }
+}

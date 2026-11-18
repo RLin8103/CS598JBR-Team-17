@@ -26,15 +26,21 @@ HERE = Path(__file__).resolve().parent
 # ----------------------------------------------------------------------------- process runner
 def run_cmd(cmd: list[str], cwd: Path, env: dict, timeout: int) -> dict:
     started = time.time()
-    proc = subprocess.Popen(
-        cmd, cwd=str(cwd), env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-        text=True, errors="replace", start_new_session=True,
-    )
+    try:
+        proc = subprocess.Popen(
+            cmd, cwd=str(cwd), env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            text=True, errors="replace", start_new_session=True,
+        )
+    except OSError as exc:
+        return {"cmd": shlex.join(cmd), "returncode": None, "stdout": "", "stderr": str(exc),
+                "seconds": round(time.time() - started, 2), "timed_out": False, "launch_error": str(exc)}
     timed_out = False
+    interrupted = False
     try:
         out, err = proc.communicate(timeout=timeout)
-    except subprocess.TimeoutExpired:
-        timed_out = True
+    except (subprocess.TimeoutExpired, KeyboardInterrupt) as exc:
+        timed_out = isinstance(exc, subprocess.TimeoutExpired)
+        interrupted = isinstance(exc, KeyboardInterrupt)
         try:
             os.killpg(proc.pid, signal.SIGKILL)
         except (ProcessLookupError, PermissionError):
@@ -47,12 +53,17 @@ def run_cmd(cmd: list[str], cwd: Path, env: dict, timeout: int) -> dict:
         "stderr": err or "",
         "seconds": round(time.time() - started, 2),
         "timed_out": timed_out,
+        "interrupted": interrupted,
     }
 
 
 def cargo_env(target_dir: Path) -> dict:
     env = os.environ.copy()
-    cargo_bin = str(Path.home() / ".cargo" / "bin")
+    runtime = HERE.parent / ".runtime"
+    if (runtime / "cargo" / "bin" / "cargo").exists():
+        env["CARGO_HOME"] = str(runtime / "cargo")
+        env["RUSTUP_HOME"] = str(runtime / "rustup")
+    cargo_bin = str(Path(env.get("CARGO_HOME", Path.home() / ".cargo")) / "bin")
     if cargo_bin not in env.get("PATH", ""):
         env["PATH"] = cargo_bin + os.pathsep + env.get("PATH", "")
     env["CARGO_TARGET_DIR"] = str(target_dir)
@@ -81,7 +92,7 @@ class CargoTools:
         res = self._cargo("build", "--all-targets")
         errors = [l for l in res["stderr"].splitlines()
                   if re.match(r"error(\[E\d+\])?:", l) and "could not compile" not in l and "aborting due to" not in l]
-        res["ok"] = res["returncode"] == 0
+        res["ok"] = process_ok(res)
         res["error_count"] = len(errors)
         res["warning_count"] = sum(1 for l in res["stderr"].splitlines() if l.startswith("warning:") and "generated" not in l)
         res["pretty"] = "" if res["ok"] else res["stderr"]
@@ -92,16 +103,33 @@ class CargoTools:
         res = self._cargo("test", "--no-fail-fast", timeout=self.test_timeout)
         text = res["stdout"] + "\n" + res["stderr"]
         passed = failed = ignored = 0
-        for m in re.finditer(r"test result: \w+\. (\d+) passed; (\d+) failed; (\d+) ignored", text):
-            passed += int(m.group(1))
-            failed += int(m.group(2))
-            ignored += int(m.group(3))
+        summaries = list(re.finditer(r"^test result: (ok|FAILED)\. (\d+) passed; (\d+) failed; (\d+) ignored; (\d+) measured; (\d+) filtered out;", text, re.M))
+        for m in summaries:
+            passed += int(m.group(2))
+            failed += int(m.group(3))
+            ignored += int(m.group(4))
         failing = sorted(set(re.findall(r"^test (\S+) \.\.\. FAILED", text, re.M)))
         passing = sorted(set(re.findall(r"^test (\S+) \.\.\. ok", text, re.M)))
+        starts = [int(n) for n in re.findall(r"^running (\d+) tests?$", text, re.M)]
+        # Every started harness must close, including zero-test/doc-test targets.
+        records = re.findall(r"^test (\S+) \.\.\. (ok|FAILED|ignored)(?: .*)?$", text, re.M)
+        valid = bool(summaries) and len(starts) == len(summaries)
+        valid = valid and all(n == sum(int(m.group(i)) for i in (2, 3, 4, 5)) for n, m in zip(starts, summaries))
+        valid = valid and len(records) == passed + failed + ignored
+        valid = valid and all((m.group(1) == "ok") == (int(m.group(3)) == 0) for m in summaries)
+        test_results = dict.fromkeys((name for name, _ in records), 0)
+        for name, status in records:
+            test_results[name] += int(status == "ok")
         res.update({
+            "test_results": test_results,
             "passed": passed, "failed": failed, "ignored": ignored, "total": passed + failed,
             "failing_tests": failing, "passing_tests": passing,
             "compile_failed": ("could not compile" in text) and passed + failed == 0,
+            "valid_output": bool(valid),
+            "ok": process_ok(res) and bool(valid) and failed == 0 and passed > 0,
+            "distinct_passed": len(passing), "distinct_failed": len(failing),
+            "distinct_total": len(set(passing + failing)),
+            "harnesses_started": starts, "harnesses_completed": len(summaries),
         })
         return res
 
@@ -116,6 +144,10 @@ class CargoTools:
         counts: dict[str, int] = {}
         rendered: dict[str, list[str]] = {}
         raw_logs: dict[str, str] = {}
+        executions: dict[str, dict] = {}
+        self._touch_sources()
+        exact = self._cargo("clippy", "--all-targets", "--all-features", "--",
+                            *[arg for g in ("correctness", "style", "complexity", "perf") for arg in ("-W", f"clippy::{g}")])
         for group in self.groups:
             self._touch_sources()  # make cargo re-run clippy with different lint flags
             res = self._cargo(
@@ -123,18 +155,39 @@ class CargoTools:
             )
             seen = set()
             msgs: list[str] = []
+            valid_json = True
+            finished = False
             for line in res["stdout"].splitlines():
                 try:
                     obj = json.loads(line)
                 except json.JSONDecodeError:
+                    valid_json = False
                     continue
+                if not isinstance(obj, dict):
+                    valid_json = False
+                    continue
+                if obj.get("reason") == "build-finished":
+                    finished = obj.get("success") is True
                 if obj.get("reason") != "compiler-message":
                     continue
-                m = obj["message"]
-                code = (m.get("code") or {}).get("code") or ""
+                m = obj.get("message")
+                if not isinstance(m, dict):
+                    valid_json = False
+                    continue
+                code_info = m.get("code") or {}
+                if not isinstance(code_info, dict):
+                    valid_json = False
+                    continue
+                code = code_info.get("code") or ""
+                if not isinstance(code, str) or not isinstance(m.get("level"), str) or not isinstance(m.get("message"), str):
+                    valid_json = False
+                    continue
                 if not code.startswith("clippy::") or m.get("level") not in ("warning", "error"):
                     continue
                 text = m.get("rendered") or m.get("message", "")
+                if not isinstance(text, str):
+                    valid_json = False
+                    continue
                 if text in seen:
                     continue
                 seen.add(text)
@@ -142,10 +195,14 @@ class CargoTools:
             counts[group] = len(msgs)
             rendered[group] = msgs
             raw_logs[group] = res["stderr"][-3000:]
-        compile_failed = any("could not compile" in raw_logs[g] and counts[g] == 0 for g in self.groups)
+            res["valid_output"] = valid_json and finished
+            res["ok"] = process_ok(res) and res["valid_output"]
+            executions[group] = res
+        ok = process_ok(exact) and all(r["ok"] for r in executions.values())
         return {
             "counts": counts, "total": sum(counts.values()), "rendered": rendered,
-            "compile_failed": compile_failed, "raw_stderr_tail": raw_logs,
+            "ok": ok, "compile_failed": not ok, "raw_stderr_tail": raw_logs,
+            "exact_command": exact, "executions": executions,
         }
 
     # ------------------------------------------------------------------ safety
@@ -156,22 +213,47 @@ class CargoTools:
             res = run_cmd(cmd, self.crate, self.env, self.cmd_timeout)
             try:
                 data = json.loads(res["stdout"])
-                totals = data.get("totals", data)
-                return {"tool": "official", "totals": totals, "offenders": data.get("offenders", []), "raw": res["stdout"][-4000:]}
-            except json.JSONDecodeError:
-                return {"tool": "official", "totals": {}, "offenders": [], "raw": (res["stdout"] + res["stderr"])[-4000:],
-                        "error": "official unsafe-metrics output was not JSON; see raw"}
+                totals = data.get("totals", data) if isinstance(data, dict) else None
+                error = metrics_schema_error(totals)
+                if isinstance(data, dict) and "offenders" in data and not isinstance(data["offenders"], list):
+                    error = "optional offenders must be a list"
+                if not process_ok(res):
+                    error = "official analyzer execution failed or timed out"
+                return {"tool": "official", "totals": totals if not error else None,
+                        "offenders": data.get("offenders", []) if isinstance(data, dict) else [],
+                        "execution": res, "valid": error is None, "error": error}
+            except json.JSONDecodeError as exc:
+                return {"tool": "official", "totals": None, "offenders": [], "execution": res,
+                        "valid": False, "error": f"invalid official analyzer JSON: {exc}"}
         sys.path.insert(0, str(HERE))
         import unsafe_check  # noqa: WPS433 (local import keeps the module optional)
-        return unsafe_check.analyse(self.crate)
+        data = unsafe_check.analyse(self.crate)
+        data["valid"] = metrics_schema_error(data.get("totals")) is None
+        data["official_available"] = False
+        return data
 
 
 PRIMARY = ("unsafe_lines", "unsafe_calls", "unsafe_casts", "pointer_arithmetic")
 
 
-def unsafe_primary_total(metrics: dict) -> int:
-    totals = metrics.get("totals", {})
-    return sum(int(totals.get(k, 0) or 0) for k in PRIMARY)
+def process_ok(result: dict) -> bool:
+    return type(result.get("returncode")) is int and result["returncode"] == 0 and result.get("timed_out") is False and not result.get("launch_error") and not result.get("interrupted")
+
+
+def metrics_schema_error(totals) -> str | None:
+    if not isinstance(totals, dict):
+        return "unsafe metrics must be an object"
+    for key in PRIMARY:
+        if key not in totals or type(totals[key]) is not int or totals[key] < 0:
+            return f"missing/invalid nonnegative integer metric: {key}"
+    return None
+
+
+def unsafe_primary_total(metrics: dict) -> int | None:
+    totals = metrics.get("totals")
+    if not metrics.get("valid") or metrics_schema_error(totals):
+        return None
+    return sum(totals[k] for k in PRIMARY)
 
 
 # ----------------------------------------------------------------------------- guarded workspace
@@ -219,7 +301,12 @@ class Workspace:
         return any(glob_match(rel, pat) for pat in self.protected_patterns)
 
     def is_editable(self, rel: str) -> bool:
-        if self.is_protected(rel) or ".." in rel.split("/") or rel.startswith("/"):
+        if self.is_protected(rel) or ".." in rel.split("/") or rel.startswith("/") or "\\" in rel:
+            return False
+        target = self.crate / rel
+        if not target.resolve().is_relative_to(self.crate.resolve()):
+            return False
+        if any(p.is_symlink() for p in (target, *target.parents) if p.is_relative_to(self.crate)):
             return False
         return any(glob_match(rel, pat) for pat in self.editable_patterns)
 
@@ -233,10 +320,12 @@ class Workspace:
         return out
 
     def snapshot_protected(self) -> None:
+        """Use the supplied skeleton as the trust anchor, not the current translation."""
         self.protected_hashes = {}
-        for p in sorted(self.crate.rglob("*")):
-            if p.is_file() and "target" not in p.relative_to(self.crate).parts:
-                rel = self.rel(p)
+        skeleton = self.subject / "rust_skeleton"
+        for p in sorted(skeleton.rglob("*")):
+            if p.is_file() and "target" not in p.relative_to(skeleton).parts:
+                rel = p.relative_to(skeleton).as_posix()
                 if self.is_protected(rel):
                     self.protected_hashes[rel] = sha256_file(p)
 
@@ -248,7 +337,9 @@ class Workspace:
                 problems.append(f"protected file deleted: {rel}")
             elif sha256_file(p) != digest:
                 problems.append(f"protected file modified: {rel}")
-        for p in (self.crate / "src").rglob("*"):
+        for p in self.crate.rglob("*"):
+            if "target" in p.relative_to(self.crate).parts:
+                continue
             if p.is_file() and self.is_protected(self.rel(p)) and self.rel(p) not in self.protected_hashes:
                 problems.append(f"new file in protected area: {self.rel(p)}")
         if (self.crate / "build.rs").exists():
@@ -263,6 +354,9 @@ class Workspace:
                 if pat in text:
                     line = text[: text.index(pat)].count("\n") + 1
                     found.append(f"{self.rel(p)}:{line}: forbidden construct `{pat}`")
+            for match in re.finditer(r'\bextern\s*(?:"C(?:-unwind)?"\s*)?\{|\blibc\s*::|#\s*\[\s*link\s*\(', text):
+                line = text[:match.start()].count("\n") + 1
+                found.append(f"{self.rel(p)}:{line}: forbidden foreign-code construct `{match.group(0)}`")
         return found
 
     def interface_findings(self) -> list[str]:
@@ -339,20 +433,28 @@ class Workspace:
         safe_write(target, text.replace(search, replace, 1))
         return None
 
-    def read_file(self, rel: str, max_chars: int = 60000) -> str:
-        """Read from crate (src/..., Cargo.toml) or from the subject's original C sources (c_source/...)."""
-        rel = rel.strip().lstrip("/")
-        if ".." in rel.split("/"):
+    def read_file(self, rel: str, max_chars: int = 60000,
+                  start: int | None = None, end: int | None = None) -> str:
+        """Read a project file or an inclusive range of its source lines."""
+        relpath = Path(rel.strip())
+        if relpath.is_absolute() or ".." in relpath.parts:
             return "error: path escapes the project"
-        if rel.startswith("c_source/"):
-            path = self.subject / rel
-        else:
-            path = self.crate / rel
+        root = self.subject / "c_source" if relpath.parts[:1] == ("c_source",) else self.crate
+        if root != self.crate:
+            relpath = Path(*relpath.parts[1:])
+        path = (root / relpath).resolve()
+        if not path.is_relative_to(root.resolve()):
+            return "error: path escapes the project"
         if not path.is_file():
             return f"error: file not found: {rel}"
         text = path.read_text(encoding="utf-8", errors="replace")
+        if start is not None or end is not None:
+            lines = text.splitlines(keepends=True)
+            if start is None or end is None or not 1 <= start <= end <= len(lines):
+                return f"error: use an inclusive range within lines 1–{len(lines)}"
+            text = "".join(lines[start - 1:end])
         if len(text) > max_chars:
-            return text[:max_chars] + f"\n... [truncated, {len(text) - max_chars} more characters]"
+            return text[:max_chars] + "\n... [truncated; request a smaller line range]"
         return text
 
     def tree(self) -> str:
@@ -374,7 +476,7 @@ EDIT_RE = re.compile(
     r'<edit\s+path="([^"]+)"\s*>\s*<search>\n?(.*?)\n?</search>\s*<replace>\n?(.*?)\n?</replace>(?:\s*</edit>)?', re.S
 )  # the closing </edit> is optional: models often forget it, and everything else is unambiguous
 EDIT_START_RE = re.compile(r'<edit\s+path="([^"]+)"')
-READ_RE = re.compile(r'<read\s+path="([^"]+)"\s*/?>')
+READ_RE = re.compile(r'<read\s+path="([^"]+)"(?:\s+start="([0-9]{1,9})"\s+end="([0-9]{1,9})")?\s*/?>')
 NOTES_RE = re.compile(r"<notes>\n?(.*?)\n?</notes>", re.S)
 DONE_RE = re.compile(r"<done\s*/?>")
 
@@ -429,7 +531,8 @@ def parse_reply(text: str) -> dict:
         "malformed_edits": malformed_edits,
         "ops": [o[1:] for o in ops],
         "truncated": truncated,
-        "reads": READ_RE.findall(text),
+        "reads": [(path, int(start) if start else None, int(end) if end else None)
+                  for path, start, end in READ_RE.findall(text)],
         "notes": (NOTES_RE.findall(text) or [None])[-1],
         "done": bool(DONE_RE.search(text)),
     }

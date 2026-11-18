@@ -1,13 +1,16 @@
 {
   "framework": {
     "name": "crust_agent (custom Python controller, standard library only)",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "llm": {
     "provider": "openai-compatible chat/completions endpoint (default: OpenRouter)",
     "base_url": "https://openrouter.ai/api/v1",
     "model": "qwen/qwen3-coder-next",
-    "fallback_models": ["deepseek/deepseek-v4-flash", "anthropic/claude-haiku-5.5"],
+    "fallback_models": [
+      "deepseek/deepseek-v4-flash",
+      "anthropic/claude-haiku-5.5"
+    ],
     "api_key_env": "OPENROUTER_API_KEY",
     "temperature": 0.2,
     "top_p": 0.95,
@@ -33,17 +36,30 @@
     "test_timeout_s": 300
   },
   "stopping_condition": {
-    "success": "project builds, every test passes, all primary unsafe metrics are 0 and the Clippy warning total is <= clippy_accept",
+    "success": "Protected files and interfaces match, no forbidden constructs or stubs, build and test processes complete successfully with valid output, exact assignment Clippy command and all four category probes succeed with counts <= clippy_accept, official analyzer succeeds with valid complete metrics and all four primary metrics zero. This is validation success, not a proof of correctness or soundness.",
     "clippy_accept": 0,
-    "other_stops": ["max_iterations", "max_total_tokens", "no_progress_patience", "agent_done"]
+    "other_stops": [
+      "max_iterations",
+      "max_total_tokens",
+      "no_progress_patience",
+      "agent_done"
+    ]
   },
   "clippy": {
-    "groups": ["correctness", "style", "complexity", "perf"],
-    "extra_args": ["--all-targets", "--all-features"]
+    "groups": [
+      "correctness",
+      "style",
+      "complexity",
+      "perf"
+    ],
+    "extra_args": [
+      "--all-targets",
+      "--all-features"
+    ]
   },
   "unsafe_metrics": {
     "command": null,
-    "command_help": "Set to the instructor-provided unsafe-metrics command to use it instead of the built-in approximation. Use {path} for the crate root and make the command print one JSON object with keys unsafe_lines, unsafe_calls, unsafe_casts, pointer_arithmetic.",
+    "command_help": "Instructor analyzer only. JSON object with all four primary nonnegative integer keys, directly or in totals; optional offenders list. Nonzero exit, timeout, invalid JSON, missing or invalid primary values block completion. Approximation is additional diagnostic evidence only.",
     "builtin_fallback": "src/unsafe_check.py"
   },
   "context": {
@@ -59,11 +75,18 @@
     "src/bin/**",
     "src/interfaces/**"
   ],
-  "editable_globs": ["src/*.rs", "src/**/*.rs"],
+  "editable_globs": [
+    "src/*.rs",
+    "src/**/*.rs"
+  ],
   "forbidden_patterns": [
     "extern \"C\"",
     "libc::",
     "#[link(",
     "build.rs"
-  ]
+  ],
+  "submission_validator": {
+    "command": null,
+    "help": "Instructor-provided submission validator command. {path} is the MP4 root. Its successful process exit is required for submission acceptance."
+  }
 }

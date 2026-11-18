@@ -1,0 +1,19 @@
+{
+  "source_sha256": {
+    "budget.py": "ce3751f07e771c44b809e493d5c57ffb385245a4d0d7dd21fafd66f3cd0d83fd",
+    "with_key.py": "99a4d64109d7ce5222a06d4e46edb9683068454deb7d86ac1ddbe053dc59aa9f",
+    "tools.py": "e83362862c80771b006347e98fa587c6e61c1790a8ff5ce2d58095f197668deb",
+    "llm.py": "96fd0f4cad0906b830c53fcab9b52e2a1b321bcfa8ea491442c49f6392426183",
+    "agent.py": "2bdd57d599a9b74bbfced4ef3a86353e455224d26168d0e5ec84fa18f3b1636d",
+    "interface_check.py": "dea9c91300521b3946409d3f5f76c857c58276d6f9128eeb4862561a3bbf83fa",
+    "evaluate.py": "2fe46b4790ca1f011d06be5b1a22d9ddcfd812724ff0cc2988966d444b00d459",
+    "unsafe_check.py": "6d94b79db7b8678f3ecb6cfde41b225265546f13e630c4582f79821671157cb5",
+    "run_regressions.py": "53786316c6e11434ecb81864e3ec19c1ada5454d45b5c3d204103cfc6ec4cf16",
+    "history_audit.py": "1f2925768f82e518577749741070ad0b1ac1d71c8ece96062e2aaadf3bc4e5e6",
+    "preflight.py": "b2cf136348ee0fd64fb07a6e4bfbe73c655192899152b2977d094e60ebb3d7df"
+  },
+  "initial_implementation_sha256": {
+    "src/cset.rs": "d45349c939f8b415a06862020252e41f8d874ff7d6d494aebdf17792af59bd3a"
+  },
+  "python": "3.13.17 (main, Oct 21 2026, 13:48:20) [Clang 21.0.0 (clang-2100.3.34.2)]"
+}

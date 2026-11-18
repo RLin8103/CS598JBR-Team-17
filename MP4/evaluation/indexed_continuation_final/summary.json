@@ -1,0 +1,44 @@
+{
+  "projects": [
+    {
+      "project": "cset",
+      "build_ok": true,
+      "test_returncode": 0,
+      "passed": 15,
+      "total": 15,
+      "distinct_passed": 15,
+      "distinct_total": 15,
+      "clippy": {
+        "correctness": 0,
+        "style": 0,
+        "complexity": 0,
+        "perf": 0
+      },
+      "clippy_ok": true,
+      "safety_tool": "builtin-approximation",
+      "mandatory_validation_clean": false
+    },
+    {
+      "project": "libpsbt",
+      "build_ok": true,
+      "test_returncode": 101,
+      "passed": 6,
+      "total": 8,
+      "distinct_passed": 3,
+      "distinct_total": 4,
+      "clippy": {
+        "correctness": 0,
+        "style": 2,
+        "complexity": 0,
+        "perf": 0
+      },
+      "clippy_ok": true,
+      "safety_tool": "builtin-approximation",
+      "mandatory_validation_clean": false
+    }
+  ],
+  "instructor_validator": {
+    "available": false,
+    "error": "instructor validator not configured"
+  }
+}

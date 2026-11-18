@@ -1,0 +1,7 @@
+{
+  "retained": true,
+  "reason": null,
+  "selected_hashes": {
+    "src/cset.rs": "afc92e21c4643f387842f0a64e72d446b887971175362c2817e1c59325862a0a"
+  }
+}

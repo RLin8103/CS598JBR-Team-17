@@ -1,0 +1,58 @@
+$ cargo +nightly-2025-05-13 build --all-targets
+returncode=101 seconds=0.15
+
+warning: file `/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/bin/test.rs` found to be present in multiple build targets:
+  * `bin` target `test`
+  * `integration-test` target `test`
+   Compiling libpsbt v0.1.0 (/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2)
+error[E0432]: unresolved imports `crate::psbt::psbt_encode`, `crate::psbt::psbt_init`
+ --> src/cli.rs:3:18
+  |
+3 |     psbt_decode, psbt_encode, psbt_init, psbt_read, PsbtEncoding, PsbtResult, Psbt,
+  |                  ^^^^^^^^^^^  ^^^^^^^^^ no `psbt_init` in `psbt`
+  |                  |
+  |                  no `psbt_encode` in `psbt`
+  |                  help: a similar name exists in the module: `psbt_decode`
+
+warning: unused imports: `base62_encode` and `base64_encode`
+ --> src/psbt.rs:2:21
+  |
+2 | use crate::base64::{base62_encode, base64_decode, base64_encode};
+  |                     ^^^^^^^^^^^^^                 ^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: unused imports: `compactsize_length` and `compactsize_write`
+ --> src/psbt.rs:4:5
+  |
+4 |     compactsize_length, compactsize_peek_length, compactsize_read, compactsize_write,
+  |     ^^^^^^^^^^^^^^^^^^                                             ^^^^^^^^^^^^^^^^^
+
+error[E0502]: cannot borrow `*dest` as immutable because it is also borrowed as mutable
+   --> src/psbt.rs:375:42
+    |
+375 |     let dest = &mut dest[..dest_size.min(dest.len())];
+    |                     ---------------------^^^^--------
+    |                     |   |                |
+    |                     |   |                immutable borrow occurs here
+    |                     |   mutable borrow later used here
+    |                     mutable borrow occurs here
+    |
+help: try adding a local storing this...
+   --> src/psbt.rs:375:42
+    |
+375 |     let dest = &mut dest[..dest_size.min(dest.len())];
+    |                                          ^^^^^^^^^^
+help: ...and then using that local here
+   --> src/psbt.rs:375:25
+    |
+375 |     let dest = &mut dest[..dest_size.min(dest.len())];
+    |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Some errors have detailed explanations: E0432, E0502.
+For more information about an error, try `rustc --explain E0432`.
+warning: `libpsbt` (lib) generated 2 warnings (2 duplicates)
+error: could not compile `libpsbt` (lib) due to 2 previous errors; 2 warnings emitted
+warning: build failed, waiting for other jobs to finish...
+warning: `libpsbt` (lib test) generated 2 warnings
+error: could not compile `libpsbt` (lib test) due to 2 previous errors; 2 warnings emitted

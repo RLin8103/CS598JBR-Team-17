@@ -1,0 +1,7 @@
+{
+  "group": 17,
+  "projects": {
+    "1": {"name": "cset", "subject": "subjects/project_1", "translation": "translations/project_1", "trajectory": "trajectories/project_1"},
+    "2": {"name": "libpsbt", "subject": "subjects/project_2", "translation": "translations/project_2", "trajectory": "trajectories/project_2"}
+  }
+}

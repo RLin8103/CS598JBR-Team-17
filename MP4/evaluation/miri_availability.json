@@ -1,0 +1,9 @@
+{
+  "cmd": "cargo +nightly-2025-05-13 miri --version",
+  "returncode": 1,
+  "stdout": "",
+  "stderr": "error: 'cargo-miri' is not installed for the toolchain 'nightly-2025-05-13-aarch64-apple-darwin'.\nhelp: run `rustup component add miri` to install it\n",
+  "seconds": 0.22,
+  "timed_out": false,
+  "interrupted": false
+}

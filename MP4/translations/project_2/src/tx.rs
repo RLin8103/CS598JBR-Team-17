@@ -108,15 +108,11 @@ fn parse_tx<F: FnMut(PsbtTxElem)>(data: &[u8], mut emit: F) -> Result<(), PsbtRe
     Ok(())
 }
 
-/// Count (inputs, outputs) of a serialized transaction.
-pub(crate) fn tx_io_counts(tx: &[u8]) -> Result<(usize, usize), PsbtResult> {
-    let mut counts = (0usize, 0usize);
-    parse_tx(tx, |elem| match elem {
-        PsbtTxElem::TxIn(_) => counts.0 += 1,
-        PsbtTxElem::TxOut(_) => counts.1 += 1,
-        _ => {}
-    })?;
-    Ok(counts)
+/// Parse a serialized transaction into its elements (inputs, outputs, tx), in C callback order.
+pub(crate) fn tx_elements(tx: &[u8]) -> Result<Vec<PsbtTxElem>, PsbtResult> {
+    let mut out = Vec::new();
+    parse_tx(tx, |e| out.push(e))?;
+    Ok(out)
 }
 
 /// Parse a Bitcoin transaction, forwarding every element to `handler`.
@@ -129,7 +125,7 @@ pub fn psbt_btc_tx_parse(
     let tx = &tx[..tx_size.min(tx.len())];
     let result = parse_tx(tx, |mut elem| {
         if let Some(h) = handler {
-            h(&mut elem, &mut *user_data);
+            h(&mut elem, user_data);
         }
     });
     match result {

@@ -1,0 +1,46 @@
+{
+  "limit_usd": "5",
+  "reserved_usd": "4.9750000",
+  "requests": [
+    {
+      "model": "anthropic/claude-haiku-5.5",
+      "maximum_usd": "0.5150000",
+      "t": "2026-11-18T07:03:10.505368+00:00"
+    },
+    {
+      "model": "anthropic/claude-haiku-5.5",
+      "maximum_usd": "0.5400000",
+      "t": "2026-11-18T07:04:13.405461+00:00"
+    },
+    {
+      "model": "anthropic/claude-haiku-5.5",
+      "maximum_usd": "0.8200000",
+      "t": "2026-11-18T07:08:40.884684+00:00"
+    },
+    {
+      "model": "anthropic/claude-haiku-5.5",
+      "maximum_usd": "0.8200000",
+      "t": "2026-11-18T07:12:20.516090+00:00"
+    },
+    {
+      "model": "anthropic/claude-haiku-5.5",
+      "maximum_usd": "0.5700000",
+      "t": "2026-11-18T17:49:02.819282+00:00"
+    },
+    {
+      "model": "anthropic/claude-haiku-5.5",
+      "maximum_usd": "0.5700000",
+      "t": "2026-11-18T17:49:25.616719+00:00"
+    },
+    {
+      "model": "anthropic/claude-haiku-5.5",
+      "maximum_usd": "0.5700000",
+      "t": "2026-11-18T17:49:39.545762+00:00"
+    },
+    {
+      "model": "anthropic/claude-haiku-5.5",
+      "maximum_usd": "0.5700000",
+      "t": "2026-11-18T17:49:57.560729+00:00"
+    }
+  ]
+}

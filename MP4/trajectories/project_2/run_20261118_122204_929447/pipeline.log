@@ -1,0 +1,30 @@
+[12:22:04] project=libpsbt model=anthropic/claude-haiku-5.5 toolchain=nightly-2025-05-13
+[12:22:04] baseline: cargo build
+[12:22:05] baseline: cargo test
+[12:22:05] baseline: cargo clippy (4 categories)
+[12:22:06] baseline: unsafe metrics
+[12:22:07] === iteration 1/3 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[12:22:25] iter 1: cargo build
+[12:22:26] iter 1: cargo test
+[12:22:26] iter 1: cargo clippy (4 categories)
+[12:22:27] iter 1: unsafe metrics
+[12:22:28] iteration 1: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=56901
+[12:22:28] === iteration 2/3 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[12:23:17] iter 2: cargo build
+[12:23:17] iter 2: unsafe metrics
+[12:23:18] iter 2 (edit reverted): cargo build
+[12:23:18] iter 2 (edit reverted): cargo test
+[12:23:19] iter 2 (edit reverted): cargo clippy (4 categories)
+[12:23:20] iter 2 (edit reverted): unsafe metrics
+[12:23:21] iteration 2: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=116944
+[12:23:21] === iteration 3/3 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[12:23:28] iter 3: cargo build
+[12:23:29] iter 3: cargo test
+[12:23:29] iter 3: cargo clippy (4 categories)
+[12:23:30] iter 3: unsafe metrics
+[12:23:31] iteration 3: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=169167
+[12:23:31] final (selected snapshot): cargo build
+[12:23:32] final (selected snapshot): cargo test
+[12:23:32] final (selected snapshot): cargo clippy (4 categories)
+[12:23:33] final (selected snapshot): unsafe metrics
+[12:23:34] STOP: max_iterations | iterations=3 (best 3) | compiles=True tests=6/8 unsafe=0 clippy=2

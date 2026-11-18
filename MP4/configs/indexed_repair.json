@@ -1,0 +1,110 @@
+{
+  "framework": {
+    "name": "crust_agent (custom Python controller, standard library only)",
+    "version": "1.1.0"
+  },
+  "llm": {
+    "provider": "openai-compatible chat/completions endpoint (default: OpenRouter)",
+    "base_url": "https://openrouter.ai/api/v1",
+    "model": "anthropic/claude-haiku-5.5",
+    "fallback_models": [],
+    "api_key_env": "OPENROUTER_API_KEY",
+    "temperature": 0.2,
+    "top_p": 0.95,
+    "max_tokens": 28000,
+    "extra_body": {
+      "reasoning": {
+        "effort": "low"
+      }
+    },
+    "request_timeout_s": 180,
+    "max_retries": 1,
+    "retry_backoff_s": 15,
+    "env_overrides": {
+      "model": "LLM_MODEL",
+      "base_url": "LLM_BASE_URL",
+      "api_key_env": "LLM_API_KEY_ENV"
+    },
+    "budget_usd": 5,
+    "budget_ledger": "evaluation/haiku_spending.json",
+    "access_catalogue": "evaluation/autonomous_access.json",
+    "max_api_calls": 4
+  },
+  "toolchain": "nightly-2025-05-13",
+  "limits": {
+    "max_iterations": 2,
+    "max_total_tokens": 1000000,
+    "no_progress_patience": 2,
+    "review_rounds": 0,
+    "max_read_rounds_per_iteration": 1,
+    "command_timeout_s": 120,
+    "test_timeout_s": 120
+  },
+  "stopping_condition": {
+    "success": "Protected files and interfaces match, no forbidden constructs or stubs, build and test processes complete successfully with valid output, exact assignment Clippy command and all four category probes succeed with counts <= clippy_accept, official analyzer succeeds with valid complete metrics and all four primary metrics zero. This is validation success, not a proof of correctness or soundness.",
+    "clippy_accept": 0,
+    "other_stops": [
+      "max_iterations",
+      "max_total_tokens",
+      "no_progress_patience",
+      "agent_done"
+    ]
+  },
+  "clippy": {
+    "groups": [
+      "correctness",
+      "style",
+      "complexity",
+      "perf"
+    ],
+    "extra_args": [
+      "--all-targets",
+      "--all-features"
+    ]
+  },
+  "unsafe_metrics": {
+    "command": null,
+    "command_help": "Instructor analyzer only. JSON object with all four primary nonnegative integer keys, directly or in totals; optional offenders list. Nonzero exit, timeout, invalid JSON, missing or invalid primary values block completion. Approximation is additional diagnostic evidence only.",
+    "builtin_fallback": "src/unsafe_check.py"
+  },
+  "context": {
+    "max_file_chars_in_prompt": 35000,
+    "max_feedback_chars": 14000,
+    "max_c_chars_in_first_prompt": 42000,
+    "keep_full_turns": 2,
+    "mode": "indexed",
+    "max_read_chars": 12000
+  },
+  "protected_paths": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "src/lib.rs",
+    "src/bin/**",
+    "src/interfaces/**"
+  ],
+  "editable_globs": [
+    "src/*.rs",
+    "src/**/*.rs"
+  ],
+  "forbidden_patterns": [
+    "extern \"C\"",
+    "libc::",
+    "#[link(",
+    "build.rs"
+  ],
+  "additional_checks": [
+    "{python} {mp4}/src/run_regressions.py --project-id {project_id} --output {output}"
+  ],
+  "submission_validator": {
+    "command": null,
+    "help": "Instructor-provided submission validator command. {path} is the MP4 root. Its successful process exit is required for submission acceptance."
+  },
+  "experiment_budget": {
+    "remote_inference_usd": 5,
+    "max_api_attempts_per_project": 4,
+    "max_iterations_per_project": 2,
+    "paid_fallbacks": false,
+    "note": "Uses the existing $5 authorization and ledger. Check remaining reservations and provider access before starting inference."
+  },
+  "selection": "conservative_repair"
+}

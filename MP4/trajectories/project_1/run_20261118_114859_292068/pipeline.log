@@ -1,0 +1,23 @@
+[11:48:59] project=cset model=anthropic/claude-haiku-5.5 toolchain=nightly-2025-05-13
+[11:48:59] baseline: cargo build
+[11:49:00] baseline: cargo test
+[11:49:00] baseline: cargo clippy (4 categories)
+[11:49:01] baseline: unsafe metrics
+[11:49:02] === iteration 1/2 phase=REGRESSIONS score=(1, 0, 0, 1, 1, 1, 15, 0, 0, 0, -1, 1, 1, -7, 0)
+[11:49:20] iter 1: cargo build
+[11:49:20] iter 1: cargo test
+[11:49:21] iter 1: cargo clippy (4 categories)
+[11:49:22] iter 1: unsafe metrics
+[11:49:23] iter 1 (edit reverted): cargo build
+[11:49:23] iter 1 (edit reverted): cargo test
+[11:49:23] iter 1 (edit reverted): cargo clippy (4 categories)
+[11:49:24] iter 1 (edit reverted): unsafe metrics
+[11:49:25] iteration 1: phase=REGRESSIONS compiles=True tests=15/15 unsafe=7 clippy=0 tokens=35085
+[11:49:25] === iteration 2/2 phase=REGRESSIONS score=(1, 0, 0, 1, 1, 1, 15, 0, 0, 0, -1, 1, 1, -7, 0)
+[11:49:30] llm_error: budget_blocked: maximum API calls (2) reached
+[11:49:30] final (selected snapshot): cargo build
+[11:49:30] final (selected snapshot): cargo test
+[11:49:31] final (selected snapshot): cargo clippy (4 categories)
+[11:49:31] final (selected snapshot): unsafe metrics
+[11:49:32] STOP: llm_error: budget_blocked: maximum API calls (2) reached | iterations=2 (best 0) | compiles=True tests=15/15 unsafe=7 clippy=0
+[11:49:32] Selected best snapshot restored; interrupted_work/ retains the unvalidated work for inspection.

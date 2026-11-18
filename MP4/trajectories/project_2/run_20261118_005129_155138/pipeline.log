@@ -1,0 +1,13 @@
+[00:51:29] project=libpsbt model=gpt-oss:20b toolchain=nightly-2025-05-13
+[00:51:29] baseline: cargo build
+[00:51:29] baseline: cargo test
+[00:51:30] baseline: cargo clippy (4 categories)
+[00:51:31] baseline: unsafe metrics
+[00:51:33] === iteration 1/1 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[00:54:33] llm_error: all models failed: gpt-oss:20b: failed after 1 attempts: timed out
+[00:54:33] final (selected snapshot): cargo build
+[00:54:34] final (selected snapshot): cargo test
+[00:54:35] final (selected snapshot): cargo clippy (4 categories)
+[00:54:36] final (selected snapshot): unsafe metrics
+[00:54:38] STOP: llm_error: all models failed: gpt-oss:20b: failed after 1 attempts: timed out | iterations=1 (best 0) | compiles=True tests=6/8 unsafe=0 clippy=2
+[00:54:38] Selected best snapshot restored; interrupted_work/ retains the unvalidated work for inspection.

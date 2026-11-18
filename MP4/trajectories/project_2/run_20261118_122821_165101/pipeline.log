@@ -1,0 +1,40 @@
+[12:28:21] project=libpsbt model=anthropic/claude-haiku-5.5 toolchain=nightly-2025-05-13
+[12:28:21] baseline: cargo build
+[12:28:21] baseline: cargo test
+[12:28:22] baseline: cargo clippy (4 categories)
+[12:28:22] baseline: unsafe metrics
+[12:28:24] === iteration 1/6 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[12:28:43] iter 1: cargo build
+[12:28:43] iter 1: unsafe metrics
+[12:28:44] iter 1 (edit reverted): cargo build
+[12:28:44] iter 1 (edit reverted): cargo test
+[12:28:44] iter 1 (edit reverted): cargo clippy (4 categories)
+[12:28:45] iter 1 (edit reverted): unsafe metrics
+[12:28:47] iteration 1: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=57272
+[12:28:47] === iteration 2/6 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[12:29:11] iter 2: cargo build
+[12:29:11] iter 2: cargo test
+[12:29:12] iter 2: cargo clippy (4 categories)
+[12:29:12] iter 2: unsafe metrics
+[12:29:14] iteration 2: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=112889
+[12:29:14] === iteration 3/6 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[12:29:33] iter 3: cargo build
+[12:29:34] iter 3: cargo test
+[12:29:34] iter 3: cargo clippy (4 categories)
+[12:29:35] iter 3: unsafe metrics
+[12:29:36] iteration 3: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=163757
+[12:29:36] === iteration 4/6 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[12:29:47] iter 4: cargo build
+[12:29:47] iter 4: cargo test
+[12:29:48] iter 4: cargo clippy (4 categories)
+[12:29:48] iter 4: unsafe metrics
+[12:29:50] iteration 4: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=211451
+[12:29:50] === iteration 5/6 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, 0, 1, 1, 0, -2)
+[12:30:03] iteration 5: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=305670
+[12:30:03] === iteration 6/6 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, 0, 1, 1, 0, -2)
+[12:30:12] iteration 6: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=352900
+[12:30:12] final (selected snapshot): cargo build
+[12:30:12] final (selected snapshot): cargo test
+[12:30:13] final (selected snapshot): cargo clippy (4 categories)
+[12:30:14] final (selected snapshot): unsafe metrics
+[12:30:15] STOP: max_iterations | iterations=6 (best 4) | compiles=True tests=6/8 unsafe=0 clippy=2

@@ -1,0 +1,13 @@
+[01:03:06] project=libpsbt model=anthropic/claude-haiku-5.5 toolchain=nightly-2025-05-13
+[01:03:06] baseline: cargo build
+[01:03:07] baseline: cargo test
+[01:03:08] baseline: cargo clippy (4 categories)
+[01:03:08] baseline: unsafe metrics
+[01:03:10] === iteration 1/4 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[01:03:39] llm_error: all models failed: anthropic/claude-haiku-5.5: failed after 1 attempts: empty completion (finish_reason=length, prompt_tokens=68077, completion_tokens=6000, reasoning_tokens=6000, reasoning_chars=0, provider=Claude Platform on AWS)
+[01:03:39] final (selected snapshot): cargo build
+[01:03:40] final (selected snapshot): cargo test
+[01:03:40] final (selected snapshot): cargo clippy (4 categories)
+[01:03:41] final (selected snapshot): unsafe metrics
+[01:03:42] STOP: llm_error: all models failed: anthropic/claude-haiku-5.5: failed after 1 attempts: empty completion (finish_reason=length, prompt_tokens=68077, completion_tokens=6000, reasoning_tokens=6000, reasoning_chars=0, provider=Claude Platform on AWS) | iterations=1 (best 0) | compiles=True tests=6/8 unsafe=0 clippy=2
+[01:03:42] Selected best snapshot restored; interrupted_work/ retains the unvalidated work for inspection.

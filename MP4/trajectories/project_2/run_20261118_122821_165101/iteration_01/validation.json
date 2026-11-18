@@ -1,0 +1,81 @@
+{
+  "label": "iter 1",
+  "policy": [],
+  "build": {
+    "cmd": "cargo +nightly-2025-05-13 build --all-targets",
+    "returncode": 101,
+    "stdout": "",
+    "stderr": "warning: file `/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/bin/test.rs` found to be present in multiple build targets:\n  * `bin` target `test`\n  * `integration-test` target `test`\n   Compiling libpsbt v0.1.0 (/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2)\nerror[E0425]: cannot find function `tx_io_counts` in this scope\n   --> src/psbt.rs:241:40\n    |\n241 |                         counts = match tx_io_counts(&rec.val) {\n    |                                        ^^^^^^^^^^^^ not found in this scope\n\nFor more information about this error, try `rustc --explain E0425`.\nerror: could not compile `libpsbt` (lib test) due to 1 previous error\nwarning: build failed, waiting for other jobs to finish...\nerror: could not compile `libpsbt` (lib) due to 1 previous error\n",
+    "seconds": 0.17,
+    "timed_out": false,
+    "interrupted": false,
+    "ok": false,
+    "error_count": 1,
+    "warning_count": 2,
+    "pretty": "warning: file `/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/bin/test.rs` found to be present in multiple build targets:\n  * `bin` target `test`\n  * `integration-test` target `test`\n   Compiling libpsbt v0.1.0 (/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2)\nerror[E0425]: cannot find function `tx_io_counts` in this scope\n   --> src/psbt.rs:241:40\n    |\n241 |                         counts = match tx_io_counts(&rec.val) {\n    |                                        ^^^^^^^^^^^^ not found in this scope\n\nFor more information about this error, try `rustc --explain E0425`.\nerror: could not compile `libpsbt` (lib test) due to 1 previous error\nwarning: build failed, waiting for other jobs to finish...\nerror: could not compile `libpsbt` (lib) due to 1 previous error\n"
+  },
+  "test": null,
+  "clippy": null,
+  "unsafe": {
+    "tool": "builtin-approximation",
+    "totals": {
+      "unsafe_lines": 0,
+      "unsafe_calls": 0,
+      "unsafe_casts": 0,
+      "pointer_arithmetic": 0,
+      "unsafe_blocks": 0,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 0,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 2,
+      "files_analysed": 6
+    },
+    "offenders": [],
+    "valid": true,
+    "official_available": false
+  },
+  "additional_checks": [
+    {
+      "cmd": "/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/.venv/bin/python /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/src/run_regressions.py --project-id 2 --output /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/trajectories/project_2/run_20261118_122821_165101/additional_checks/2",
+      "returncode": 1,
+      "stdout": "warning: field `v` is never read\n   --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:293:5\n    |\n288 | pub struct Cset<T> {\n    |            ---- field in this struct\n...\n293 |     v: CsetValue<T>,\n    |     ^\n    |\n    = note: `#[warn(dead_code)]` on by default\n\nwarning: `cset` (lib) generated 1 warning\n   Compiling libpsbt v0.1.0 (/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2)\nerror[E0425]: cannot find function `tx_io_counts` in this scope\n   --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/psbt.rs:241:40\n    |\n241 |                         counts = match tx_io_counts(&rec.val) {\n    |                                        ^^^^^^^^^^^^ not found in this scope\n\nFor more information about this error, try `rustc --explain E0425`.\nerror: could not compile `libpsbt` (lib) due to 1 previous error\n\n",
+      "stderr": "",
+      "seconds": 0.73,
+      "timed_out": false,
+      "interrupted": false,
+      "ok": false,
+      "outcomes": null,
+      "validation_error": "'rust'"
+    }
+  ],
+  "compiles": false,
+  "passed": 0,
+  "total": 0,
+  "failed": 0,
+  "unsafe_total": 0,
+  "stubs": [],
+  "interface": [],
+  "clippy_counts": null,
+  "clippy_total": null,
+  "interrupted": false,
+  "phase": "COMPILE",
+  "score": [
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    -1,
+    0,
+    -1,
+    0,
+    1,
+    0,
+    -10000
+  ]
+}

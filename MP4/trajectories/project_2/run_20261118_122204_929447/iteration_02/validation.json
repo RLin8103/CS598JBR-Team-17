@@ -1,0 +1,81 @@
+{
+  "label": "iter 2",
+  "policy": [],
+  "build": {
+    "cmd": "cargo +nightly-2025-05-13 build --all-targets",
+    "returncode": 101,
+    "stdout": "",
+    "stderr": "warning: file `/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/bin/test.rs` found to be present in multiple build targets:\n  * `bin` target `test`\n  * `integration-test` target `test`\n   Compiling libpsbt v0.1.0 (/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2)\nerror[E0502]: cannot borrow `*dest` as immutable because it is also borrowed as mutable\n   --> src/psbt.rs:383:42\n    |\n383 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                     ---------------------^^^^--------\n    |                     |   |                |\n    |                     |   |                immutable borrow occurs here\n    |                     |   mutable borrow later used here\n    |                     mutable borrow occurs here\n    |\nhelp: try adding a local storing this...\n   --> src/psbt.rs:383:42\n    |\n383 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                                          ^^^^^^^^^^\nhelp: ...and then using that local here\n   --> src/psbt.rs:383:25\n    |\n383 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nerror[E0502]: cannot borrow `*dest` as immutable because it is also borrowed as mutable\n   --> src/psbt.rs:475:42\n    |\n475 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                     ---------------------^^^^--------\n    |                     |   |                |\n    |                     |   |                immutable borrow occurs here\n    |                     |   mutable borrow later used here\n    |                     mutable borrow occurs here\n    |\nhelp: try adding a local storing this...\n   --> src/psbt.rs:475:42\n    |\n475 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                                          ^^^^^^^^^^\nhelp: ...and then using that local here\n   --> src/psbt.rs:475:25\n    |\n475 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nFor more information about this error, try `rustc --explain E0502`.\nerror: could not compile `libpsbt` (lib) due to 2 previous errors\nwarning: build failed, waiting for other jobs to finish...\nerror: could not compile `libpsbt` (lib test) due to 2 previous errors\n",
+    "seconds": 0.13,
+    "timed_out": false,
+    "interrupted": false,
+    "ok": false,
+    "error_count": 2,
+    "warning_count": 2,
+    "pretty": "warning: file `/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/bin/test.rs` found to be present in multiple build targets:\n  * `bin` target `test`\n  * `integration-test` target `test`\n   Compiling libpsbt v0.1.0 (/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2)\nerror[E0502]: cannot borrow `*dest` as immutable because it is also borrowed as mutable\n   --> src/psbt.rs:383:42\n    |\n383 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                     ---------------------^^^^--------\n    |                     |   |                |\n    |                     |   |                immutable borrow occurs here\n    |                     |   mutable borrow later used here\n    |                     mutable borrow occurs here\n    |\nhelp: try adding a local storing this...\n   --> src/psbt.rs:383:42\n    |\n383 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                                          ^^^^^^^^^^\nhelp: ...and then using that local here\n   --> src/psbt.rs:383:25\n    |\n383 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nerror[E0502]: cannot borrow `*dest` as immutable because it is also borrowed as mutable\n   --> src/psbt.rs:475:42\n    |\n475 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                     ---------------------^^^^--------\n    |                     |   |                |\n    |                     |   |                immutable borrow occurs here\n    |                     |   mutable borrow later used here\n    |                     mutable borrow occurs here\n    |\nhelp: try adding a local storing this...\n   --> src/psbt.rs:475:42\n    |\n475 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                                          ^^^^^^^^^^\nhelp: ...and then using that local here\n   --> src/psbt.rs:475:25\n    |\n475 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nFor more information about this error, try `rustc --explain E0502`.\nerror: could not compile `libpsbt` (lib) due to 2 previous errors\nwarning: build failed, waiting for other jobs to finish...\nerror: could not compile `libpsbt` (lib test) due to 2 previous errors\n"
+  },
+  "test": null,
+  "clippy": null,
+  "unsafe": {
+    "tool": "builtin-approximation",
+    "totals": {
+      "unsafe_lines": 0,
+      "unsafe_calls": 0,
+      "unsafe_casts": 0,
+      "pointer_arithmetic": 0,
+      "unsafe_blocks": 0,
+      "unsafe_fns": 0,
+      "raw_pointer_decls": 0,
+      "ffi_calls": 0,
+      "transmute_uses": 0,
+      "manual_alloc_ops": 0,
+      "files_with_forbid_unsafe_code": 2,
+      "files_analysed": 6
+    },
+    "offenders": [],
+    "valid": true,
+    "official_available": false
+  },
+  "additional_checks": [
+    {
+      "cmd": "/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/.venv/bin/python /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/src/run_regressions.py --project-id 2 --output /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/trajectories/project_2/run_20261118_122204_929447/additional_checks/3",
+      "returncode": 1,
+      "stdout": "warning: field `v` is never read\n   --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_1/src/cset.rs:293:5\n    |\n288 | pub struct Cset<T> {\n    |            ---- field in this struct\n...\n293 |     v: CsetValue<T>,\n    |     ^\n    |\n    = note: `#[warn(dead_code)]` on by default\n\nwarning: `cset` (lib) generated 1 warning\n   Compiling libpsbt v0.1.0 (/Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2)\nerror[E0502]: cannot borrow `*dest` as immutable because it is also borrowed as mutable\n   --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/psbt.rs:383:42\n    |\n383 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                     ---------------------^^^^--------\n    |                     |   |                |\n    |                     |   |                immutable borrow occurs here\n    |                     |   mutable borrow later used here\n    |                     mutable borrow occurs here\n    |\nhelp: try adding a local storing this...\n   --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/psbt.rs:383:42\n    |\n383 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                                          ^^^^^^^^^^\nhelp: ...and then using that local here\n   --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/psbt.rs:383:25\n    |\n383 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nerror[E0502]: cannot borrow `*dest` as immutable because it is also borrowed as mutable\n   --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/psbt.rs:475:42\n    |\n475 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                     ---------------------^^^^--------\n    |                     |   |                |\n    |                     |   |                immutable borrow occurs here\n    |                     |   mutable borrow later used here\n    |                     mutable borrow occurs here\n    |\nhelp: try adding a local storing this...\n   --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/psbt.rs:475:42\n    |\n475 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                                          ^^^^^^^^^^\nhelp: ...and then using that local here\n   --> /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_2/src/psbt.rs:475:25\n    |\n475 |     let dest = &mut dest[..dest_size.min(dest.len())];\n    |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\nFor more information about this error, try `rustc --explain E0502`.\nerror: could not compile `libpsbt` (lib) due to 2 previous errors\n\n",
+      "stderr": "",
+      "seconds": 0.57,
+      "timed_out": false,
+      "interrupted": false,
+      "ok": false,
+      "outcomes": null,
+      "validation_error": "'rust'"
+    }
+  ],
+  "compiles": false,
+  "passed": 0,
+  "total": 0,
+  "failed": 0,
+  "unsafe_total": 0,
+  "stubs": [],
+  "interface": [],
+  "clippy_counts": null,
+  "clippy_total": null,
+  "interrupted": false,
+  "phase": "COMPILE",
+  "score": [
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    -2,
+    0,
+    -1,
+    0,
+    1,
+    0,
+    -10000
+  ]
+}

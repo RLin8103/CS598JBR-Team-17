@@ -1,0 +1,24 @@
+{
+  "source_sha256": {
+    "regression_results.py": "19fbfe39c1a41e7fa3ab441e4f0725f3c54a886df39eb4a1ac5e83d1093fdd7c",
+    "budget.py": "ce3751f07e771c44b809e493d5c57ffb385245a4d0d7dd21fafd66f3cd0d83fd",
+    "with_key.py": "99a4d64109d7ce5222a06d4e46edb9683068454deb7d86ac1ddbe053dc59aa9f",
+    "tools.py": "2fd364fcac2979e20655eef7fd4bc52c96ad42ed4826d451de89b99b2c9be2d2",
+    "llm.py": "96fd0f4cad0906b830c53fcab9b52e2a1b321bcfa8ea491442c49f6392426183",
+    "agent.py": "d240f4dc253995da42601bf55a4330181721b543de458abd79e9a7461862126b",
+    "interface_check.py": "dea9c91300521b3946409d3f5f76c857c58276d6f9128eeb4862561a3bbf83fa",
+    "evaluate.py": "385bc45275b84365fc12f1b3625785ff7e61c160e6e7d5ecc48172ac7419c421",
+    "unsafe_check.py": "6d94b79db7b8678f3ecb6cfde41b225265546f13e630c4582f79821671157cb5",
+    "run_regressions.py": "ff288b2387da85667762f9780bb5acc07486300c124a847d2b7c846235967c4d",
+    "history_audit.py": "1f2925768f82e518577749741070ad0b1ac1d71c8ece96062e2aaadf3bc4e5e6",
+    "preflight.py": "b2cf136348ee0fd64fb07a6e4bfbe73c655192899152b2977d094e60ebb3d7df"
+  },
+  "initial_implementation_sha256": {
+    "src/base64.rs": "233eb43a347520710feca7a66954eecb7575189ad921a193bf19c0dcfee71e6d",
+    "src/cli.rs": "e2e599177bfae540dc3acb294db4cffd79626fd97a592d00f7849574d8e290bf",
+    "src/compactsize.rs": "31ab471ea49f3efaa62b6afa06c9fe2c848cb488327778f918f11a6b2330038e",
+    "src/psbt.rs": "a6eff177bf7bc65336832545ad8342cfd3ea197cb0fcda6f26f8628a12a52830",
+    "src/tx.rs": "e198cdef735b95bb8530afd233dcc86e3dea6d47f951608c0317a68ecf57a47b"
+  },
+  "python": "3.13.17 (main, Oct 21 2026, 13:48:20) [Clang 21.0.0 (clang-2100.3.34.2)]"
+}

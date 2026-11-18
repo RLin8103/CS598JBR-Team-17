@@ -1,0 +1,9 @@
+{
+  "retained": false,
+  "reason": "no measured improvement",
+  "pending_partial": false,
+  "selected_hashes": {
+    "src/cset.rs": "d45349c939f8b415a06862020252e41f8d874ff7d6d494aebdf17792af59bd3a"
+  },
+  "selected_phase": "REGRESSIONS"
+}

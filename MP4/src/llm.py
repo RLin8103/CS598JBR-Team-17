@@ -13,6 +13,10 @@ from __future__ import annotations
 import json
 import os
 import time
+from pathlib import Path
+from urllib.parse import urlparse
+
+from budget import Budget, BudgetError
 import urllib.error
 import urllib.request
 
@@ -40,12 +44,24 @@ class LLMClient:
         self.top_p = cfg.get("top_p", 1.0)
         self.max_tokens = cfg.get("max_tokens", 8000)
         self.extra_body = cfg.get("extra_body") or {}
+        self.api_style = cfg.get("api_style", "openai")
+        self.local_options = cfg.get("local_options", {})
         self.timeout = cfg.get("request_timeout_s", 600)
         self.max_retries = cfg.get("max_retries", 5)
         self.backoff = cfg.get("retry_backoff_s", 10)
         self.total_prompt_tokens = 0
         self.total_completion_tokens = 0
         self.calls = 0
+        self.attempted_calls = 0
+        self.api_responses = 0
+        self.reported_cost_usd = 0.0
+        self.on_event = lambda *args, **kwargs: None
+        self.budget = None
+        self.provider_credit_limit = cfg.get("provider_credit_limit") is True
+        self.budget_limit = cfg.get("budget_usd") if cfg.get("budget_usd") is not None else os.environ.get("CRUST_BUDGET_USD")
+        self.max_calls = cfg.get("max_api_calls", 1000)
+        self.budget_ledger = cfg.get("budget_ledger", "evaluation/spending.json")
+        self.access_catalogue = cfg.get("access_catalogue", "evaluation/access_verified.json")
         self.model_switches: list[dict] = []
 
     def secrets(self) -> list[str]:
@@ -61,35 +77,83 @@ class LLMClient:
             "top_p": self.top_p,
             "max_tokens": self.max_tokens,
             "extra_body": self.extra_body,
+            "api_style": self.api_style, "local_options": self.local_options,
+            "budget_usd": self.budget_limit,
+            "provider_credit_limit": self.provider_credit_limit,
+            "budget_ledger": self.budget_ledger,
+            "access_catalogue": self.access_catalogue,
+            "max_api_calls": self.max_calls,
         }
 
     # ------------------------------------------------------------------ single model
     def _request(self, model: str, messages: list[dict]) -> dict:
         headers = {"Content-Type": "application/json"}
-        if self.api_key:
+        if self.api_key and self.api_style != "ollama":
             headers["Authorization"] = f"Bearer {self.api_key}"
         last_err: Exception | None = None
         for attempt in range(1, self.max_retries + 1):
             started = time.time()
+            if self.attempted_calls >= self.max_calls:
+                raise LLMError(f"budget_blocked: maximum API calls ({self.max_calls}) reached")
+            if any(k in self.extra_body for k in ("model", "messages", "max_tokens", "max_completion_tokens", "tools", "plugins", "provider")):
+                raise LLMError("extra_body cannot override model, messages, token limit, routing, or enable paid tools/plugins")
             body = {
                 "model": model,
                 "messages": messages,
                 "temperature": self.temperature,
                 "top_p": self.top_p,
-                "max_tokens": self.max_tokens,
                 **self.extra_body,
             }
+            if self.max_tokens is not None:
+                body["max_tokens"] = self.max_tokens
+            if self.budget is not None:
+                try:
+                    if not self.budget.catalogue["models"].get(model):
+                        raise BudgetError(f"model unavailable in verified catalogue: {model}")
+                    if not self.provider_credit_limit:
+                        body["provider"] = self.budget.reserve(model, self.max_tokens)
+                except BudgetError as exc:
+                    raise LLMError(f"budget_blocked: {exc}") from exc
+                supported = self.budget.catalogue["models"][model].get("supported_parameters") or []
+                for param in ("temperature", "top_p"):
+                    if param not in supported:
+                        body.pop(param, None)
+            endpoint = f"{self.base_url}/chat/completions"
+            if self.api_style == "ollama":
+                if urlparse(self.base_url).hostname not in ("localhost", "127.0.0.1", "::1"):
+                    raise LLMError("Native Ollama adapter is restricted to an explicitly configured local host")
+                endpoint = f"{self.base_url}/api/chat"
+                body = {"model": model, "messages": messages, "stream": False,
+                        "options": {**self.local_options, "num_predict": self.max_tokens,
+                                    "temperature": self.temperature, "top_p": self.top_p}}
+                if isinstance(self.extra_body.get("think"), bool):
+                    body["think"] = self.extra_body["think"]
             data = json.dumps(body).encode("utf-8")
             try:
-                req = urllib.request.Request(f"{self.base_url}/chat/completions", data=data, headers=headers)
+                req = urllib.request.Request(endpoint, data=data, headers=headers)
+                self.attempted_calls += 1
+                self.on_event("api_attempt", model=model, attempt=attempt, api_calls_attempted=self.attempted_calls)
                 with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+                    self.api_responses += 1
                     payload = json.loads(resp.read().decode("utf-8"))
+                if self.api_style == "ollama":
+                    if payload.get("done") is not True or not isinstance(payload.get("message"), dict):
+                        raise LLMError("incomplete/malformed native Ollama response")
+                    payload = {"choices": [{"message": payload["message"], "finish_reason": payload.get("done_reason")}],
+                               "usage": {"prompt_tokens": payload.get("prompt_eval_count", 0),
+                                         "completion_tokens": payload.get("eval_count", 0), "cost": 0.0}}
                 if "error" in payload and "choices" not in payload:
                     raise LLMError(f"API error: {str(payload['error'])[:300]}")
                 choice = payload["choices"][0]
                 message = choice.get("message") or {}
                 content = message.get("content") or ""
                 usage = payload.get("usage") or {}
+                self.total_prompt_tokens += int(usage.get("prompt_tokens", 0))
+                self.total_completion_tokens += int(usage.get("completion_tokens", 0))
+                if isinstance(usage.get("cost"), (float, int)):
+                    self.reported_cost_usd += usage["cost"]
+                self.on_event("api_response", model=model, usage=usage, content_present=bool(content.strip()),
+                              finish_reason=choice.get("finish_reason"))
                 if not content.strip():
                     reasoning = message.get("reasoning") or ""
                     details = usage.get("completion_tokens_details") or {}
@@ -99,8 +163,6 @@ class LLMClient:
                         f"reasoning_tokens={details.get('reasoning_tokens')}, reasoning_chars={len(reasoning)}, "
                         f"provider={payload.get('provider')})"
                     )
-                self.total_prompt_tokens += int(usage.get("prompt_tokens", 0))
-                self.total_completion_tokens += int(usage.get("completion_tokens", 0))
                 self.calls += 1
                 return {
                     "content": content,
@@ -111,6 +173,8 @@ class LLMClient:
                 }
             except urllib.error.HTTPError as exc:
                 detail = exc.read().decode("utf-8", "replace")[:400]
+                if self.api_key:
+                    detail = detail.replace(self.api_key, "[REDACTED]")
                 last_err = LLMError(f"HTTP {exc.code}: {detail}")
                 if exc.code in (401, 403):
                     raise LLMError(f"authentication failed ({exc.code}); check the API key: {detail}")
@@ -121,9 +185,12 @@ class LLMClient:
                     continue
                 if exc.code in (400, 404):
                     raise FatalModelError(f"model {model} rejected the request: HTTP {exc.code}: {detail}")
-            except (urllib.error.URLError, TimeoutError, LLMError, json.JSONDecodeError, KeyError, IndexError) as exc:
+            except (urllib.error.URLError, TimeoutError, LLMError, json.JSONDecodeError, KeyError, IndexError, TypeError, ValueError, AttributeError) as exc:
                 last_err = exc
-            wait = min(self.backoff * attempt, 90)
+            self.on_event("api_failure", model=model, attempt=attempt, error=str(last_err))
+            if attempt == self.max_retries:
+                break
+            wait = min(self.backoff * attempt, 60)
             print(f"[llm] {model}: attempt {attempt}/{self.max_retries} failed ({last_err}); retrying in {wait}s", flush=True)
             time.sleep(wait)
         raise LLMError(f"{model}: failed after {self.max_retries} attempts: {last_err}")
@@ -131,10 +198,27 @@ class LLMClient:
     # ------------------------------------------------------------------ with fallbacks
     def chat(self, messages: list[dict]) -> dict:
         """Returns {"content", "usage", "finish_reason", "seconds", "model"}; switches model on failure."""
-        if not self.api_key and "localhost" not in self.base_url and "127.0.0.1" not in self.base_url:
+        hostname = urlparse(self.base_url).hostname
+        local = hostname in ("localhost", "127.0.0.1", "::1")
+        if not self.api_key and not local:
             raise LLMError(
                 f"No API key found. Export {self.api_key_env} (see MP4/README.md) before running the pipeline."
             )
+        if not local and self.budget is None:
+            if hostname != "openrouter.ai" or urlparse(self.base_url).scheme != "https":
+                raise LLMError("Remote inference requires a documented spending adapter; this controller currently supports OpenRouter HTTPS")
+            if self.budget_limit is None or self.budget_limit == "":
+                raise LLMError("budget_blocked: set an explicit CRUST_BUDGET_USD total; token limits are not dollar authorization")
+            root = Path(__file__).resolve().parent.parent
+            try:
+                self.budget = Budget(self.budget_limit, root / self.budget_ledger, root / self.access_catalogue)
+                if self.provider_credit_limit and self.budget.limit <= 0:
+                    raise BudgetError("provider credit enforcement requires explicit positive authorization")
+                if not self.provider_credit_limit and self.max_tokens is None:
+                    raise BudgetError("request reservations require a finite output token allowance")
+            except (BudgetError, OSError, ValueError, KeyError) as exc:
+                self.budget = None
+                raise LLMError(f"budget_blocked: {exc}") from exc
         candidates = [self.model] + [m for m in self.fallbacks if m != self.model]
         errors = []
         for model in candidates:
@@ -147,7 +231,7 @@ class LLMClient:
                     self.fallbacks = [m for m in self.fallbacks if m != model]
                 return resp
             except LLMError as exc:
-                if "authentication failed" in str(exc):
+                if "authentication failed" in str(exc) or "budget_blocked" in str(exc):
                     raise
                 errors.append(str(exc))
                 print(f"[llm] giving up on {model}: {exc}", flush=True)

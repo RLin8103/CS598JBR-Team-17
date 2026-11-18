@@ -1,0 +1,22 @@
+[11:49:33] project=libpsbt model=anthropic/claude-haiku-5.5 toolchain=nightly-2025-05-13
+[11:49:33] baseline: cargo build
+[11:49:36] baseline: cargo test
+[11:49:36] baseline: cargo clippy (4 categories)
+[11:49:37] baseline: unsafe metrics
+[11:49:39] === iteration 1/2 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[11:49:54] iter 1: cargo build
+[11:49:54] iter 1: cargo test
+[11:49:55] iter 1: cargo clippy (4 categories)
+[11:49:56] iter 1: unsafe metrics
+[11:49:57] iteration 1: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=58508
+[11:49:57] === iteration 2/2 phase=TESTS score=(1, 0, 0, 1, 1, 0, 6, -2, 0, 0, -1, 1, 1, 0, -2)
+[11:50:18] iter 2: cargo build
+[11:50:19] iter 2: cargo test
+[11:50:19] iter 2: cargo clippy (4 categories)
+[11:50:20] iter 2: unsafe metrics
+[11:50:22] iteration 2: phase=TESTS compiles=True tests=6/8 unsafe=0 clippy=2 tokens=141239
+[11:50:22] final (selected snapshot): cargo build
+[11:50:22] final (selected snapshot): cargo test
+[11:50:23] final (selected snapshot): cargo clippy (4 categories)
+[11:50:24] final (selected snapshot): unsafe metrics
+[11:50:25] STOP: max_iterations | iterations=2 (best 2) | compiles=True tests=6/8 unsafe=0 clippy=2

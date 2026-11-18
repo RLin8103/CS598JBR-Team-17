@@ -1,196 +1,368 @@
-# MP4 - Agentic C-to-Rust translation (Team 17)
+# MP4 — Group 17: cset and libpsbt
 
-Group 17 projects (CRUST-Bench): **project_1 = `cset`**, **project_2 = `libpsbt`**.
+`project_1` is **cset**; `project_2` is **libpsbt**. The required directory layout is retained.
+The reusable Python controller inspects C, the frozen Rust interface and tests; asks one model to make
+edits; runs build/test/Clippy/safety checks; returns diagnostics; and repeats. Translated logic may only
+be changed by that controller. The translation model independently diagnosed and edited both submitted implementations.
 
-The pipeline is a custom Python controller (`src/agent.py`, standard library only). An LLM edits the
-Rust crate; after every edit the controller runs `cargo build`, `cargo test`, `cargo clippy` (four
-categories) and an unsafe-metrics analysis with the pinned toolchain, then returns that output to the
-model, which decides the next edit. Nothing about individual C functions is hard-coded: the same
-controller and prompts are used for both projects.
+**Current status:** both compile on the pinned toolchain. cset passes 15/15 benchmark tests;
+libpsbt passes 6/8 executions (3/4 distinct tests). Separate regressions expose additional defects.
+The official safety analyzer and submission validator remain unavailable. The latest autonomous continuations used Haiku through OpenRouter with provider credit enforcement.
+Passing visible tests or emitting zero Clippy warnings does not establish correctness or soundness.
 
-## Directory layout
+## Framework and environment
 
-```
-MP4/
-├── README.md
-├── src/                     # pipeline code
-│   ├── agent.py             # controller / main loop / prompt building / logging
-│   ├── tools.py             # cargo runner, result parsers, guarded file edits, redaction
-│   ├── llm.py               # OpenAI-compatible chat client (API key from env var only)
-│   ├── interface_check.py   # compares src/<module>.rs with the provided src/interfaces/<module>.rs
-│   ├── unsafe_check.py      # built-in approximation of the unsafe-metrics tool (fallback)
-│   ├── run_pipeline.sh      # one-command reproduction for a project
-│   └── dev/mock_llm_server.py   # offline smoke test of the plumbing only (not used for results)
-├── configs/
-│   ├── pipeline.json        # model, inference settings, limits, stopping condition, guard rails
-│   ├── projects.json        # group 17 -> project mapping and paths
-│   └── prompts/             # system.md, task.md, feedback.md, phases.json
-├── subjects/project_{1,2}/  # c_source/ (original C) + rust_skeleton/ (CRUST-Bench interface + tests)
-├── translations/project_{1,2}/   # final generated Rust crates (cargo projects)
-└── trajectories/project_{1,2}/   # run_<timestamp>/ execution logs, see "Trajectories"
-```
-
-## Frameworks, models and tools
-
-| Item | Value |
+| Item | Current audit / repair setup |
 |---|---|
-| Agentic framework | `crust_agent` 1.0.0 - own controller in Python (no third-party agent framework) |
-| Model | set in `configs/pipeline.json` (`llm.model`, default `qwen/qwen3-coder-next` via OpenRouter, with `deepseek/deepseek-v4-flash` and then `anthropic/claude-haiku-5.5` as automatic fallbacks); the model actually used for each call is recorded in `trajectories/project_N/run_*/trajectory.jsonl` and `config_used.json`. History: the first runs used free OpenRouter models (`google/gemma-4-31b-it:free`, `cohere/north-mini-code:free`, `nvidia/nemotron-3-ultra-550b-a55b:free`); they were rate-limited (50 free requests/day), spent most of their output on hidden reasoning tokens, and never got the crate to compile, so the pipeline switched to a paid non-reasoning coding model. Those earlier runs are kept in `trajectories/` |
-| Provider / runtime | any OpenAI-compatible `chat/completions` endpoint; default OpenRouter (`https://openrouter.ai/api/v1`). Local runtimes (Ollama, vLLM, llama.cpp server, LM Studio) work by setting `LLM_BASE_URL` |
-| Inference settings | temperature 0.2, top_p 0.95, max_tokens 16000 per reply, request timeout 900 s, 2 retries per model with back-off, then fallback to the next model (`configs/pipeline.json`) |
-| Rust toolchain | `nightly-2025-05-13` (cargo 1.89.0-nightly, clippy 0.1.88), the same one used for grading |
-| Host OS / runtime | Windows 11 host, pipeline run inside WSL2 Ubuntu (Linux x86_64), Python 3 |
-| Tools available to the agent | file write / patch (`src/*.rs` only), file read (`c_source/*`, crate files), `cargo build`, `cargo test`, `cargo clippy` (correctness / style / complexity / perf counted separately), unsafe-metrics analysis |
-| Multiple agents or models | One agent (single controller loop, no multi-agent setup). Several models were used across the experiment: the default model works until a rate limit/failure or until it produces 2 replies in a row without an applied edit, then the controller switches (sticky) to the next model in `fallback_models` (`model_switches` / `escalate` events in the trajectory). The model used for every call is logged |
+| Controller | `crust_agent` 1.1.0, custom standard-library Python; original runs used 1.0.0 |
+| Python | local `.venv`, Python 3.13.17; source requires Python 3.10+ |
+| Host | macOS, aarch64-apple-darwin; exact OS/runtime versions in evaluation JSON |
+| Required Rust | nightly-2025-05-13: rustc 1.89.0-nightly (8405332bd, 2025-05-12), Cargo 1.89.0-nightly (056f5f4f3, 2025-05-09) |
+| Tools | Clippy 0.1.88, rustfmt 1.8.0-nightly; fixed Cargo commands, guarded source reads/edits, lexical interface check, configured official analyzer, supplemental lexical safety scan, separate sanitized C/Rust regressions |
+| Model/provider | OpenRouter chat/completions; `qwen/qwen3-coder-next`, fallbacks `deepseek/deepseek-v4-flash`, `anthropic/claude-haiku-5.5` |
+| Access evidence | Historical catalogue evidence is in `evaluation/model_availability.json`. Authenticated Haiku preflight for the autonomous batch is in `evaluation/autonomous_access.json`. |
+| Arrangement | One model-driven controller loop, one active model at a time; no concurrent agents. The Python controller runs independently of external agent CLIs. |
+| Settings | General config: temperature .2, top_p .95, max_tokens 16000, two attempts/model, 900-second request timeout. Targeted repair config: 6000 output tokens, one attempt/model, 180 seconds. Unsupported temperature/top_p parameters are omitted using fresh catalogue metadata. |
 
-The agent does not get a free shell: the controller runs the fixed set of tools after each edit so
-the feedback always matches the grading environment (same toolchain, same Clippy flags).
+Historical trajectories came from Windows/WSL/Linux; their saved configurations are the source of
+truth for those runs. The current pinned toolchain is isolated in `.runtime/`, and Homebrew Rust was
+left in place. No third-party Python dependencies are needed.
 
-## Dependency installation
+## Files and evidence
+
+- `src/`: controller, tool adapters, access preflight, budget reservations, offline evaluator and history audit.
+- `configs/pipeline.json`: general settings; `repair_experiments.json`: short controlled runs with additional checks.
+- `configs/repairs/project_{1,2}.md`: verified defects and bounded targeted repair context, without implementations.
+- `subjects/project_{1,2}/`: original C and supplied skeletons; unchanged.
+- `translations/project_{1,2}/`: selected model-generated implementations.
+- `trajectories/project_{1,2}/`: all original runs retained. `latest_run.txt` identifies the latest run and its selected snapshot.
+- `evaluation/baseline/`: pre-repair source/config snapshot, commit and hashes; pinned execution evidence.
+- `evaluation/harness/`: separate Rust regression crate and sanitizer-enabled C oracles. These do not alter supplied tests.
+- `evaluation/indexed_continuation_final/`: current evaluation and exact selected snapshots. Earlier batch results remain under `evaluation/indexed_paid_final/`, `evaluation/autonomous_final/` and `evaluation/submission_check/`.
+- `evaluation/INSTRUCTOR_QUESTIONS.md`: minimal interface, benchmark, C-behavior and tool questions.
+
+## Setup without replacing the system toolchain
+
+From the repository root:
 
 ```bash
-# Rust toolchain (Linux / WSL / macOS)
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-rustup toolchain install nightly-2025-05-13 --profile minimal -c clippy -c rustfmt
-
-# Python 3.9+ is the only other requirement (the pipeline uses the standard library only)
-python3 --version
+python3.13 -m venv MP4/.venv
+mkdir -p MP4/.runtime
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o MP4/.runtime/rustup-init.sh
+export CARGO_HOME="$PWD/MP4/.runtime/cargo"
+export RUSTUP_HOME="$PWD/MP4/.runtime/rustup"
+RUSTUP_INIT_SKIP_PATH_CHECK=yes sh MP4/.runtime/rustup-init.sh -y --no-modify-path \
+  --profile minimal --default-toolchain nightly-2025-05-13 -c clippy -c rustfmt
+export PATH="$CARGO_HOME/bin:$PATH"
+rustc +nightly-2025-05-13 -Vv
+cargo +nightly-2025-05-13 clippy --version
+cargo +nightly-2025-05-13 fmt --version
+cargo +nightly-2025-05-13 fetch --locked --manifest-path MP4/translations/project_2/Cargo.toml
 ```
 
-`libpsbt` depends on the crates `thiserror` and `base64` (declared in its `Cargo.toml`); cargo downloads
-them, so the machine needs internet access the first time.
+Installation/downloads need network access. Subsequent regression runs use `--offline --locked`.
+The harness lockfile retains the versions in the supplied libpsbt lockfile. `.venv/`, `.runtime/`,
+Cargo targets, environment files and keys are ignored by Git. The launcher checks installation and
+never silently installs or changes the user's global toolchain.
 
-## How to run the pipeline
+## Reproduce evaluation without paid model calls
+
+Use a **new output directory** on each invocation; evaluation refuses to overwrite evidence.
 
 ```bash
-export OPENROUTER_API_KEY=...        # never commit this; or set another variable named in configs/pipeline.json
-# optional overrides: LLM_MODEL=<model id>  LLM_BASE_URL=<endpoint>  LLM_API_KEY_ENV=<variable name>
-
-bash MP4/src/run_pipeline.sh 1          # project_1 (cset)    -> translations/project_1, trajectories/project_1
-bash MP4/src/run_pipeline.sh 2          # project_2 (libpsbt) -> translations/project_2, trajectories/project_2
-
-# useful flags: --fresh (restart from the skeleton), --max-iterations N, --target-dir DIR
+MP4/.venv/bin/python -m unittest discover -s MP4/src/tests -v
+MP4/.venv/bin/python MP4/src/evaluate.py --config MP4/configs/autonomous_repair.json \
+  --output MP4/evaluation/reproduction_1
+MP4/.venv/bin/python MP4/src/run_regressions.py --output MP4/evaluation/regressions_1
+MP4/.venv/bin/python MP4/src/history_audit.py
 ```
 
-The same entry point works for any CRUST-Bench project that follows the `subjects/<id>/c_source` +
-`rust_skeleton` layout:
-`python3 MP4/src/agent.py --project NAME --subject DIR --out DIR --log DIR`.
+The evaluator exits nonzero when required validation is incomplete or fails. It retains each command,
+stdout/stderr, return status, timeout status, exact config, tool versions and source hashes. Its JSON
+has `mandatory_validation_clean: false` while official tooling or correctness checks are unresolved.
+It also runs the configured instructor validator at the submission root. Set
+`unsafe_metrics.command` and `submission_validator.command` in the configuration to the **actual
+instructor tools**, using `{path}` for the crate/submission root. Do not configure the approximation
+as the official tool. The analyzer adapter expects an object containing four nonnegative integer
+primary metrics, directly or under `totals`; other official output formats require an explicit adapter.
+Missing metrics are unknown, never zero.
 
-Verify a finished translation exactly like the graders do:
+The exact required command is retained in the evaluation's `clippy.exact_command`:
 
 ```bash
-cd MP4/translations/project_1
+cd MP4/translations/project_1  # repeat for project_2
 cargo +nightly-2025-05-13 build
 cargo +nightly-2025-05-13 test
 cargo +nightly-2025-05-13 clippy --all-targets --all-features -- \
-    -W clippy::correctness -W clippy::style -W clippy::complexity -W clippy::perf
+  -W clippy::correctness -W clippy::style -W clippy::complexity -W clippy::perf
 ```
 
-## Pipeline cycle
+The controller builds all targets and tests with `--no-fail-fast`. Four additional JSON Clippy probes
+use `-A clippy::all -W clippy::<group>` solely to attribute categories independently. The mandatory
+combined command has no such suppression. Counts deduplicate identical rendered findings across
+Cargo targets; raw diagnostics are retained. Existing source `allow` attributes still suppress
+correctness findings in cset and must be reviewed structurally. libpsbt's two emitted style findings
+are in protected benchmark code; generated modules emit zero in these four categories.
 
-1. `setup`: copy `rust_skeleton` into `translations/project_N`; each module declared in `src/lib.rs` starts as a
-   copy of its interface stub (`unimplemented!()` bodies). Hash all protected files (`Cargo.toml`, `Cargo.lock`,
-   `src/lib.rs`, `src/bin/**` tests, `src/interfaces/**`).
-2. `baseline`: run build, tests, Clippy and unsafe metrics once (iteration 0).
-3. First prompt: task description, workspace tree, Rust interface, tests, all C sources, current Rust files, baseline feedback.
-4. Each iteration: the model replies with `<file>` / `<edit>` / `<append>` / `<read>` / `<notes>` / `<done/>` blocks (replies are limited to about 16k output tokens, so the prompt tells it to work function by function; if a reply is cut off the controller saves the complete lines and asks the model to continue with `<append>`);
-   the controller applies edits (refusing protected paths), re-runs all four checks and sends back the compiler
-   errors, failing tests and panic messages, Clippy findings per category, unsafe metrics with offending lines,
-   plus the current Rust files and the model's own notes.
-5. The feedback has a *phase* that tells the model what to prioritise: `COMPILE` -> `INTERFACE` (a public signature, type or `impl` header differs from `src/interfaces/*.rs`, found by `src/interface_check.py`) -> `TESTS` -> `STUBS` (bodies still `unimplemented!()`, e.g. modules the tests do not exercise) -> `SAFETY` -> `CLIPPY` -> `DONE`. When everything is `DONE` (or the run stalls), up to `review_rounds` (2) `REVIEW` turns ask the model to compare every function with the C source for behaviour the visible tests do not cover (size/length parameters, empty input, table bounds, callbacks); edits made in a review are rolled back if they lower the score, and a review reply of `<done/>` with no edits ends the reviews.
-6. The best snapshot (lexicographic score: compiles, fewer interface deviations, tests passed, fewer build errors, fewer stubs, lower unsafe total, lower Clippy total)
-   is restored at the end, so a regression in the final iteration cannot be what gets submitted.
+## Reproduce the free repair runs
 
-Guard rails (enforced by the controller, logged in the trajectory): the agent cannot write outside `src/*.rs`;
-tests, interfaces, `lib.rs` and `Cargo.toml` are hash-checked every iteration; `extern "C"`, `libc::`, `#[link(`
-and `build.rs` (FFI back into the C code) are flagged as policy violations that must be fixed first.
+Provide `OPENROUTER_API_KEY` in the runtime environment and keep it out of version control.
+The preflight verifies authentication and catalogue prices using GET requests. The free configuration
+pins Cohere North Mini Code with Nemotron Ultra as its only fallback. It allows four iterations and
+four API attempts per project with a shared $0 budget and zero-price routing. Each run snapshots the
+generic templates. The model receives automatic diagnostics, including the separate regression output.
+The human-written audit notes were excluded from this batch. Compare runs from identical starting
+snapshots if evaluating the effect of changing models or prompts.
 
-## Stopping condition
+```bash
+MP4/.venv/bin/python MP4/src/preflight.py --config MP4/configs/free_experiments.json \
+  --output MP4/evaluation/free_access_verified.json
+bash MP4/src/run_pipeline.sh 1 --config MP4/configs/free_experiments.json
+bash MP4/src/run_pipeline.sh 2 --config MP4/configs/free_experiments.json
+```
 
-The run stops at the first of:
+Validated API access expires after 24 hours. Budget reservations and provider-reported costs are
+separate. Failed requests count against the API attempt limit.
 
-1. **success**: build OK, every test passes, no `unimplemented!()`/`todo!()` is left, all primary unsafe metrics are 0 and the Clippy total is `<= clippy_accept` (0);
-2. `max_iterations` (40 repair iterations);
-3. `max_total_tokens` (4,000,000 prompt + completion tokens);
-4. `no_progress_patience`: 8 consecutive iterations without improving the best score (turns spent finishing a cut-off file do not count);
-5. `agent_done`: the model sent `<done/>` twice in a row while the crate compiles and all tests pass;
-6. an unrecoverable LLM/API error. Rate-limit/empty-completion stops keep the latest files in place so that the run can be resumed
-   (rerun without `--fresh`); other stops restore the best snapshot.
+## Snapshot selection, stopping and resumption
 
-Repair-loop safeguards added during the experiments (all visible in the trajectories):
+The score orders policy cleanliness, policy count, interface deviation count, compilation, valid
+completed test output, clean test execution, passed/failed execution counts, build errors, stubs,
+additional check failures, successful Clippy execution, available safety metrics, lower primary
+safety total, then lower Clippy count. This is a heuristic, not a correctness proof. The historical selection mode retains tied compiling edits. The autonomous repair configuration uses named, complete regression results and rejects candidates that lose a previously passing case.
 
-- *Rollback*: in the `SAFETY`/`CLIPPY` phases an edit that breaks the build or tests, or makes unsafe/Clippy worse, is reverted and the model is
-  shown the errors of the reverted attempt (`rollback` events).
-- *Escalation*: after 2 consecutive replies without an applied edit the controller switches to the next model in `fallback_models` (`escalate` events).
-- *Tolerant parsing*: unclosed `<edit>`/`<file>` blocks and CDATA/fences are accepted; malformed edit blocks are reported back to the model.
-- *Interface conformance*: after every edit `interface_check.py` compares each `src/<module>.rs` with `src/interfaces/<module>.rs` (function signatures including `&self`/`&mut self`, parameter and return types, struct/enum/const/alias definitions, `impl` headers and generic bounds). Deviations are reported to the model and block `DONE`.
-- Edits only reset the no-progress counter in the `COMPILE`/`INTERFACE`/`TESTS`/`POLICY`/`STUBS` phases; in `SAFETY`/`CLIPPY` only score improvements count.
+In interface/safety/Clippy/review refinement, a lower score rolls back. **Rejected files and their
+validation stay under that iteration**, while `selection.json` identifies the selected hashes.
+All normal exits, model/API failures and handled interruptions select the best evaluated snapshot;
+partial/unvalidated interrupted work is retained separately in `interrupted_work/files/`. Final
+selected files are reevaluated and hashed. Hard process kills cannot guarantee finalization; inspect
+logs and evaluate the working tree before resuming such a run. This differs from version 1.0.0,
+which sometimes left the latest files in place on API failure/interruption. Original evidence is
+preserved in `evaluation/baseline/snapshot/` and the old trajectories.
 
-## Trajectories
+Without `--fresh`, the pipeline starts from the current translation, with a fresh model conversation.
+`--resume-from RUN:ITER` restores exactly that run's editable snapshot, removing stale editable files.
+`--fresh` starts from the original skeleton after archiving the previous workspace in the new run's
+`pre_fresh_workspace/`. Neither option changes the supplied skeleton. Use a separate output/log path
+if comparing multiple experiments; do not overwrite unrelated user files.
 
-`trajectories/project_N/run_<timestamp>/` contains, for each run: `config_used.json`, `system_prompt.md`,
-`initial_prompt.md`, `pipeline.log`, `trajectory.jsonl` (every LLM call with token usage, every tool call, every check
-result, the stop event), `metrics_by_iteration.json`, `final_status.json`, and one `iteration_NN/` directory per
-iteration holding the prompts sent to / replies received from the model, `build.txt`, `test.txt`, `clippy.txt`,
-`unsafe_metrics.json`, `metrics.json` and a snapshot of the Rust files after that iteration.
-`trajectories/project_N/latest_run.txt` names the last run (the one that produced the submitted translation).
-API keys are never written to disk and are scrubbed from every log line (`tools.redact`).
+`DONE` requires protected/interface/policy checks, no stubs, successful build, successful complete
+nonempty test execution, successful mandatory combined Clippy and category probes, clean additional
+checks, valid **official** safety output with all four primary metrics zero, and accepted Clippy
+counts. Missing tools, malformed JSON, launch errors, nonzero exits, crashes, timeouts and incomplete
+output cannot count as clean. Two `<done/>` replies do not bypass these requirements. Other stops
+(iteration/token/USD budget, no progress, model failure/interruption) remain explicitly unsuccessful.
+The instructor validator is an additional final submission gate. Even clean validation is not proof
+of full correctness or memory safety.
 
-Each project's submitted translation is the result of several runs in sequence: a run that stops (rate limit, patience, token budget)
-is resumed by running the pipeline again without `--fresh`, which continues from the files left in `translations/project_N`.
-Run history (all runs are kept; early runs used free models and show the problems that led to the pipeline safeguards):
+## Results and reporting limitations
 
-| Project | Run | Models used | Iterations | Stop reason | Result at end |
-|---|---|---|---|---|---|
-| 1 cset | `run_20261112_200435` | cohere/north-mini-code:free (+ free fallbacks) | 15 | free-tier daily limit (50 req/day) | did not compile |
-| 1 cset | `run_20261112_203533` | free models (cohere, nemotron) | 27 | all models failed (empty completions) | did not compile |
-| 1 cset | `run_20261112_210939` | qwen/qwen3-coder-next | 4 | interrupted by hand (no `final_status.json`) | - |
-| 1 cset | `run_20261112_212222` | qwen/qwen3-coder-next | 15 | no_progress (unclosed `<edit>` blocks were dropped by the parser; fixed afterwards) | compiles, 5/15 tests |
-| 1 cset | `run_20261112_213748` | qwen/qwen3-coder-next | 35 | token_budget | 15/15 tests, unsafe 44, Clippy 4 |
-| 1 cset | `run_20261112_215837` | qwen/qwen3-coder-next | 7 | crashed on a transient Windows file lock (no `final_status.json`; fixed with write retries) | - |
-| 1 cset | `run_20261112_220540` | qwen/qwen3-coder-next | 12 | no_progress | 15/15 tests, unsafe 36, Clippy 3 |
-| 1 cset | `run_20261112_225516` | claude-haiku-5.5 (failed), then deepseek/deepseek-v4-flash | 12 | no_progress | **15/15 tests, unsafe 14, Clippy 0** |
-| 1 cset | `run_20261116_204023` | qwen/qwen3-coder-next, `--fresh` (after the `INTERFACE` phase was added) | 40 | max_iterations: the model rewrote the whole file each turn and never fixed one syntax error; best snapshot = skeleton | did not compile (this attempt was discarded; the previous translation was restored from git) |
-| 1 cset | `run_20261116_214112` | deepseek/deepseek-v4-flash | 0 | aborted at start (stale config, before `git pull`) | - |
-| 1 cset | `run_20261116_214135` | deepseek/deepseek-v4-flash, resumed from the compiling version | 33 | token_budget: `INTERFACE` phase restored the exact interface (9 -> 0 deviations) but with 87 unsafe lines | 15/15 tests, interface exact, unsafe 87, Clippy 2 |
-| 1 cset | `run_20261116_221609` | deepseek/deepseek-v4-flash, then claude-haiku-5.5, resumed | 29 | no_progress after 2 `REVIEW` rounds | **15/15 tests, interface exact (0 deviations), unsafe 7 (built-in total; 4 unsafe lines), Clippy 0** |
-| 2 libpsbt | `run_20261112_222714` | qwen/qwen3-coder-next | 19 | no_progress (model looped in its notes without edits) | compiles, 2/8 tests |
-| 2 libpsbt | `run_20261112_223757` | qwen/qwen3-coder-next, then claude-haiku-5.5 | 19 | token_budget | 6/8 tests, unsafe 0, Clippy 2 (`cli.rs` still a stub; found by the final audit, which led to the `STUBS` phase) |
-| 2 libpsbt | `run_20261112_233622` | qwen/qwen3-coder-next, then claude-haiku-5.5 | 19 | token_budget (after `cli.rs` was translated in iteration 6, the model kept retrying the defective test) | **6/8 tests, unsafe 0, Clippy 2, no stubs** |
-| 2 libpsbt | `run_20261116_211540` | qwen, then deepseek, then haiku | 20 | token_budget (stuck on the defective test; best snapshot = start) | 6/8 tests, unsafe 0, Clippy 2 |
-| 2 libpsbt | `run_20261116_214117` | qwen/qwen3-coder-next | 0 | aborted at start (stale config) | - |
-| 2 libpsbt | `run_20261116_215353` | qwen, then deepseek, then haiku | 20 | token_budget: `REVIEW` rounds found real panics, but their fixes were discarded by the final snapshot restore (bug, fixed afterwards) | 6/8 tests, unsafe 0, Clippy 2 |
-| 2 libpsbt | `run_20261116_223403` | qwen, then deepseek, then haiku | 10 | no_progress after 2 back-to-back `REVIEW` rounds; review fixes kept | **6/8 tests, unsafe 0, Clippy 2** (defective provided test only) |
+The free batch used Cohere North Mini Code and Nemotron Ultra. Both runs selected iteration zero.
+The recorded cost was **$0** across six API attempts and five completed turns.
 
-## Safety metrics
+| Project | Run | Attempts / completed turns | Outcome |
+|---|---|---:|---|
+| cset | `run_20261118_000952_791387` | 3 / 3 | Cohere made no applicable edits. Nemotron proposed using a single-byte reference as a longer slice. The regression persisted, lexical unsafe counts rose, and the controller restored iteration zero. |
+| libpsbt | `run_20261118_001109_142127` | 3 / 2 | Cohere made no applicable edits. Nemotron spent the 10,000-token output limit on reasoning and returned no editable response. Iteration zero was selected. |
 
-The instructor-provided unsafe-metrics tool is run when its command is set in `configs/pipeline.json`
-(`unsafe_metrics.command`, with `{path}` standing for the crate root). Until then the pipeline uses
-`src/unsafe_check.py`, a lexical approximation of the same four primary metrics (unsafe lines, unsafe calls,
-unsafe casts, pointer arithmetic) plus extras; the trajectory records which tool produced each number
-(`unsafe_tool`). The numbers reported in the progress report come from the official tool.
+The cumulative attempted iteration, response-bearing iteration and successful response counts are
+233/231/248 for cset across 13 runs and 110/109/111 for libpsbt across eight runs.
 
-## Manual interventions and limits
+Baseline and current benchmark results: cset 15/15 (exit 0), libpsbt 6/8 executions / 3/4 distinct
+(exit 101). Both exact Clippy commands exit 0; categories are `0/0/0/0` and `0/2/0/0` in order
+correctness/style/complexity/performance. The two libpsbt style findings are in the protected benchmark.
+The independent harness results for the selected submissions are listed below. The harness includes
+checked-error policies identified in the instructor questions.
 
-- No program logic was edited by hand. Any infrastructure fix will be listed here with the reason and whether program logic was affected.
-- Setup changes made by hand: none to the translated code. The skeleton's missing module files are created automatically by the controller
-  from the provided interface stubs.
-- Infrastructure fixes made by hand (pipeline code only, never the translated Rust): tolerant reply parsing, `<append>` continuation for cut-off files,
-  rollback of regressing edits, model escalation, retrying file writes after a transient Windows lock, resume support. None of these changes program logic.
-- API / usage limits that affected the experiment: OpenRouter's free tier allows 50 requests/day (1000 with at least $10 of credit) and individual free
-  providers return upstream 429s; the first runs hit both and one run ended on the daily cap. The free reasoning models (cohere/north-mini-code, nemotron)
-  also spend the output budget on hidden reasoning tokens and often return empty completions, so the pipeline moved to paid non-reasoning models
-  (`qwen/qwen3-coder-next` by default; `deepseek/deepseek-v4-flash` and `anthropic/claude-haiku-5.5` as fallbacks). `max_tokens` per reply is 16,000, so
-  long files must be written function by function; the paid runs cost about $5.40 of credit in total (summed from the `cost` fields in the trajectories: about $1.16 for project 1 and $4.24 for project 2).
-  Context is about 40-120k prompt tokens per iteration because the C sources, interface, tests and current Rust files are resent every turn.
-- Known test defect (project 2): `read_test_vector` in the provided `src/bin/test.rs` declares `step` as a local variable, so it asserts that *every* record
-  has type 0, while the C test shares the counter and only checks the first two records. A faithful `psbt_read` emits a type-4 record and fails it
-  (`left: 4, right: 0`); passing would require special-casing the test data, which the assignment forbids, so the translation keeps the faithful behaviour
-  (6/8 test results, i.e. one failing test counted in two targets).
-- Project 1 design note: an earlier translation of `cset.rs` (commit `d38693c`, unsafe 14 on the built-in metric) added the bound `T: Clone + Hash + PartialEq` to `impl<T> Cset<T>`, changed
-  several signatures (`&mut XXHU8` -> `&[u8]`, `&self` <-> `&mut self`) and hashed with `DefaultHasher`. An external review pointed out that this breaks the
-  required public interface, so the interface check and `INTERFACE` phase were added and the pipeline repaired the existing translation (no hand edits): the final
-  `cset.rs` matches `src/interfaces/cset.rs` exactly (`interface_check.py`: 0 deviations), with 7 unsafe sites on the built-in metric, all in a few helpers
-  needed by the exact interface (`&self -> &mut Vec`, a single `&mut u8` standing for a buffer, byte-level hashing of an unbounded `T`).
-- Project 2 review fixes (made by the agent in `REVIEW` rounds, not by hand): non-ASCII input no longer panics in `psbt_decode`'s hex/prefix paths, and hex encode/decode clamp the
-  destination size to the real buffer length.
+**Official safety metrics: unavailable.** Supplemental lexical primary counts are cset `4/3/0/0`,
+libpsbt `0/0/0/0`. They exclude dependencies, standard library, src/bin and src/interfaces, but count
+the zero-unsafe skeleton lib.rs among analyzed files. They miss equivalent pointer casts expressed
+through methods and cannot prove soundness. cset retains invalid aliasing, generic ownership copying,
+invalid zero-initialization and padding reads. Fewer lexical unsafe sites did not establish improved
+memory safety. Earlier libpsbt edits guarded the actual destination on the hex decode path. The six-turn continuation below addressed the remaining measured length and capacity failures.
+
+Pre-batch historical counts are reproducible with `history_audit.py`: cset has 230 attempted iteration banners,
+228 iterations with successful LLM events and 245 successful responses across 12 runs; libpsbt has
+107/107/109 across seven. Exact legacy HTTP-attempt and completed-turn totals are unknown. The former
+report's 229 was a mixture of inconsistent per-run entries: it listed 15 instead of 14 in the first
+cset run, omitted the interrupted fifth attempt in another, and listed seven rather than eight
+response-bearing iterations in the file-lock run. Final historical runs have 29 and 10 response-bearing
+iterations. New evaluation/checks are not translation iterations. See the JSON audits for every run.
+
+`evaluation/INSTRUCTOR_QUESTIONS.md` explains the suspected state-reset benchmark defect, frozen cset
+interface conflicts, Base62's undefined/missing symbols, CompactSize ambiguity, partial error-message
+coverage and absent CLI integration. These remain unresolved; the benchmark failure is preserved and
+reported. Miri is an optional diagnostic, not a replacement for the official safety analyzer.
+
+## Local Devstral follow-up
+
+The libpsbt run `run_20261118_002700_742995` tried the installed
+`devstral-small-2:24b` model through Ollama. It used the same generic prompts
+and validation feedback with a two-iteration limit. The first request reached
+the 600-second timeout before returning a reply. The controller recorded one
+attempt, zero completed turns, and selected the original snapshot. The final
+pinned checks reproduced the same build, benchmark and Clippy results above.
+This experiment made no remote inference calls.
+
+## Earlier November 18 experiments
+
+Across ten November 18 runs the controller attempted 15 iterations, completed eight model turns and made 14 inference requests, including three local requests. Eleven requests returned responses. All ten runs selected iteration zero. Local Devstral, Qwen and gpt-oss timed out. The first Flint run issued zero requests and the second completed one turn. Two Haiku runs exhausted their output allowance before returning edits. In the last run of that batch one edit failed compilation and the next passed four of eight benchmark executions. Restoring iteration zero returned libpsbt to six of eight. The fresh pinned evaluation reproduced baseline benchmark and Clippy results. The selected source hashes for that batch are in `evaluation/submission_check/`.
+
+| Project | Trajectory directory | Model | Attempts | Completed turns | Requests | Responses |
+|---|---|---|---:|---:|---:|---:|
+| project_1 | run_20261118_000952_791387 | nvidia/nemotron-3-ultra-550b-a55b:free | 3 | 3 | 3 | 3 |
+| project_2 | run_20261118_001109_142127 | nvidia/nemotron-3-ultra-550b-a55b:free | 3 | 2 | 3 | 3 |
+| project_2 | run_20261118_002700_742995 | devstral-small-2:24b | 1 | 0 | 1 | 0 |
+| project_2 | run_20261118_004031_776861 | qwen3.5:9b | 1 | 0 | 1 | 0 |
+| project_2 | run_20261118_004512_735377 | recursive/flint-v1.0:free | 1 | 0 | 0 | 0 |
+| project_2 | run_20261118_004634_277397 | recursive/flint-v1.0:free | 1 | 1 | 1 | 1 |
+| project_2 | run_20261118_005129_155138 | gpt-oss:20b | 1 | 0 | 1 | 0 |
+| project_2 | run_20261118_010306_447410 | anthropic/claude-haiku-5.5 | 1 | 0 | 1 | 1 |
+| project_2 | run_20261118_010410_467107 | anthropic/claude-haiku-5.5 | 1 | 0 | 1 | 1 |
+| project_2 | run_20261118_010837_713513 | anthropic/claude-haiku-5.5 | 2 | 2 | 2 | 2 |
+
+## Autonomous repair and offline replay
+
+Both continuations used `configs/autonomous_repair.json` and authenticated
+`anthropic/claude-haiku-5.5` through OpenRouter. The model received C and Rust source, the frozen
+interface, and observed check failures. The hand-authored diagnosis files were excluded. It
+chose the defects, diagnosed them and authored the edits. The controller allowed two attempted
+iterations and two inference requests per project, with a 180-second request timeout, 28,000 output
+tokens, low reasoning effort and no fallbacks. Four requests returned responses. Provider-reported
+charges for these runs were $0.0278049. The shared reservation ledger reached $4.975 of the $5 ceiling.
+
+| Project | Model trajectory | Attempted iterations | Completed turns | Requests | Regression passes before → selected | Benchmark before → selected |
+|---|---|---:|---:|---:|---:|---:|
+| cset | `run_20261118_114859_292068` | 2 | 1 | 2 | 13/29 → 21/29 | 15/15 → 15/15 |
+| libpsbt | `run_20261118_114933_162219` | 2 | 2 | 2 | 4/21 → 7/21 | 6/8 → 6/8 |
+
+- **cset.** C-oracle mismatches on short inputs led the model to move accumulator merges inside
+  the long-input branch of standard XXH64. The initial harness combined standard and h-variant
+  outcomes in each assertion, so the first edit was rejected with 7/15 before and after. The model
+  recognized that the standard output now matched and requested the truncated C header in its
+  second iteration. That read used the last available reply, leaving no completed second turn.
+  We split the two variants into separate checks and replayed the exact saved edit. It fixed eight
+  standard cases and preserved every previous pass. At that point the h variant still differed on short inputs.
+  The selected snapshot comes from offline replay `run_20261118_115034_652066`, with zero model calls.
+- **libpsbt.** The model used a short-destination panic to add an actual slice-length guard to
+  hex decoding, improving the harness to 5/21. It then used two Base62 panic reports to add
+  checked alphabet lookup, improving to 7/21. Table indices 62 and 63 now return failure. This is a
+  defensive policy while the intended encoding remains unresolved. The second edit also shares the
+  Base64/Base62 encoder and stages output in a temporary vector. Benchmark and Clippy results were
+  preserved. Map/index and callback behavior, requested lengths and other buffer bounds remained open after that batch.
+
+The harness enumerates expected test IDs and requires a complete result for each. A failing assertion
+can produce usable evidence. A timeout, malformed report, missing case or mismatched source hash
+blocks comparison. The controller saves rejected edits and diagnostics before restoring a prior snapshot.
+The final pinned evaluation in `evaluation/autonomous_final/` matches both selected trajectories.
+
+To run a new autonomous continuation from the current files after verifying provider access and an
+authorized spending limit, use `bash MP4/src/run_pipeline.sh 1 --config MP4/configs/autonomous_repair.json`
+(with project ID 2 for libpsbt). The current ledger has insufficient room for another request at
+these settings. `--fresh` starts from the skeleton and `--resume-from RUN:ITER` uses a saved snapshot
+as the starting point. To reproduce the original cset replay from its pre-edit snapshot, the
+credential-free command is:
+
+```bash
+bash MP4/src/run_pipeline.sh 1 --config MP4/configs/autonomous_repair.json \
+  --replay-candidate run_20261118_114859_292068:1
+```
+
+Replay compares against the files currently in the workspace. Use an isolated checkout with the
+pre-edit files from `evaluation/submission_check/project_1/snapshot/` to reproduce the original gain.
+
+## Inspect the indexed context before inference
+
+`configs/indexed_repair.json` and `configs/indexed_local_repair.json` use the same repair loop with
+a file index and implementation-first context. The controller gives priority to C files that
+correspond to Rust files cited in diagnostics and includes selected files in full. C test sources
+and documentation remain available on demand. The first message includes the frozen Rust interface,
+selected C and Rust, and named regression observations. Follow-up messages use a stable C/interface
+reference and the latest Rust snapshot, diagnostics and notes. The model chooses the defect and
+implements the repair as before.
+
+The model can request a file or a bounded line range, for example
+`<read path="c_source/tx.c" start="80" end="150"/>`. Each of the two repair iterations can use one
+read follow-up. The four-request limit leaves room for both read and edit replies. The local
+configuration uses the installed Qwen model through Ollama and does not require OpenRouter access.
+
+From the repository root, use a fresh output path for a credential-free preview:
+
+```bash
+bash MP4/src/run_pipeline.sh 1 --config MP4/configs/indexed_local_repair.json \
+  --preview-context MP4/evaluation/context-preview-1
+```
+
+Use project ID 2 and a separate output path for libpsbt. The previews saved under
+`evaluation/indexed_context_final_preview/` include full copies of `cset.h`, `tx.c`, and `tx.rs`.
+The previous autonomous prompts contained only excerpts of these files. The initial messages report all eight current cset failures and all fourteen
+current libpsbt regression failures. A preview records the checks and prompts without changing the
+selected translation or latest-run pointer. Omit `--preview-context` to start the local repair loop.
+The remote configuration uses the existing ledger and requires enough authorized capacity for the
+planned requests.
+
+The no-cost cset trial `run_20261118_121239_826049` used `qwen3.5:9b` on localhost.
+Its first request timed out after 180 seconds. It completed zero model turns and left the previous
+implementation selected, with 15/15 benchmark executions and 21/29 independent checks passing.
+libpsbt was verified in the offline preview. The trial made zero remote inference calls.
+
+## Haiku trial with indexed prompts
+
+`configs/indexed_paid_repair.json` uses the indexed prompt with authenticated Haiku access through
+OpenRouter. It permits three repair iterations per project and a read follow-up within each
+iteration. The controller records token usage and provider-reported charges without setting an
+output-token cap or cumulative token stop. This experiment used the provider's prepaid-credit
+enforcement at the user's direction. The earlier reservation ledger remains historical evidence.
+
+To reproduce the standalone evaluation from the repository root with the installed local toolchain:
+
+```bash
+export CARGO_HOME="$PWD/MP4/.runtime/cargo"
+export RUSTUP_HOME="$PWD/MP4/.runtime/rustup"
+export PATH="$CARGO_HOME/bin:$PATH"
+MP4/.venv/bin/python MP4/src/evaluate.py --config MP4/configs/indexed_paid_repair.json \
+  --output MP4/evaluation/indexed-paid-recheck
+```
+
+| Project | Indexed Haiku run | Selected iteration | Benchmark before → after | Independent regressions before → after |
+|---|---|---:|---:|---:|
+| cset | `run_20261118_122059_113254` | 1 | 15/15 → 15/15 | 21/29 → 29/29 |
+| libpsbt | `run_20261118_122204_929447` | 3 | 6/8 → 6/8, 3/4 distinct | 7/21 → 10/21 |
+
+Each project attempted three iterations, completed three turns, and issued three requests.
+With the full C header in its first prompt, the cset agent diagnosed and fixed short-input
+accumulator mixing in the alternate hash variant. Its two later turns explained remaining
+frozen-interface safety conflicts and made no edits. In libpsbt, the model moved map counting
+to map boundaries by removing the per-record increment. This corrected map scopes and callback
+record indices. A source/destination-length candidate failed with borrow checker error E0502
+and was rolled back. The final edit corrected the label for unknown global record types.
+
+The standalone pinned evaluation in `evaluation/indexed_paid_final/` verifies both snapshots
+selected at the end of that batch. cset still has unsafe generic storage and aliasing issues. At
+that stage, libpsbt had eleven failing regressions covering ranges, buffer bounds, transaction
+callbacks and contextual errors.
+Its suspected benchmark callback defect remains in the count. The official analyzer and
+submission validator are unavailable.
+
+## Six-turn libpsbt continuation
+
+`configs/indexed_paid_continuation.json` keeps the indexed prompt and validation from the previous
+Haiku batch. It permits six iterations, up to twelve requests, and stops after three iterations
+without a retained improvement. Run `run_20261118_122821_165101` completed six iterations and used
+seven requests, including one read follow-up. Iteration four was selected.
+
+| Project | Benchmark before → after | Independent regressions before → after | Clippy groups before → after |
+|---|---:|---:|---:|
+| cset, re-evaluated | 15/15 → 15/15 | 29/29 → 29/29 | 0/0/0/0 → 0/0/0/0 |
+| libpsbt | 6/8 → 6/8, 3/4 distinct | 10/21 → 21/21 | 0/2/0/0 → 0/2/0/0 |
+
+The first libpsbt patch for transaction callbacks failed to build because it left a reference to
+`tx_io_counts`. The second turn repaired the call path and the callback-order case passed. Turn
+three fixed the nine failing range and capacity cases by honoring declared source lengths and
+bounding writes to the declared and actual destination. Turn four backed the public error getter
+with a safe process-wide slot and set it for the unfinalized-encode error path. The protected
+benchmark still fails `read_test_vector` in both targets. All independent cases pass, while full
+error-message coverage, parity on untested inputs and both instructor validation tools remain open.
+
+The standalone pinned evaluation is in `evaluation/indexed_continuation_final/`. Use the evaluation
+command above with `configs/indexed_paid_continuation.json` and a fresh output path to reproduce it.

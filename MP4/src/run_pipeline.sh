@@ -5,7 +5,7 @@
 #   bash MP4/src/run_pipeline.sh 2            # project_2 (libpsbt)
 #   bash MP4/src/run_pipeline.sh 1 --fresh    # discard the existing translation first
 #
-# Needs: python3 (3.9+), rustup with toolchain nightly-2025-05-13 (+clippy), and an API key in
+# Needs: Python 3.10+, rustup with toolchain nightly-2025-05-13 (+clippy/rustfmt), and an API key in
 # $OPENROUTER_API_KEY (or whichever variable configs/pipeline.json names). Never commit the key.
 set -euo pipefail
 
@@ -16,12 +16,21 @@ fi
 PROJECT_ID="$1"; shift
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-if [[ -f "$HOME/.cargo/env" ]]; then source "$HOME/.cargo/env"; fi
-
-TOOLCHAIN="$(python3 -c "import json,sys; print(json.load(open('$HERE/../configs/pipeline.json'))['toolchain'])")"
-if ! rustup toolchain list | grep -q "$TOOLCHAIN"; then
-  echo "installing Rust toolchain $TOOLCHAIN ..."
-  rustup toolchain install "$TOOLCHAIN" --profile minimal -c clippy -c rustfmt
+MP4_ROOT="$(cd "$HERE/.." && pwd)"
+PYTHON_BIN="${CRUST_PYTHON:-$MP4_ROOT/.venv/bin/python}"
+if [[ ! -x "$PYTHON_BIN" ]]; then PYTHON_BIN="python3"; fi
+if [[ -x "$MP4_ROOT/.runtime/cargo/bin/rustup" ]]; then
+  export CARGO_HOME="$MP4_ROOT/.runtime/cargo"
+  export RUSTUP_HOME="$MP4_ROOT/.runtime/rustup"
+  export PATH="$CARGO_HOME/bin:$PATH"
+elif [[ -f "$HOME/.cargo/env" ]]; then
+  source "$HOME/.cargo/env"
 fi
 
-exec python3 "$HERE/agent.py" --project-id "$PROJECT_ID" "$@"
+TOOLCHAIN="nightly-2025-05-13"
+if ! command -v rustup >/dev/null || ! rustup run "$TOOLCHAIN" rustc --version >/dev/null; then
+  echo "Missing $TOOLCHAIN. See MP4/README.md for the local installation command." >&2
+  exit 2
+fi
+
+exec "$PYTHON_BIN" "$HERE/agent.py" --project-id "$PROJECT_ID" "$@"
