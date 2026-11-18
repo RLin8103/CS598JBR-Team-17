@@ -463,6 +463,9 @@ class Pipeline:
         body = "## unsafe metrics (" + str(u.get("tool")) + ")\n" + json.dumps(tot)
         if s["unsafe_total"] is None or u.get("tool") != "official":
             body += "\nMandatory official safety validation unavailable/invalid: " + str(u.get("error", "official analyzer not configured"))
+        for name, detail in u.get("diagnostics", {}).items():
+            if detail.strip():
+                body += "\nOfficial NewMetrics " + name + ":\n" + fence(detail)
         if s["unsafe_total"]:
             offs = u.get("offenders", [])[:30]
             body += "\nWhere:\n" + "\n".join(f"- {o['file']}:{o['line']} [{o['kind']}] {o['text']}" for o in offs)

@@ -1,0 +1,88 @@
+Running cargo newmetrics
+Testing sysroot consistency...
+Done
+Target name: cset
+    Blocking waiting for file lock on package cache
+     Removed 0 files
+    Blocking waiting for file lock on package cache
+    Checking cset v0.1.0 (/private/tmp/mp4-safety.m65pr3/project_1)
+Running cargo rustc
+warning: field `v` is never read
+   --> src/cset.rs:293:5
+    |
+288 | pub struct Cset<T> {
+    |            ---- field in this struct
+...
+293 |     v: CsetValue<T>,
+    |     ^
+    |
+    = note: `#[warn(dead_code)]` on by default
+
+Pointer arithmetic: 0
+Unsafe lines: 4
+Unsafe calls: 4
+Unsafe casts: 0
+Total spans: 19667
+Unsafe ratio: 0.0002033863832816393
+Raw pointer dereferences: 1
+Raw pointer declarations: 4
+cargo rustc finished
+warning: `cset` (lib) generated 2 warnings (1 duplicate)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.29s
+Target name: test
+Running cargo rustc
+warning: field `v` is never read
+   --> src/cset.rs:293:5
+    |
+288 | pub struct Cset<T> {
+    |            ---- field in this struct
+...
+293 |     v: CsetValue<T>,
+    |     ^
+    |
+    = note: `#[warn(dead_code)]` on by default
+
+cargo rustc finished
+warning: `cset` (lib) generated 2 warnings (1 duplicate)
+    Checking cset v0.1.0 (/private/tmp/mp4-safety.m65pr3/project_1)
+Running cargo rustc
+warning: unused import: `cset::cset`
+ --> src/bin/test.rs:1:5
+  |
+1 | use cset::cset;
+  |     ^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: struct `Node` is never constructed
+  --> src/bin/test.rs:52:8
+   |
+52 | struct Node {
+   |        ^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: function `node_pointer_comparator` is never used
+   --> src/bin/test.rs:119:4
+    |
+119 | fn node_pointer_comparator(selfs: &Node, other: &Node) -> bool {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `custom_node_compare` is never used
+   --> src/bin/test.rs:122:4
+    |
+122 | fn custom_node_compare(selfs: &Node, other: &Node) -> bool {
+    |    ^^^^^^^^^^^^^^^^^^^
+
+Pointer arithmetic: 0
+Unsafe lines: 0
+Unsafe calls: 0
+Unsafe casts: 0
+Total spans: 6048
+Unsafe ratio: 0
+Raw pointer dereferences: 0
+Raw pointer declarations: 0
+cargo rustc finished
+warning: `cset` (bin "test") generated 4 warnings (run `cargo fix --bin "test"` to apply 1 suggestion)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s
+cargo newmetrics finished

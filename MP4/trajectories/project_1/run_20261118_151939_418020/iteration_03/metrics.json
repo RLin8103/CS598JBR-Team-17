@@ -1,0 +1,79 @@
+{
+  "iteration": 3,
+  "phase": "SAFETY",
+  "compiles": true,
+  "tests_passed": 15,
+  "tests_total": 15,
+  "build_errors": 0,
+  "stubs_remaining": 0,
+  "interface_deviations": 0,
+  "clippy": {
+    "correctness": 0,
+    "style": 0,
+    "complexity": 0,
+    "perf": 0
+  },
+  "clippy_total": 0,
+  "unsafe_primary": {
+    "unsafe_lines": 4,
+    "unsafe_calls": 4,
+    "unsafe_casts": 0,
+    "pointer_arithmetic": 0
+  },
+  "unsafe_extra": {
+    "total_spans": 19667,
+    "raw_pointer_dereferences": 1,
+    "raw_pointer_declarations": 4,
+    "unsafe_ratio": 0.0002033863832816393
+  },
+  "unsafe_tool": "official",
+  "policy_issues": [],
+  "test_ok": true,
+  "test_returncode": 0,
+  "test_timed_out": false,
+  "test_valid_output": true,
+  "distinct_tests_passed": 15,
+  "distinct_tests_total": 15,
+  "clippy_ok": true,
+  "unsafe_valid": true,
+  "additional_checks_ok": [
+    true
+  ],
+  "regression_outcomes": [
+    {
+      "tests::cset_hash_00": "ok",
+      "tests::cset_hash_01": "ok",
+      "tests::cset_hash_02": "ok",
+      "tests::cset_hash_07": "ok",
+      "tests::cset_hash_08": "ok",
+      "tests::cset_hash_15": "ok",
+      "tests::cset_hash_16": "ok",
+      "tests::cset_hash_31": "ok",
+      "tests::cset_hash_32": "ok",
+      "tests::cset_hash_33": "ok",
+      "tests::cset_hash_63": "ok",
+      "tests::cset_hash_64": "ok",
+      "tests::cset_hash_80": "ok",
+      "tests::cset_hash_96": "ok",
+      "tests::cset_hash_h_00": "ok",
+      "tests::cset_hash_h_01": "ok",
+      "tests::cset_hash_h_02": "ok",
+      "tests::cset_hash_h_07": "ok",
+      "tests::cset_hash_h_08": "ok",
+      "tests::cset_hash_h_15": "ok",
+      "tests::cset_hash_h_16": "ok",
+      "tests::cset_hash_h_31": "ok",
+      "tests::cset_hash_h_32": "ok",
+      "tests::cset_hash_h_33": "ok",
+      "tests::cset_hash_h_63": "ok",
+      "tests::cset_hash_h_64": "ok",
+      "tests::cset_hash_h_80": "ok",
+      "tests::cset_hash_h_96": "ok",
+      "tests::cset_padding_free_copy_generic": "ok"
+    }
+  ],
+  "implementation_sha256": {
+    "src/cset.rs": "58f3a5421a759005d2ac0cb2c87e1bce7d039dc0c79bab886ab07b8a2b922310"
+  },
+  "llm_tokens_so_far": 60904
+}

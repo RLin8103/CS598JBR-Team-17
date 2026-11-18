@@ -221,7 +221,8 @@ class CargoTools:
                     error = "official analyzer execution failed or timed out"
                 return {"tool": "official", "totals": totals if not error else None,
                         "offenders": data.get("offenders", []) if isinstance(data, dict) else [],
-                        "execution": res, "valid": error is None, "error": error}
+                        "execution": res, "valid": error is None, "error": error,
+                        "diagnostics": data.get("diagnostics", {}) if isinstance(data, dict) else {}}
             except json.JSONDecodeError as exc:
                 return {"tool": "official", "totals": None, "offenders": [], "execution": res,
                         "valid": False, "error": f"invalid official analyzer JSON: {exc}"}

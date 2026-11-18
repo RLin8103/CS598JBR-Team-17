@@ -1,0 +1,73 @@
+{
+  "tool": "official",
+  "totals": {
+    "pointer_arithmetic": 0,
+    "unsafe_lines": 4,
+    "unsafe_calls": 4,
+    "unsafe_casts": 0,
+    "total_spans": 19667,
+    "raw_pointer_dereferences": 1,
+    "raw_pointer_declarations": 4,
+    "unsafe_ratio": 0.0002033863832816393
+  },
+  "offenders": [
+    {
+      "file": "src/cset.rs",
+      "line": 26,
+      "kind": "lexical location hint: raw_pointer_decls",
+      "text": "fn raw_bytes<'a>(ptr: *const u8, len: usize) -> &'a [u8] {"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 31,
+      "kind": "lexical location hint: unsafe_calls",
+      "text": "unsafe { std::slice::from_raw_parts(ptr, len) }"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 52,
+      "kind": "lexical location hint: unsafe_line",
+      "text": "unsafe { &mut *p }"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 258,
+      "kind": "lexical location hint: raw_pointer_decls",
+      "text": "pub fn xxh64(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 264,
+      "kind": "lexical location hint: raw_pointer_decls",
+      "text": "pub fn xxh64_h(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 319,
+      "kind": "lexical location hint: unsafe_calls",
+      "text": "unsafe { std::ptr::read(std::ptr::from_ref(v)) }"
+    },
+    {
+      "file": "src/cset.rs",
+      "line": 359,
+      "kind": "lexical location hint: unsafe_calls",
+      "text": "unsafe { std::mem::zeroed() }"
+    }
+  ],
+  "execution": {
+    "cmd": "python3 /Users/oscar/Dev/UNI/CS598JBR-Team-17/MP4/translations/project_1/../../src/newmetrics_adapter.py",
+    "returncode": 0,
+    "stdout": "{\"totals\": {\"pointer_arithmetic\": 0, \"unsafe_lines\": 4, \"unsafe_calls\": 4, \"unsafe_casts\": 0, \"total_spans\": 19667, \"raw_pointer_dereferences\": 1, \"raw_pointer_declarations\": 4, \"unsafe_ratio\": 0.0002033863832816393}, \"offenders\": [{\"file\": \"src/cset.rs\", \"line\": 26, \"kind\": \"lexical location hint: raw_pointer_decls\", \"text\": \"fn raw_bytes<'a>(ptr: *const u8, len: usize) -> &'a [u8] {\"}, {\"file\": \"src/cset.rs\", \"line\": 31, \"kind\": \"lexical location hint: unsafe_calls\", \"text\": \"unsafe { std::slice::from_raw_parts(ptr, len) }\"}, {\"file\": \"src/cset.rs\", \"line\": 52, \"kind\": \"lexical location hint: unsafe_line\", \"text\": \"unsafe { &mut *p }\"}, {\"file\": \"src/cset.rs\", \"line\": 258, \"kind\": \"lexical location hint: raw_pointer_decls\", \"text\": \"pub fn xxh64(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {\"}, {\"file\": \"src/cset.rs\", \"line\": 264, \"kind\": \"lexical location hint: raw_pointer_decls\", \"text\": \"pub fn xxh64_h(input: *const u8, len: usize, seed: XXH64HashT) -> XXH64HashT {\"}, {\"file\": \"src/cset.rs\", \"line\": 319, \"kind\": \"lexical location hint: unsafe_calls\", \"text\": \"unsafe { std::ptr::read(std::ptr::from_ref(v)) }\"}, {\"file\": \"src/cset.rs\", \"line\": 359, \"kind\": \"lexical location hint: unsafe_calls\", \"text\": \"unsafe { std::mem::zeroed() }\"}], \"diagnostics\": {\"unsafe_spans.txt\": \"src/cset.rs:31:5: 31:52\\nunsafe { std::slice::from_raw_parts(ptr, len) }\\nsrc/cset.rs:52:5: 52:23\\nunsafe { &mut *p }\\nsrc/cset.rs:319:9: 319:57\\nunsafe { std::ptr::read(std::ptr::from_ref(v)) }\\nsrc/cset.rs:359:9: 359:38\\nunsafe { std::mem::zeroed() }\\n\", \"derefs.txt\": \"src/cset.rs:52:19: 52:21\\n*p\\n\", \"decls.txt\": \"src/cset.rs:26:18: 26:21\\nptr\\nsrc/cset.rs:49:9: 49:10\\np\\nsrc/cset.rs:258:14: 258:19\\ninput\\nsrc/cset.rs:264:16: 264:21\\ninput\\n\"}}\n",
+    "stderr": "Running cargo newmetrics\nTesting sysroot consistency...\nDone\nTarget name: cset\n     Removed 0 files\n    Checking cset v0.1.0 (/private/var/folders/_d/1v55s9t963nd576lttdnhgy00000gn/T/mp4-newmetrics-uqvrguir/crate)\nRunning cargo rustc\nwarning: field `v` is never read\n   --> src/cset.rs:293:5\n    |\n288 | pub struct Cset<T> {\n    |            ---- field in this struct\n...\n293 |     v: CsetValue<T>,\n    |     ^\n    |\n    = note: `#[warn(dead_code)]` on by default\n\nPointer arithmetic: 0\nUnsafe lines: 4\nUnsafe calls: 4\nUnsafe casts: 0\nTotal spans: 19667\nUnsafe ratio: 0.0002033863832816393\nRaw pointer dereferences: 1\nRaw pointer declarations: 4\ncargo rustc finished\nwarning: `cset` (lib) generated 2 warnings (1 duplicate)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.19s\nTarget name: test\nRunning cargo rustc\nwarning: field `v` is never read\n   --> src/cset.rs:293:5\n    |\n288 | pub struct Cset<T> {\n    |            ---- field in this struct\n...\n293 |     v: CsetValue<T>,\n    |     ^\n    |\n    = note: `#[warn(dead_code)]` on by default\n\ncargo rustc finished\nwarning: `cset` (lib) generated 2 warnings (1 duplicate)\n    Checking cset v0.1.0 (/private/var/folders/_d/1v55s9t963nd576lttdnhgy00000gn/T/mp4-newmetrics-uqvrguir/crate)\nRunning cargo rustc\nwarning: unused import: `cset::cset`\n --> src/bin/test.rs:1:5\n  |\n1 | use cset::cset;\n  |     ^^^^^^^^^^\n  |\n  = note: `#[warn(unused_imports)]` on by default\n\nwarning: struct `Node` is never constructed\n  --> src/bin/test.rs:52:8\n   |\n52 | struct Node {\n   |        ^^^^\n   |\n   = note: `#[warn(dead_code)]` on by default\n\nwarning: function `node_pointer_comparator` is never used\n   --> src/bin/test.rs:119:4\n    |\n119 | fn node_pointer_comparator(selfs: &Node, other: &Node) -> bool {\n    |    ^^^^^^^^^^^^^^^^^^^^^^^\n\nwarning: function `custom_node_compare` is never used\n   --> src/bin/test.rs:122:4\n    |\n122 | fn custom_node_compare(selfs: &Node, other: &Node) -> bool {\n    |    ^^^^^^^^^^^^^^^^^^^\n\nPointer arithmetic: 0\nUnsafe lines: 0\nUnsafe calls: 0\nUnsafe casts: 0\nTotal spans: 6048\nUnsafe ratio: 0\nRaw pointer dereferences: 0\nRaw pointer declarations: 0\ncargo rustc finished\nwarning: `cset` (bin \"test\") generated 4 warnings (run `cargo fix --bin \"test\"` to apply 1 suggestion)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.03s\ncargo newmetrics finished\n",
+    "seconds": 0.85,
+    "timed_out": false,
+    "interrupted": false
+  },
+  "valid": true,
+  "error": null,
+  "diagnostics": {
+    "unsafe_spans.txt": "src/cset.rs:31:5: 31:52\nunsafe { std::slice::from_raw_parts(ptr, len) }\nsrc/cset.rs:52:5: 52:23\nunsafe { &mut *p }\nsrc/cset.rs:319:9: 319:57\nunsafe { std::ptr::read(std::ptr::from_ref(v)) }\nsrc/cset.rs:359:9: 359:38\nunsafe { std::mem::zeroed() }\n",
+    "derefs.txt": "src/cset.rs:52:19: 52:21\n*p\n",
+    "decls.txt": "src/cset.rs:26:18: 26:21\nptr\nsrc/cset.rs:49:9: 49:10\np\nsrc/cset.rs:258:14: 258:19\ninput\nsrc/cset.rs:264:16: 264:21\ninput\n"
+  }
+}

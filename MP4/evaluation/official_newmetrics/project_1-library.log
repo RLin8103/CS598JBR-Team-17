@@ -1,0 +1,31 @@
+Running cargo newmetrics
+Testing sysroot consistency...
+Done
+Target name: cset
+    Blocking waiting for file lock on package cache
+     Removed 0 files
+    Blocking waiting for file lock on package cache
+    Checking cset v0.1.0 (/private/tmp/mp4-safety.m65pr3/project_1)
+Running cargo rustc
+warning: field `v` is never read
+   --> src/cset.rs:293:5
+    |
+288 | pub struct Cset<T> {
+    |            ---- field in this struct
+...
+293 |     v: CsetValue<T>,
+    |     ^
+    |
+    = note: `#[warn(dead_code)]` on by default
+
+Pointer arithmetic: 0
+Unsafe lines: 4
+Unsafe calls: 4
+Unsafe casts: 0
+Total spans: 19667
+Unsafe ratio: 0.0002033863832816393
+Raw pointer dereferences: 1
+Raw pointer declarations: 4
+cargo rustc finished
+warning: `cset` (lib) generated 2 warnings (1 duplicate)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.29s
