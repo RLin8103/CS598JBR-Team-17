@@ -5,10 +5,22 @@ The reusable Python controller inspects C, the frozen Rust interface and tests; 
 edits; runs build/test/Clippy/safety checks; returns diagnostics; and repeats. Translated logic may only
 be changed by that controller. The translation model independently diagnosed and edited both submitted implementations.
 
-**Current status:** both compile on the pinned toolchain. cset passes 15/15 benchmark tests;
-libpsbt passes 6/8 executions (3/4 distinct tests). Separate regressions expose additional defects.
-The official safety analyzer and submission validator remain unavailable. The latest autonomous continuations used Haiku through OpenRouter with provider credit enforcement.
-Passing visible tests or emitting zero Clippy warnings does not establish correctness or soundness.
+## Current submission
+
+Both translations build on `nightly-2025-05-13`. The official structure validator passed on
+a fresh clone of `main` at `6a07f9a`.
+
+| Project | Supplied test executions | Distinct supplied tests | Independent checks, baseline → final | Official NewMetrics | Clippy |
+|---|---:|---:|---:|---:|---:|
+| cset | 15/15 | 15/15 | 13/29 → 29/29 | 4/4/0/0 | 0/0/0/0 |
+| libpsbt | 6/8 | 3/4 | 4/21 → 21/21 | 0/0/0/0 | 0/2/0/0 |
+
+NewMetrics columns are unsafe lines, unsafe calls, unsafe casts and pointer arithmetic.
+Clippy columns are correctness, style, complexity and performance. Both libpsbt style diagnostics
+come from the protected benchmark code. Its two failed executions are the same `read_test_vector`
+test in two targets. The Rust checker resets its callback counter each time and expects type 0
+where the fixture contains type 4. Both failures are included in the table.
+See the [checker and interface analysis](evaluation/INSTRUCTOR_QUESTIONS.md).
 
 ## Framework and environment
 
@@ -18,7 +30,7 @@ Passing visible tests or emitting zero Clippy warnings does not establish correc
 | Python | local `.venv`, Python 3.13.17; source requires Python 3.10+ |
 | Host | macOS, aarch64-apple-darwin; exact OS/runtime versions in evaluation JSON |
 | Required Rust | nightly-2025-05-13: rustc 1.89.0-nightly (8405332bd, 2025-05-12), Cargo 1.89.0-nightly (056f5f4f3, 2025-05-09) |
-| Tools | Clippy 0.1.88, rustfmt 1.8.0-nightly; fixed Cargo commands, guarded source reads/edits, lexical interface check, configured official analyzer, supplemental lexical safety scan, separate sanitized C/Rust regressions |
+| Tools | Clippy 0.1.88, rustfmt 1.8.0-nightly; fixed Cargo commands, guarded source reads/edits, lexical interface check, official NewMetrics 0.1.0, supplemental lexical source hints, separate sanitized C/Rust regressions |
 | Model/provider | OpenRouter chat/completions; `qwen/qwen3-coder-next`, fallbacks `deepseek/deepseek-v4-flash`, `anthropic/claude-haiku-5.5` |
 | Access evidence | Historical catalogue evidence is in `evaluation/model_availability.json`. Authenticated Haiku preflight for the autonomous batch is in `evaluation/autonomous_access.json`. |
 | Arrangement | One model-driven controller loop, one active model at a time; no concurrent agents. The Python controller runs independently of external agent CLIs. |
@@ -26,7 +38,7 @@ Passing visible tests or emitting zero Clippy warnings does not establish correc
 
 Historical trajectories came from Windows/WSL/Linux; their saved configurations are the source of
 truth for those runs. The current pinned toolchain is isolated in `.runtime/`, and Homebrew Rust was
-left in place. No third-party Python dependencies are needed.
+left in place. The controller uses the Python standard library. The course structure validator separately requires GitPython and colorama.
 
 ## Files and evidence
 
@@ -71,16 +83,19 @@ Use a **new output directory** on each invocation; evaluation refuses to overwri
 
 ```bash
 MP4/.venv/bin/python -m unittest discover -s MP4/src/tests -v
-MP4/.venv/bin/python MP4/src/evaluate.py --config MP4/configs/autonomous_repair.json \
+MP4/.venv/bin/python MP4/src/evaluate.py --config MP4/configs/newmetrics_six_turn.json \
   --output MP4/evaluation/reproduction_1
 MP4/.venv/bin/python MP4/src/run_regressions.py --output MP4/evaluation/regressions_1
 MP4/.venv/bin/python MP4/src/history_audit.py
 ```
 
+Install NewMetrics and the pinned compiler components before using this configuration. Follow the
+[official analyzer setup and validation steps](evaluation/official_newmetrics/README.md).
 The evaluator exits nonzero when required validation is incomplete or fails. It retains each command,
 stdout/stderr, return status, timeout status, exact config, tool versions and source hashes. Its JSON
 has `mandatory_validation_clean: false` while official tooling or correctness checks are unresolved.
-It also runs the configured instructor validator at the submission root. Set
+The evaluator can run a configured instructor validator. The course validator was run
+separately against a fresh clone. Set
 `unsafe_metrics.command` and `submission_validator.command` in the configuration to the **actual
 instructor tools**, using `{path}` for the crate/submission root. Do not configure the approximation
 as the official tool. The analyzer adapter expects an object containing four nonnegative integer
@@ -174,12 +189,14 @@ correctness/style/complexity/performance. The two libpsbt style findings are in 
 The independent harness results for the selected submissions are listed below. The harness includes
 checked-error policies identified in the instructor questions.
 
-**Official safety metrics: unavailable.** Supplemental lexical primary counts are cset `4/3/0/0`,
-libpsbt `0/0/0/0`. They exclude dependencies, standard library, src/bin and src/interfaces, but count
-the zero-unsafe skeleton lib.rs among analyzed files. They miss equivalent pointer casts expressed
-through methods and cannot prove soundness. cset retains invalid aliasing, generic ownership copying,
-invalid zero-initialization and padding reads. Fewer lexical unsafe sites did not establish improved
-memory safety. Earlier libpsbt edits guarded the actual destination on the hex decode path. The six-turn continuation below addressed the remaining measured length and capacity failures.
+The [official NewMetrics evidence](evaluation/official_newmetrics/) records library counts,
+full analyzer logs, and the structure validator result. The library counts exclude the benchmark
+binaries and dependencies. The cset library also has one raw-pointer dereference and four
+raw-pointer declarations. Its four unsafe blocks create a slice from a caller-supplied pointer
+and length, create a mutable reference from a shared reference, copy an arbitrary owned value
+and zero-initialize an arbitrary `T`. Generic byte views can also expose uninitialized padding.
+The frozen pointer, borrow, ownership and storage contracts limit which repairs can preserve
+behavior. The tested hash repairs left these issues in place.
 
 Pre-batch historical counts are reproducible with `history_audit.py`: cset has 230 attempted iteration banners,
 228 iterations with successful LLM events and 245 successful responses across 12 runs; libpsbt has
@@ -341,8 +358,8 @@ The standalone pinned evaluation in `evaluation/indexed_paid_final/` verifies bo
 selected at the end of that batch. cset still has unsafe generic storage and aliasing issues. At
 that stage, libpsbt had eleven failing regressions covering ranges, buffer bounds, transaction
 callbacks and contextual errors.
-Its suspected benchmark callback defect remains in the count. The official analyzer and
-submission validator are unavailable.
+Its suspected benchmark callback defect remains in the count. This historical batch predates
+the official analyzer and validator runs documented above.
 
 ## Six-turn libpsbt continuation
 
@@ -362,7 +379,22 @@ three fixed the nine failing range and capacity cases by honoring declared sourc
 bounding writes to the declared and actual destination. Turn four backed the public error getter
 with a safe process-wide slot and set it for the unfinalized-encode error path. The protected
 benchmark still fails `read_test_vector` in both targets. All independent cases pass, while full
-error-message coverage, parity on untested inputs and both instructor validation tools remain open.
+error-message coverage and parity on untested inputs remain open.
 
 The standalone pinned evaluation is in `evaluation/indexed_continuation_final/`. Use the evaluation
 command above with `configs/indexed_paid_continuation.json` and a fresh output path to reproduce it.
+
+## Official NewMetrics cset continuations
+
+Both continuations used Claude Haiku 5.5 through OpenRouter and started from the selected cset
+translation. They retained the starting implementation and verified the same source hash.
+
+| Run | Completed turns | API requests | Stop | Outcome |
+|---|---:|---:|---|---|
+| [Initial official-feedback run](trajectories/project_1/run_20261118_151939_418020/final_status.json) | 2 | 2 | No progress | Official library counts plus lexical source hints. A comment-only edit was reverted. |
+| [Six-turn official-feedback run](trajectories/project_1/run_20261118_152320_378724/final_status.json) | 6 | 6 | Iteration limit | Official counts and library reports for unsafe spans, pointer declarations and dereferences. Three comment-only edits were reverted. |
+
+The six-turn run used `configs/newmetrics_six_turn.json`. The final snapshot reproduced 15/15
+supplied tests, 29/29 independent checks, zero emitted warnings in the four Clippy categories
+and official counts of `4/4/0/0`. The adapter also reproduced libpsbt's `0/0/0/0` in an offline
+check. The selected libpsbt translation comes from the earlier six-turn continuation above.
